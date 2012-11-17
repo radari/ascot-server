@@ -11,10 +11,10 @@
 var Mongoose = require('mongoose');
 
 exports.ProductSchema = new Mongoose.Schema({
-  //name : String,
+  name : String,
   brand : String,
-  //type : String,
-  //buyLink : String,
-  price : Number
-  //search : [String]
+  type : String,
+  buyLink : String,
+  price : Number,
+  search : [String]
 });

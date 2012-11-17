@@ -12,7 +12,7 @@ exports.get = function(req, res) {
       res.render('index', { title : "Errror!" });
       console.log(JSON.stringify(error));
     } else {
-      res.jsonp(JSON.stringify(look));
+      res.json(JSON.stringify(look));
     }
   });
 };
