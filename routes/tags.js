@@ -13,7 +13,7 @@ exports.get = function(req, res){
 				type: "watch",
 				price: 1000000,
 				id: 1,
-				buy_link: "http://www.hublot.com/watch/big-bang/98/gold-leopard"
+				buyLink: "http://www.hublot.com/watch/big-bang/98/gold-leopard"
 			}
 		},{
 
