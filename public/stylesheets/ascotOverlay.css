@@ -1,0 +1,10 @@
+canvas {
+	border:1px blue solid;
+	position:absolute;
+	z-index:5;
+}
+
+#picture {
+	position:relative;
+	z-index: 1;
+}
