@@ -18,7 +18,7 @@ exports.LookSchema = new Mongoose.Schema({
     {
       position : { x : Number, y : Number },
       index : Number,
-      product : { type : Mongoose.Schema.ObjectId, ref : 'Products' }
+      product : { type : Mongoose.Schema.ObjectId, ref : 'products' }
     }
   ]
 });

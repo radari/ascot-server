@@ -19,7 +19,7 @@ var Look = db.model('looks', LookSchema);
 
 exports.MongoLookFactory = function() {
   this.buildFromUrl = function(url, callback) {
-    Look.findOne({ url : url }, function(error, result) {
+    Look.findOne({ url : url }).populate('tags.product').exec(function(error, result) {
       if (error || !result) {
         console.log("Error " + JSON.stringify(error) + "---");
         callback(error, null);
