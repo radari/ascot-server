@@ -32,6 +32,8 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/tags.jsonp', tags.get)
 
+app.get('/look/:id', image.get)
+
 app.post('/image-upload', function(req, res, next) {
     console.log(req.body);
     console.log(req.files);
