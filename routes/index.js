@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.jsonp('index', { title: 'Express' });
+  res.render('index', { title: 'Express' });
 };
