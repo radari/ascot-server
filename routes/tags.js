@@ -1,4 +1,8 @@
 
+/*
+ * GET tags
+ */
+
 exports.get = function(req, res){
 
   var testLook = {
