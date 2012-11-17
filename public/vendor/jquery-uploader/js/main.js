@@ -32,10 +32,9 @@ $(function () {
         )
     );
 
-    if (window.location.hostname === 'blueimp.github.com') {
-        // Demo settings:
+    if (window.location.hostname === 'localhost') {
         $('#fileupload').fileupload('option', {
-            url: '//jquery-file-upload.appspot.com/',
+            url: '//localhost:3000/image-upload',
             maxFileSize: 5000000,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             process: [

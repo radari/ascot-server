@@ -31,9 +31,26 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/tags.jsonp', tags.get)
 
-app.post('/file-upload', function(req, res, next) {
+app.post('/image-upload', function(req, res, next) {
     console.log(req.body);
     console.log(req.files);
+    res.render([
+    {
+      "name":"picture1.jpg",
+      "size":902604,
+      "url":"\/\/example.org\/files\/picture1.jpg",
+      "thumbnail_url":"\/\/example.org\/thumbnails\/picture1.jpg",
+      "delete_url":"\/\/example.org\/upload-handler?file=picture1.jpg",
+      "delete_type":"DELETE"
+    },
+    {
+      "name":"picture2.jpg",
+      "size":841946,
+      "url":"\/\/example.org\/files\/picture2.jpg",
+      "thumbnail_url":"\/\/example.org\/thumbnails\/picture2.jpg",
+      "delete_url":"\/\/example.org\/upload-handler?file=picture2.jpg",
+      "delete_type":"DELETE"
+    }]);
 });
 
 
