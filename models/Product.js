@@ -15,5 +15,6 @@ exports.ProductSchema = new Mongoose.Schema({
   brand : String,
   type : String,
   buyLink : String,
-  price : Number
+  price : Number,
+  search : [String]
 });
