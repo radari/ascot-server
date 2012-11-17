@@ -1,11 +1,18 @@
 extends layout
 
+prepend head
+  script(src='/vendor/jquery-uploader/js/main.js')
+  script(src='/vendor/jquery-uploader/js/jquery.fileupload-fp.js')
+  script(src='/vendor/jquery-uploader/js/jquery.fileupload-ui.js')
+  script(src='/vendor/jquery-uploader/js/jquery.fileupload.js   ')
+  script(src='/vendor/jquery-uploader/js/jquery.iframe-transport.js')
+
 block content
   h1= title
   p Welcome to #{title}
 
   form(method='post', enctype='multipart/form-data', action='/image-upload')
     input(type='text', name='username')
-      input(type='password', name='password')
-      input(type='file', name='thumbnail')
-      input(type='submit')
+    input(type='password', name='password')
+    input(type='file', name='thumbnail')
+    input(type='submit')

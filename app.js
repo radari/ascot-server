@@ -7,7 +7,8 @@ var express = require('express')
   , routes = require('./routes')
   , tags = require('./routes/tags.js')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , fs = require('fs');;
 
 var app = express();
 
@@ -17,7 +18,7 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser({uploadDir:'./public/images'}));
+  app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
@@ -34,23 +35,20 @@ app.get('/tags.jsonp', tags.get)
 app.post('/image-upload', function(req, res, next) {
     console.log(req.body);
     console.log(req.files);
-    res.render([
-    {
-      "name":"picture1.jpg",
-      "size":902604,
-      "url":"\/\/example.org\/files\/picture1.jpg",
-      "thumbnail_url":"\/\/example.org\/thumbnails\/picture1.jpg",
-      "delete_url":"\/\/example.org\/upload-handler?file=picture1.jpg",
-      "delete_type":"DELETE"
-    },
-    {
-      "name":"picture2.jpg",
-      "size":841946,
-      "url":"\/\/example.org\/files\/picture2.jpg",
-      "thumbnail_url":"\/\/example.org\/thumbnails\/picture2.jpg",
-      "delete_url":"\/\/example.org\/upload-handler?file=picture2.jpg",
-      "delete_type":"DELETE"
-    }]);
+
+    // get the temporary location of the file
+    var tmp_path = req.files.thumbnail.path;
+    // set where the file should actually exists - in this case it is in the "images" directory
+    var target_path = './public/images/' + req.files.thumbnail.name;
+    // move the file from the temporary location to the intended location
+    fs.rename(tmp_path, target_path, function(err) {
+        if (err) throw err;
+        // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+        fs.unlink(tmp_path, function() {
+            if (err) throw err;
+            res.redirect('/');
+        });
+    });
 });
 
 
