@@ -12,7 +12,7 @@ var express = require('express')
 
   , http = require('http')
   , path = require('path')
-  , fs = require('fs');;
+  , fs = require('fs');
 
 var app = express();
 
