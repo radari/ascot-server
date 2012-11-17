@@ -4,7 +4,6 @@
  */
 
 exports.get = function(req, res){
-
   var testLook = {
     title: "test",
     url: "ascotproject.com/test.jpg",
