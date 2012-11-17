@@ -21,7 +21,16 @@ exports.MongoLookFactory = function() {
   this.buildFromUrl = function(url, callback) {
     Look.findOne({ url : url }).populate('tags.product').exec(function(error, result) {
       if (error || !result) {
-        console.log("Error " + JSON.stringify(error) + "---");
+        callback(error, null);
+      } else {
+        callback(null, result);
+      }
+    });
+  };
+
+  this.buildFromId = function(id, callback) {
+    Look.findOne({ _id : id }).populate('tags.product').exec(function(error, result) {
+      if (error || !result) {
         callback(error, null);
       } else {
         callback(null, result);
