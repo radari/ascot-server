@@ -39,7 +39,7 @@ app.post('/image-upload', function(req, res, next) {
     // get the temporary location of the file
     var tmp_path = req.files.thumbnail.path;
     // set where the file should actually exists - in this case it is in the "images" directory
-    var target_path = './public/images/' + req.files.thumbnail.name;
+    var target_path = './public/images/uploads/' + req.files.thumbnail.name;
     // move the file from the temporary location to the intended location
     fs.rename(tmp_path, target_path, function(err) {
         if (err) throw err;
