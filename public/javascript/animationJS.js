@@ -8,10 +8,35 @@ window.onload= function (){
 
 	var date= new Date();
 	var time= date.getTime();
+
+	$('#animate').toggle(function() {
+		var picture = document.getElementById('picture');
+	canvas.height=picture.height;
+	canvas.width=picture.width;
+	var canvasHeight=canvas.height;
+	var canvasWidth=canvas.width;
 	
-	animateDown(0, time);
+	var date= new Date();
+	var time= date.getTime();
+	
+  animateDown(-200,time);
+}, function() {
+	var picture = document.getElementById('picture');
+	canvas.height=picture.height;
+	canvas.width=picture.width;
+	var canvasHeight=canvas.height;
+	var canvasWidth=canvas.width;
+	
+	var date= new Date();
+	var time= date.getTime();
+	
+  animateUp(canvas.height,time);
+});
+	
 
 }
+
+
 
 function animateDown (startY, lastTime) {
 	window.requestAnimFrame = (function(callback) {
@@ -94,7 +119,7 @@ function animateDown (startY, lastTime) {
 	else {
 		//enable button while animation is running 
 		//document.getElementById("animateDown").disabled=false;
-		var upOrDown=true;
+		
 	}
 
 }
@@ -171,6 +196,10 @@ function animateUp (startY, lastTime) {
 		animateUp(startY-linearDistEachFrame, time );
 	});
 
-}
+	}
+
+	else {
+		
+	}
 
 }

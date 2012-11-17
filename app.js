@@ -5,7 +5,11 @@
 
 var express = require('express')
   , routes = require('./routes')
+
   , tags = require('./routes/tags.js')
+  , look = require('./routes/look.js')
+
+
   , http = require('http')
   , path = require('path')
   , fs = require('fs');;
@@ -30,26 +34,10 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/tags.jsonp', tags.get)
+app.get('/tags.jsonp', tags.get);
+app.get('/look/:id', look.get);
 
-app.post('/image-upload', function(req, res, next) {
-    console.log(req.body);
-    console.log(req.files);
-
-    // get the temporary location of the file
-    var tmp_path = req.files.thumbnail.path;
-    // set where the file should actually exists - in this case it is in the "images" directory
-    var target_path = './public/images/uploads/' + req.files.thumbnail.name;
-    // move the file from the temporary location to the intended location
-    fs.rename(tmp_path, target_path, function(err) {
-        if (err) throw err;
-        // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-        fs.unlink(tmp_path, function() {
-            if (err) throw err;
-            res.redirect('/');
-        });
-    });
-});
+app.post('/image-upload', look.upload);
 
 
 http.createServer(app).listen(app.get('port'), function(){
