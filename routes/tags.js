@@ -1,3 +1,13 @@
+/**
+ *  tags.js
+ *
+ *  Created on: November 17, 2012
+ *      Author: Matt Green
+ *
+ *  Basic routes for getting tags
+ *
+ */
+
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 
 /*
