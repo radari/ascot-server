@@ -1,3 +1,26 @@
+$(document).ready(function() {
+  // When document is ready
+  $("img[src]").each(function(i, el) {
+    // For each image with an "src" attribute
+    $(el).load(function() {
+      // When the image is done loading
+      $.ajax({
+        type : 'GET',
+        url : 'http://ascotproject.com:3000/tags.jsonp?url=' + encodeURIComponent($(el).attr("src")),
+        async : true,
+        jsonpCallback : 'callback',
+        contentType : 'application/json',
+        dataType : 'jsonp',
+        success : function(el, json) {
+          alert('Displaying for url ' + $(el).attr("src") + ' with tags ' + JSON.stringify(json));
+        },
+        error : function(e) {
+        }
+      });
+    });
+  });
+});
+
 window.onload= function (){
 	var canvas= document.getElementById("overlay");
 	var picture = document.getElementById("picture");
