@@ -17,10 +17,12 @@ var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFact
 exports.get = function(req, res) {
   var mongoLookFactory = new MongoLookFactory();
   mongoLookFactory.buildFromUrl(req.query["url"], function(error, look) {
-    if (error || !look) {
+    if (error) {
       // TODO: error page
       res.render('index', { title : "Errror!" });
       console.log(JSON.stringify(error));
+    } else if (!look) {
+      res.jsonp({});
     } else {
       res.jsonp(look);
     }
