@@ -11,7 +11,7 @@ $(document).ready(function() {
         jsonpCallback : 'callback',
         contentType : 'application/json',
         dataType : 'jsonp',
-        success : function(el, json) {
+        success : function(json) {
           alert('Displaying for url ' + $(el).attr("src") + ' with tags ' + JSON.stringify(json));
         },
         error : function(e) {
