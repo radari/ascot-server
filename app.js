@@ -10,6 +10,7 @@ var express = require('express')
   , look = require('./routes/look.js')
   , products = require('./routes/products.js')
   , tagger = require('./routes/tagger.js')
+  , upload = require('./routes/upload.js')
 
   , http = require('http')
   , path = require('path')
@@ -38,8 +39,10 @@ app.configure('development', function(){
 // Displays
 app.get('/', routes.index);
 app.get('/look/:id', look.get(app.get('url')));
-app.get('/tagger/:key/:look', tagger.get);
+app.get('/tagger/:key/:look', tagger.get(app.get('url')));
 app.get('/products/:id/looks', products.looks);
+app.get('/upload', upload.get);
+app.get('/random', look.random);
 
 // JSON queries
 app.get('/tags.jsonp', tags.get(app.get('url')));

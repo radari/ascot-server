@@ -6,6 +6,11 @@
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 var fs = require('fs');
 
+var Mongoose = require('mongoose');
+var db = Mongoose.createConnection('localhost', 'ascot');
+
+var LookSchema = require('../models/Look.js').LookSchema;
+var Look = db.model('looks', LookSchema);
 
 exports.get = function(url) {
   var look = new MongoLookFactory(url);
@@ -60,4 +65,21 @@ exports.upload = function(url) {
       });
     }
   };
+};
+
+exports.random = function(req, res) {
+  rand = Math.random();
+  Look.findOne({ random : { $gte : rand } }, function(error, look) {
+    if (error || !look) {
+      Look.findOne({ random : { $lte : rand } }, function(error, look) {
+        if (error || !look) {
+          res.render('error', { error : 'Could not find a random look?', title : 'Error' });
+        } else {
+          res.redirect('/look/' + look._id);
+        }
+      });
+    } else {
+      res.redirect('/look/' + look._id);
+    }
+  });
 };
