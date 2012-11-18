@@ -12,24 +12,28 @@ $(document).ready(function (){
       var canvas = container.find("canvas.canvas")
       var tags = $(this).find(".tags");
 
-      // Get list of tags for each image
-      // $.ajax({
-      //   type: 'GET',
-      //   url: 'http://ascotproject.com:3000/tags.jsonp?url=' + encodeURIComponent(imageSrc),
-      //   async: true,
-      //   jsonpCallback: 'callback',
-      //   contentType: 'application/json',
-      //   dataType: 'jsonp',
-      //   success: function (json) {
-      //     console.log('http://ascotproject.com:3000/tags.jsonp?url=' + encodeURIComponent(imageSrc));
-      //     console.log('Displaying for url+ ' + imageSrc + ' with tags ' + JSON.stringify(json));
+      //Get list of tags for each image
+      $.ajax({
+        type: 'GET',
+        url: '/tags.jsonp?url=' + encodeURIComponent(imageSrc),
+        async: true,
+        jsonpCallback: 'callback',
+        contentType: 'application/jsonp',
+        dataType: 'jsonp',
+        success: function (json) {
+        
+          console.log(json);
 
-      //     // create and place tags
+          var newDiv = $("<div>test</div>", {})
+
+          tags.append(newDiv)
+
+          // create and place tags
 
 
-      //   },
-      //   error: function (e) {}
-      // });
+        },
+        error: function (e) {}
+      });
 
       var height = image.height();
       var width = image.width();
@@ -42,9 +46,6 @@ $(document).ready(function (){
 
       canvas.height(height)
       canvas.width(width)
-
-      console.log("Height: " + height + "   Width: " + width);
-
 
       animateButton.toggle(function () {
 
@@ -82,8 +83,7 @@ $(document).ready(function (){
 
 
 function animateDown(canvas, startY, lastTime, height, animateButton) {
-  console.log("Canvas Height down: " + startY)
- 
+
   window.requestAnimFrame = (function (callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
       window.setTimeout(callback, 1000 / 60);
@@ -158,7 +158,6 @@ function animateDown(canvas, startY, lastTime, height, animateButton) {
 }
 
 function animateUp(canvas, startY, lastTime, height, animateButton) {
-  console.log("Canvas Height up: " + startY)
   
   window.requestAnimFrame = (function (callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
