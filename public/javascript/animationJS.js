@@ -11,6 +11,8 @@ $(document).ready(function (){
       var overlay = container.find(".overlay");
       var canvas = container.find("canvas.canvas")
       var tags = container.find(".tags");
+
+      
       var borderSize=5;
       $('.image').css('border', borderSize+'px'+'#c2c0c0 solid');
       $('.look').css('padding-left', borderSize+'px');
