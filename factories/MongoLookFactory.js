@@ -17,6 +17,9 @@ var Product = db.model('products', ProductSchema);
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
+var PermissionsSchema = require('../models/Permissions.js').PermissionsSchema;
+var Permissions = db.model('permissions', PermissionsSchema);
+
 exports.MongoLookFactory = function() {
   this.buildFromUrl = function(url, callback) {
     Look.findOne({ url : url }).populate('tags.product').exec(function(error, result) {
@@ -49,7 +52,14 @@ exports.MongoLookFactory = function() {
           if (error || !savedLookWithUrl) {
             callback(error, null);
           } else {
-            callback(null, savedLookWithUrl);
+            var permission = new Permissions({ images : [ savedLookWithUrl._id ] });
+            permission.save(function(error, perms) {
+              if (error || !perms) {
+                callback(error, null);
+              } else {
+                callback(null, savedLookWithUrl, perms);
+              }
+            });
           }
         });
       }
