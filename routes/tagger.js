@@ -24,7 +24,7 @@ exports.get = function(req, res) {
           if (error || !look) {
             res.render('error', { error : 'Internal failure', title : 'Error' });
           } else {
-            res.render('tagger', { title : look.title, look : look });
+            res.render('tagger', { title : look.title, look : look, key : req.params.key });
           }
         });
       }
@@ -32,7 +32,7 @@ exports.get = function(req, res) {
   }
 };
 
-exports.post = function(req, res) {
+exports.put = function(req, res) {
   if (req.params.key && req.params.look) {
     validator.canEditTags(req.params.key, req.params.look, function(error, permission) {
       if (error || !permission) {
@@ -42,12 +42,14 @@ exports.post = function(req, res) {
           if (error || !look) {
             res.render('error', { error : 'Internal failure', title : 'Error' });
           } else {
-            look.tags = req.body.tags;
+            console.log(JSON.stringify(req.body) + "-");
+            look.tags = req.body;
             look.save(function(error, savedLook) {
               if (error || !savedLook) {
+                console.log(error);
                 res.render('error', { error : 'Failed to save tags', title : 'Error' });
               } else {
-                res.render('/look/' + savedLook._id);
+                res.redirect('/look/' + savedLook._id);
               }
             });
           }

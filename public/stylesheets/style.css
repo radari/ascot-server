@@ -5,3 +5,42 @@ body {
 a {
   color: #00b7ff;
 }
+
+#nav {
+	padding:0;
+}
+
+h3{
+	font-weight:400;
+	margin:2px;
+	padding:0;
+}
+
+h1 {
+	color:#7b7979;
+	font-family: 'times new roman';
+	font-size: 400%;
+}
+
+
+
+#nav li{
+	border:1px #dbdcdc solid;
+	background: #dbdcdc;
+	width:5%;
+	float:left;
+	margin:0;
+	padding:0;
+	display:inline;
+	text-align: center;
+	margin-right:10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	color:#7b7979;
+}
+
+#logo {
+	position:absolute;
+}
+
