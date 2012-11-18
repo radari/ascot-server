@@ -26,6 +26,12 @@ canvas {
 .image{
   position:absolute;
   z-index: 1;
+  border:3px black solid;
+  border:5px #c2c0c0 solid;
+  border-radius:10px;
+  -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+
 }
 
 .animate{
@@ -40,7 +46,8 @@ canvas {
   color: #fff;
   border: 3px solid #fff;
   padding: 1px;
-  padding-bottom: 1px;
+  padding-bottom: 2px;
+  padding-right: 2px;
   position: relative;
   border-radius: 15px;
   -moz-border-radius:15px;
@@ -59,6 +66,8 @@ canvas {
   -moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
   -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
   z-index:10;
+  text-align: center;
+
 }
 
 .item:hover {
