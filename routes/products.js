@@ -14,6 +14,9 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 var ProductSchema = require('../models/Product.js').ProductSchema;
 var Product = db.model('products', ProductSchema);
 
+var LookSchema = require('../models/Look.js').LookSchema;
+var Look = db.model('looks', LookSchema);
+
 exports.get = function(req, res) {
   if (req.query["query"]) {
     var sp = req.query["query"].toLowerCase().split(/\s+/);
@@ -25,6 +28,16 @@ exports.get = function(req, res) {
       res.json(results);
     });
   } else {
-    // TODO : error page
+    res.json([]);
   }
+};
+
+exports.looks = function(req, res) {
+  Look.find({ 'tags.product' : req.params.id }, function(error, looks) {
+    if (error || !looks) {
+      res.json([]);
+    } else {
+      res.json(looks);
+    }
+  });
 };
