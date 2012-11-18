@@ -81,6 +81,9 @@
 
 .item-description{
   color:#171717;
-  background-color: rgba(244,244,244,.5);
+  background-color: rgba(244,244,244,.8);
   position:absolute;
+  width:200px;
+  text-align:center;
+  font-size:150%;
 }
