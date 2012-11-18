@@ -22,14 +22,7 @@ prepend head
 block content
   
   div#look
-    img(src="#{look.url}", class="uploadedImg")
+    img(src="#{look.url}", class="uploadedImg", ascot="#{look._id}", ascot_key="#{key}")
           
     div#overlay
       input(type="text", value="", id="productSearch")   
-      input(type="submit", id="add_tag", value="Add")
- 
-
-  textarea(id="json_content")
-  input(type="text", value="#{key}", id="myKey")
-  input(type="text", value="#{look._id}", id="myId")
-  input(type="submit", id="json_content_submit", value="Save")

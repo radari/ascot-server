@@ -1,6 +1,4 @@
 #look{
-  border: 4px red solid;
-
   position:relative;
   margin-left:auto;
   left:0px;
@@ -46,7 +44,6 @@
 
 .item {
   position:absolute;
-
   background: #171717;
   color: #fff;
   border: 3px solid #fff;
@@ -61,9 +58,6 @@
   height:14px;
   opacity:0.8;
   font-size:13px;
-  top:50px;
-  margin-left:200px;
-  margin-top:70px;
   font-family: "helvetica neue", helvetica, arial, sans-seriff;
   font-weight:800;
   box-shadow: 1px 1px 1px 1px #6B6B6B;
@@ -72,5 +66,4 @@
   -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
   z-index:10;
   text-align: center;
-
 }
