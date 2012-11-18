@@ -65,4 +65,22 @@ exports.MongoLookFactory = function(url) {
       }
     });
   };
+
+  this.newLookWithUrl = function(title, url, callback) {
+    var look = new Look({ title : title, url : url, search : title.toLowerCase().match(/[a-z]+\s*/gi), tags : [] });
+    look.save(function(error, savedLook) {
+      if (error || !savedLook) {
+        callback(error, null);
+      } else {
+        var permission = new Permissions({ images : [ savedLookWithUrl._id ] });
+        permission.save(function(error, perms) {
+          if (error || !perms) {
+            callback(error, null);
+          } else {
+            callback(null, savedLook, perms);
+          }
+        });
+      }
+    });
+  };
 };
