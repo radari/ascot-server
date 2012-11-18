@@ -10,7 +10,7 @@ $(document).ready(function (){
       var animateButton = container.find("img.animate");
       var overlay = container.find(".overlay");
       var canvas = container.find("canvas.canvas")
-      var tags = $(this).find(".tags");
+      var tags = container.find(".tags");
 
       //Get list of tags for each image
       $.ajax({
@@ -21,15 +21,30 @@ $(document).ready(function (){
         contentType: 'application/jsonp',
         dataType: 'jsonp',
         success: function (json) {
-        
-          console.log(json);
+          
+          $.each(json.tags, function(i, e){
+            console.log(e)
 
-          var newDiv = $("<div>test</div>", {})
+            var tag = $("<div class='item'>"+e.index+"</div>")
+            tag.css("left", e.position.x)
+            tag.css("top", e.position.y)
+            tags.append(tag)
 
-          tags.append(newDiv)
+            var itemDescription = $("<div class='item-description'></div>")
+            itemDescription.html(e.product.name + "<br/><a href='" + 
+              e.product.buy_link + "'>"+e.product.buy_link+"</a><br/>$" + e.product.price)
 
-          // create and place tags
+            itemDescription.appendTo(tag)
+            itemDescription.hide()
 
+            tag.hover(function(){
+              $(this).find(".item-description").show()
+            },function(){
+              $(this).find(".item-description").hide()
+            });
+
+            
+          });
 
         },
         error: function (e) {}
@@ -60,7 +75,10 @@ $(document).ready(function (){
 
         // disable button while animation is running 
         animateButton.fadeOut(200);
-        animateDown(canvas[0], -40, time, canvas.height()/2, animateButton);
+        animateDown(canvas[0], -40, time, canvas.height()/2, function(){
+          animateButton.fadeIn(200);
+          overlay.show();
+        });
 
 
       }, function () {
@@ -73,7 +91,10 @@ $(document).ready(function (){
         canvas.width(width)
 
         animateButton.fadeOut(200);
-        animateUp(canvas[0], canvas.height()/2, time, canvas.height(), animateButton);
+        animateUp(canvas[0], canvas.height()/2, time, canvas.height(), function(){
+          animateButton.fadeIn(200);
+          overlay.hide();
+        });
 
 
       });
@@ -82,7 +103,7 @@ $(document).ready(function (){
 });
 
 
-function animateDown(canvas, startY, lastTime, height, animateButton) {
+function animateDown(canvas, startY, lastTime, height, callback) {
 
   window.requestAnimFrame = (function (callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
@@ -149,15 +170,17 @@ function animateDown(canvas, startY, lastTime, height, animateButton) {
 
   if (startY < height) {
     requestAnimFrame(function () {
-      animateDown(canvas, startY + linearDistEachFrame, time, height, animateButton);
+      animateDown(canvas, startY + linearDistEachFrame, time, height, callback);
     });
   } else {
-    animateButton.fadeIn(200);
+    callback();
+    //animateButton.fadeIn(200);
+
 
   }
 }
 
-function animateUp(canvas, startY, lastTime, height, animateButton) {
+function animateUp(canvas, startY, lastTime, height, callback) {
   
   window.requestAnimFrame = (function (callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
@@ -221,11 +244,11 @@ function animateUp(canvas, startY, lastTime, height, animateButton) {
 
   if (startY > -200) {
     requestAnimFrame(function () {
-      animateUp(canvas, startY - linearDistEachFrame, time, height, animateButton);
+      animateUp(canvas, startY - linearDistEachFrame, time, height, callback);
     });
 
   } else {
-    animateButton.fadeIn(200);
+    callback()
   }
 
 }
