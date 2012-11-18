@@ -38,7 +38,7 @@ $(document).ready(function (){
 
             var itemDescription = $("<div class='item-description'></div>")
             itemDescription.html(e.product.name + "<br/><a target='_blank' href='" + 
-              e.product.buy_link + "'>"+e.product.buy_link+"</a><br/>$" + e.product.price)
+              e.product.buy_link + "'>"+e.product.buyLink+"</a><br/>$" + e.product.price)
 
             itemDescription.appendTo(tag)
             itemDescription.hide()
