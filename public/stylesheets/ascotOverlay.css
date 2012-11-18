@@ -35,11 +35,34 @@ canvas {
 }
 
 .item{
-  border:1px blue solid;
-  position:absolute;
-  z-index:10;
-
+  
+.item {
+  background: #171717;
+  color: #fff;
+  border: 3px solid #fff;
+  padding: 1px;
+  padding-bottom: 1px;
+  position: relative;
+  border-radius: 15px;
+  -moz-border-radius:15px;
+  -webkit-border-radius:15px;
+  width:14px;
+  height:14px;
+  opacity:0.8;
+  font-size:13px;
+  top:50px;
+  margin-left:200px;
+  margin-top:70px;
+  font-family: "helvetica neue", helvetica, arial, sans-seriff;
+  font-weight:800;
+  box-shadow: 1px 1px 1px 1px #6B6B6B;
+-webkit-box-shadow: 1px 1px 1px 1px #6B6B6B;
+-moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
+-o-box-shadow: 1px 1px 1px 1px #6B6B6B;
+z-index:10;
 }
+
+
 
 .item-description{
 
