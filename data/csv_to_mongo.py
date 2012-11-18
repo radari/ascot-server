@@ -35,7 +35,7 @@ def readCsv(lines):
 
 def save(datum):
   f = os.popen("mongo ascot", "w")
-  f.write("db.products.save({ name : '%s', price : %s, buy : '%s', brand : '%s', type : '%s', search : %s });\n" % (datum["name"].replace('\'', '\\\''), datum["price"], datum["buy"].replace('\'', '\\\''), datum["brand"].replace('\'', '\\\''), datum["type"].replace('\'', '\\\''), datum["search"]))
+  f.write("db.products.save({ name : '%s', price : %s, buyLink : '%s', brand : '%s', type : '%s', search : %s });\n" % (datum["name"].replace('\'', '\\\''), datum["price"], datum["buy"].replace('\'', '\\\''), datum["brand"].replace('\'', '\\\''), datum["type"].replace('\'', '\\\''), datum["search"]))
   f.flush()
   f.close()
 
