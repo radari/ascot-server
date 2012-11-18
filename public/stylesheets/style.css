@@ -1,6 +1,13 @@
+html {
+	padding:0;
+}
+
 body {
   padding: 50px;
+  padding-top:0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin:0;
+  border: 1px transparent solid;
 }
 a {
   color: #00b7ff;
@@ -8,6 +15,11 @@ a {
 
 #nav {
 	padding:0;
+	top:14px;
+	width:400px;
+	position:relative;
+	left:200px;
+	margin-bottom: 100px;
 }
 
 h3{
@@ -19,7 +31,13 @@ h3{
 h1 {
 	color:#7b7979;
 	font-family: 'times new roman';
-	font-size: 400%;
+	font-size: 350%;
+	position:absolute;
+	top:0;
+	
+	left:100px;
+	margin-top:	10px;
+
 }
 
 
@@ -27,7 +45,7 @@ h1 {
 #nav li{
 	border:1px #dbdcdc solid;
 	background: #dbdcdc;
-	width:5%;
+	width:15%;
 	float:left;
 	margin:0;
 	padding:0;
