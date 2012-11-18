@@ -26,23 +26,61 @@ exports.get = function(req, res) {
   });
 };
 
-exports.upload = function(req, res) {
-  console.log(req.body);
-  console.log(req.files);
-
-  var mongoLookFactory = new MongoLookFactory();
-
-  var tmpPath = req.files.thumbnail.path;
+var handleUpload = function(handle, mongoLookFactory, callback) {
+  var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
-  
-  mongoLookFactory.newLook(req.files.thumbnail.name, function(error, look) {
+  mongoLookFactory.newLook(handle.name, function(error, look) {
     var targetPath = './public/images/uploads/' + look._id + '.png';
     // move the file from the temporary location to the intended location
-    fs.rename(tmpPath, targetPath, function(err) {
+    fs.rename(tmpPath, targetPath, function(error) {
       // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-      fs.unlink(tmpPath, function() {
-        res.redirect('/images/uploads/' + look._id + '.png');
+      if (error) {
+        callback(error, look);
+        return;
+      }
+      fs.unlink(tmpPath, function(error) {
+        /*if (error) {
+          callback(error, look);
+          return;
+        }*/
+        // Don't care about error, probably means files already gone
+        callback(null, { name : handle.name, size : handle.size, url : look.url, thumbnail_url : look.url, delete_url : '/', delete_type : 'DELETE' });
       });
     });
   });
+};
+
+exports.upload = function(req, res) {
+  if (req.files.files) {
+    var mongoLookFactory = new MongoLookFactory();
+    var ret = [];
+
+    if (req.files.files[0]) {
+      var loop = function(i) {
+        if (req.files.files.length && i == req.files.files.length) {
+          console.log("done upload " + i);
+          res.json(ret);
+          return;
+        }
+        handleUpload(req.files.files[i], mongoLookFactory, function(error, responseData) {
+          if (error || !responseData) {
+            res.render('index', { title : "ERROR" });
+          } else {
+            ret.push(responseData);
+            loop(i + 1);
+          }
+        });
+      };
+      loop(0);
+    } else {
+      handleUpload(req.files.files, mongoLookFactory, function(error, responseData) {
+        if (error) {
+          res.render('index', { title : "ERROR" });
+          console.log(JSON.stringify(error));
+        } else {
+          res.redirect('/');
+        }
+      });
+    }
+  }
 };
