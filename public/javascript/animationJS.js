@@ -66,10 +66,7 @@ $(document).ready(function (){
 
         var date = new Date();
         var time = date.getTime();
-        var canvas = container.find("canvas.canvas")
-      
-        console.log("Height: " + canvas.height() + "   Width: " + width);
-        
+        var canvas = container.find("canvas.canvas")        
         canvas.height(height)
         canvas.width(width)
 
@@ -82,8 +79,6 @@ $(document).ready(function (){
 
 
       }, function () {
-      console.log("Height: " + height + "   Width: " + width);
-
         var date = new Date();
         var time = date.getTime();
         var canvas = container.find("canvas.canvas")
@@ -95,9 +90,10 @@ $(document).ready(function (){
           animateButton.fadeIn(200);
           overlay.hide();
         });
-
-
       });
+
+      animateButton.click();
+    
     });
   });
 });
