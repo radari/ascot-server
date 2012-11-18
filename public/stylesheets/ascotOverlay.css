@@ -34,8 +34,7 @@ canvas {
   z-index:8;
 }
 
-.item{
-  
+
 .item {
   background: #171717;
   color: #fff;
@@ -56,10 +55,17 @@ canvas {
   font-family: "helvetica neue", helvetica, arial, sans-seriff;
   font-weight:800;
   box-shadow: 1px 1px 1px 1px #6B6B6B;
--webkit-box-shadow: 1px 1px 1px 1px #6B6B6B;
--moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
--o-box-shadow: 1px 1px 1px 1px #6B6B6B;
-z-index:10;
+  -webkit-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  z-index:10;
+}
+
+.item:hover {
+  opacity:1;
+  height:15px;
+  width:15px;
+  cursor:pointer;
 }
 
 
