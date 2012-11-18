@@ -9,7 +9,7 @@ block content
   h1= title
   
   div.look
-    img(src="#{look.url}", class="image")
+    img(src="#{look.url.replace( /http:\/\/www.ascotproject.com/ , "")}", class="image")
     img(src="/images/ascot_watermark.png", class="animate")  
     
     canvas.canvas
