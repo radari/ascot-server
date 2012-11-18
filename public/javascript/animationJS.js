@@ -46,33 +46,34 @@ $(document).ready(function (){
       console.log("Height: " + height + "   Width: " + width);
 
 
-      var date = new Date();
-      var time = date.getTime();
-
       animateButton.toggle(function () {
+
+        var date = new Date();
+        var time = date.getTime();
+        var canvas = container.find("canvas.canvas")
+      
+        console.log("Height: " + canvas.height() + "   Width: " + width);
+        
         canvas.height(height)
         canvas.width(width)
-
-        date = new Date();
-        time = date.getTime();
 
         // disable button while animation is running 
         animateButton.fadeOut(200);
-        animateDown(canvas[0], -200, time);
-        animateButton.fadeIn(200);
+        animateDown(canvas[0], -40, time, canvas.height()/2, animateButton);
 
 
       }, function () {
+      console.log("Height: " + height + "   Width: " + width);
 
+        var date = new Date();
+        var time = date.getTime();
+        var canvas = container.find("canvas.canvas")
         canvas.height(height)
         canvas.width(width)
 
-        date = new Date();
-        time = date.getTime();
-
         animateButton.fadeOut(200);
-        animateUp(canvas[0], canvas.height(), time);
-        animateButton.fadeIn(200);
+        animateUp(canvas[0], canvas.height()/2, time, canvas.height(), animateButton);
+
 
       });
     });
@@ -80,8 +81,9 @@ $(document).ready(function (){
 });
 
 
-function animateDown(canvas, startY, lastTime) {
-  console.log("here")
+function animateDown(canvas, startY, lastTime, height, animateButton) {
+  console.log("Canvas Height down: " + startY)
+ 
   window.requestAnimFrame = (function (callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
       window.setTimeout(callback, 1000 / 60);
@@ -94,8 +96,10 @@ function animateDown(canvas, startY, lastTime) {
   var time = date.getTime();
   var timeDiff = time - lastTime;
 
+
+
   //how fast our animation runs
-  var speed = 300;
+  var speed = 400;
   var linearDistEachFrame = speed * timeDiff / 1000;
   var marqueeSize = 180; //why is this called marqueeSize? 
 
@@ -105,11 +109,11 @@ function animateDown(canvas, startY, lastTime) {
   var topEdgeSize = 2;
 
   // Establish the leading edge of the scroll
-  var coefficient = (canvas.height - startY) / (canvas.height);
+  var coefficient = (height - startY) / (height);
   var leadingEdge = startY + marqueeSize * coefficient;
 
   // Clear canvas
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, height);
 
   //draw the overlay
   context.beginPath();
@@ -143,16 +147,19 @@ function animateDown(canvas, startY, lastTime) {
   context.fillStyle = drop;
   context.fill();
 
-  if (startY < canvas.height) {
+  if (startY < height) {
     requestAnimFrame(function () {
-      animateDown(canvas, startY + linearDistEachFrame, time);
+      animateDown(canvas, startY + linearDistEachFrame, time, height, animateButton);
     });
   } else {
-    
+    animateButton.fadeIn(200);
+
   }
 }
 
-function animateUp(canvas, startY, lastTime) {
+function animateUp(canvas, startY, lastTime, height, animateButton) {
+  console.log("Canvas Height up: " + startY)
+  
   window.requestAnimFrame = (function (callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
       window.setTimeout(callback, 1000 / 60);
@@ -175,11 +182,11 @@ function animateUp(canvas, startY, lastTime) {
   var topEdgeSize = 2;
 
   // Establish the leading edge of the scroll
-  var coefficient = (canvas.height - startY) / (canvas.height);
+  var coefficient = (canvas.height - startY) / (height);
   var leadingEdge = startY + marqueeSize * coefficient;
 
   // Clear canvas
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, height);
 
   //draw the overlay
   context.beginPath();
@@ -213,13 +220,13 @@ function animateUp(canvas, startY, lastTime) {
   context.fillStyle = drop;
   context.fill();
 
-  if (startY > -300) {
+  if (startY > -200) {
     requestAnimFrame(function () {
-      animateUp(canvas, startY - linearDistEachFrame, time);
+      animateUp(canvas, startY - linearDistEachFrame, time, height, animateButton);
     });
 
   } else {
-
+    animateButton.fadeIn(200);
   }
 
 }
