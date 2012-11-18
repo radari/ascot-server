@@ -8,8 +8,9 @@ prepend head
   script(src='/vendor/jquery-uploader/js/jquery.iframe-transport.js')
 
 block content
-  h1= title
+ 
   p Welcome to #{title}
+ 
 
   form(method='post', enctype='multipart/form-data', action='/image-upload')
     input(type='file', name='thumbnail')
