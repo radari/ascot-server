@@ -24,7 +24,7 @@ exports.get = function(url) {
       } else {
         // render layout
         console.log(JSON.stringify(result));
-        res.render('look', { title: result.title, look: result });
+        res.render('look', { title: 'Ascot', look: result });
       }
     });
   }
