@@ -1,17 +1,38 @@
+.look{
+  border:1px green solid;
+  position:relative;
+  float:left;
+
+}
+
+
 canvas {
 	border:1px blue solid;
 	position:absolute;
+  float:left;
 	z-index:5;
 }
 
-#picture {
-	position:relative;
-	z-index: 1;
+.overlay{
+  border:1px red solid;
+  position:absolute;
+
+  z-index:7;
 }
 
-#watermark {
+.tags{
+
+}
+
+.image{
+  border:1px blue solid;
+  position:absolute;
+  z-index: 1;
+}
+
+.animate{
+  border:1px green solid;
 	opacity:0.8;
-	position:absolute;
-	z-index:5;
-	right:40px;
+  position:absolute;
+  z-index:10;
 }
