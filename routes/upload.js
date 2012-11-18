@@ -9,5 +9,5 @@
  */
 
 exports.get = function(req, res) {
-  res.render('upload', { title : "Upload Image" });
+  res.render('upload', { title : "Ascot" });
 };

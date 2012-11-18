@@ -25,7 +25,7 @@ exports.get = function(url) {
             if (error || !look) {
               res.render('error', { error : 'Internal failure', title : 'Error' });
             } else {
-              res.render('tagger', { title : look.title, look : look, key : req.params.key });
+              res.render('tagger', { title:"Ascot", look : look, key : req.params.key });
             }
           });
         }
