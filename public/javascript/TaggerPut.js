@@ -37,18 +37,19 @@ $(document).ready(function() {
               zIndex : 1000,
               deferRequestBy : 0,
               onSelect : function(str, product) {
-                alert("You selected " + JSON.stringify(product));
+                //alert("You selected " + JSON.stringify(product));
                 json.tags.push({ index : json.tags.length + 1,
                                  position : { x : (event.pageX - $(el).parent().offset().left),
                                               y : (event.pageY - $(el).parent().offset().top) },
                                  product : product._id });
                 $("#productSearch").val('');
                 $("#overlay").hide();
-                auto.disable();
+                $(".autocomplete").hide();
                 $("#json_content").val(JSON.stringify(json));
                 editting = false;
               }
             }).enable();
+            $("#productSearch").focus();
           });
         },
         error : function(e) {
@@ -59,7 +60,6 @@ $(document).ready(function() {
 });
 
 var TaggerPut = function(key, look, data) {
-  alert(JSON.stringify(data));
   $.ajax({
     type : "PUT",
     url : "/tagger/" + key + "/" + look,
