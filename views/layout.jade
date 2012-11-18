@@ -17,14 +17,28 @@ html
 
   ul#nav 
     li
-    	a
-    		h3 
-    li 
-      h3 Upload
-    li 
-      h3 Looks
-    li 
-      h3 About
+      a(href="#") 
+        h3 Home
+    li
+      a(href="#")  
+        h3 Upload
+    li
+      a(href="#")  
+        h3 Looks
+    li
+      a(href="#")  
+        h3 About
+
+  ul#social
+    li
+      img#tumblr(src='/images/tumblrButton.png', id:'tumblrButton')
+    li
+      img#twitter(src='/images/twitterButton.png', id:'twitterButton')
+    li
+      img#facebook(src='/images/facebookButton.png', id:'fbButton')
+
+
+
   br
 
   block content

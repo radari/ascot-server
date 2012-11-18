@@ -3,14 +3,31 @@ html {
 }
 
 body {
+ width:960px;
   padding: 50px;
   padding-top:0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   margin:0;
-  border: 1px transparent solid;
+  border: 1px blue solid;
+  position:absolute;
+  margin:auto;
+  left:0;
+  right:0;
+
 }
 a {
-  color: #00b7ff;
+  color: #7b7979;
+  text-decoration: none;
+}
+
+a:active{
+	color:#7b7979;
+	text-decoration: none;
+}
+
+a:visited {
+	color:#7b7979;
+	text-decoration: none;
 }
 
 #nav {
@@ -22,6 +39,14 @@ a {
 	margin-bottom: 100px;
 }
 
+#social {
+	padding:0;
+	top:14px;
+	width:400px;
+	position:relative;
+	left:200px;
+	margin-bottom: 100px;
+}
 h3{
 	font-weight:400;
 	margin:2px;
@@ -47,6 +72,21 @@ h1 {
 	background: #dbdcdc;
 	width:15%;
 	float:left;
+	margin:0;
+	padding:0;
+	display:inline;
+	text-align: center;
+	margin-right:10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	color:#7b7979;
+}
+
+
+#social li{
+	
+	float:right;
 	margin:0;
 	padding:0;
 	display:inline;
