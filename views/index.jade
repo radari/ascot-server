@@ -10,17 +10,17 @@ prepend head
 
 block content
   #uploadToolsWrap
-    #tagline
-      h2  Upload Any Image and Tag Products
-    #uploadURL
-      input(type='text', name='files', placeholder="paste a link to an image", id="submitLink")
-
-    br
-
-    h2 or
-   
-    br
-
     form(method='post', enctype='multipart/form-data', action='/image-upload')
-      input(type='file', name='files', required='required')
+      #tagline
+        h2  Upload Any Image and Tag Products
+      #uploadURL
+        input(type='text', name='url', placeholder="paste a link to an image", id="submitLink")
+
+      br
+
+      h2 or
+   
+      br
+
+      input(type='file', name='files')
       input(type='submit', class='btn btn-primary start', id="submit", value="Next")

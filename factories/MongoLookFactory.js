@@ -72,7 +72,7 @@ exports.MongoLookFactory = function(url) {
       if (error || !savedLook) {
         callback(error, null);
       } else {
-        var permission = new Permissions({ images : [ savedLookWithUrl._id ] });
+        var permission = new Permissions({ images : [ savedLook._id ] });
         permission.save(function(error, perms) {
           if (error || !perms) {
             callback(error, null);

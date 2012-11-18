@@ -40,6 +40,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/about', routes.about)
 app.get('/look/:id', look.get(app.get('url')));
+app.get('/look/:id/iframe', look.iframe(app.get('url')));
 app.get('/tagger/:key/:look', tagger.get(app.get('url')));
 app.get('/products/:id/looks', products.looks);
 app.get('/upload', upload.get);
