@@ -13,6 +13,7 @@ var Mongoose = require('mongoose');
 exports.LookSchema = new Mongoose.Schema({
   title : String,
   url : String,
+  random : { type : Number, default : Math.random() },
   search : [String],
   tags : [
     {

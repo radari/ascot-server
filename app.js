@@ -42,6 +42,7 @@ app.get('/look/:id', look.get(app.get('url')));
 app.get('/tagger/:key/:look', tagger.get(app.get('url')));
 app.get('/products/:id/looks', products.looks);
 app.get('/upload', upload.get);
+app.get('/random', look.random);
 
 // JSON queries
 app.get('/tags.jsonp', tags.get(app.get('url')));
