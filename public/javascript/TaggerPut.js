@@ -26,12 +26,26 @@ $(document).ready(function() {
       tag.position = {x: e.offsetX, y: e.offsetY},
       tag.index = tagData.length + 1
       
-      console.log(tag)
+      overlay.css('position', 'relative');
+      overlay.css('left', (e.offsetX+10) + "px");
+      overlay.css('top', e.offsetY + "px");
+      overlay.show();
 
-      overlay.show()
-
-      overlay.css('left', (e.offsetX+10) + "px")
-      overlay.css('top', e.offsetY + "px")
+      var auto = $("#productSearch").autocomplete({
+        serviceUrl : '/products.json',
+        minChars : 2,
+        delimiter : /(,|;)\s*/, // regex or character
+        zIndex : 10000,
+        deferRequestBy : 0,
+        onSelect : function(str, product) {
+          alert("You selected " + JSON.stringify(product));
+          json.tags.push({ index : json.tags.length + 1,
+                           position : { x : (event.pageX - $(el).parent().offset().left),
+                                        y : (event.pageY - $(el).parent().offset().top) },
+                           product : product });
+          auto.disable();
+        }
+      }).enable();
 
     });
 
