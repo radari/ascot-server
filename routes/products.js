@@ -49,7 +49,7 @@ exports.looks = function(req, res) {
         if (error || !looks) {
           res.render('error', { title : 'Error', error : 'Failed' });
         } else {
-          res.render('product_looks', { title : product.name, looks : looks });
+          res.render('product_looks', { title : 'Ascot', looks : looks });
         }
       });
     }

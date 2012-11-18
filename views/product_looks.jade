@@ -10,7 +10,8 @@
 extends layout
 
 block content
-  h1= title
-    - each look in looks 
-      img(src="#{look.url}")
+  div.all_looks_wrapper
+    - each look in looks
+      div.looks_wrapper 
+        img(src="#{look.url}", class="looks")
 
