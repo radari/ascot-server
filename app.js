@@ -8,7 +8,7 @@ var express = require('express')
 
   , tags = require('./routes/tags.js')
   , look = require('./routes/look.js')
-
+  , products = require('./routes/products.js')
 
   , http = require('http')
   , path = require('path')
@@ -36,6 +36,8 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/tags.jsonp', tags.get);
 app.get('/look/:id', look.get);
+
+app.get('/products.json', products.get);
 
 app.post('/image-upload', look.upload);
 
