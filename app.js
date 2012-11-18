@@ -19,6 +19,7 @@ var app = express();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
+  app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -46,6 +47,8 @@ app.get('/products.json', products.get);
 // Upload
 app.post('/image-upload', look.upload);
 
+// Set tags for image
+app.put('/tagger/:key/:look', tagger.put);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
