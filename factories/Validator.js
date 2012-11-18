@@ -24,7 +24,7 @@ exports.Validator = function() {
   this.canEditTags = function(key, lookId, callback) {
     Permissions.findOne({ _id : key, images : lookId }, function(error, permission) {
       if (error || !permission) {
-        callback({ error : "Access denied." }, null);
+        callback({ error : {} }, null);
       } else {
         callback(null, true);
       }

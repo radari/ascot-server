@@ -9,6 +9,7 @@ var express = require('express')
   , tags = require('./routes/tags.js')
   , look = require('./routes/look.js')
   , products = require('./routes/products.js')
+  , tagger = require('./routes/tagger.js')
 
   , http = require('http')
   , path = require('path')
