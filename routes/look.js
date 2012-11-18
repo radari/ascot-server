@@ -30,6 +30,23 @@ exports.get = function(url) {
   }
 };
 
+exports.iframe = function(url) {
+  var mongoLookFactory = new MongoLookFactory(url);
+  return function(req, res) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, result) {
+      if (error) {
+        res.render('error', { error : 'Failed to find image', title : 'Error' });
+      } else if (!result) {
+        res.render('error', { error : 'Image not found', title : 'Error' });
+      } else {
+        // render layout
+        console.log(JSON.stringify(result));
+        res.render('look_iframe', { look: result });
+      }
+    });
+  };
+};
+
 var handleUpload = function(handle, mongoLookFactory, callback) {
   var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
