@@ -22,16 +22,16 @@ exports.post = function(req, res) {
   if (req.params.key && req.params.look) {
     validator.canEditTags(req.params.key, req.params.look, function(error, permission) {
       if (error || !permission) {
-        res.render('error', { error : 'Access Denied' });
+        res.render('error', { error : 'Access Denied', title : 'Error' });
       } else {
         mongoLookFactory.buildFromId(req.params.look, function(error, look) {
           if (error || !look) {
-            res.render('error', { error : 'Internal failure' });
+            res.render('error', { error : 'Internal failure', title : 'Error' });
           } else {
             look.tags = req.body.tags;
             look.save(function(error, savedLook) {
               if (error || !savedLook) {
-                res.render('error', { error : 'Failed to save tags' });
+                res.render('error', { error : 'Failed to save tags', title : 'Error' });
               } else {
                 res.render('/look/' + savedLook._id);
               }

@@ -13,11 +13,9 @@ exports.get = function(req, res) {
 
   look.buildFromId(req.params.id, function(error, result){
     if (error) {
-      console.log("Error " + JSON.stringify(error) + "---");
-      callback(error, null);
+      res.render('error', { error : 'Failed to find image', title : 'Error' });
     } else if (!result) {
-      // TODO : invalid ID, show page not found
-      res.render('index', { title : "ERROR" });
+      res.render('error', { error : 'Image not found', title : 'Error' });
     } else {
       // render layout
       console.log(JSON.stringify(result));
