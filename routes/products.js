@@ -25,7 +25,15 @@ exports.get = function(req, res) {
       regexps.push(new RegExp('^' + sp[i], 'i'));
     }
     Product.find().where('search').all(regexps).exec(function(error, results) {
-      res.json(results);
+      var ret = {};
+      ret["query"] = req.query["query"];
+      ret["suggestions"] = [];
+      ret["data"] = [];
+      for (var i = 0; i < results.length; ++i) {
+        ret["suggestions"].push(results[i].name + ' from ' + results[i].brand + ' (' + results[i].type + ')');
+        ret["data"].push(results[i]);
+      }
+      res.json(ret);
     });
   } else {
     res.json([]);
