@@ -7,10 +7,10 @@ $(document).ready(function() {
         url : '/tags.jsonp?url=' + encodeURIComponent($(el).attr("src")),
         async : true,
         success : function(json) {
-          alert(JSON.stringify(json));
+          $("#save_button").click(function() {
+            TaggerPut($(el).attr("ascot_key"), $(el).attr("ascot"), json.tags);
+          });
           var editting = false;
-          //ascot.doDisplay(el, json);
-          //$("#json_content").val(JSON.stringify(json));
           $(el).wrap('<div style="position: relative; width: ' + $(el).width() + 'px; height: ' + $(el).height() + 'px" />');
           for (var i = 0; i < json.tags.length; ++i) {
             $(el).parent().append('<div class="item" style="position: absolute; left: '
@@ -59,14 +59,15 @@ $(document).ready(function() {
 });
 
 var TaggerPut = function(key, look, data) {
-   
-  console.log(JSON.stringify($.parseJSON($("#json_content").val())));
+  alert(JSON.stringify(data));
   $.ajax({
     type : "PUT",
     url : "/tagger/" + key + "/" + look,
     contentType: "application/json",
-    data : data,
-    success : function() {}, 
+    data : JSON.stringify(data),
+    success : function() {
+      alert('done!');
+    }, 
     failure: function() {}
   });
 };

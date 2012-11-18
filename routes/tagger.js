@@ -46,7 +46,7 @@ exports.put = function(url) {
             if (error || !look) {
               res.render('error', { error : 'Internal failure', title : 'Error' });
             } else {
-              console.log(JSON.stringify(req.body) + "-");
+              console.log(JSON.stringify(req.body) + "-" + req.body);
               look.tags = req.body;
               look.save(function(error, savedLook) {
                 if (error || !savedLook) {
