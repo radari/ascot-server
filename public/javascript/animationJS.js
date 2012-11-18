@@ -12,7 +12,8 @@ $(document).ready(function() {
         contentType : 'application/json',
         dataType : 'jsonp',
         success : function(json) {
-          alert('Displaying for url ' + $(el).attr("src") + ' with tags ' + JSON.stringify(json));
+        	alert('http://ascotproject.com:3000/tags.jsonp?url=' + encodeURIComponent($(el).attr("src")));
+          alert('Displaying for url+ ' + $(el).attr("src") + ' with tags ' + JSON.stringify(json));
         },
         error : function(e) {
         }
@@ -73,7 +74,7 @@ function animateDown (startY, lastTime) {
   	};
 	})();
 	//disable button while animation is running 
-	//document.getElementById("animateDown").disabled=true;
+	$('#animate').fadeOut(200);
 
 	var canvas= document.getElementById("overlay");
 	var context=canvas.getContext('2d');
@@ -140,9 +141,7 @@ function animateDown (startY, lastTime) {
 	}
 
 	else {
-		//enable button while animation is running 
-		//document.getElementById("animateDown").disabled=false;
-		
+		$('#animate').fadeIn(200);
 	}
 
 }

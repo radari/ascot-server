@@ -8,3 +8,10 @@ canvas {
 	position:relative;
 	z-index: 1;
 }
+
+#watermark {
+	opacity:0.8;
+	position:absolute;
+	z-index:5;
+	right:40px;
+}
