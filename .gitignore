@@ -13,6 +13,8 @@ results
 
 npm-debug.log
 node_modules
-./images/uploads/*
+public/images/uploads/*
 
 .DS_Store
+
+*.swp

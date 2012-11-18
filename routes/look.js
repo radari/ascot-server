@@ -30,18 +30,18 @@ exports.upload = function(req, res) {
   console.log(req.body);
   console.log(req.files);
 
-  var look = new MongoLookFactory();
+  var mongoLookFactory = new MongoLookFactory();
 
-  // get the temporary location of the file
-  var tmp_path = req.files.thumbnail.path;
+  var tmpPath = req.files.thumbnail.path;
   // set where the file should actually exists - in this case it is in the "images" directory
-  var target_path = './public/images/uploads/' + req.files.thumbnail.name;
-  // move the file from the temporary location to the intended location
-  fs.rename(tmp_path, target_path, function(err) {
-    // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-    fs.unlink(tmp_path, function() {
-      look.newLook(req.files.thumbnail.name, target_path.replace(/\.\/public/, ""), function(){
-        res.redirect('/');
+  
+  mongoLookFactory.newLook(req.files.thumbnail.name, function(error, look) {
+    var targetPath = './public/images/uploads/' + look._id + '.png';
+    // move the file from the temporary location to the intended location
+    fs.rename(tmpPath, targetPath, function(err) {
+      // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
+      fs.unlink(tmpPath, function() {
+        res.redirect('/images/uploads/' + look._id + '.png');
       });
     });
   });

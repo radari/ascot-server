@@ -38,13 +38,20 @@ exports.MongoLookFactory = function() {
     });
   };
 
-  this.newLook = function(title, url, callback) {
-    var look = new Look({ title : title, url : url, search : title.toLowerCase().match(/[a-z]+\s*/gi), tags : [] });
+  this.newLook = function(title, callback) {
+    var look = new Look({ title : title, url : "", search : title.toLowerCase().match(/[a-z]+\s*/gi), tags : [] });
     look.save(function(error, savedLook) {
       if (error || !savedLook) {
         callback(error, null);
       } else {
-        callback(null, savedLook);
+        look.url = "http://www.ascotproject.com/images/uploads/" + look._id + ".png";
+        look.save(function(error, savedLookWithUrl) {
+          if (error || !savedLookWithUrl) {
+            callback(error, null);
+          } else {
+            callback(null, savedLookWithUrl);
+          }
+        });
       }
     });
   };
