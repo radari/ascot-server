@@ -33,11 +33,17 @@ exports.get = function(req, res) {
 };
 
 exports.looks = function(req, res) {
-  Look.find({ 'tags.product' : req.params.id }, function(error, looks) {
-    if (error || !looks) {
-      res.json([]);
+  Product.findOne({ _id : req.params.id }, function(error, product) {
+    if (error || !product) {
+      res.render('error', { title : 'Error', error : 'Product not found' });
     } else {
-      res.json(looks);
+      Look.find({ 'tags.product' : req.params.id }, function(error, looks) {
+        if (error || !looks) {
+          res.render('error', { title : 'Error', error : 'Failed' });
+        } else {
+          res.render('product_looks', { title : product.name, looks : looks });
+        }
+      });
     }
   });
 };

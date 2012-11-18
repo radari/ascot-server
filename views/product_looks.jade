@@ -1,0 +1,16 @@
+-#
+-# product_looks.jade
+-#
+-# Created on: November 18, 2012
+-#     Author: Valeri Karpov
+-#
+-# Views for list of looks with a given product
+-#
+
+extends layout
+
+block content
+  h1= title
+    - each look in looks 
+      img(src="#{look.url}")
+
