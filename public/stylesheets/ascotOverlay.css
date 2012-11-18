@@ -1,15 +1,19 @@
 .look{
   position:relative;
-  float:left;
+  margin:auto;
+  left:0;
+  right:0;
 
 }
 
 
-canvas {
+.canvas {
 	position:absolute;
   float:left;
 	z-index:5;
 }
+
+
 
 .overlay{
   position:absolute;
