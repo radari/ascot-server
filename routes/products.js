@@ -16,7 +16,7 @@ var Product = db.model('products', ProductSchema);
 
 exports.get = function(req, res) {
   if (req.query["query"]) {
-    var sp = req.query["query"].toLowerCase().match(/[a-z]+\s*/i);
+    var sp = req.query["query"].toLowerCase().split(/\s+/);
     var regexps = [];
     for (var i = 0; i < sp.length; ++i) {
       regexps.push(new RegExp('^' + sp[i], 'i'));
