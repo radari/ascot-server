@@ -59,14 +59,13 @@ $(document).ready(function() {
 });
 
 var TaggerPut = function(key, look, data) {
-  alert(JSON.stringify(data));
+  //alert(JSON.stringify(data));
   $.ajax({
     type : "PUT",
     url : "/tagger/" + key + "/" + look,
     contentType: "application/json",
     data : JSON.stringify(data),
     success : function() {
-      alert('done!');
     }, 
     failure: function() {}
   });

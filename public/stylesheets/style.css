@@ -228,3 +228,7 @@ div.autocomplete div {
 	border: 1px solid black;
 	cursor: pointer;
 }
+
+#save_button {
+	margin-top: 40px;
+}
