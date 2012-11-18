@@ -20,7 +20,7 @@ var Look = db.model('looks', LookSchema);
 var PermissionsSchema = require('../models/Permissions.js').PermissionsSchema;
 var Permissions = db.model('permissions', PermissionsSchema);
 
-exports.MongoLookFactory = function() {
+exports.MongoLookFactory = function(url) {
   this.buildFromUrl = function(url, callback) {
     Look.findOne({ url : url }).populate('tags.product').exec(function(error, result) {
       if (error || !result) {
@@ -47,7 +47,7 @@ exports.MongoLookFactory = function() {
       if (error || !savedLook) {
         callback(error, null);
       } else {
-        look.url = "http://www.ascotproject.com/images/uploads/" + look._id + ".png";
+        look.url = url + '/images/uploads/' + look._id + '.png';
         look.save(function(error, savedLookWithUrl) {
           if (error || !savedLookWithUrl) {
             callback(error, null);

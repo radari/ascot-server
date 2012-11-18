@@ -7,21 +7,22 @@ var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFact
 var fs = require('fs');
 
 
-exports.get = function(req, res) {
-  // retrieve database
-  var look = new MongoLookFactory();
-
-  look.buildFromId(req.params.id, function(error, result){
-    if (error) {
-      res.render('error', { error : 'Failed to find image', title : 'Error' });
-    } else if (!result) {
-      res.render('error', { error : 'Image not found', title : 'Error' });
-    } else {
-      // render layout
-      console.log(JSON.stringify(result));
-      res.render('look', { title: result.title, look: result });
-    }
-  });
+exports.get = function(url) {
+  var look = new MongoLookFactory(url);
+  return function(req, res) {
+    // retrieve database
+    look.buildFromId(req.params.id, function(error, result){
+      if (error) {
+        res.render('error', { error : 'Failed to find image', title : 'Error' });
+      } else if (!result) {
+        res.render('error', { error : 'Image not found', title : 'Error' });
+      } else {
+        // render layout
+        console.log(JSON.stringify(result));
+        res.render('look', { title: result.title, look: result });
+      }
+    });
+  }
 };
 
 var handleUpload = function(handle, mongoLookFactory, callback) {
@@ -44,18 +45,19 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
   });
 };
 
-exports.upload = function(req, res) {
-  if (req.files.files) {
-    var mongoLookFactory = new MongoLookFactory();
-    var ret = [];
-
-    handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
-      if (error) {
-        res.render('index', { title : "ERROR" });
-        console.log(JSON.stringify(error));
-      } else {
-        res.redirect('/tagger/' + permissions._id + '/' + look._id);
-      }
-    });
-  }
+exports.upload = function(url) {
+  var mongoLookFactory = new MongoLookFactory(url);
+  return function(req, res) {
+    if (req.files.files) {
+      var ret = [];
+      handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
+        if (error) {
+          res.render('index', { title : "ERROR" });
+          console.log(JSON.stringify(error));
+        } else {
+          res.redirect('/tagger/' + permissions._id + '/' + look._id);
+        }
+      });
+    }
+  };
 };
