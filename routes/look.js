@@ -53,12 +53,22 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
 exports.upload = function(url) {
   var mongoLookFactory = new MongoLookFactory(url);
   return function(req, res) {
-    if (req.files.files) {
+    if (req.files && req.files.files && req.files.files.length > 0) {
+      console.log("Upload? " + req.files.files.length);
       var ret = [];
       handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
         if (error) {
-          res.render('index', { title : "ERROR" });
+          res.render('error', { title : "Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
+        } else {
+          res.redirect('/tagger/' + permissions._id + '/' + look._id);
+        }
+      });
+    } else if (req.body.url) {
+      console.log("From url " + req.body.url);
+      mongoLookFactory.newLookWithUrl('Untitled Look', req.body.url, function(error, look, permissions) {
+        if (error) {
+          res.render('error', { title : "Error", error : "Upload failed" });
         } else {
           res.redirect('/tagger/' + permissions._id + '/' + look._id);
         }
