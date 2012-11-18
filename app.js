@@ -38,6 +38,7 @@ app.configure('development', function(){
 
 // Displays
 app.get('/', routes.index);
+app.get('/about', routes.about)
 app.get('/look/:id', look.get(app.get('url')));
 app.get('/tagger/:key/:look', tagger.get(app.get('url')));
 app.get('/products/:id/looks', products.looks);

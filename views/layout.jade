@@ -18,30 +18,31 @@ html
   #wrapper
     img#logo(src='/images/ascotLogo.png', id:'logo')
 
-    h1= title
+    a(href="/")
+      h1= title
 
     ul#nav 
       li
-        a(href="#") 
-          h3 Home
-      li
-        a(href="#")  
+        a(href="/")  
           h3 Upload
       li
-        a(href="#")  
+        a(href="#")
           h3 Looks
       li
-        a(href="#")  
+        a(href="/about")  
           h3 About
 
 
     ul#social
       li
-        img#tumblr(src='/images/tumblrButton.png', id:'tumblrButton')
+        a(href="http://ascotproject.tumblr.com/", target="_blank")
+          img#tumblr(src='/images/tumblrButton.png', id:'tumblrButton')
       li
-        img#twitter(src='/images/twitterButton.png', id:'twitterButton')
+        a(href="https://twitter.com/AscotProject", target="_blank")
+          img#twitter(src='/images/twitterButton.png', id:'twitterButton')
       li
-        img#facebook(src='/images/facebookButton.png', id:'fbButton')
+        a(href="https://www.facebook.com/ascotproject", target="_blank")
+          img#facebook(src='/images/facebookButton.png', id:'fbButton')
 
     br
 
