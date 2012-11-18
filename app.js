@@ -37,6 +37,7 @@ app.configure('development', function(){
 // Displays
 app.get('/', routes.index);
 app.get('/look/:id', look.get);
+app.get('/tagger/:key/:look', tagger.get);
 
 // JSON queries
 app.get('/tags.jsonp', tags.get);
