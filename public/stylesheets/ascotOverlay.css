@@ -7,7 +7,6 @@
 
 
 canvas {
-	border:5px blue solid;
 	position:absolute;
   float:left;
 	z-index:5;
@@ -25,13 +24,11 @@ canvas {
 }
 
 .image{
-  border:1px blue solid;
   position:absolute;
   z-index: 1;
 }
 
 .animate{
-  border:1px green solid;
 	opacity:0.8;
   position:absolute;
   z-index:10;
