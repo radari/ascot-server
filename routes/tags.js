@@ -14,17 +14,18 @@ var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFact
  * GET tags.jsonp?url=<url>
  */
 
-exports.get = function(req, res) {
-  var mongoLookFactory = new MongoLookFactory();
-  mongoLookFactory.buildFromUrl(req.query["url"], function(error, look) {
-    if (error) {
-      // TODO: error page
-      res.render('index', { title : "Errror!" });
-      console.log(JSON.stringify(error));
-    } else if (!look) {
-      res.jsonp({});
-    } else {
-      res.jsonp(look);
-    }
-  });
+exports.get = function(url) {
+  var mongoLookFactory = new MongoLookFactory(url);
+  return function(req, res) {
+    mongoLookFactory.buildFromUrl(req.query["url"], function(error, look) {
+      if (error) {
+        res.render('error', { error : "Image not found", title : "Error" });
+        console.log(JSON.stringify(error));
+      } else if (!look) {
+        res.jsonp({});
+      } else {
+        res.jsonp(look);
+      }
+    });
+  };
 };
