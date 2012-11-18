@@ -11,6 +11,10 @@ $(document).ready(function (){
       var overlay = container.find(".overlay");
       var canvas = container.find("canvas.canvas")
       var tags = container.find(".tags");
+      var borderSize=5;
+      $('.image').css('border', borderSize+'px'+'#c2c0c0 solid');
+      $('.look').css('padding-left', borderSize+'px');
+      $('.canvas').css('margin-top', borderSize+'px');
 
       //Get list of tags for each image
       $.ajax({
@@ -86,7 +90,7 @@ $(document).ready(function (){
         canvas.width(width)
 
         animateButton.fadeOut(200);
-        animateUp(canvas[0], canvas.height()/2, time, canvas.height(), function(){
+        animateUp(canvas[0], canvas.height()/2, time, canvas.height()+borderSize,function(){
           animateButton.fadeIn(200);
           overlay.hide();
         });
@@ -99,7 +103,7 @@ $(document).ready(function (){
 });
 
 
-function animateDown(canvas, startY, lastTime, height, callback) {
+function animateDown(canvas, startY, lastTime, height, callback, borderSize) {
 
   window.requestAnimFrame = (function (callback) {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {

@@ -1,9 +1,8 @@
 .look{
   position:relative;
   margin:auto;
-  left:0;
+  left:0px;
   right:0;
-
 }
 
 
@@ -11,6 +10,7 @@
 	position:absolute;
   float:left;
 	z-index:5;
+  
 }
 
 
@@ -18,8 +18,8 @@
 .overlay{
   position:absolute;
   display: none;
-
   z-index:7;
+
 }
 
 .tags{
@@ -30,7 +30,6 @@
 .image{
   position:absolute;
   z-index: 1;
-  border:5px #c2c0c0 solid;
   border-radius:10px;
   -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
