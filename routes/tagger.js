@@ -53,7 +53,7 @@ exports.put = function(url) {
                   console.log(error);
                   res.render('error', { error : 'Failed to save tags', title : 'Error' });
                 } else {
-                  res.redirect('/look/' + savedLook._id);
+                  res.json({});
                 }
               });
             }

@@ -66,6 +66,7 @@ var TaggerPut = function(key, look, data) {
     contentType: "application/json",
     data : JSON.stringify(data),
     success : function() {
+      $(location).attr('href', '/look/' + look);
     }, 
     failure: function() {}
   });
