@@ -24,7 +24,7 @@ exports.get = function(req, res) {
     for (var i = 0; i < sp.length; ++i) {
       regexps.push(new RegExp('^' + sp[i], 'i'));
     }
-    Product.find().where('search').in(regexps).exec(function(error, results) {
+    Product.find().where('search').all(regexps).exec(function(error, results) {
       res.json(results);
     });
   } else {
