@@ -33,12 +33,15 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// Displays
 app.get('/', routes.index);
-app.get('/tags.jsonp', tags.get);
 app.get('/look/:id', look.get);
 
+// JSON queries
+app.get('/tags.jsonp', tags.get);
 app.get('/products.json', products.get);
 
+// Upload
 app.post('/image-upload', look.upload);
 
 
