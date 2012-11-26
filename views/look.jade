@@ -1,20 +1,17 @@
 extends layout
 
 prepend head
-  script(src='/javascripts/animationJS.js')
+  script(src='/javascripts/display_image.js')
   link(rel='stylesheet', href='/stylesheets/ascotOverlay.css')
 
 
 block content
   h1= title
   
+
   div.look
     img(src="#{look.url}", class="image")
-    img(src="/images/ascot_watermark.png", class="animate")  
+    img(src="/images/ascot_watermark.png", class="animateButton")  
     
-    canvas.canvas
-
     div.overlay
-
-      div.tags
 
