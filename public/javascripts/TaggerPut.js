@@ -2,16 +2,20 @@ var DragManager = function(container) {
   var x = 0;
   var y = 0;
   var el = null;
+  var model = null;
   this.updateXY = function(xx, yy) {
     x = Math.min(Math.max(0, xx), container.width());
     y = Math.min(Math.max(0, yy), container.height());
     if (el != null) {
       el.css('left', x + 'px');
       el.css('top', y + 'px');
+      model.position.x = x;
+      model.position.y = y;
     }
   };
-  this.setDraggingElement = function(element) {
+  this.setDraggingElement = function(element, model) {
     el = element;
+    model = model;
   };
 };
 
@@ -41,6 +45,17 @@ $(document).ready(function() {
                 + (json.tags[i].position.x) + 'px; top: '
                 + (json.tags[i].position.y) + 'px">'
                 + (json.tags[i].index) + '</div>');
+            var tag = $($(el).parent().children().last());
+            tag.mousedown(function() {
+              dragManager.setDraggingElement(tag, json.tags[i]);
+            });
+            tag.mouseup(function() {
+              dragManager.setDraggingElement(null, null);
+              if (editting) {
+                $("#overlay").css('left', (parseInt(tag.css('left')) + 20) + 'px');
+                $("#overlay").css('top', (parseInt(tag.css('top')) + 30) + 'px');
+              }
+            });
           }
           $(el).parent().click(function(event) {
             if (editting) {
@@ -58,6 +73,10 @@ $(document).ready(function() {
             });
             tag.mouseup(function() {
               dragManager.setDraggingElement(null);
+              if (editting) {
+                $("#overlay").css('left', (parseInt(tag.css('left')) + 20) + 'px');
+                $("#overlay").css('top', (parseInt(tag.css('top')) + 30) + 'px');
+              }
             });
 
             $("#overlay").css('left', (event.pageX - $(el).parent().offset().left + 12) + 'px');
@@ -71,8 +90,8 @@ $(document).ready(function() {
               deferRequestBy : 0,
               onSelect : function(str, product) {
                 json.tags.push({ index : json.tags.length + 1,
-                                 position : { x : (event.pageX - $(el).parent().offset().left),
-                                              y : (event.pageY - $(el).parent().offset().top) },
+                                 position : { x : (event.pageX - $(el).parent().offset().left - 8),
+                                              y : (event.pageY - $(el).parent().offset().top - 8) },
                                  product : product._id });
                 $("#productSearch").val('');
                 $("#overlay").hide();
