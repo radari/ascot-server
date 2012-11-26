@@ -24,11 +24,11 @@ $(document).ready(function() {
             }
             editting = true;
             $(el).parent().append('<div class="item" style="position: absolute; left: '
-                + (event.pageX - $(el).parent().offset().left) + 'px; top: '
-                + (event.pageY - $(el).parent().offset().top) + 'px">'
+                + (event.pageX - $(el).parent().offset().left - 8) + 'px; top: '
+                + (event.pageY - $(el).parent().offset().top - 8) + 'px">'
                 + (json.tags.length + 1) + '</div>');
-            $("#overlay").css('left', (event.pageX - $(el).parent().offset().left + 20) + 'px');
-            $("#overlay").css('top', (event.pageY - $(el).parent().offset().top + 30) + 'px');
+            $("#overlay").css('left', (event.pageX - $(el).parent().offset().left + 12) + 'px');
+            $("#overlay").css('top', (event.pageY - $(el).parent().offset().top + 22) + 'px');
             $("#overlay").show();
             var auto = $("#productSearch").autocomplete({
               serviceUrl : '/products.json',
@@ -37,7 +37,6 @@ $(document).ready(function() {
               zIndex : 1000,
               deferRequestBy : 0,
               onSelect : function(str, product) {
-                //alert("You selected " + JSON.stringify(product));
                 json.tags.push({ index : json.tags.length + 1,
                                  position : { x : (event.pageX - $(el).parent().offset().left),
                                               y : (event.pageY - $(el).parent().offset().top) },
