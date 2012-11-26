@@ -1,3 +1,19 @@
+var DragManager = function(container) {
+  var x = 0;
+  var y = 0;
+  var el = null;
+  this.updateXY = function(xx, yy) {
+    x = Math.min(Math.max(0, xx), container.width());
+    y = Math.min(Math.max(0, yy), container.height());
+    if (el != null) {
+      el.css('left', x + 'px');
+      el.css('top', y + 'px');
+    }
+  };
+  this.setDraggingElement = function(element) {
+    el = element;
+  };
+};
 
 $(document).ready(function() {
   $("img[ascot_key][ascot]").each(function(i, el) {
@@ -12,6 +28,14 @@ $(document).ready(function() {
           });
           var editting = false;
           $(el).wrap('<div style="position: relative; width: ' + $(el).width() + 'px; height: ' + $(el).height() + 'px" />');
+
+          var dragManager = new DragManager($(el).parent());
+          $(el).parent().mousemove(function(event) {
+            dragManager.updateXY(
+                (event.pageX - $(el).parent().offset().left - 8),
+                (event.pageY - $(el).parent().offset().top - 8));
+          });
+
           for (var i = 0; i < json.tags.length; ++i) {
             $(el).parent().append('<div class="item" style="position: absolute; left: '
                 + (json.tags[i].position.x) + 'px; top: '
@@ -27,6 +51,15 @@ $(document).ready(function() {
                 + (event.pageX - $(el).parent().offset().left - 8) + 'px; top: '
                 + (event.pageY - $(el).parent().offset().top - 8) + 'px">'
                 + (json.tags.length + 1) + '</div>');
+
+            var tag = $($(el).parent().children().last());
+            tag.mousedown(function() {
+              dragManager.setDraggingElement(tag);
+            });
+            tag.mouseup(function() {
+              dragManager.setDraggingElement(null);
+            });
+
             $("#overlay").css('left', (event.pageX - $(el).parent().offset().left + 12) + 'px');
             $("#overlay").css('top', (event.pageY - $(el).parent().offset().top + 22) + 'px');
             $("#overlay").show();
