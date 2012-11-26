@@ -31,22 +31,29 @@ $(document).ready(function (){
             console.log(e)
 
             // Create tag description and add to DOM
-            var tag = $("<div class='item'>"+e.index+"</div>")
-            tag.css("left", e.position.x+borderSize)
-            tag.css("top", e.position.y+borderSize)
-            overlay.append(tag)
+            var tagContainer = $("<div class='tag-container'></div>")
+            tagContainer.css("left", e.position.x+borderSize)
+            tagContainer.css("top", e.position.y+borderSize)
+            tagContainer.appendTo(overlay)
 
-            var itemDescription = $("<div class='item-description'></div>")
-            itemDescription.html(e.product.name + "<br/><a target='_blank' href='" + 
+
+            //Create Tag Name
+            var tagName = $("<div class='tag-name'>"+e.index+"</div>")
+            tagName.appendTo(tagContainer)
+
+
+            // Create item Description
+            var tagDescription = $("<div class='tag-description'></div>")
+            tagDescription.html(e.product.name + "<br/><a target='_blank' href='" + 
               e.product.buy_link + "'>"+e.product.buyLink+"</a><br/>$" + e.product.price+"<br/><a href='/products/" + e.product._id + "/looks'>All Looks</a>");
 
-            itemDescription.appendTo(tag)
-            itemDescription.hide()
+            tagDescription.appendTo(tagContainer)
+            tagDescription.hide()
 
-            tag.hover(function(){
-              $(this).find(".item-description").show(100, function(){})
+            tagContainer.hover(function(){
+              $(this).find(".tag-description").show(100, function(){})
             },function(){
-              $(this).find(".item-description").hide(100,function(){})
+              $(this).find(".tag-description").hide(100,function(){})
             });
 
             
