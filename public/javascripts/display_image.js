@@ -23,7 +23,6 @@ $(document).ready(function (){
         success: function (json) {
           
           $.each(json.tags, function(i, e){
-            console.log(e)
 
             // Create tag description and add to DOM
             var tagContainer = $("<div class='tag-container'></div>")
@@ -86,6 +85,13 @@ $(document).ready(function (){
 
       // Activate Ascot Layer
       animateButton.click();
+
+      var iframe_code = $(".iframe-code")
+      if(iframe_code.length > 0){
+        i = iframe_code.first()
+        console.log(location)
+        i.val("<iframe src='"+location.host+"/look/"+i.attr("data-url")+"/iframe' width='"+width+"' height='"+height+"'></iframe>")
+      }
     
     });
   });

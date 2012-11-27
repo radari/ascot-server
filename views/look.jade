@@ -9,10 +9,13 @@ prepend head
 block content
   h1= title
 
-  div.look
-    img(src="#{look.url}", class="image")    
-    div.animateButton
-    div.overlay
+  div.look-container
+    div.look
+      img(src="#{look.url}", class="image")    
+      div.animateButton
+      div.overlay
+
+    textarea.iframe-code(rows=3, cols=50, data-url="#{look._id}")
 
   //- test iframe
   //- iframe(src="http://localhost:3000/look/50a7fe3465cf2c9236fd134a/iframe", seamless="seamless", frameborder="0", height="647x", width="474px" )

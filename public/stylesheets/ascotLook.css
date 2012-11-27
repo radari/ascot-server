@@ -16,3 +16,18 @@
   -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);*/
 }
+
+.look-container{
+  border: 1px green solid;
+
+  position:relative;
+  margin: auto;
+}
+
+.iframe-code{
+  position:relative;
+  display: block;
+  width: auto;
+  margin: 20px auto;
+
+}
