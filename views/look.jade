@@ -10,10 +10,8 @@ block content
   h1= title
 
   div.look-container
-    div.look
-      img(src="#{look.url}", class="image")    
-      div.animateButton
-      div.overlay
+
+    include partials/_look.jade
 
     textarea.iframe-code(rows=3, cols=50, data-url="#{look._id}")
 
