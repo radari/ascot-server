@@ -7,7 +7,7 @@ $(document).ready(function (){
     image.load(function(){
       var imageSrc = image.attr('src');
       var animateButton = container.find("div.animateButton");
-      var overlay = container.find(".overlay");
+      var overlay = container.find("div.overlay");
 
       // Display animate button
       animateButton.show()
@@ -46,7 +46,7 @@ $(document).ready(function (){
             tagDescription.hide()
 
             tagContainer.hover(function(){
-              $(this).find(".tag-description").show(100, function(){})
+              $(this).find(".tag-description").show(100,function(){})
             },function(){
               $(this).find(".tag-description").hide(100,function(){})
             });
@@ -70,7 +70,9 @@ $(document).ready(function (){
 
       // Bind animation layer
       
-      animateButton.click(function(){overlay.toggle("fold")});
+      animateButton.click(function(){
+        overlay.toggle("slide", {direction: "left"}, 500, function(){});
+      });
 
       // animateButton.toggle(function () {       
         

@@ -9,8 +9,6 @@
 .overlay{
   position:absolute;
   vertical-align: top;
-  
-  background: white;
 
   /*This margin needs to be the same size
   as the border of the image (TODO: fix with variable?)*/
