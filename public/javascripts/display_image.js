@@ -6,9 +6,9 @@ $(document).ready(function (){
 
     image.load(function(){
       var imageSrc = image.attr('src');
-      var animateButton = container.find("img.animateButton");
+      var animateButton = container.find("div.animateButton");
       var overlay = container.find(".overlay");
-      
+
       // Display animate button
       animateButton.show()
 
@@ -37,7 +37,7 @@ $(document).ready(function (){
             tagName.appendTo(tagContainer)
 
 
-            // Create item Description
+            // Create Tag Description
             var tagDescription = $("<div class='tag-description'></div>")
             tagDescription.html(e.product.name + "<br/><a target='_blank' href='" + 
               e.product.buy_link + "'>"+e.product.buyLink+"</a><br/>$" + e.product.price+"<br/><a href='/products/" + e.product._id + "/looks'>All Looks</a>");
@@ -69,7 +69,18 @@ $(document).ready(function (){
       overlay.width(width);
 
       // Bind animation layer
-      animateButton.toggle(function () {overlay.show()}, function () {overlay.hide()});
+      
+      animateButton.click(function(){overlay.toggle("fold")});
+
+      // animateButton.toggle(function () {       
+        
+      //   overlay.show(1000, function(){
+        
+      //   })
+
+      // }, function () {
+      //   overlay.hide(1000)
+      // });
 
       // Activate Ascot Layer
       animateButton.click();

@@ -10,6 +10,8 @@
   position:absolute;
   vertical-align: top;
   
+  background: white;
+
   /*This margin needs to be the same size
   as the border of the image (TODO: fix with variable?)*/
   margin: 5px;
@@ -37,12 +39,18 @@
   z-index:8;
   cursor:pointer;
 
+  height:79px;
+  width:52px;
+
   /*set to true when image loads*/
   display: none;
+
+  background-image:url('/images/ascot_watermark.png');
 }
 
 /*TODO: swap out image with one that has a border*/
 .animateButton:hover{
+  background-image:url('/images/ascot_watermark_glow.png');
 }
 
 
