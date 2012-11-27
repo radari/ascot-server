@@ -3,28 +3,31 @@
 .look{
   position:relative;
   margin:auto;
-  left:0px;
-  right:0;
-  z-index:0;
 }
 
 /*div element that contains tags*/
 .overlay{
   position:absolute;
+  vertical-align: top;
+  
+  /*This margin needs to be the same size
+  as the border of the image (TODO: fix with variable?)*/
+  margin: 5px;
+
   display: none;
   z-index:2;
-
 }
 
 .image{
   position:absolute;
-  z-index: 1;
+  vertical-align: top;
+
+  /*must be same size as overlay margin*/
+  border: 5px #c2c0c0 solid;
+
   border-radius:10px;
   -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
-  margin:auto;
-  left:0;
-  right:0;
 }
 
 /*Picture of ascot that toggels ascot layer*/
@@ -45,7 +48,6 @@
 
 .tag-container{
   position:absolute;
-
   z-index:3;
 }
 

@@ -8,12 +8,7 @@ $(document).ready(function (){
       var imageSrc = image.attr('src');
       var animateButton = container.find("img.animateButton");
       var overlay = container.find(".overlay");
-
       
-      var borderSize=5;
-      $('.image').css('border', borderSize+'px'+'#c2c0c0 solid');
-      $('.look').css('padding-left', borderSize+'px');
-
       // Display animate button
       animateButton.show()
 
@@ -32,8 +27,8 @@ $(document).ready(function (){
 
             // Create tag description and add to DOM
             var tagContainer = $("<div class='tag-container'></div>")
-            tagContainer.css("left", e.position.x+borderSize)
-            tagContainer.css("top", e.position.y+borderSize)
+            tagContainer.css("left", e.position.x)
+            tagContainer.css("top", e.position.y)
             tagContainer.appendTo(overlay)
 
 
@@ -69,6 +64,7 @@ $(document).ready(function (){
 
       container.height(height);
       container.width(width);
+
       overlay.height(height);
       overlay.width(width);
 
