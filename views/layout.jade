@@ -9,44 +9,42 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js')
 
     block head
-
-  
-
+    
   body
 
-  canvas#redStripe
+    canvas#redStripe
 
-  #wrapper
-    a(href="/")
-      img#logo(src='/images/ascotLogo.png', id:'logo')
+    #wrapper
+      a(href="/")
+        img#logo(src='/images/ascotLogo.png', id:'logo')
 
-    a(href="/")
-      h1= title
+      a(href="/")
+        h1= title
 
-    ul#nav 
-      li
-        a(href="/")  
-          h3 Upload
-      li
-        a(href="/random")
-          h3 Looks
-      li
-        a(href="/about")  
-          h3 About
+      ul#nav 
+        li
+          a(href="/")  
+            h3 Upload
+        li
+          a(href="/random")
+            h3 Looks
+        li
+          a(href="/about")  
+            h3 About
 
 
-    ul#social
-      li
-        a(href="http://ascotproject.tumblr.com/", target="_blank")
-          img#tumblr(src='/images/tumblrButton.png', id:'tumblrButton')
-      li
-        a(href="https://twitter.com/AscotProject", target="_blank")
-          img#twitter(src='/images/twitterButton.png', id:'twitterButton')
-      li
-        a(href="https://www.facebook.com/ascotproject", target="_blank")
-          img#facebook(src='/images/facebookButton.png', id:'fbButton')
+      ul#social
+        li
+          a(href="http://ascotproject.tumblr.com/", target="_blank")
+            img#tumblr(src='/images/tumblrButton.png', id:'tumblrButton')
+        li
+          a(href="https://twitter.com/AscotProject", target="_blank")
+            img#twitter(src='/images/twitterButton.png', id:'twitterButton')
+        li
+          a(href="https://www.facebook.com/ascotproject", target="_blank")
+            img#facebook(src='/images/facebookButton.png', id:'fbButton')
 
-    br
+      br
 
-    block content
+      block content
 

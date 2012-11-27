@@ -32,7 +32,7 @@
 
 /*Picture of ascot that toggels ascot layer*/
 .animateButton{
-	opacity:0.8;
+  opacity:0.8;
   position:absolute;
   z-index:8;
   cursor:pointer;
