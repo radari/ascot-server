@@ -42,6 +42,7 @@
 
 /*TODO: swap out image with one that has a border*/
 .animateButton:hover{
+  opacity:1;
   background-image:url('/images/ascot_watermark_glow.png');
 }
 
