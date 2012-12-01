@@ -1,21 +1,24 @@
 var DragManager = function(container) {
   var x = 0;
   var y = 0;
-  var el = null;
-  var model = null;
+  this.el = null;
+  this.model = null;
   this.updateXY = function(xx, yy) {
     x = Math.min(Math.max(0, xx), container.width());
     y = Math.min(Math.max(0, yy), container.height());
-    if (el != null) {
-      el.css('left', x + 'px');
-      el.css('top', y + 'px');
-      model.position.x = x;
-      model.position.y = y;
+    if (this.el != null) {
+      this.el.css('left', x + 'px');
+      this.el.css('top', y + 'px');
+      this.model.position.x = x;
+      this.model.position.y = y;
     }
   };
   this.setDraggingElement = function(element, model) {
-    el = element;
-    model = model;
+    this.el = element;
+    this.model = model;
+  };
+  this.isDragActive = function() {
+    return this.el != null;
   };
 };
 
@@ -40,25 +43,32 @@ $(document).ready(function() {
                 (event.pageY - $(el).parent().offset().top - 8));
           });
 
-          for (var i = 0; i < json.tags.length; ++i) {
-            $(el).parent().append('<div class="item" style="position: absolute; left: '
-                + (json.tags[i].position.x) + 'px; top: '
-                + (json.tags[i].position.y) + 'px">'
-                + (json.tags[i].index) + '</div>');
-            var tag = $($(el).parent().children().last());
-            tag.mousedown(function() {
-              dragManager.setDraggingElement(tag, json.tags[i]);
+          var bindTagCallbacks = function(view, model) {
+            view.mousedown(function(event) {
+              dragManager.setDraggingElement(view, model);
             });
-            tag.mouseup(function() {
+            view.mouseup(function(event) {
               dragManager.setDraggingElement(null, null);
               if (editting) {
                 $("#overlay").css('left', (parseInt(tag.css('left')) + 20) + 'px');
                 $("#overlay").css('top', (parseInt(tag.css('top')) + 30) + 'px');
               }
             });
+            view.click(function(event) {
+              event.stopPropagation();
+            });
+          };
+
+          for (var i = 0; i < json.tags.length; ++i) {
+            $(el).parent().append('<div class="item" style="position: absolute; left: '
+                + (json.tags[i].position.x) + 'px; top: '
+                + (json.tags[i].position.y) + 'px">'
+                + (json.tags[i].index) + '</div>');
+            var tag = $($(el).parent().children().last());
+            bindTagCallbacks(tag, json.tags[i]);
           }
           $(el).parent().click(function(event) {
-            if (editting) {
+            if (editting || dragManager.isDragActive()) {
               return;
             }
             editting = true;
