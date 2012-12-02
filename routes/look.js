@@ -47,10 +47,10 @@ exports.iframe = function(url) {
   };
 };
 
-var handleUpload = function(handle, mongoLookFactory, callback) {
+var handleUpload = function(handle, source, mongoLookFactory, callback) {
   var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
-  mongoLookFactory.newLook(handle.name, function(error, look, permissions) {
+  mongoLookFactory.newLook(handle.name, source, function(error, look, permissions) {
     var targetPath = './public/images/uploads/' + look._id + '.png';
     // move the file from the temporary location to the intended location
     fs.rename(tmpPath, targetPath, function(error) {
@@ -73,7 +73,7 @@ exports.upload = function(url) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       console.log("Upload? " + req.files.files.length);
       var ret = [];
-      handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
+      handleUpload(req.files.files, req.body.source, mongoLookFactory, function(error, look, permissions) {
         if (error) {
           res.render('error', { title : "Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
@@ -83,7 +83,7 @@ exports.upload = function(url) {
       });
     } else if (req.body.url) {
       console.log("From url " + req.body.url);
-      mongoLookFactory.newLookWithUrl('Untitled Look', req.body.url, function(error, look, permissions) {
+      mongoLookFactory.newLookWithUrl('Untitled Look', req.body.source, req.body.url, function(error, look, permissions) {
         if (error) {
           res.render('error', { title : "Error", error : "Upload failed" });
         } else {

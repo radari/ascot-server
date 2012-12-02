@@ -14,7 +14,7 @@ exports.LookSchema = new Mongoose.Schema({
   title : String,
   url : String,
   random : { type : Number, default : Math.random() },
-  source : { type : String, default : "http://ascotproject.com" },
+  source : { type : String, default : "" },
   search : [String],
   tags : [
     {

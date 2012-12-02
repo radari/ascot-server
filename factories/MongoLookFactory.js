@@ -41,8 +41,8 @@ exports.MongoLookFactory = function(url) {
     });
   };
 
-  this.newLook = function(title, callback) {
-    var look = new Look({ title : title, url : "", search : title.toLowerCase().match(/[a-z]+\s*/gi), tags : [], random : Math.random() });
+  this.newLook = function(title, source, callback) {
+    var look = new Look({ title : title, source : source, url : "", search : title.toLowerCase().match(/[a-z]+\s*/gi), tags : [], random : Math.random() });
     look.save(function(error, savedLook) {
       if (error || !savedLook) {
         callback(error, null);
@@ -66,8 +66,8 @@ exports.MongoLookFactory = function(url) {
     });
   };
 
-  this.newLookWithUrl = function(title, url, callback) {
-    var look = new Look({ title : title, url : url, search : title.toLowerCase().match(/[a-z]+\s*/gi), tags : [], random : Math.random() });
+  this.newLookWithUrl = function(title, source, url, callback) {
+    var look = new Look({ title : title, source : source, url : url, search : title.toLowerCase().match(/[a-z]+\s*/gi), tags : [], random : Math.random() });
     look.save(function(error, savedLook) {
       if (error || !savedLook) {
         callback(error, null);
