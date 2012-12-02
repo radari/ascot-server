@@ -44,12 +44,47 @@
 
 /*container for sourceURL*/
 .sourceTag{
-  border:1px transparent solid;
+  width:100%;
+  z-index:4;
+  position:relative;
 }
 
 
+.imageMenu {
+  border:1px white solid;
+  height:80px;
+  width:40px;
+  position:relative;
+  float:right;
+  top:0px;
+  opacity:0.8;
+  z-index:500;
+   border-radius: 5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+   background-color:rgba(0,0,0,0.4);
 
+}
 
+.imageMenu li {
+   color:white;
+  list-style-type:none;
+  display:inline;
+  opacity:0.7;
+  
+
+}
+
+.imageMenu li:hover {
+  opacity:1;
+}
+
+.imageMenu ul {
+  padding:0;
+  width:100%;
+  margin-top:0;
+  margin-bottom:0;
+}
 /*Picture of ascot that toggels ascot layer*/
 .animateButton{
   opacity:0.8;
