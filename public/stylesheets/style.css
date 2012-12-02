@@ -3,7 +3,7 @@ html {
 	width:100%;
 }
 img {
-	max-width:500px;
+	max-width:700px;
 	
 }
 #redStripe{
@@ -212,6 +212,15 @@ h1 {
 .looks {
 	float: left;
 	margin-right: 10px;
+}
+
+#look {
+	border:3px blue solid;
+	position:relative;
+
+	margin:auto;
+	left:0;
+	right:0;
 }
 
 #productSearch {

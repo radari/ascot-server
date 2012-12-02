@@ -23,7 +23,7 @@ app.configure(function(){
   app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.use(express.favicon());
+  app.use(express.favicon(__dirname + '/public/images/twitterButton.png', {maxAge: 86400000}));
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());

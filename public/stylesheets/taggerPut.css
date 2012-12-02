@@ -1,17 +1,24 @@
 #look{
-  position:relative;
-  margin-left:auto;
-  left:0px;
+  left:0;
   right:0;
+  height:500px;
+  border:0px transparent solid;
+ 
+}
+
+.look-container{
+
 }
 
 .uploadedImg{
-  position:absolute;
-  z-index: 4;
+  position:relative;
+  z-index:4;
   border-radius:10px;
   -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
   margin:auto;
+  vertical-align: top;
+  display:block;
   left:0;
   right:0;
 }

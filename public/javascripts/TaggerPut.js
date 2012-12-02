@@ -34,7 +34,7 @@ $(document).ready(function() {
             TaggerPut($(el).attr("ascot_key"), $(el).attr("ascot"), json.tags);
           });
           var editting = false;
-          $(el).wrap('<div style="position: relative; width: ' + $(el).width() + 'px; height: ' + $(el).height() + 'px" />');
+          $(el).wrap('<div class="magicdiv" style="position: relative; width: ' + $(el).width() + 'px; height: ' + $(el).height() + 'px" />');
 
           var dragManager = new DragManager($(el).parent());
           $(el).parent().mousemove(function(event) {
@@ -132,3 +132,22 @@ var TaggerPut = function(key, look, data) {
     failure: function() {}
   });
 };
+
+//setting the width and height of the looks div to allow for our auto margin 
+$(window).load(function() {
+     var image = $(".uploadedImg");
+     var container = $("#look");
+     var overlay = $(".overlay")
+    
+       // Set width and heigh of container and overlay = to that of image
+        var height = image.height();
+        var width = image.width();
+        container.css("height", height);
+        container.css("width", width);
+
+        overlay.css("height", height);
+        overlay.css("width", width);
+      
+});
+
+
