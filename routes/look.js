@@ -83,17 +83,11 @@ exports.upload = function(url) {
       });
     } else if (req.body.url) {
       console.log("From url " + req.body.url);
-      mongoLookFactory.buildFromUrl(req.body.url, function(error, look) {
-        if (null == look) {
-          mongoLookFactory.newLookWithUrl('Untitled Look', req.body.url, function(error, look, permissions) {
-            if (error) {
-              res.render('error', { title : "Error", error : "Upload failed" });
-            } else {
-              res.redirect('/tagger/' + permissions._id + '/' + look._id);
-            }
-          });
+      mongoLookFactory.newLookWithUrl('Untitled Look', req.body.url, function(error, look, permissions) {
+        if (error) {
+          res.render('error', { title : "Error", error : "Upload failed" });
         } else {
-          res.render('error', { title : "Error", error : "This image has already been uploaded" });
+          res.redirect('/tagger/' + permissions._id + '/' + look._id);
         }
       });
     }
