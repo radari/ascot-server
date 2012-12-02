@@ -29,6 +29,27 @@
   box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
+/*div element that contains source URL*/
+.sourceUrl{
+  border:1px transparent solid;
+  width:40%;
+  text-align: center;
+  margin:auto;
+  background-color:rgba(255,255,255,0.4);
+  color:#323232;
+  border-radius: 3px;
+}
+
+
+
+/*container for sourceURL*/
+.sourceTag{
+  border:1px transparent solid;
+}
+
+
+
+
 /*Picture of ascot that toggels ascot layer*/
 .animateButton{
   opacity:0.8;
