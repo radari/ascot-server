@@ -1,3 +1,14 @@
+/*
+ *  search_autocomplete.js
+ *
+ *  Created on: December 1, 2012
+ *      Author: Valeri Karpov
+ *
+ *  Frontend for main header search autocomplete
+ *
+ */
+
+
 $(document).ready(function() {
   var auto = $("#main_search").autocomplete({
       serviceUrl : '/filters.json',
