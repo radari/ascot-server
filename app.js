@@ -46,6 +46,7 @@ app.get('/products/:id/looks', products.looks);
 app.get('/upload', upload.get);
 app.get('/random', look.random);
 app.get('/brand', look.brand);
+app.get('/type', look.type);
 
 // JSON queries
 app.get('/tags.jsonp', tags.get(app.get('url')));

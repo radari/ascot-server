@@ -115,12 +115,27 @@ exports.random = function(req, res) {
 };
 
 exports.brand = function(req, res) {
-  console.log(req.query["brand"]);
   var stream = Look.find().populate('tags.product').stream();
   var ret = [];
   stream.on('data', function(look) {
     for (var i = 0; i < look.tags.length; ++i) {
-      if (look.tags[i].product.brand.toLowerCase() == req.query["brand"].toLowerCase()) {
+      if (look.tags[i].product.brand.toLowerCase() == req.query["v"].toLowerCase()) {
+        ret.push(look);
+      }
+    }
+  });
+  stream.on('close', function() {
+    res.json(ret);
+  });
+  stream.resume();
+};
+
+exports.type = function(req, res) {
+  var stream = Look.find().populate('tags.product').stream();
+  var ret = [];
+  stream.on('data', function(look) {
+    for (var i = 0; i < look.tags.length; ++i) {
+      if (look.tags[i].product.type.toLowerCase() == req.query["v"].toLowerCase()) {
         ret.push(look);
       }
     }
