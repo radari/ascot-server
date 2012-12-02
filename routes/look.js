@@ -12,6 +12,9 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
+var ProductSchema = require('../models/Product.js').ProductSchema;
+var Product = db.model('products', ProductSchema);
+
 exports.get = function(url) {
   var look = new MongoLookFactory(url);
   return function(req, res) {
@@ -109,4 +112,36 @@ exports.random = function(req, res) {
       res.redirect('/look/' + look._id);
     }
   });
+};
+
+exports.brand = function(req, res) {
+  var stream = Look.find().populate('tags.product').stream();
+  var ret = [];
+  stream.on('data', function(look) {
+    for (var i = 0; i < look.tags.length; ++i) {
+      if (look.tags[i].product.brand.toLowerCase() == req.query["v"].toLowerCase()) {
+        ret.push(look);
+      }
+    }
+  });
+  stream.on('close', function() {
+    res.json(ret);
+  });
+  stream.resume();
+};
+
+exports.type = function(req, res) {
+  var stream = Look.find().populate('tags.product').stream();
+  var ret = [];
+  stream.on('data', function(look) {
+    for (var i = 0; i < look.tags.length; ++i) {
+      if (look.tags[i].product.type.toLowerCase() == req.query["v"].toLowerCase()) {
+        ret.push(look);
+      }
+    }
+  });
+  stream.on('close', function() {
+    res.json(ret);
+  });
+  stream.resume();
 };
