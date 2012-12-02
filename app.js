@@ -49,6 +49,7 @@ app.get('/random', look.random);
 // JSON queries
 app.get('/tags.jsonp', tags.get(app.get('url')));
 app.get('/products.json', products.get);
+app.get('/filters.json', products.filters);
 
 // Upload
 app.post('/image-upload', look.upload(app.get('url')));

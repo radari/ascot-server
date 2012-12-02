@@ -55,3 +55,23 @@ exports.looks = function(req, res) {
     }
   });
 };
+
+exports.filters = function(req, res) {
+  var ret = {};
+  ret["query"] = req.query["query"];
+  ret["suggestions"] = [];
+  ret["data"] = [];
+  Product.distinct('brand').where('brand').regex(new RegExp('^' + req.query["query"], "i")).exec(function(error, products) {
+    for (var i = 0; i < products.length; ++i) {
+      ret["data"].push({ v : products[i], type : 'Brand' });
+      ret["suggestions"].push(products[i] + " (Brand)");
+    }
+    Product.distinct('type').where('type').regex(new RegExp('^' + req.query["query"], "i")).exec(function(error, products) {
+      for (var i = 0; i < products.length; ++i) {
+        ret["data"].push({ v : products[i], type : 'Type' });
+        ret["suggestions"].push(products[i] + " (Type)");
+      }
+      res.json(ret);
+    });
+  });
+};
