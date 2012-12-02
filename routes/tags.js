@@ -17,7 +17,7 @@ var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFact
 exports.get = function(url) {
   var mongoLookFactory = new MongoLookFactory(url);
   return function(req, res) {
-    mongoLookFactory.buildFromUrl(req.query["url"], function(error, look) {
+    mongoLookFactory.buildFromId(req.query["id"], function(error, look) {
       if (error) {
         res.render('error', { error : "Image not found", title : "Error" });
         console.log(JSON.stringify(error));

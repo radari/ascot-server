@@ -8,6 +8,7 @@ $(document).ready(function (){
       var imageSrc = image.attr('src');
       var animateButton = container.find("div.animateButton");
       var overlay = container.find("div.overlay");
+      var ascotId = image.attr('ascot');
 
       // Display animate button
       animateButton.show()
@@ -15,7 +16,7 @@ $(document).ready(function (){
       //Get list of tags for each image
       $.ajax({
         type: 'GET',
-        url: '/tags.jsonp?url=' + encodeURIComponent(imageSrc),
+        url: '/tags.jsonp?id=' + encodeURIComponent(ascotId),
         async: true,
         jsonpCallback: 'callback',
         contentType: 'application/jsonp',

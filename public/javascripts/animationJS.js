@@ -11,7 +11,7 @@ $(document).ready(function (){
       var overlay = container.find(".overlay");
       var canvas = container.find("canvas.canvas")
       var tags = container.find(".tags");
-
+      var ascotId = image.attr('ascot');
       
       var borderSize=5;
       $('.image').css('border', borderSize+'px'+'#c2c0c0 solid');
@@ -21,7 +21,7 @@ $(document).ready(function (){
       //Get list of tags for each image
       $.ajax({
         type: 'GET',
-        url: '/tags.jsonp?url=' + encodeURIComponent(imageSrc),
+        url: '/tags.jsonp?id=' + encodeURIComponent(ascotId),
         async: true,
         jsonpCallback: 'callback',
         contentType: 'application/jsonp',

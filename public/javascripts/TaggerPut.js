@@ -27,7 +27,7 @@ $(document).ready(function() {
     $(el).load(function() {
       $.ajax({
         type : 'GET',
-        url : '/tags.jsonp?url=' + encodeURIComponent($(el).attr("src")),
+        url : '/tags.jsonp?id=' + encodeURIComponent($(el).attr("ascot")),
         async : true,
         success : function(json) {
           $("#save_button").click(function() {
