@@ -40,7 +40,7 @@ $(document).ready(function (){
             // Create Tag Description
             var tagDescription = $("<div class='tag-description'></div>")
             tagDescription.html(e.product.name + "<br/><a target='_blank' href="+ e.product.buyLink + 
-             ">"+"BUY"+"</a><br/>$" + e.product.price+"<br/><a href='/products/" + e.product._id + "/looks'>All Looks</a>");
+             ">"+"Buy"+"</a><br/>$" + e.product.price+"<br/><a href='/products/" + e.product._id + "/looks'>All Looks</a>");
 
             tagDescription.appendTo(tagContainer)
             tagDescription.hide()

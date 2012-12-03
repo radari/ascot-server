@@ -9,7 +9,7 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='icon', type='image/png', href='/images/favicon.ico')
     link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/start/jquery-ui.css')
-
+    script(src='/javascripts/main_searchExpand.js')
     script(src='/vendor/autocomplete/jquery.autocomplete.js')
     script(src='/javascripts/search_autocomplete.js')
 
@@ -37,8 +37,8 @@ html
           a(href="/about")  
             h3 About
 
-        form(method='get', action='/search')
-          input(type='text', name='query', id='main_search')
+      form(method='get', action='/search')
+        input(type='text', name='query', id='main_search', placeholder="brand or category", size="16")
 
 
       ul#social
