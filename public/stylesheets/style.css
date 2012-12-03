@@ -77,9 +77,27 @@ a:visited {
 	position:absolute;
 	right:130px;
 	top:25px;
+	padding-left: 20px;
+}
 
+#glass i {
+    background-image: url(http://s.twimg.com/a/1290538325/phoenix/img/sprite-icons.png);
+    background-position: -224px -96px;
+    display: block;
+    font-size: 0px;
+    height: 14px;
+    width: 14px;
+}
 
-
+#glass {
+    cursor: pointer;
+    display: block;
+    padding: 7px 8px 5px;
+    position: absolute;
+    right: 0px;
+   
+    top:25px;
+    margin-right:227px;
 }
 
 h3{
