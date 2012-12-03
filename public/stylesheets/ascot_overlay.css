@@ -35,7 +35,7 @@
   width:40%;
   text-align: center;
   margin:auto;
-  background-color:rgba(255,255,255,0.4);
+  background-color:rgba(255,255,255,0.7);
   color:#323232;
   border-radius: 3px;
 }
@@ -57,26 +57,34 @@
   position:relative;
   float:right;
   top:0px;
-  opacity:0.8;
   z-index:500;
    border-radius: 5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
-   background-color:rgba(0,0,0,0.4);
+   background-color:rgba(0,0,0,0.5);
 
 }
 
 .imageMenu li {
-   color:white;
+  color:white;
   list-style-type:none;
-  display:inline;
-  opacity:0.7;
-  
+  display:block;
+  opacity:0.8;
+  width:100%;
+  margin:0;
+  height:40px;
+  padding: 0;
+ 
+}
+
+.imageMenu a{
+  height:100%;
 
 }
 
 .imageMenu li:hover {
   opacity:1;
+    background-color:rgba(255,255,255,0.2);
 }
 
 .imageMenu ul {
@@ -84,6 +92,10 @@
   width:100%;
   margin-top:0;
   margin-bottom:0;
+}
+
+.imageMenu li:nth-last-child(1) {
+  border-top:1px white solid;
 }
 /*Picture of ascot that toggels ascot layer*/
 .animateButton{
