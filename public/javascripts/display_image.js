@@ -91,7 +91,7 @@ $(document).ready(function (){
       if(iframe_code.length > 0){
         i = iframe_code.first()
         console.log(location)
-        i.val("<iframe src='"+location.host+"/look/"+i.attr("data-url")+"/iframe' width='"+width+"' height='"+height+"'></iframe>")
+        i.val("<iframe src='http://"+location.host+"/look/"+i.attr("data-url")+"/iframe'  width='"+width+"' height='"+height+"' frameborder= '0'></iframe>")
       }
     
     });
