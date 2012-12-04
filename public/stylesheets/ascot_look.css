@@ -30,3 +30,19 @@
   margin: 20px auto;
 
 }
+
+/* this makes the links show up the same style as on the looks page. Any changes to this must also be made in style.css*/
+a {
+  color: #7b7979;
+  text-decoration: none;
+}
+
+a:active{
+  color:#7b7979;
+  text-decoration: none;
+}
+
+a:visited {
+  color:#7b7979;
+  text-decoration: none;
+}
