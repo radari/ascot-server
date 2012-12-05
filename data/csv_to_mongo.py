@@ -10,15 +10,15 @@ def readCsv(lines):
       line = line[:-1]
 
     sp = line.split("|")
-    price = sp[1].replace(",", "")
+    price = sp[3].replace(",", "")
     if price[0] == "$":
       price = price[1:]
     price = float(price)
-    url = sp[3]
+    url = sp[4]
     search = []
     search.extend(sp[0].lower().split(" "))
+    search.extend(sp[1].lower().split(" "))
     search.extend(sp[2].lower().split(" "))
-    search.extend(sp[4].lower().split(" "))
     if "Not Find Data" in sp[2]:
       continue
     searchf = []
@@ -28,8 +28,7 @@ def readCsv(lines):
       search[i] = re.sub("\\W+$", "", search[i])
       if len(search[i]) > 0:
         searchf.append(search[i])
-    #print searchf
-    ret.append({ "name" : sp[0], "price" : price, "buy" : url, "brand" : sp[2], "type" : sp[4], "search" : searchf })
+    ret.append({ "name" : sp[0].replace("?", ""), "price" : price, "buy" : url, "brand" : sp[1], "type" : sp[2], "search" : searchf })
 
   return ret
 
@@ -45,5 +44,3 @@ for line in lines:
   print line
   save(line)
 
-#save({ "name" : "Hannukords", "price" : 127.00, "buy" : "http://www.bonobos.com/navy-hanukkah-theme-straight-leg-corduroy-pants-for-men-hanukkords", "brand" : "Bonobos", "type" : "Pants" });
-#print readCsv(open(f).readlines())
