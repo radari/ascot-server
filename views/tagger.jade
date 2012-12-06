@@ -10,17 +10,22 @@
 extends layout
 
 prepend head
-  script(src="/javascripts/TaggerPut.js")
+  script(src="/javascripts/TaggerViewController.js")
+  script(src="/javascripts/adjust_wrappers.js")
   link(rel='stylesheet', href='/stylesheets/taggerPut.css')
 
 
 block content
 
-  div.look-container
-    div#look
-      img(src="#{look.url}", class="uploadedImg", ascot="#{look._id}", ascot_key="#{key}")
-            
-      div#overlay
-        input(type="text", value="", id="productSearch")
+  div(ng-controller="TaggerViewController")
+    input(type="submit",value="Save",id="save_button")
 
-  input(type="submit",value="Save",id="save_button")
+    div.look-container
+      div#look
+        div.magicdiv(style="position: relative")
+          img(src="#{look.url}", class="uploadedImg", ascot_id="#{look._id}", adjust_ascot_wrapper="1", ng-init="loadLook('#{look._id}');", ng-click="addTag('#{look._id}', $event.pageX, $event.pageY)")
+          div.item(ng-repeat="tag in idsToLooks['#{look._id}'].tags", ng-style="{ position : 'absolute', left : tag.position.x + 'px', top : tag.position.y + 'px' }")
+            {{tag.index}}
+
+          div#overlay
+            input(type="text", value="", id="productSearch")
