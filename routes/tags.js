@@ -11,7 +11,9 @@
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 
 /*
- * GET tags.jsonp?url=<url>
+ * GET tags.jsonp?id=id
+ *
+ * Defaults to returning regular json if no callback is specified
  */
 
 exports.get = function(url) {
