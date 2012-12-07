@@ -9,14 +9,13 @@ files = [
   'vendor/angular/angular-*.js',
   'tests/angular-mocks.js',
   'javascripts/basic_tools.js',
-  'javascripts/TaggedImage.js',
   'javascripts/TaggerViewController.js',
   'tests/*.js'
 ];
 
 autoWatch = true;
 
-browsers = ['Chrome'];
+browsers = ['Chrome', 'Firefox'];
 
 junitReporter = {
   outputFile: 'test_out/unit.xml',
