@@ -55,6 +55,8 @@ describe('TaggerViewController', function() {
     expect(scope.idsToEditTag['1234']).toBe(null);
     expect(scope.idsToLooks['1234'].tags.length).toBe(1);
     expect(scope.idsToLooks['1234'].tags[0].product).toBe('567');
+    expect(scope.idsToSearchQueries['1234']).toBe('');
+    expect(scope.idsToSearchResults['1234'].length).toBe(0);
   });
 
   it('should delete tag successfully including updating indices', function() {

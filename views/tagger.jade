@@ -29,8 +29,8 @@ block content
             {{tag.index}}
 
           div#overlay(ng-show="isEdittingTag(look)", ng-style="{ position : 'absolute', left : (idsToEditTag[look].position.x + 25) + 'px', top : (idsToEditTag[look].position.y + 25) + 'px' }")
-            input(type="text", value="", id="productSearch", ng-model="productSearch", ng-change="findProducts(look, productSearch)")
+            input(type="text", value="", id="productSearch", ng-model="idsToSearchQueries[look]", ng-change="findProducts(look, idsToSearchQueries[look])")
             div.autocomplete-w1
               div.autocomplete
-                div(ng-repeat="result in idsToSearchResults[look]", ng-click="setTaggedProduct(look, result)")
+                div(ng-repeat="result in idsToSearchResults[look]", ng-click="setTaggedProduct(look, result);")
                   {{result.name}} from {{result.brand}} ({{result.type}})

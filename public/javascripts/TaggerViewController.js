@@ -13,6 +13,7 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
 
   $scope.idsToLooks = {};
   $scope.idsToEditTag = {};
+  $scope.idsToSearchQueries = {};
   $scope.idsToSearchResults = {};
 
   // Initial load of look
@@ -22,6 +23,7 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
         function(look) {
           $scope.idsToLooks[id] = look;
           $scope.idsToEditTag[id] = null;
+          $scope.idsToSearchQueries[id] = "";
           $scope.idsToSearchResults[id] = [];
         });
   };
@@ -61,6 +63,9 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
     if ($scope.isEdittingTag(id)) {
       $scope.idsToEditTag[id].product = product._id;
       $scope.idsToEditTag[id] = null;
+      // Reset search
+      $scope.idsToSearchQueries[id] = "";
+      $scope.idsToSearchResults[id] = [];
     }
   };
 
