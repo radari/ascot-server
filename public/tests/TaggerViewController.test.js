@@ -76,4 +76,18 @@ describe('TaggerViewController', function() {
     expect(tag1.index).toBe(1);
     expect(tag3.index).toBe(2);
   });
+  
+  it('should handle drag and drop correctly', function() {
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ tags : [] });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+    var tag1 = scope.addTag('1234', 25, 15);
+    scope.startDraggingTag('1234', tag1);
+    scope.updateDraggingTagPosition('1234', 36, 21);
+    scope.finishDraggingTag('1234', tag1);
+    expect(tag1.position.x).toBe(26);
+    expect(tag1.position.y).toBe(16);
+  });
 });

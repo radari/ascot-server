@@ -23,8 +23,8 @@ block content
     div.look-container
       div#look
         div.magicdiv(style="position: relative")
-          img(src="#{look.url}", class="uploadedImg", ascot_id="#{look._id}", adjust_ascot_wrapper="1", ng-init="look = '#{look._id}'; loadLook(look)", ng-click="addTag(look, $event.pageX, $event.pageY)")
-          div.item(ng-repeat="tag in idsToLooks[look].tags", ng-style="{ position : 'absolute', left : tag.position.x + 'px', top : tag.position.y + 'px' }", ng-dblclick="deleteTag(look, tag)", ng-click="editTaggedProduct(look, tag)")
+          img(src="#{look.url}", class="uploadedImg", ascot_id="#{look._id}", adjust_ascot_wrapper="1", ng-init="look = '#{look._id}'; loadLook(look)", ng-click="addTag(look, $event.pageX, $event.pageY)", ng-mousemove="updateDraggingTagPosition(look, $event.pageX, $event.pageY)")
+          div.item(ng-repeat="tag in idsToLooks[look].tags", ng-style="{ position : 'absolute', left : tag.position.x + 'px', top : tag.position.y + 'px' }", ng-dblclick="deleteTag(look, tag)", ng-click="editTaggedProduct(look, tag)", ng-mousedown="startDraggingTag(look, tag)", ng-mouseup="finishDraggingTag(look, tag)")
             {{tag.index}}
 
           div#overlay(ng-show="isEdittingTag(look)", ng-style="{ position : 'absolute', left : (idsToEditTag[look].position.x + 25) + 'px', top : (idsToEditTag[look].position.y + 25) + 'px' }")

@@ -15,6 +15,7 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
   $scope.idsToEditTag = {};
   $scope.idsToSearchQueries = {};
   $scope.idsToSearchResults = {};
+  $scope.idsToDraggingTag = {};
 
   // Initial load of look
   $scope.loadLook = function(id) {
@@ -25,6 +26,7 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
           $scope.idsToEditTag[id] = null;
           $scope.idsToSearchQueries[id] = "";
           $scope.idsToSearchResults[id] = [];
+          $scope.idsToDraggingTag[id] = null;
         });
   };
 
@@ -85,4 +87,21 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
       }
     }
   };
+
+  $scope.startDraggingTag = function(id, tag) {
+    $scope.idsToDraggingTag[id] = tag;
+  }
+  
+  $scope.finishDraggingTag = function(id, tag) {
+    $scope.idsToDraggingTag[id] = null;
+  }
+
+  // Update tag thats currently being editted's position
+  $scope.updateDraggingTagPosition = function(id, pageX, pageY) {
+    if ($scope.idsToDraggingTag[id] != null) {
+      var offset = ImageOffsetService.getOffset(id);
+      $scope.idsToDraggingTag[id].position.x = pageX - offset.x;
+      $scope.idsToDraggingTag[id].position.y = pageY - offset.y;
+    }
+  }
 }
