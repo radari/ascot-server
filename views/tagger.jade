@@ -18,14 +18,19 @@ prepend head
 block content
 
   div(ng-controller="TaggerViewController")
+    {{x}}
     input(type="submit",value="Save",id="save_button")
 
     div.look-container
       div#look
         div.magicdiv(style="position: relative")
-          img(src="#{look.url}", class="uploadedImg", ascot_id="#{look._id}", adjust_ascot_wrapper="1", ng-init="loadLook('#{look._id}');", ng-click="addTag('#{look._id}', $event.pageX, $event.pageY)")
-          div.item(ng-repeat="tag in idsToLooks['#{look._id}'].tags", ng-style="{ position : 'absolute', left : tag.position.x + 'px', top : tag.position.y + 'px' }")
+          img(src="#{look.url}", class="uploadedImg", ascot_id="#{look._id}", adjust_ascot_wrapper="1", ng-init="look = '#{look._id}'; loadLook(look)", ng-click="addTag(look, $event.pageX, $event.pageY)")
+          div.item(ng-repeat="tag in idsToLooks[look].tags", ng-style="{ position : 'absolute', left : tag.position.x + 'px', top : tag.position.y + 'px' }", ng-dblclick="deleteTag(look, tag)")
             {{tag.index}}
 
-          div#overlay
-            input(type="text", value="", id="productSearch")
+          div#overlay(ng-show="isEdittingTag(look)", ng-style="{ position : 'absolute', left : (idsToEditTag[look].position.x + 25) + 'px', top : (idsToEditTag[look].position.y + 25) + 'px' }")
+            input(type="text", value="", id="productSearch", ng-model="productSearch", ng-change="findProducts(look, productSearch)")
+            div.autocomplete-w1
+              div.autocomplete
+                div(ng-repeat="result in idsToSearchResults[look]", ng-click="setTaggedProduct(look, result)")
+                  {{result.name}} from {{result.brand}} ({{result.type}})

@@ -32,7 +32,7 @@
 
 #overlay{
   position:absolute;
-  display:none;
+  display:block;
   z-index: 4;
 }
 
