@@ -24,7 +24,6 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
   // Add a tag
   $scope.addTag = function(id, pageX, pageY) {
     var offset = ImageOffsetService.getOffset(id);
-    alert(JSON.stringify(offset));
-    $scope.idsToLooks[id].tags.push({ index : $scope.idsToLooks[id].tags.length, position : { x : (pageX - offset.x), y : (pageY - offset.y) } });
+    $scope.idsToLooks[id].tags.push({ index : $scope.idsToLooks[id].tags.length + 1, position : { x : (pageX - offset.x), y : (pageY - offset.y) } });
   };
 }
