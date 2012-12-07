@@ -8,7 +8,7 @@
  *
  */
 
-function TaggerViewController($scope, $http, ImageOffsetService) {
+function TaggerViewController($scope, $http, ImageOffsetService, $location) {
   this.$scope = $scope;
 
   $scope.idsToLooks = {};
@@ -104,4 +104,12 @@ function TaggerViewController($scope, $http, ImageOffsetService) {
       $scope.idsToDraggingTag[id].position.y = pageY - offset.y;
     }
   }
+  
+  $scope.finalize = function(id, key) {
+    $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id].tags).success(
+        function(data) {
+          // TODO: This method isn't testable because of this jQuery call
+          $(location).attr('href', '/look/' + id);
+        });
+  };
 }

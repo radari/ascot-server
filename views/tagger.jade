@@ -18,7 +18,7 @@ prepend head
 block content
 
   div(ng-controller="TaggerViewController")
-    input(type="submit",value="Save",id="save_button")
+    input(type="submit",value="Save",id="save_button", ng-click="finalize('#{look._id}', '#{key}')")
 
     div.look-container
       div#look
