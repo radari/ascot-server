@@ -73,6 +73,12 @@ function TaggerViewController($scope, $http, ImageOffsetService, $location) {
 
   // Delete a tag
   $scope.deleteTag = function(id, tag) {
+    if ($scope.idsToEditTag[id] == tag) {
+      $scope.idsToEditTag[id] = null;
+      $scope.idsToSearchQueries[id] = "";
+      $scope.idsToSearchResults[id] = [];
+    }
+  
     var index = -1;
     for (var i = 0; i < $scope.idsToLooks[id].tags.length; ++i) {
       if ($scope.idsToLooks[id].tags[i] == tag) {

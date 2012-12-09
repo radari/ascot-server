@@ -77,6 +77,26 @@ describe('TaggerViewController', function() {
     expect(tag3.index).toBe(2);
   });
   
+  it('should kill any search-related data when tag is deleted', function() {
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ tags : [] });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+
+    var tag1 = scope.addTag('1234', 25, 15);
+    var tag2 = scope.addTag('1234', 50, 25);
+    var tag3 = scope.addTag('1234', 75, 50);
+    expect(scope.idsToLooks['1234'].tags.length).toBe(3);
+    
+    scope.editTaggedProduct('1234', tag2);
+    expect(scope.idsToEditTag['1234']).toBe(tag2);
+    scope.deleteTag('1234', tag2);
+    expect(scope.idsToEditTag['1234']).toBe(null);
+    expect(scope.idsToSearchQueries['1234']).toBe('');
+    expect(scope.idsToSearchResults['1234'].length).toBe(0);
+  });
+  
   it('should handle drag and drop correctly', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
         respond({ tags : [] });
