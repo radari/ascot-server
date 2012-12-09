@@ -119,7 +119,9 @@ exports.brand = function(req, res) {
   var ret = [];
   stream.on('data', function(look) {
     for (var i = 0; i < look.tags.length; ++i) {
-      if (look.tags[i].product.brand.toLowerCase() == req.query["v"].toLowerCase()) {
+      console.log(JSON.stringify(look));
+      if (look.tags[i].product &&
+          look.tags[i].product.brand.toLowerCase() == req.query["v"].toLowerCase()) {
         ret.push(look);
       }
     }
@@ -135,7 +137,8 @@ exports.type = function(req, res) {
   var ret = [];
   stream.on('data', function(look) {
     for (var i = 0; i < look.tags.length; ++i) {
-      if (look.tags[i].product.type.toLowerCase() == req.query["v"].toLowerCase()) {
+      if (look.tags[i].product &&
+          look.tags[i].product.type.toLowerCase() == req.query["v"].toLowerCase()) {
         ret.push(look);
       }
     }

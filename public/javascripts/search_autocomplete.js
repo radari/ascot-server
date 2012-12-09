@@ -17,7 +17,13 @@ $(document).ready(function() {
       zIndex : 1000,
       deferRequestBy : 0,
       onSelect : function(str, filter) {
-        alert(JSON.stringify(filter));
+        if (filter.type == "Brand") {
+          $(location).attr('href', '/brand?v=' + encodeURIComponent(filter.v));
+        } else if (filter.type == "Type") {
+          $(location).attr('href', '/type?v=' + encodeURIComponent(filter.v));
+        } else {
+          alert("Unknown filter type '" + filter.type + "'");
+        }
       }
     }).enable();
 });
