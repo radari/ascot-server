@@ -13,7 +13,7 @@ var Mongoose = require('mongoose');
 exports.LookSchema = new Mongoose.Schema({
   title : String,
   url : String,
-  random : { type : Number, default : Math.random() },
+  random : [{ type : Number, default : Math.random() }, { type : Number, default : 0 }],
   source : { type : String, default : "" },
   search : [String],
   tags : [
@@ -24,3 +24,5 @@ exports.LookSchema = new Mongoose.Schema({
     }
   ]
 });
+
+exports.LookSchema.index({ random : '2d' });
