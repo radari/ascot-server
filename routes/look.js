@@ -121,7 +121,7 @@ exports.brand = function(req, res) {
     }
   });
   stream.on('close', function() {
-    res.json(ret);
+    res.render('looks_list', { looks : ret, title : 'Ascot' });
   });
   stream.resume();
 };
@@ -138,7 +138,7 @@ exports.type = function(req, res) {
     }
   });
   stream.on('close', function() {
-    res.json(ret);
+    res.render('looks_list', { looks : ret, title : 'Ascot' });
   });
   stream.resume();
 };
