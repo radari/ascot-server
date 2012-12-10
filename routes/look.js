@@ -15,6 +15,10 @@ var Look = db.model('looks', LookSchema);
 var ProductSchema = require('../models/Product.js').ProductSchema;
 var Product = db.model('products', ProductSchema);
 
+/*
+ * GET /look/:id
+ */
+
 exports.get = function(url) {
   var look = new MongoLookFactory(url);
   return function(req, res) {
@@ -27,20 +31,23 @@ exports.get = function(url) {
       } else {
         // render layout
         console.log(JSON.stringify(result));
-        res.render('look', { title: 'Ascot', look: result });
+        res.render('look', { title: 'Ascot :: ' + look.title, look: result });
       }
     });
   }
 };
 
+/*
+ * GET /look/:id/iframe
+ */
 exports.iframe = function(url) {
   var mongoLookFactory = new MongoLookFactory(url);
   return function(req, res) {
     mongoLookFactory.buildFromId(req.params.id, function(error, result) {
       if (error) {
-        res.render('error', { error : 'Failed to find image', title : 'Error' });
+        res.render('error', { error : 'Failed to find image', title : 'Ascot :: Error' });
       } else if (!result) {
-        res.render('error', { error : 'Image not found', title : 'Error' });
+        res.render('error', { error : 'Image not found', title : 'Ascot :: Error' });
       } else {
         // render layout
         console.log(JSON.stringify(result));
@@ -73,6 +80,9 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
   });
 };
 
+/*
+ * POST /image-upload
+ */
 exports.upload = function(url) {
   var mongoLookFactory = new MongoLookFactory(url);
   return function(req, res) {
@@ -81,7 +91,7 @@ exports.upload = function(url) {
       var ret = [];
       handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
         if (error) {
-          res.render('error', { title : "Error", error : "Upload failed" });
+          res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
         } else {
           res.redirect('/tagger/' + permissions._id + '/' + look._id);
@@ -91,7 +101,7 @@ exports.upload = function(url) {
       console.log("From url " + req.body.url);
       mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
         if (error) {
-          res.render('error', { title : "Error", error : "Upload failed" });
+          res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
         } else {
           res.redirect('/tagger/' + permissions._id + '/' + look._id);
         }
@@ -100,17 +110,23 @@ exports.upload = function(url) {
   };
 };
 
+/*
+ * GET /random
+ */
 exports.random = function(req, res) {
   rand = Math.random();
   Look.findOne({ random : { $near : [rand, 0] } }, function(error, look) {
     if (error || !look) {
-      res.render('error', { error : 'Could not find a random look?', title : 'Error' });
+      res.render('error', { error : 'Could not find a random look?', title : 'Ascot :: Error' });
     } else {
       res.redirect('/look/' + look._id);
     }
   });
 };
 
+/*
+ * GET /brand?v=<brand>
+ */
 exports.brand = function(req, res) {
   var stream = Look.find().populate('tags.product').stream();
   var ret = [];
@@ -124,11 +140,14 @@ exports.brand = function(req, res) {
     }
   });
   stream.on('close', function() {
-    res.render('looks_list', { looks : ret, title : 'Ascot' });
+    res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
   });
   stream.resume();
 };
 
+/*
+ * GET /type?v=<type>
+ */
 exports.type = function(req, res) {
   var stream = Look.find().populate('tags.product').stream();
   var ret = [];
@@ -141,7 +160,7 @@ exports.type = function(req, res) {
     }
   });
   stream.on('close', function() {
-    res.render('looks_list', { looks : ret, title : 'Ascot' });
+    res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
   });
   stream.resume();
 };
