@@ -52,4 +52,6 @@ block content
               div.autocomplete
                 div(ng-repeat="result in idsToSearchResults[look]",
                     ng-click="setTaggedProduct(look, result);")
-                  {{result.name}} from {{result.brand}} ({{result.type}})
+                  span(ng-bind-html-unsafe="result.name | boldInstances:idsToSearchQueries[look] | concat:' from '")
+                  span(ng-bind-html-unsafe="result.brand | boldInstances:idsToSearchQueries[look] | concat:' '")
+                  span(ng-bind-html-unsafe="result.type | wrap:'(':')' | boldInstances:idsToSearchQueries[look]")
