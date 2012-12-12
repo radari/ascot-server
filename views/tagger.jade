@@ -16,16 +16,23 @@ prepend head
 
 
 block content
-
-  div(ng-controller="TaggerViewController")
+ div(ng-controller="TaggerViewController")
     input(type="submit",
           value="Save",
           id="save_button",
           ng-click="finalize('#{look._id}', '#{key}')")
-    input(type="text"
+    h2.info Image Info
+    p.title Title
+    input(type="text", 
+          placeholder="",
+          id="titleField"
           ng-model="idsToLooks['#{look._id}'].title")
-    input(type="text"
-          ng-model="idsToLooks['#{look._id}'].source")      
+    p.title Source
+    input(type="text", 
+          placeholder="",
+          id="sourceField"
+          ng-model="idsToLooks['#{look._id}'].source")     
+    h2.info Tags: Click to Add
 
     div.look-container
       div#look
@@ -59,3 +66,5 @@ block content
                   span(ng-bind-html-unsafe="result.name | boldInstances:idsToSearchQueries[look] | concat:' from '")
                   span(ng-bind-html-unsafe="result.brand | boldInstances:idsToSearchQueries[look] | concat:' '")
                   span(ng-bind-html-unsafe="result.type | wrap:'(':')' | boldInstances:idsToSearchQueries[look]")
+    br
+   

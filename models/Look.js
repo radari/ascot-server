@@ -11,7 +11,7 @@
 var Mongoose = require('mongoose');
 
 exports.LookSchema = new Mongoose.Schema({
-  title : { type : String, default : "Untitled Look" },
+  title : { type : String, default : "" },
   url : String,
   random : [{ type : Number, default : Math.random() }, { type : Number, default : 0 }],
   source : { type : String, default : "" },
