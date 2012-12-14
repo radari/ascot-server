@@ -118,4 +118,5 @@ function TaggerViewController($scope, $http, ImageOffsetService, $location) {
           $(location).attr('href', '/look/' + id);
         });
   };
+
 }

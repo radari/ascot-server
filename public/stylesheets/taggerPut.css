@@ -28,7 +28,10 @@ h2 {
   color:white;
   position:relative;
   
+}
 
+#save_button:hover {
+  cursor: pointer;
 }
 .info {
   border-bottom:1px #7B7979 solid;
