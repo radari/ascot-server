@@ -22,6 +22,10 @@ body {
 	margin:0;
 }
 
+.aboutHead{
+	 border-bottom:1px #7B7979 solid;
+	 margin-bottom:0;
+}
 iframe {
 	position:relative;
 	margin:auto;
