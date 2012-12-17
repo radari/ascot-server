@@ -259,6 +259,10 @@ h1 {
 	width: 960px;
 }
 
+.all_looks_wrapper img {
+	max-width: 300px;
+	float:left;
+}
 .looks {
 	float: left;
 	margin-right: 10px;
