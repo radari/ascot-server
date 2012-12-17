@@ -329,7 +329,7 @@
       });
       $el.find('*').css({
         'max-width': '100%',
-        'max-height': '100%'
+        'max-height': '100%',
       });
       if (this.settings && (this.settings.liWidths != null)) {
         return $el.children('li').each(__bind(function(i, el) {

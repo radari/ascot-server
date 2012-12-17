@@ -259,9 +259,13 @@ h1 {
 	width: 960px;
 }
 
-.all_looks_wrapper img {
-	max-width: 300px;
-	float:left;
+.looks_wrapper img {
+	border: 1px blue solid;
+	height:400px;
+}
+
+.all_looks_wrapper li {
+	margin: 0 15px 15px 0;
 }
 .looks {
 	float: left;
