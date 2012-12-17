@@ -11,10 +11,10 @@ prepend head
   script(src='/javascripts/all_looks.js')	
 extends layout
 
-block content 
+block content 	
   ul.all_looks_wrapper
     - each look in looks
-      li
-        div.looks_wrapper 
+      div.looks_wrapper 
+          li   
             img(src="#{look.url}", class="looks")
 

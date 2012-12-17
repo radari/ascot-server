@@ -261,7 +261,8 @@ h1 {
 
 .looks_wrapper img {
 	border: 1px blue solid;
-	height:400px;
+	height:275px;
+	margin: 0 15px 15px 0;
 }
 
 .all_looks_wrapper li {
@@ -275,7 +276,6 @@ h1 {
 #look {
 	border:3px blue solid;
 	position:relative;
-
 	margin:auto;
 	left:0;
 	right:0;
