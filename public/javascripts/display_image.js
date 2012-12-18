@@ -51,7 +51,12 @@ $(document).ready(function (){
               $(this).find(".tag-description").hide(100,function(){})
             });
 
-            
+            $(".sourceTag").hover(function(){
+              $(this).find(".sourceUrl").show(100,function(){})
+            },function(){
+              $(this).find(".sourceUrl").hide(100,function(){})
+            });
+
           });
 
         },

@@ -260,9 +260,8 @@ h1 {
 }
 
 .looks_wrapper img {
-	border: 1px blue solid;
-	height:275px;
-	margin: 0 15px 15px 0;
+	height:300px;
+	margin: 0 10px 10px 0;
 }
 
 .all_looks_wrapper li {
