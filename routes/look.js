@@ -164,3 +164,17 @@ exports.type = function(req, res) {
   });
   stream.resume();
 };
+
+/*
+ * GET /all
+ */
+exports.all = function(req, res) {
+  Look.find({}, function(error, looks) {
+    if (error || !looks) {
+      res.render('error',
+          { title : "Ascot :: Error", error : "Couldn't load looks'" });
+    } else {
+      res.render('looks_list', { looks : looks, title : 'Ascot :: All Looks'});
+    }
+  });
+}
