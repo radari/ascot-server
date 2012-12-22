@@ -47,24 +47,29 @@ block content
           div.item(ng-repeat="tag in idsToLooks[look].tags",
                    ng-style="{ position : 'absolute', left : tag.position.x + 'px', top : tag.position.y + 'px' }",
                    ng-dblclick="deleteTag(look, tag)",
-                   ng-click="editTaggedProduct(look, tag)",
+                   ng-click="startEdittingTag(look, tag)",
                    ng-mousedown="startDraggingTag(look, tag)",
                    ng-mouseup="finishDraggingTag(look, tag)")
             {{tag.index}}
+            
+          {{idsToEditTag[look] | json}}
 
           div#overlay(ng-show="isEdittingTag(look)",
                       ng-style="{ position : 'absolute', left : (idsToEditTag[look].position.x + 25) + 'px', top : (idsToEditTag[look].position.y + 25) + 'px' }")
+            p Brand
             input(type="text",
-                  value="",
-                  id="productSearch",
-                  ng-model="idsToSearchQueries[look]",
-                  ng-change="findProducts(look, idsToSearchQueries[look])")
-            div.autocomplete-w1
-              div.autocomplete
-                div(ng-repeat="result in idsToSearchResults[look]",
-                    ng-click="setTaggedProduct(look, result);")
-                  span(ng-bind-html-unsafe="result.name | boldInstances:idsToSearchQueries[look] | concat:' from '")
-                  span(ng-bind-html-unsafe="result.brand | boldInstances:idsToSearchQueries[look] | concat:' '")
-                  span(ng-bind-html-unsafe="result.type | wrap:'(':')' | boldInstances:idsToSearchQueries[look]")
+                  ng-model="idsToEditTag[look].product.brand")
+            br
+            p Name
+            input(type="text",
+                  ng-model="idsToEditTag[look].product.name")
+            br
+            p Buy URL
+            input(type="text",
+                  ng-model="idsToEditTag[look].product.buyLink")
+            br
+            input(type="submit"
+                  value="Save Tag",
+                  ng-click="finishEdittingTag(look)")
     br
    

@@ -11,9 +11,6 @@
 var Mongoose = require('mongoose');
 var db = Mongoose.createConnection('localhost', 'ascot');
 
-var ProductSchema = require('../models/Product.js').ProductSchema;
-var Product = db.model('products', ProductSchema);
-
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 

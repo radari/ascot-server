@@ -1,8 +1,4 @@
 
-/*
- * GET Image
- */
-
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 var fs = require('fs');
 
@@ -11,9 +7,6 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
-
-var ProductSchema = require('../models/Product.js').ProductSchema;
-var Product = db.model('products', ProductSchema);
 
 /*
  * GET /look/:id
