@@ -42,8 +42,6 @@ exports.iframe = function(url) {
       } else if (!result) {
         res.render('error', { error : 'Image not found', title : 'Ascot :: Error' });
       } else {
-        // render layout
-        console.log(JSON.stringify(result));
         res.render('look_iframe', { look: result });
       }
     });
@@ -60,7 +58,6 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
     var targetPath = './public/images/uploads/' + look._id + '.png';
     // move the file from the temporary location to the intended location
     fs.rename(tmpPath, targetPath, function(error) {
-      // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
       if (error) {
         callback(error, null, null);
         return;
@@ -118,44 +115,32 @@ exports.random = function(req, res) {
 };
 
 /*
- * GET /brand?v=<brand>
+ * GET /filters.json?query=<query>
  */
-exports.brand = function(req, res) {
-  var stream = Look.find().populate('tags.product').stream();
-  var ret = [];
-  stream.on('data', function(look) {
-    for (var i = 0; i < look.tags.length; ++i) {
-      console.log(JSON.stringify(look));
-      if (look.tags[i].product &&
-          look.tags[i].product.brand.toLowerCase() == req.query["v"].toLowerCase()) {
-        ret.push(look);
-      }
-    }
-  });
-  stream.on('close', function() {
-    res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
-  });
-  stream.resume();
+exports.filters = function(req, res) {
+  var ret = {};
+  ret["query"] = req.query["query"];
+  ret["suggestions"] = [];
+  ret["data"] = [];
+  Look.distinct('tags.product.brand').
+      where('tags.product.brand').
+      regex(new RegExp(req.query["query"], "i")).
+      exec(function(error, brands) {
+        for (var i = 0; i < brands.length; ++i) {
+          ret["data"].push({ v : brands[i], type : 'Brand' });
+          ret["suggestions"].push(brands[i] + ' (Brand)');
+        }
+        res.json(ret);
+      });
 };
 
 /*
- * GET /type?v=<type>
+ * GET /brand?v=<brand>
  */
-exports.type = function(req, res) {
-  var stream = Look.find().populate('tags.product').stream();
-  var ret = [];
-  stream.on('data', function(look) {
-    for (var i = 0; i < look.tags.length; ++i) {
-      if (look.tags[i].product &&
-          look.tags[i].product.type.toLowerCase() == req.query["v"].toLowerCase()) {
-        ret.push(look);
-      }
-    }
-  });
-  stream.on('close', function() {
+exports.brand = function(req, res) {
+  Look.find({ 'tags.product.brand' : req.query["v"] }, function(req, res) {
     res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
   });
-  stream.resume();
 };
 
 /*
