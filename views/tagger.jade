@@ -17,10 +17,9 @@ prepend head
 
 block content
  div(ng-controller="TaggerViewController")
-    input(type="submit",
-          value="Save",
-          id="save_button",
-          ng-click="finalize('#{look._id}', '#{key}')")
+    input.save_button(type="submit",
+                      value="Save",
+                      ng-click="finalize('#{look._id}', '#{key}')")
     h2.info Add Image Info
     p.title Title
     input(type="text", 
@@ -54,20 +53,21 @@ block content
 
           div#overlay(ng-show="isEdittingTag(look)",
                       ng-style="{ position : 'absolute', left : (idsToEditTag[look].position.x + 25) + 'px', top : (idsToEditTag[look].position.y + 25) + 'px' }")
-            p Brand
-            input(type="text",
-                  ng-model="idsToEditTag[look].product.brand")
+            input.tagger_input( type="text",
+                                id="focusOnOpen"
+                                placeholder="Brand (e.g. Bonobos)"
+                                ng-model="idsToEditTag[look].product.brand")
             br
-            p Name
-            input(type="text",
-                  ng-model="idsToEditTag[look].product.name")
+            input.tagger_input( type="text",
+                                placeholder="Name (e.g. Jet Blues - Boot Cut)"
+                                ng-model="idsToEditTag[look].product.name")
             br
-            p Buy URL
-            input(type="text",
-                  ng-model="idsToEditTag[look].product.buyLink")
+            input.tagger_input( type="text",
+                                placeholder="URL (e.g. http://www.bonobos.com/navy-boot-cut-pants-for-men-jet-blues)"
+                                ng-model="idsToEditTag[look].product.buyLink")
             br
-            input(type="submit"
-                  value="Save Tag",
-                  ng-click="finishEdittingTag(look)")
+            input.save_button(type="submit"
+                              value="Save Tag",
+                              ng-click="finishEdittingTag(look)")
     br
    

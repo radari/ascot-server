@@ -14,7 +14,7 @@
 }
 
 /*div element that contains tags*/
-.overlay{
+.overlay {
   position:absolute;
   vertical-align: top;
   display: none;
