@@ -64,7 +64,12 @@ exports.MongoLookFactory = function(url) {
   };
 
   this.newLookWithUrl = function(url, callback) {
-    var look = new Look({ url : url, search : [], tags : [], random : [Math.random(), 0] });
+    var look = new Look({ url : url,
+                          search : [],
+                          tags : [],
+                          random : [Math.random(), 0],
+                          source : url });
+
     look.save(function(error, savedLook) {
       if (error || !savedLook) {
         callback(error, null);

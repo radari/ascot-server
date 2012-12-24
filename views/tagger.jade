@@ -51,8 +51,6 @@ block content
                    ng-mousedown="startDraggingTag(look, tag)",
                    ng-mouseup="finishDraggingTag(look, tag)")
             {{tag.index}}
-            
-          {{idsToEditTag[look] | json}}
 
           div#overlay(ng-show="isEdittingTag(look)",
                       ng-style="{ position : 'absolute', left : (idsToEditTag[look].position.x + 25) + 'px', top : (idsToEditTag[look].position.y + 25) + 'px' }")
