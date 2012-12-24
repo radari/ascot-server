@@ -16,6 +16,7 @@ exports.LookSchema = new Mongoose.Schema({
   random : [{ type : Number, default : Math.random() }, { type : Number, default : 0 }],
   source : { type : String, default : "" },
   search : [String],
+  showOnCrossList : { type : Number, default : 1 },
   tags : [
     {
       position : { x : Number, y : Number },

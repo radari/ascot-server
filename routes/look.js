@@ -105,7 +105,7 @@ exports.upload = function(url) {
  */
 exports.random = function(req, res) {
   rand = Math.random();
-  Look.findOne({ random : { $near : [rand, 0] } }, function(error, look) {
+  Look.findOne({ random : { $near : [rand, 0] }, showOnCrossList : 1 }, function(error, look) {
     if (error || !look) {
       res.render('error', { error : 'Could not find a random look?', title : 'Ascot :: Error' });
     } else {
@@ -142,7 +142,7 @@ exports.filters = function(req, res) {
  * GET /brand?v=<brand>
  */
 exports.brand = function(req, res) {
-  Look.find({ 'tags.product.brand' : req.query["v"] }, function(error, looks) {
+  Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }, function(error, looks) {
     res.render('looks_list', { looks : looks, title : 'Ascot :: ' + req.query["v"] });
   });
 };
@@ -156,7 +156,7 @@ exports.keywords = function(req, res) {
     keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
   }
   
-  Look.find({ search : { $all : keywords } }, function(error, looks) {
+  Look.find({ search : { $all : keywords }, showOnCrossList : 1 }, function(error, looks) {
     if (error || !looks) {
       res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
     } else {

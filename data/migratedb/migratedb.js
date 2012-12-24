@@ -23,6 +23,10 @@ var fixShopstyleUrls = function(product) {
   return false;
 };
 
+var addShowOnCrossList = function(look) {
+  look.showOnCrossList = look.showOnCrossList || 1;
+};
+
 var mergeTag = function(productsCollection, looksCollection, look, tagIndex) {
   console.log("- " + JSON.stringify(look));
   if (!look.tags) {
@@ -89,6 +93,7 @@ Look.find({}, function(error, looks) {
   for (var i = 0; i < looks.length; ++i) {
     console.log(JSON.stringify(looks[i]));
     randomTo2D(looks[i]);
+    addShowOnCrossList(looks[i]);
     looks[i].save();
   }
 });
