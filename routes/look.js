@@ -142,8 +142,8 @@ exports.filters = function(req, res) {
  * GET /brand?v=<brand>
  */
 exports.brand = function(req, res) {
-  Look.find({ 'tags.product.brand' : req.query["v"] }, function(req, res) {
-    res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
+  Look.find({ 'tags.product.brand' : req.query["v"] }, function(error, looks) {
+    res.render('looks_list', { looks : looks, title : 'Ascot :: ' + req.query["v"] });
   });
 };
 
