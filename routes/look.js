@@ -122,6 +122,10 @@ exports.filters = function(req, res) {
   ret["query"] = req.query["query"];
   ret["suggestions"] = [];
   ret["data"] = [];
+  
+  ret["suggestions"].push('Search for: ' + ret["query"]);
+  ret["data"].push({ v : ret["query"], type : 'Keyword' });
+  
   Look.distinct('tags.product.brand').
       where('tags.product.brand').
       regex(new RegExp(req.query["query"], "i")).
@@ -142,6 +146,24 @@ exports.brand = function(req, res) {
     res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
   });
 };
+
+/*
+ * GET /keywords?v=<keywords>
+ */
+exports.keywords = function(req, res) {
+  var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
+  for (var i = 0; i < keywords.length; ++i) {
+    keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
+  }
+  
+  Look.find({ search : { $all : keywords } }, function(error, looks) {
+    if (error || !looks) {
+      res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+    } else {
+      res.render('looks_list', { looks : looks, title : 'Ascot :: ' + req.query["v"]});
+    }
+  });
+}
 
 /*
  * GET /all

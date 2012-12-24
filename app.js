@@ -44,6 +44,7 @@ app.get('/tagger/:key/:look', tagger.get(app.get('url')));
 app.get('/upload', upload.get);
 app.get('/random', look.random);
 app.get('/brand', look.brand);
+app.get('/keywords', look.keywords);
 app.get('/all', look.all);
 
 // JSON queries
