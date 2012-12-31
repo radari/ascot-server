@@ -4,15 +4,12 @@
  *  Created on: November 17, 2012
  *      Author: Valeri Karpov
  *
- *  Interface to MongoDB for the Look and Product models
+ *  Interface to MongoDB for the Look model
  *
  */
 
 var Mongoose = require('mongoose');
 var db = Mongoose.createConnection('localhost', 'ascot');
-
-var ProductSchema = require('../models/Product.js').ProductSchema;
-var Product = db.model('products', ProductSchema);
 
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
@@ -22,7 +19,7 @@ var Permissions = db.model('permissions', PermissionsSchema);
 
 exports.MongoLookFactory = function(url) {
   this.buildFromUrl = function(url, callback) {
-    Look.findOne({ url : url }).populate('tags.product').exec(function(error, result) {
+    Look.findOne({ url : url }).exec(function(error, result) {
       if (error || !result) {
         callback(error, null);
       } else {
@@ -32,7 +29,7 @@ exports.MongoLookFactory = function(url) {
   };
 
   this.buildFromId = function(id, callback) {
-    Look.findOne({ _id : id }).populate('tags.product').exec(function(error, result) {
+    Look.findOne({ _id : id }).exec(function(error, result) {
       if (error || !result) {
         callback(error, null);
       } else {
@@ -67,7 +64,12 @@ exports.MongoLookFactory = function(url) {
   };
 
   this.newLookWithUrl = function(url, callback) {
-    var look = new Look({ url : url, search : [], tags : [], random : [Math.random(), 0] });
+    var look = new Look({ url : url,
+                          search : [],
+                          tags : [],
+                          random : [Math.random(), 0],
+                          source : url });
+
     look.save(function(error, savedLook) {
       if (error || !savedLook) {
         callback(error, null);

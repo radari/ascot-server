@@ -19,8 +19,8 @@ $(document).ready(function() {
       onSelect : function(str, filter) {
         if (filter.type == "Brand") {
           $(location).attr('href', '/brand?v=' + encodeURIComponent(filter.v));
-        } else if (filter.type == "Type") {
-          $(location).attr('href', '/type?v=' + encodeURIComponent(filter.v));
+        } else if (filter.type == "Keyword") {
+          $(location).attr('href', '/keywords?v=' + encodeURIComponent(filter.v));
         } else {
           alert("Unknown filter type '" + filter.type + "'");
         }

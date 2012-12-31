@@ -8,7 +8,6 @@ var express = require('express')
 
   , tags = require('./routes/tags.js')
   , look = require('./routes/look.js')
-  , products = require('./routes/products.js')
   , tagger = require('./routes/tagger.js')
   , upload = require('./routes/upload.js')
 
@@ -42,16 +41,15 @@ app.get('/about', routes.about)
 app.get('/look/:id', look.get(app.get('url')));
 app.get('/look/:id/iframe', look.iframe(app.get('url')));
 app.get('/tagger/:key/:look', tagger.get(app.get('url')));
-app.get('/products/:id/looks', products.looks);
 app.get('/upload', upload.get);
 app.get('/random', look.random);
 app.get('/brand', look.brand);
-app.get('/type', look.type);
+app.get('/keywords', look.keywords);
+app.get('/all', look.all);
 
 // JSON queries
 app.get('/tags.jsonp', tags.get(app.get('url')));
-app.get('/products.json', products.get);
-app.get('/filters.json', products.filters);
+app.get('/filters.json', look.filters);
 
 // Upload
 app.post('/image-upload', look.upload(app.get('url')));

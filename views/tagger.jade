@@ -17,11 +17,10 @@ prepend head
 
 block content
  div(ng-controller="TaggerViewController")
-    input(type="submit",
-          value="Save",
-          id="save_button",
-          ng-click="finalize('#{look._id}', '#{key}')")
-    h2.info Image Info
+    input.save_button(type="submit",
+                      value="Save",
+                      ng-click="finalize('#{look._id}', '#{key}')")
+    h2.info Add Image Info
     p.title Title
     input(type="text", 
           placeholder="",
@@ -32,7 +31,7 @@ block content
           placeholder="",
           id="sourceField"
           ng-model="idsToLooks['#{look._id}'].source")     
-    h2.info Tags: Click to Add
+    h2.info Add Tags
 
     div.look-container
       div#look
@@ -47,24 +46,28 @@ block content
           div.item(ng-repeat="tag in idsToLooks[look].tags",
                    ng-style="{ position : 'absolute', left : tag.position.x + 'px', top : tag.position.y + 'px' }",
                    ng-dblclick="deleteTag(look, tag)",
-                   ng-click="editTaggedProduct(look, tag)",
+                   ng-click="startEdittingTag(look, tag)",
                    ng-mousedown="startDraggingTag(look, tag)",
                    ng-mouseup="finishDraggingTag(look, tag)")
             {{tag.index}}
 
           div#overlay(ng-show="isEdittingTag(look)",
                       ng-style="{ position : 'absolute', left : (idsToEditTag[look].position.x + 25) + 'px', top : (idsToEditTag[look].position.y + 25) + 'px' }")
-            input(type="text",
-                  value="",
-                  id="productSearch",
-                  ng-model="idsToSearchQueries[look]",
-                  ng-change="findProducts(look, idsToSearchQueries[look])")
-            div.autocomplete-w1
-              div.autocomplete
-                div(ng-repeat="result in idsToSearchResults[look]",
-                    ng-click="setTaggedProduct(look, result);")
-                  span(ng-bind-html-unsafe="result.name | boldInstances:idsToSearchQueries[look] | concat:' from '")
-                  span(ng-bind-html-unsafe="result.brand | boldInstances:idsToSearchQueries[look] | concat:' '")
-                  span(ng-bind-html-unsafe="result.type | wrap:'(':')' | boldInstances:idsToSearchQueries[look]")
+            input.tagger_input( type="text",
+                                id="focusOnOpen"
+                                placeholder="Brand (e.g. Bonobos)"
+                                ng-model="idsToEditTag[look].product.brand")
+            br
+            input.tagger_input( type="text",
+                                placeholder="Name (e.g. Jet Blues - Boot Cut)"
+                                ng-model="idsToEditTag[look].product.name")
+            br
+            input.tagger_input( type="text",
+                                placeholder="URL (e.g. http://www.bonobos.com/navy-boot-cut-pants-for-men-jet-blues)"
+                                ng-model="idsToEditTag[look].product.buyLink")
+            br
+            input.save_button(type="submit"
+                              value="Save Tag",
+                              ng-click="finishEdittingTag(look)")
     br
    

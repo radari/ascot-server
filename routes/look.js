@@ -1,8 +1,4 @@
 
-/*
- * GET Image
- */
-
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 var fs = require('fs');
 
@@ -11,9 +7,6 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
-
-var ProductSchema = require('../models/Product.js').ProductSchema;
-var Product = db.model('products', ProductSchema);
 
 /*
  * GET /look/:id
@@ -49,8 +42,6 @@ exports.iframe = function(url) {
       } else if (!result) {
         res.render('error', { error : 'Image not found', title : 'Ascot :: Error' });
       } else {
-        // render layout
-        console.log(JSON.stringify(result));
         res.render('look_iframe', { look: result });
       }
     });
@@ -67,7 +58,6 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
     var targetPath = './public/images/uploads/' + look._id + '.png';
     // move the file from the temporary location to the intended location
     fs.rename(tmpPath, targetPath, function(error) {
-      // delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
       if (error) {
         callback(error, null, null);
         return;
@@ -115,7 +105,7 @@ exports.upload = function(url) {
  */
 exports.random = function(req, res) {
   rand = Math.random();
-  Look.findOne({ random : { $near : [rand, 0] } }, function(error, look) {
+  Look.findOne({ random : { $near : [rand, 0] }, showOnCrossList : 1 }, function(error, look) {
     if (error || !look) {
       res.render('error', { error : 'Could not find a random look?', title : 'Ascot :: Error' });
     } else {
@@ -125,42 +115,66 @@ exports.random = function(req, res) {
 };
 
 /*
- * GET /brand?v=<brand>
+ * GET /filters.json?query=<query>
  */
-exports.brand = function(req, res) {
-  var stream = Look.find().populate('tags.product').stream();
-  var ret = [];
-  stream.on('data', function(look) {
-    for (var i = 0; i < look.tags.length; ++i) {
-      console.log(JSON.stringify(look));
-      if (look.tags[i].product &&
-          look.tags[i].product.brand.toLowerCase() == req.query["v"].toLowerCase()) {
-        ret.push(look);
-      }
-    }
-  });
-  stream.on('close', function() {
-    res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
-  });
-  stream.resume();
+exports.filters = function(req, res) {
+  var ret = {};
+  ret["query"] = req.query["query"];
+  ret["suggestions"] = [];
+  ret["data"] = [];
+  
+  ret["suggestions"].push('Search for: ' + ret["query"]);
+  ret["data"].push({ v : ret["query"], type : 'Keyword' });
+  
+  Look.distinct('tags.product.brand').
+      where('tags.product.brand').
+      regex(new RegExp(req.query["query"], "i")).
+      exec(function(error, brands) {
+        for (var i = 0; i < brands.length; ++i) {
+          ret["data"].push({ v : brands[i], type : 'Brand' });
+          ret["suggestions"].push(brands[i] + ' (Brand)');
+        }
+        res.json(ret);
+      });
 };
 
 /*
- * GET /type?v=<type>
+ * GET /brand?v=<brand>
  */
-exports.type = function(req, res) {
-  var stream = Look.find().populate('tags.product').stream();
-  var ret = [];
-  stream.on('data', function(look) {
-    for (var i = 0; i < look.tags.length; ++i) {
-      if (look.tags[i].product &&
-          look.tags[i].product.type.toLowerCase() == req.query["v"].toLowerCase()) {
-        ret.push(look);
-      }
+exports.brand = function(req, res) {
+  Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }, function(error, looks) {
+    res.render('looks_list', { looks : looks, title : 'Ascot :: ' + req.query["v"] });
+  });
+};
+
+/*
+ * GET /keywords?v=<keywords>
+ */
+exports.keywords = function(req, res) {
+  var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
+  for (var i = 0; i < keywords.length; ++i) {
+    keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
+  }
+  
+  Look.find({ search : { $all : keywords }, showOnCrossList : 1 }, function(error, looks) {
+    if (error || !looks) {
+      res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+    } else {
+      res.render('looks_list', { looks : looks, title : 'Ascot :: ' + req.query["v"]});
     }
   });
-  stream.on('close', function() {
-    res.render('looks_list', { looks : ret, title : 'Ascot :: ' + req.query["v"] });
+}
+
+/*
+ * GET /all
+ */
+exports.all = function(req, res) {
+  Look.find({}, function(error, looks) {
+    if (error || !looks) {
+      res.render('error',
+          { title : "Ascot :: Error", error : "Couldn't load looks'" });
+    } else {
+      res.render('looks_list', { looks : looks, title : 'Ascot :: All Looks'});
+    }
   });
-  stream.resume();
-};
+}

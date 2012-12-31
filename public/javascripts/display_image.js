@@ -40,7 +40,7 @@ $(document).ready(function (){
             // Create Tag Description
             var tagDescription = $("<div class='tag-description'></div>")
             tagDescription.html(e.product.name + "<br/><a target='_blank' href="+ e.product.buyLink + 
-             ">"+"Buy"+"</a><br/>$" + e.product.price+"<br/><a href='/products/" + e.product._id + "/looks'>All Looks</a>");
+             ">"+"Buy"+"</a><br/>$" + e.product.price+"<br/><a href='/brand?v=" + encodeURIComponent(e.product.brand) + "'>" + e.product.brand + "</a>");
 
             tagDescription.appendTo(tagContainer)
             tagDescription.hide()
@@ -51,7 +51,12 @@ $(document).ready(function (){
               $(this).find(".tag-description").hide(100,function(){})
             });
 
-            
+            $(".sourceTag").hover(function(){
+              $(this).find(".sourceUrl").show(100,function(){})
+            },function(){
+              $(this).find(".sourceUrl").hide(100,function(){})
+            });
+
           });
 
         },

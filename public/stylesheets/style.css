@@ -1,6 +1,8 @@
 html {
 	padding:0;
 	width:100%;
+	font-family:"Lucida Grande", Helvetica, Arial, sans-serif; 
+
 }
 img {
 	max-width:700px;
@@ -8,7 +10,6 @@ img {
 }
 #redStripe{
 	position:absolute;
-	
 	width:100%;
 	height:10px;
 	margin:0;
@@ -19,6 +20,18 @@ img {
 body {
 	padding:0;
 	margin:0;
+}
+
+.aboutHead{
+	 border-bottom:1px #7B7979 solid;
+	 margin-bottom:0;
+}
+iframe {
+	position:relative;
+	margin:auto;
+	left:0;
+	right:0;
+    display: block;
 }
 
 #wrapper {
@@ -33,6 +46,11 @@ body {
   left:0;
   right:0;
   top:0;
+
+}
+
+#chooseFile {
+	margin-bottom:30px;
 
 }
 
@@ -55,7 +73,7 @@ a:visited {
 
 #nav {
 	padding:0;
-	top:14px;
+	top:18px;
 	width:400px;
 	position:relative;
 	left:200px;
@@ -110,15 +128,15 @@ h3{
 }
 
 h1 {
-	color:#7b7979;
-	font-family: 'times new roman';
+	color:#5f5858;
+	font-family: 'helvetica neue', 'helvetica', arial;
 	font-size: 350%;
 	position:absolute;
 	top:0;
-	
+	font-weight:500;
 	left:100px;
 	margin-top:	10px;
-
+	text-shadow: 1px 2px 3px rgba(50, 50, 50, 0.5);
 }
 
 
@@ -241,6 +259,14 @@ h1 {
 	width: 960px;
 }
 
+.looks_wrapper img {
+	height:300px;
+	margin: 0 10px 10px 0;
+}
+
+.all_looks_wrapper li {
+	margin: 0 15px 15px 0;
+}
 .looks {
 	float: left;
 	margin-right: 10px;
@@ -249,7 +275,6 @@ h1 {
 #look {
 	border:3px blue solid;
 	position:relative;
-
 	margin:auto;
 	left:0;
 	right:0;

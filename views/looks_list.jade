@@ -6,12 +6,15 @@
 -#
 -# Views for a list of looks, i.e. for search results
 -#
-
+prepend head 
+  script(src='/javascripts/jquery.fillwidth.js')
+  script(src='/javascripts/all_looks.js')	
 extends layout
 
-block content
-  div.all_looks_wrapper
+block content 	
+  ul.all_looks_wrapper
     - each look in looks
       div.looks_wrapper 
-        img(src="#{look.url}", class="looks")
+          li   
+            img(src="#{look.url}", class="looks")
 

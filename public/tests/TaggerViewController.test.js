@@ -41,24 +41,6 @@ describe('TaggerViewController', function() {
     expect(scope.idsToLooks['1234'].tags[1].position.y).toBe(10);
   });
 
-  it('should save product index after done tagging', function() {
-    $httpBackend.expectGET('/tags.jsonp?id=1234').
-        respond({ tags : [] });
-
-    scope.loadLook('1234');
-    $httpBackend.flush();
-    
-    var tag1 = scope.addTag('1234', 25, 15);
-    expect(scope.idsToEditTag['1234']).toBe(tag1);
-    
-    scope.setTaggedProduct('1234', { _id : '567' });
-    expect(scope.idsToEditTag['1234']).toBe(null);
-    expect(scope.idsToLooks['1234'].tags.length).toBe(1);
-    expect(scope.idsToLooks['1234'].tags[0].product).toBe('567');
-    expect(scope.idsToSearchQueries['1234']).toBe('');
-    expect(scope.idsToSearchResults['1234'].length).toBe(0);
-  });
-
   it('should delete tag successfully including updating indices', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
         respond({ tags : [] });
@@ -77,24 +59,22 @@ describe('TaggerViewController', function() {
     expect(tag3.index).toBe(2);
   });
   
-  it('should kill any search-related data when tag is deleted', function() {
+  it('should handle stop/start editting tag', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
         respond({ tags : [] });
 
     scope.loadLook('1234');
     $httpBackend.flush();
-
+    
     var tag1 = scope.addTag('1234', 25, 15);
     var tag2 = scope.addTag('1234', 50, 25);
-    var tag3 = scope.addTag('1234', 75, 50);
-    expect(scope.idsToLooks['1234'].tags.length).toBe(3);
+    scope.startEdittingTag('1234', tag1);
+    expect(scope.idsToEditTag['1234']).toBe(tag1);
+    expect(scope.isEdittingTag('1234')).toBe(true);
     
-    scope.editTaggedProduct('1234', tag2);
-    expect(scope.idsToEditTag['1234']).toBe(tag2);
-    scope.deleteTag('1234', tag2);
+    scope.finishEdittingTag('1234');
     expect(scope.idsToEditTag['1234']).toBe(null);
-    expect(scope.idsToSearchQueries['1234']).toBe('');
-    expect(scope.idsToSearchResults['1234'].length).toBe(0);
+    expect(scope.isEdittingTag('1234')).toBe(false);
   });
   
   it('should handle drag and drop correctly', function() {
