@@ -28,4 +28,6 @@ angular.module('AngularFilters', []).
     return function(input, left, right) {
       return left + input + right;
     }
+  }).filter('encodeURIComponent', function() {
+    return encodeURIComponent;
   });

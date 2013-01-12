@@ -18,7 +18,8 @@ prepend head
 block content
 
   div.look-container
-
     include partials/_look.jade
+    
+    a(ng-href='http://www.tumblr.com/share/photo?source={{"#{look.url}#ascot=#{look._id}" | encodeURIComponent}}') Tumblr
 
     include partials/_iframe_input.jade
