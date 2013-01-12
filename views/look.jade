@@ -4,6 +4,15 @@ prepend head
   script(src='/javascripts/display_image.js')
   link(rel='stylesheet', href='/stylesheets/ascot_overlay.css')
   link(rel='stylesheet', href='/stylesheets/ascot_look.css')
+  
+  meta( property="og:type",
+        content="website")
+  meta( property="og:image",
+        content="#{look.url}")
+  meta( property="og:image:width"
+        content="600")
+  meta( property="og:image:height"
+        content="400")
 
 
 block content
