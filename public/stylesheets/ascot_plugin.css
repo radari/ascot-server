@@ -44,7 +44,8 @@
   width:40px;
   position:relative;
   float:right;
-  top:0px;
+  top:3px;
+  right: 3px;
   z-index:500;
    border-radius: 5px;
   -moz-border-radius:5px;
