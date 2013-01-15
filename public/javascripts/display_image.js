@@ -92,10 +92,9 @@ $(document).ready(function (){
       // Activate Ascot Layer
       animateButton.click();
 
-      var iframe_code = $(".iframe-code")
+      var iframe_code = $(".iframe_code")
       if(iframe_code.length > 0){
         i = iframe_code.first()
-        console.log(location)
         i.val("<iframe src='http://"+location.host+"/look/"+i.attr("data-url")+"/iframe'  width='"+width+"' height='"+height+"' frameborder= '0'></iframe>")
       }
     

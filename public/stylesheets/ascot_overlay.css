@@ -2,11 +2,10 @@
 
 
 /*parent div for each IMG element*/
-.look{
-  position:relative;
-  margin:auto;
-  
-
+.look {
+  position: relative;
+  margin: auto;
+  margin-bottom: 25px;
 }
 
 .look-container{

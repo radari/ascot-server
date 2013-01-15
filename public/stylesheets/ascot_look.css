@@ -18,17 +18,9 @@
   box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);*/
 }
 
-.look-container{
+.look-container {
   position:relative;
   margin: auto;
-}
-
-.iframe-code{
-  position:relative;
-  display: block;
-  width: auto;
-  margin: 20px auto;
-
 }
 
 /* this makes the links show up the same style as on the looks page. Any changes to this must also be made in style.css*/
@@ -45,4 +37,44 @@ a:active{
 a:visited {
   color:#7b7979;
   text-decoration: none;
+}
+
+.share_container {
+  margin: auto;
+  position: relative;
+  width: 680px;
+  color: #333333;
+}
+
+.share_container .header {
+  font-size: 14pt;
+  color: black;
+  width: 100%;
+  text-align: center;
+}
+
+.share_container div {
+  padding-top: 3px;
+}
+
+.tumblr_container {
+  float: left;
+  width: 300px;
+  position: relative;
+  padding: 10px;
+}
+
+.iframe_code_container {
+  float: right;
+  width: 300px;
+  padding: 10px;
+  border-left: 1px solid black;
+}
+
+.share_container textarea {
+  width: 250px;
+  height: 50px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 18px;
 }

@@ -2,6 +2,7 @@ extends layout
 
 prepend head
   script(src='/javascripts/display_image.js')
+  script(src='http://platform.tumblr.com/v1/share.js')
   link(rel='stylesheet', href='/stylesheets/ascot_overlay.css')
   link(rel='stylesheet', href='/stylesheets/ascot_look.css')
   
@@ -20,6 +21,21 @@ block content
   div.look-container(ng-init="look = #{JSON.stringify(look)}")
     include partials/_look.jade
     
-    a(target='_blank', ng-href='http://www.tumblr.com/share/photo?source={{"#{look.url}#ascot=#{look._id}" | encodeURIComponent}}&clickthru={{"http://www.ascotproject.com/look/#{look._id}" | encodeURIComponent}}&caption={{look | htmlifyTags | encodeURIComponent}}') Tumblr
+    div.share_container
+      div.tumblr_container
+        div.header Share on Tumblr
+        div Include the Ascot plugin in your blog theme:
+          textarea <script type="text/javascript" src="http://www.ascotproject.com/javascripts/ascot_plugin_launcher.js"></script>
+        
+        div And click below:
+        a(target='_blank',
+          title='Share on Tumblr',
+          style='display:inline-block; text-indent:-9999px; overflow:hidden; width:129px; height:20px; background:url("http://platform.tumblr.com/v1/share_3.png") top left no-repeat transparent;',
+          ng-href='http://www.tumblr.com/share/photo?source={{(look.url + "#ascot=" + look._id) | encodeURIComponent}}&clickthru={{("http://www.ascotproject.com/look/" + look._id) | encodeURIComponent}}&caption={{look | htmlifyTags | encodeURIComponent}}') Share on Tumblr
 
-    include partials/_iframe_input.jade
+      div.iframe_code_container
+        div.header Embed
+        div Copy the below code into your blog
+        textarea.iframe_code(data-url="#{look._id}")
+        
+      div(style="clear:both")
