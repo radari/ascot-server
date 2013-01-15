@@ -91,7 +91,12 @@ function initAscotPlugin($) {
                 tagName.appendTo(tagContainer);
                 
                 var tagDescription = $("<div class='tag_description'></div>");
-                tagDescription.html(tag.product.name + "<br/><a target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>$" + tag.product.price + "<br/><a href='/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" + tag.product.brand + "</a>");
+                tagDescription.html(
+                    "<b>" + tag.product.brand + "</b> " + tag.product.name +
+                    "<br/>" +
+                    (tag.product.buyLink.length > 0 ? "<a target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
+                    (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
+                    "<a href='/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
 
                 tagDescription.appendTo(tagContainer);
                 tagDescription.hide();
