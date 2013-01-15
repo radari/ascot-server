@@ -17,9 +17,9 @@ prepend head
 
 block content
 
-  div.look-container
+  div.look-container(ng-init="look = #{JSON.stringify(look)}")
     include partials/_look.jade
     
-    a(ng-href='http://www.tumblr.com/share/photo?source={{"#{look.url}#ascot=#{look._id}" | encodeURIComponent}}') Tumblr
+    a(target='_blank', ng-href='http://www.tumblr.com/share/photo?source={{"#{look.url}#ascot=#{look._id}" | encodeURIComponent}}&clickthru={{"http://www.ascotproject.com/look/#{look._id}" | encodeURIComponent}}&caption={{look | htmlifyTags | encodeURIComponent}}') Tumblr
 
     include partials/_iframe_input.jade

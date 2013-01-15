@@ -30,4 +30,16 @@ angular.module('AngularFilters', []).
     }
   }).filter('encodeURIComponent', function() {
     return encodeURIComponent;
+  }).filter('htmlifyTags', function() {
+    return function(look) {
+      var ret = "";
+      for (var i = 0; i < look.tags.length; ++i) {
+        var tag = look.tags[i];
+        ret += (i > 0 ? "\n<br>" : "");
+        ret += "<a href='" + tag.buyLink + "'>" + 
+            "<b>" + tag.brand + "</b>" + tag.name + " (" + tag.type + ")" +
+            "</a>"; 
+      };
+      return ret;
+    };
   });
