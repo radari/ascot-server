@@ -39,9 +39,9 @@
 }
 
 .ascot_overlay_image_menu {
-  border:1px white solid;
-  height:80px;
-  width:40px;
+  border:1px transparent solid;
+  height:28px;
+  width:28px;
   position:relative;
   float:right;
   top:3px;
@@ -50,7 +50,6 @@
    border-radius: 5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
-   background-color:rgba(0,0,0,0.5);
 }
 
 .ascot_overlay_image_menu a{
@@ -78,10 +77,6 @@
 .ascot_overlay_image_menu li:hover {
   opacity:1;
   background-color:rgba(255,255,255,0.2);
-}
-
-.ascot_overlay_image_menu li:nth-last-child(1) {
-  border-top:1px white solid;
 }
 
 .ascot_overlay_tag_container {
