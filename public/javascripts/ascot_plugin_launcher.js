@@ -75,13 +75,13 @@
   
   var loadAscotStylesheets = function(callback) {
     loadStylesheet(
-        '/stylesheets/ascot_plugin.css',
+        'http://www.ascotproject.com/stylesheets/ascot_plugin.css',
         callback);
   };
   
   var loadAscotPlugin = function(callback) {
     loadScript(
-        '/javascripts/ascot_plugin.js',
+        'http://www.ascotproject.com/javascripts/ascot_plugin.js',
         callback);
   };
 
