@@ -32,12 +32,14 @@ angular.module('AngularFilters', []).
     return encodeURIComponent;
   }).filter('htmlifyTags', function() {
     return function(look) {
-      var ret = "";
+      var ret = look.title;
+      ret += (look.source.length > 0 ? "\n<br>\nSource: " + look.source : "");
+      ret += "\n<br>\n<br>\n";
       for (var i = 0; i < look.tags.length; ++i) {
         var tag = look.tags[i];
-        ret += (i > 0 ? "\n<br>" : "");
-        ret += "<a href='" + tag.buyLink + "'>" + 
-            "<b>" + tag.brand + "</b>" + tag.name + " (" + tag.type + ")" +
+        ret += (i > 0 ? "\n<br>\n" : "");
+        ret += "<a href='" + tag.product.buyLink + "'>" + 
+            "<b>" + tag.product.brand + "</b> " + tag.product.name +
             "</a>"; 
       };
       return ret;
