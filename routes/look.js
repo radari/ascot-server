@@ -143,7 +143,11 @@ exports.filters = function(req, res) {
  */
 exports.brand = function(req, res) {
   Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }, function(error, looks) {
-    res.render('looks_list', { looks : looks, title : 'Ascot :: ' + req.query["v"] });
+    console.log('BRAND!!!!!');
+    res.render('looks_list',
+        { looks : looks,
+          listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
+          title : 'Ascot :: ' + req.query["v"] });
   });
 };
 
@@ -160,7 +164,10 @@ exports.keywords = function(req, res) {
     if (error || !looks) {
       res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
     } else {
-      res.render('looks_list', { looks : looks, title : 'Ascot :: ' + req.query["v"]});
+      res.render('looks_list',
+          { looks : looks,
+            listTitle : 'Looks with Keywords : ' + req.query["v"],
+            title : 'Ascot :: ' + req.query["v"]});
     }
   });
 }
@@ -174,7 +181,10 @@ exports.all = function(req, res) {
       res.render('error',
           { title : "Ascot :: Error", error : "Couldn't load looks'" });
     } else {
-      res.render('looks_list', { looks : looks, title : 'Ascot :: All Looks'});
+      res.render('looks_list',
+          { looks : looks,
+            listTitle : 'All Looks',
+            title : 'Ascot :: All Looks'});
     }
   });
 }

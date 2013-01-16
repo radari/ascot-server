@@ -11,10 +11,16 @@ prepend head
   script(src='/javascripts/all_looks.js')	
 extends layout
 
-block content 	
+block content
+  div.list_header #{listTitle}
+
   ul.all_looks_wrapper
-    - each look in looks
-      div.looks_wrapper 
-          li   
-            img(src="#{look.url}", class="looks")
+    - if(looks.length > 0)
+      - each look in looks
+        div.looks_wrapper 
+          li
+            a(href="/look/#{look._id}")
+              img(src="#{look.url}", class="looks")
+    - else
+      div.list_header No looks found
 
