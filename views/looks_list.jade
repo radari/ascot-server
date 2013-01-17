@@ -15,12 +15,26 @@ block content
   div.list_header #{listTitle}
 
   ul.all_looks_wrapper
-    - if(looks.length > 0)
+    - if (looks.length > 0)
       - each look in looks
         div.looks_wrapper 
           li
             a(href="/look/#{look._id}")
               img(src="#{look.url}", class="looks")
+              
+      div(style="clear:both")
+      div.list_header
+        div(style="display: inline-block; position: relative")
+          - for (var i = 0; i < numPages; ++i) {
+            - if (page == i) {
+              div(style="float:left; padding: 10px; font-weight: bold") #{i + 1}
+            - }
+            - else {
+              div(style="float:left; padding: 10px;")
+                a(href='#{routeUrl}p=#{i}') #{i + 1}
+            - }
+          - }
+        div(style="clear: both")
     - else
       div.list_header No looks found
 

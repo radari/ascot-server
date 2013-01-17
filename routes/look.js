@@ -142,12 +142,19 @@ exports.filters = function(req, res) {
  * GET /brand?v=<brand>
  */
 exports.brand = function(req, res) {
-  Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }, function(error, looks) {
-    console.log('BRAND!!!!!');
-    res.render('looks_list',
-        { looks : looks,
-          listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
-          title : 'Ascot :: ' + req.query["v"] });
+  var MAX_PER_PAGE = 20;
+  var p = req.query["p"] || 0;
+
+  Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).count(function(error, count) {
+    Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }, function(error, looks) {
+      res.render('looks_list',
+          { looks : looks,
+            listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
+            title : 'Ascot :: ' + req.query["v"],
+            routeUrl : '/brand?v=' + encodeURIComponent(req.query["v"]) + '&',
+            page : p,
+            numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+    });
   });
 };
 
@@ -155,28 +162,41 @@ exports.brand = function(req, res) {
  * GET /keywords?v=<keywords>
  */
 exports.keywords = function(req, res) {
+  var MAX_PER_PAGE = 20;
+  var p = req.query["p"] || 0;
+  
   var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
   for (var i = 0; i < keywords.length; ++i) {
     keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
   }
   
-  Look.find({ search : { $all : keywords }, showOnCrossList : 1 }, function(error, looks) {
-    if (error || !looks) {
-      res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
-    } else {
-      res.render('looks_list',
-          { looks : looks,
-            listTitle : 'Looks with Keywords : ' + req.query["v"],
-            title : 'Ascot :: ' + req.query["v"]});
-    }
+  Look.find({ search : { $all : keywords }, showOnCrossList : 1 }).count(function(error, count) {
+    Look.find({ search : { $all : keywords }, showOnCrossList : 1 }, function(error, looks) {
+      if (error || !looks) {
+        res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+      } else {
+        res.render('looks_list',
+            { looks : looks,
+              listTitle : 'Looks with Keywords : ' + req.query["v"],
+              title : 'Ascot :: ' + req.query["v"],
+              routeUrl : '/keywords?v=' + encodeURIComponent(req.query["v"]) + '&',
+              page : p,
+              numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+      }
+    });
   });
 }
 
 /*
- * GET /all
+ * GET /all?p=<page>
  */
 exports.all = function(req, res) {
-  Look.find({}, function(error, looks) {
+  var MAX_PER_PAGE = 20;
+  var p = req.query["p"] || 0;
+  
+  Look.find({}).count(function(error, count) {
+    Look.find({}).limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).exec(function(error, looks) {
+    console.log("---> " + looks.length);
     if (error || !looks) {
       res.render('error',
           { title : "Ascot :: Error", error : "Couldn't load looks'" });
@@ -184,7 +204,11 @@ exports.all = function(req, res) {
       res.render('looks_list',
           { looks : looks,
             listTitle : 'All Looks',
-            title : 'Ascot :: All Looks'});
+            title : 'Ascot :: All Looks',
+            routeUrl : '/all?',
+            page : p,
+            numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
     }
+  });
   });
 }
