@@ -11,7 +11,9 @@ $(document).ready(function (){
       var ascotId = image.attr('ascot');
 
       // Display animate button
-      animateButton.show()
+      animateButton.show();
+      var height = image.height();
+      var width = image.width();
 
       //Get list of tags for each image
       $.ajax({
@@ -44,6 +46,17 @@ $(document).ready(function (){
               (e.product.buyLink.length > 0 ? "<a target='_blank' href=" + e.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
               (e.product.price > 0 ? "$" + e.product.price + "<br/>" : "") +
               "<a href='/brand?v=" + encodeURIComponent(e.product.brand) + "'>Other looks from " + e.product.brand + "</a>");
+            if (e.position.x > width / 2.0) {
+              tagDescription.css('right', '10px');
+            } else {
+              tagDescription.css('left', '10px');
+            }
+            
+            if (e.position.y > height / 2.0) {
+              tagDescription.css('bottom', '10px');
+            } else {
+              tagDescription.css('top', '10px');
+            }
 
             tagDescription.appendTo(tagContainer)
             tagDescription.hide()
@@ -67,9 +80,6 @@ $(document).ready(function (){
       });
 
       // Set width and heigh of container and overlay = to that of image
-      var height = image.height();
-      var width = image.width();
-
       container.height(height);
       container.width(width);
 
