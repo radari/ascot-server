@@ -11,6 +11,7 @@
 
 .ascot_overlay_look {
   position: relative;
+  float: none;
 }
 
 .ascot_overlay_look a {
@@ -32,6 +33,7 @@
   position:absolute;
   vertical-align: top;
   z-index:2;
+  float: none;
 }
 
 .ascot_overlay_look img {
@@ -95,11 +97,14 @@
 }
 
 .ascot_overlay_tag_container {
+  float: none;
   position:absolute;
 }
 
-.ascot_overlay_tag_container .tag_name {
+.ascot_overlay_tag_container .ascot_overlay_tag_name {
+  float: none;
   position: relative;
+  line-height: 16px;
   background: #171717;
   color: #fff;
   border: 3px solid #fff;
@@ -122,14 +127,17 @@
   z-index:1;
 }
 
-.ascot_overlay_tag_container .tag_name:hover {
+.ascot_overlay_tag_container .ascot_overlay_tag_name:hover {
+  float: none;
   opacity:1;
   height:15px;
   width:15px;
   cursor:pointer;
 }
 
-.ascot_overlay_tag_container .tag_description {
+.ascot_overlay_tag_container .ascot_overlay_tag_description {
+  float: none;
+  line-height: 16px;
   position: absolute;
   border:1px #323232 solid;
   color:#171717;
@@ -143,11 +151,13 @@
   box-shadow:         0px 0px 6px rgba(50, 50, 50, 0.75);
 }
 
-.ascot_overlay .source_tag{
+.ascot_overlay .ascot_overlay_source_tag{
   position:relative;
   background: #171717;
+  line-height: 16px;
   color: #fff;
   border: 3px solid #fff;
+  margin: 0px;
   padding: 2px;
   padding-top: 0px;
   -moz-border-radius:15px;
@@ -168,7 +178,7 @@
   z-index:4;
 }
 
-.ascot_overlay .source_url{
+.ascot_overlay .ascot_overlay_source_url {
   border:1px transparent solid;
   text-align: center;
   width:200px;

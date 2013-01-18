@@ -19,6 +19,10 @@ function initAscotPlugin($) {
 
     var regex = new RegExp('[#|&]' + 'ascot' + '=' + '([^&;]+?)(&|#|\\?|$)');
     var sp = regex.exec(url);
+
+    if (sp == null) {
+      return null;
+   }
     
     if (sp.length == 0) {
       return null;
@@ -41,6 +45,14 @@ function initAscotPlugin($) {
       var image = $(el);
       
       var ascotId = getAscotHashParam(url);
+      if (ascotId == null && image.parent()) {
+        var href = image.parent().attr('href');
+        var alt = image.attr('alt');
+        if (href && href.toLowerCase().indexOf('ascotproject.com/look/') != -1) {
+          ascotId = href.toLowerCase().substr(href.indexOf('ascotproject.com/look/') + 'ascotproject.com/look/'.length, '50f8bae560ad830943000004'.length);
+          image.parent().attr('href', '#');
+        }
+      }
       if (ascotId != null) {
         $.ajax({
           type: 'GET',
@@ -70,7 +82,7 @@ function initAscotPlugin($) {
               
               overlay.append('<div class="ascot_overlay_image_menu"><ul><li><a target="_blank" href="http://www.ascotproject.com/look/' + ascotId + '"><img src="http://www.ascotproject.com/images/overlayOptions_share.png"></li></a></ul></div>');
               
-              overlay.append('<div class="source_tag">i<div class="source_url">' + json.source + '</div>');
+              overlay.append('<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' + json.source + '</div>');
               var sourceTag = overlay.children().last();
               var sourceUrl = sourceTag.children().last();
               
@@ -80,7 +92,8 @@ function initAscotPlugin($) {
                 sourceUrl.hide(100, function(){});
               });
               
-              animateButton.click(function() {
+              animateButton.click(function(event) {
+                event.stopPropagation();
                 overlay.toggle("slide", { direction: "left" }, 500, function(){});
               });
               
@@ -90,16 +103,16 @@ function initAscotPlugin($) {
                 tagContainer.css("top", tag.position.y);
                 tagContainer.appendTo(overlay);
                 
-                var tagName = $("<div class='tag_name'>" + tag.index + "</div>")
+                var tagName = $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>")
                 tagName.appendTo(tagContainer);
                 
-                var tagDescription = $("<div class='tag_description'></div>");
+                var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
                 tagDescription.html(
                     "<b>" + tag.product.brand + "</b> " + tag.product.name +
                     "<br/>" +
                     (tag.product.buyLink.length > 0 ? "<a target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
                     (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
-                    "<a href='/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
+                    "<a href='http://www.ascotproject.com/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
 
                 if (tag.position.x > width / 2.0) {
                   tagDescription.css('right', '10px');
