@@ -35,9 +35,12 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-// Displays
+// Static views
 app.get('/', routes.index);
-app.get('/about', routes.about)
+app.get('/about', routes.about);
+app.get('/tumblr', routes.tumblr);
+
+// Looks and search dynamic displays
 app.get('/look/:id', look.get(app.get('url')));
 app.get('/look/:id/iframe', look.iframe(app.get('url')));
 app.get('/tagger/:key/:look', tagger.get(app.get('url')));
