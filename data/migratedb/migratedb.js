@@ -87,6 +87,20 @@ var mergeProductsIntoLooks = function() {
   });
 };
 
+var checkForBadTags = function(look) {
+  console.log("# of TAGS = " + look.tags.length);
+  if (look.tags.length == 0) {
+    return false;
+  }
+
+  for (var i = 0; i < look.tags.length; ++i) {
+    if (!look.tags[i].product.brand) {
+      return false;
+    }
+  }
+  return true;
+};
+
 mergeProductsIntoLooks();
 
 Look.find({}, function(error, looks) {
@@ -94,7 +108,12 @@ Look.find({}, function(error, looks) {
     console.log(JSON.stringify(looks[i]));
     randomTo2D(looks[i]);
     addShowOnCrossList(looks[i]);
-    looks[i].save();
+    if (checkForBadTags(looks[i])) {
+      looks[i].save();
+    } else {
+      console.log("REMOVING " + looks[i]._id);
+      looks[i].remove();
+    }
   }
 });
 
