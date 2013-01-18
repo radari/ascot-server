@@ -52,6 +52,9 @@ function initAscotPlugin($) {
           dataType: 'jsonp',
           success: function (json) {
             if (json && json.tags) {
+              var height = image.height();
+              var width = image.width();
+            
               image.wrap('<div class="ascot_overlay_look" />');
               var wrapper = image.parent();
               wrapper.css('width', image.width() + 'px');
@@ -98,6 +101,18 @@ function initAscotPlugin($) {
                     (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
                     "<a href='/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
 
+                if (tag.position.x > width / 2.0) {
+                  tagDescription.css('right', '10px');
+                } else {
+                  tagDescription.css('left', '10px');
+                }
+                
+                if (tag.position.y > height / 2.0) {
+                  tagDescription.css('bottom', '10px');
+                } else {
+                  tagDescription.css('top', '10px');
+                }
+                
                 tagDescription.appendTo(tagContainer);
                 tagDescription.hide();
                 
