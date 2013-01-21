@@ -39,7 +39,13 @@ function initAscotPlugin($) {
   };
 
   $(document).ready(function() {
-    $('img').each(function(index, el) {
+    // List of all images
+    var images = $('img').get();
+
+    var ascotify = function(index, el) {
+      // This function is recursively called when ajax/jsonp call out to
+      // ascotproject.com is done - this lets us queue up requests and avoid
+      // issues with browser simultaneous request limits
       var url = $(el).attr('src').toLowerCase();
       var lookId;
       var image = $(el);
@@ -53,6 +59,7 @@ function initAscotPlugin($) {
           image.parent().attr('href', '#');
         }
       }
+
       if (ascotId != null) {
         $.ajax({
           type: 'GET',
@@ -134,12 +141,18 @@ function initAscotPlugin($) {
                 },function(){
                   tagDescription.hide(100, function(){});
                 });
-              });
-              
+              });  
+            }
+            if (index + 1 < images.length) {
+              ascotify(index + 1, images[index + 1]);
             }
           }
         });
       }
-    });
+    };
+
+    if (images.length > 0) {
+      ascotify(0, images[0]);
+    }
   });
 };
