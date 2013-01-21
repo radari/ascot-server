@@ -106,16 +106,19 @@ function initAscotPlugin($) {
               
               $.each(json.tags, function(i, tag) {
                 var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");
+                var tagX;
+                var tagY;
                 if (height == json.size.height && width == json.size.width) {
                   // Image is default size - no need to scale tags
-                  tagContainer.css("left", tag.position.x);
-                  tagContainer.css("top", tag.position.y);
+                  tagX = tag.position.x;
+                  tagY = tag.position.y;
                 } else {
                   // Image resized by client. Scale tag positions
-                  tagContainer.css("left", (tag.position.x / json.size.width) * width);
-                  tagContainer.css("top", (tag.position.y / json.size.height) * height);
+                  tagX = (tag.position.x / json.size.width) * width;
+                  tagY = (tag.position.y / json.size.height) * height;
                 }
-                
+                tagContainer.css("left", tagX);
+                tagContainer.css("top", tagY);
                 tagContainer.appendTo(overlay);
                 
                 var tagName = $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>")
@@ -129,13 +132,13 @@ function initAscotPlugin($) {
                     (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
                     "<a href='http://www.ascotproject.com/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
 
-                if (tag.position.x > width / 2.0) {
+                if (tagX > width / 2.0) {
                   tagDescription.css('right', '10px');
                 } else {
                   tagDescription.css('left', '10px');
                 }
                 
-                if (tag.position.y > height / 2.0) {
+                if (tagY > height / 2.0) {
                   tagDescription.css('bottom', '10px');
                 } else {
                   tagDescription.css('top', '10px');
