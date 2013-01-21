@@ -156,6 +156,10 @@ function initAscotPlugin($) {
             }
           }
         });
+      } else {
+        if (index + 1 < images.length) {
+          ascotify(index + 1, images[index + 1]);
+        }
       }
     };
 
