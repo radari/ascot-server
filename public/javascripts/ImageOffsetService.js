@@ -22,6 +22,20 @@ angular.module('AscotImageModule', []).
           } else {
             return null;
           }
+        },
+        getHeight : function(id) {
+          if (idsToImages[id]) {
+            return idsToImages[id].height();
+          } else {
+            return 0;
+          }
+        },
+        getWidth : function(id) {
+          if (idsToImages[id]) {
+            return idsToImages[id].width();
+          } else {
+            return 0;
+          }
         }
       };
     }]);

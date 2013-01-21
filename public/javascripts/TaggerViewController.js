@@ -26,12 +26,56 @@ function TaggerViewController($scope, $http, ImageOffsetService, $location) {
         });
   };
 
+  $scope.computeTagDisplayPosition = function(id, tag) {
+    var position;
+    var displayHeight = ImageOffsetService.getHeight(id);
+    var displayWidth = ImageOffsetService.getWidth(id);
+    
+    if ($scope.idsToLooks[id].size.height == displayHeight &&
+        $scope.idsToLooks[id].size.width == displayWidth) {
+      position = {
+          x : tag.position.x,
+          y : tag.position.y
+      };
+    } else {
+      position = {
+          x : (tag.position.x / $scope.idsToLooks[id].size.width) * displayWidth,
+          y : (tag.position.y / $scope.idsToLooks[id].size.height) * displayHeight
+      };
+    }
+    
+    return position;
+  };
+  
+  $scope.computePositionFromDisplay = function(id, pageX, pageY) {
+    var offset = ImageOffsetService.getOffset(id);
+    
+    var position;
+    var displayHeight = ImageOffsetService.getHeight(id);
+    var displayWidth = ImageOffsetService.getWidth(id);
+    if ($scope.idsToLooks[id].size.height == displayHeight &&
+        $scope.idsToLooks[id].size.width == displayWidth) {
+      position = {
+          x : (pageX - offset.x),
+          y : (pageY - offset.y)
+      };
+    } else {
+      position = {
+          x : ((pageX - offset.x) / displayWidth) * $scope.idsToLooks[id].size.width,
+          y : ((pageY - offset.y) / displayHeight) * $scope.idsToLooks[id].size.height
+      };
+    }
+    
+    return position;
+  };
+
   // Add a tag
   $scope.addTag = function(id, pageX, pageY) {
-    var offset = ImageOffsetService.getOffset(id);
+    var position = $scope.computePositionFromDisplay(id, pageX, pageY);
+    
     var newTag =
         { index : $scope.idsToLooks[id].tags.length + 1,
-          position : { x : (pageX - offset.x), y : (pageY - offset.y) },
+          position : position,
           product : {
             name : "",
             brand : "",
@@ -94,9 +138,9 @@ function TaggerViewController($scope, $http, ImageOffsetService, $location) {
   // Update tag thats currently being editted's position
   $scope.updateDraggingTagPosition = function(id, pageX, pageY) {
     if ($scope.idsToDraggingTag[id] != null) {
-      var offset = ImageOffsetService.getOffset(id);
-      $scope.idsToDraggingTag[id].position.x = pageX - offset.x;
-      $scope.idsToDraggingTag[id].position.y = pageY - offset.y;
+      var position = $scope.computePositionFromDisplay(id, pageX, pageY);
+      $scope.idsToDraggingTag[id].position.x = position.x;
+      $scope.idsToDraggingTag[id].position.y = position.y;
     }
   }
   

@@ -12,14 +12,20 @@ describe('TaggerViewController', function() {
               { getOffset :
                   function(id) {
                     return { x : 10, y : 5 };
-                  }
+                  },
+                getHeight : function(id) {
+                  return 200;
+                },
+                getWidth : function(id) {
+                  return 200;
+                }
                }
         });
   }));
 
   it('should make an HTTP callout to get its data', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
-        respond({ tags : [{index : 1}] });
+        respond({ tags : [{index : 1}], size : { height : 200, width: 200 } });
 
     scope.loadLook('1234');
     $httpBackend.flush();
@@ -29,7 +35,7 @@ describe('TaggerViewController', function() {
 
   it('should add tag successfully', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
-        respond({ tags : [{index : 1}] });
+        respond({ tags : [{index : 1}], size : { height : 200, width: 200 } });
 
     scope.loadLook('1234');
     $httpBackend.flush();
@@ -43,7 +49,7 @@ describe('TaggerViewController', function() {
 
   it('should delete tag successfully including updating indices', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
-        respond({ tags : [] });
+        respond({ tags : [], size : { height : 200, width: 200 }  });
 
     scope.loadLook('1234');
     $httpBackend.flush();
@@ -61,7 +67,7 @@ describe('TaggerViewController', function() {
   
   it('should handle stop/start editting tag', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
-        respond({ tags : [] });
+        respond({ tags : [], size : { height : 200, width: 200 }  });
 
     scope.loadLook('1234');
     $httpBackend.flush();
@@ -79,7 +85,7 @@ describe('TaggerViewController', function() {
   
   it('should handle drag and drop correctly', function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
-        respond({ tags : [] });
+        respond({ tags : [], size : { height : 200, width: 200 } });
 
     scope.loadLook('1234');
     $httpBackend.flush();
