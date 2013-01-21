@@ -4,7 +4,9 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 var LookSchema = require('../../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
-Array.prototype.remove = function(from, to) {
+var ImageMagick = require('imagemagick');
+
+Array.prototype.ascotRemove = function(from, to) {
   var rest = this.slice((to || from) + 1 || this.length);
   this.length = from < 0 ? this.length + from : from;
   return this.push.apply(this, rest);
@@ -49,7 +51,7 @@ var mergeTag = function(productsCollection, looksCollection, look, tagIndex) {
     }
   } else {
     // Delete undefined tags
-    look.tags.remove(tagIndex);
+    look.tags.ascotRemove(tagIndex);
     if (tagIndex < look.tags.length) {
       console.log("Removed undefined, moving on to next");
       mergeTag(productsCollection, looksCollection, look, tagIndex);
@@ -101,7 +103,26 @@ var checkForBadTags = function(look) {
   return true;
 };
 
-mergeProductsIntoLooks();
+var addHeightAndWidthForLook = function(look, callback) {
+  if (!look.size || !look.size.height || !look.size.width || look.size.height == 0 || look.size.width == 0) {
+    ImageMagick.identify(look.url, function(error, features) {
+      if (error || !features) {
+        look.size.height = 0;
+        look.size.width = 0;
+        callback(look, false);
+        console.log("ERROR FOR LOOK " + look._id + " WITH URL " + look.url);
+      } else {
+        look.size.height = features.height;
+        look.size.width = features.width;
+        callback(look, true);
+      }
+    });
+  } else {
+    callback(look, true);
+  }
+}
+
+//mergeProductsIntoLooks();
 
 Look.find({}, function(error, looks) {
   for (var i = 0; i < looks.length; ++i) {
@@ -114,6 +135,16 @@ Look.find({}, function(error, looks) {
       console.log("REMOVING " + looks[i]._id);
       looks[i].remove();
     }
+
+    addHeightAndWidthForLook(looks[i], function(look, save) {
+      if (save) {
+        console.log("Saving " + look._id);
+        look.save();
+      } else {
+        console.log("removing " + look._id);
+        look.remove();
+      }
+    });
   }
 });
 

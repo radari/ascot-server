@@ -28,10 +28,17 @@ $(document).ready(function (){
           $.each(json.tags, function(i, e){
 
             // Create tag description and add to DOM
-            var tagContainer = $("<div class='tag-container'></div>")
-            tagContainer.css("left", e.position.x)
-            tagContainer.css("top", e.position.y)
-            tagContainer.appendTo(overlay)
+            var tagContainer = $("<div class='tag-container'></div>");
+            if (height == json.size.height && width == json.size.width) {
+              // Image is default size - no need to scale tags
+              tagContainer.css("left", e.position.x);
+              tagContainer.css("top", e.position.y);
+            } else {
+              // Image resized by client. Scale tag positions
+              tagContainer.css("left", (e.position.x / json.size.width) * width);
+              tagContainer.css("top", (e.position.y / json.size.height) * height);
+            }
+            tagContainer.appendTo(overlay);
 
 
             //Create Tag Name

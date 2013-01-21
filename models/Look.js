@@ -12,11 +12,18 @@ var Mongoose = require('mongoose');
 
 exports.LookSchema = new Mongoose.Schema({
   title : { type : String, default : "" },
-  url : String,
-  random : [{ type : Number, default : Math.random() }, { type : Number, default : 0 }],
-  source : { type : String, default : "" },
-  search : [String],
-  showOnCrossList : { type : Number, default : 1 },
+  url : String, // URL of displayed image
+  random : [ // Array of length 2, (x,y) pair for use with $near
+    { type : Number, default : Math.random() },
+    { type : Number, default : 0 }
+  ],
+  source : { type : String, default : "" }, // Source tag URL
+  search : [String], // Search keywords for this look
+  size : { // Size of image
+    height : { type : Number, default : 0 },
+    width : { type : Number, default : 0 } 
+  },
+  showOnCrossList : { type : Number, default : 1 }, // Display on looks_list
   tags : [
     {
       position : { x : Number, y : Number },
@@ -25,8 +32,8 @@ exports.LookSchema = new Mongoose.Schema({
         name : String,
         brand : String,
         buyLink : String,
-        price : Number,
-        search : [String]
+        price : Number, // Optional
+        search : [String] // Product search tags
       }
     }
   ]
