@@ -141,8 +141,8 @@ Look.find({}, function(error, looks) {
         console.log("Saving " + look._id);
         look.save();
       } else {
-        console.log("removing " + look._id);
-        look.remove();
+        console.log("Avoiding removing (but probably should) " + look._id);
+        //look.remove();
       }
     });
   }
