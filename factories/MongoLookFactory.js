@@ -85,4 +85,23 @@ exports.MongoLookFactory = function(url) {
       }
     });
   };
+  
+  this.setHeightAndWidth = function(id, height, width, callback) {
+    Look.findOne({ _id : id }).exec(function(error, look) {
+      if (error || !look) {
+        callback(error, null);
+      } else {
+        console.log("GOT HEIGHT=" + height + " & WiDTH=" + width);
+        look.size.height = height;
+        look.size.width = width;
+        look.save(function(error, look) {
+          if (error || !look) {
+            callback(error, null);
+          } else {
+            callback(null, look);
+          }
+        })
+      }
+    });
+  };
 };

@@ -8,6 +8,8 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
+var ImageMagick = require('imagemagick');
+
 /*
  * GET /look/:id
  */
@@ -60,12 +62,16 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
     fs.rename(tmpPath, targetPath, function(error) {
       if (error) {
         callback(error, null, null);
-        return;
+      } else {
+        ImageMagick.identify(targetPath, function(error, features) {
+          mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
+            fs.unlink(tmpPath, function(error) {
+              // Don't care about error, probably means files already gone
+              callback(null, look, permissions);
+            });
+          });
+        });
       }
-      fs.unlink(tmpPath, function(error) {
-        // Don't care about error, probably means files already gone
-        callback(null, look, permissions);
-      });
     });
   });
 };
@@ -77,7 +83,7 @@ exports.upload = function(url) {
   var mongoLookFactory = new MongoLookFactory(url);
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
-      console.log("Upload? " + req.files.files.length);
+      console.log("Upload? " + JSON.stringify(req.files.files));
       var ret = [];
       handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
         if (error) {
@@ -93,7 +99,11 @@ exports.upload = function(url) {
         if (error) {
           res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
         } else {
-          res.redirect('/tagger/' + permissions._id + '/' + look._id);
+          ImageMagick.identify(look.url, function(error, features) {
+            mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
+              res.redirect('/tagger/' + permissions._id + '/' + look._id);
+            });
+          });
         }
       });
     }
