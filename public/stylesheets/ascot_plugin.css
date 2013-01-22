@@ -160,8 +160,9 @@
   margin: 0px;
   padding: 2px;
   padding-top: 0px;
-  -moz-border-radius:15px;
-  -webkit-border-radius:15px;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
   width:15px;
   height:15px;
   opacity:0.8;
