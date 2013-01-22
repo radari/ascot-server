@@ -130,7 +130,7 @@ function initAscotPlugin($) {
                     "<br/>" +
                     (tag.product.buyLink.length > 0 ? "<a target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
                     (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
-                    "<a href='http://www.ascotproject.com/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
+                    "<a target='_blank' href='http://www.ascotproject.com/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
 
                 if (tagX > width / 2.0) {
                   tagDescription.css('right', '10px');

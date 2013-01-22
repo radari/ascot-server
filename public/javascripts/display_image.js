@@ -52,7 +52,7 @@ $(document).ready(function (){
               "<br/>" +
               (e.product.buyLink.length > 0 ? "<a target='_blank' href=" + e.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
               (e.product.price > 0 ? "$" + e.product.price + "<br/>" : "") +
-              "<a href='/brand?v=" + encodeURIComponent(e.product.brand) + "'>Other looks from " + e.product.brand + "</a>");
+              "<a target='_blank' href='/brand?v=" + encodeURIComponent(e.product.brand) + "'>Other looks from " + e.product.brand + "</a>");
             if (e.position.x > width / 2.0) {
               tagDescription.css('right', '10px');
             } else {
