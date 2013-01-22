@@ -38,7 +38,11 @@ function initAscotPlugin($) {
     }
   };
 
-  $(document).ready(function() {
+  $(document).imagesLoaded(function() {
+    // Wait for ALL images to load. Certainly not best way to do this, but
+    // easiest.
+    alert('hi');
+    
     // List of all images
     var images = $('img').get();
 

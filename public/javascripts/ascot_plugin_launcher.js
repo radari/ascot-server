@@ -12,6 +12,7 @@
  *  
  *  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
  *  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+ *  <script type="text/javascript" src="https://www.ascotproject.com/vendor/javascripts/jquery.imagesloaded.js"></script>
  *  <link rel='stylesheet' href='/stylesheets/ascot_plugin.css'>
  *  <script type="text/javascript" src="/javascripts/ascot_plugin.js"></script>
  *
@@ -73,6 +74,16 @@
     }
   };
   
+  var checkJQueryImagesLoaded = function(callback) {
+    if (jQuery.imagesLoaded) {
+      callback();
+    } else {
+      loadScript(
+        'http://www.ascotproject.com/vendor/javascripts/jquery.imagesloaded.js',
+        callback);
+    }
+  };
+  
   var loadAscotStylesheets = function(callback) {
     loadStylesheet(
         'http://www.ascotproject.com/stylesheets/ascot_plugin.css',
@@ -87,11 +98,13 @@
 
   checkJQuery(function() {
     checkJQueryUI(function() {
-      loadAscotStylesheets(function() {
-        loadAscotPlugin(function() {
-          initAscotPlugin(jQuery);
-        })
-      })
+      checkJQueryImagesLoaded(function() {
+        loadAscotStylesheets(function() {
+          loadAscotPlugin(function() {
+            initAscotPlugin(jQuery);
+          });
+        });
+      });
     });
   });
 
