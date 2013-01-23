@@ -11,6 +11,7 @@
 
 .ascot_overlay_look {
   position: relative;
+  display: inline-block;
   float: none;
 }
 

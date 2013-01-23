@@ -1,10 +1,14 @@
 extends layout
 
 prepend head
-  script(src='/javascripts/display_image.js')
+  script(src='/javascripts/ascot_plugin.js')
   script(src='http://platform.tumblr.com/v1/share.js')
-  link(rel='stylesheet', href='/stylesheets/ascot_overlay.css')
+  link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
   link(rel='stylesheet', href='/stylesheets/ascot_look.css')
+  script(type='text/javascript')
+    $(document).ready(function() {
+      initAscotPlugin(jQuery, '');
+    })
   
   meta( property="og:type",
         content="website")
@@ -19,7 +23,8 @@ prepend head
 block content
 
   div.look-container(ng-init="look = #{JSON.stringify(look)}")
-    include partials/_look.jade
+    div(style="text-align: center")
+      include partials/_look.jade
     
     div.share_container
       div.tumblr_container
@@ -38,6 +43,7 @@ block content
       div.iframe_code_container
         div.header Embed
         div Copy the below code into your blog
-        textarea.iframe_code(data-url="#{look._id}")
+        textarea.iframe_code
+          <iframe src="http://www.ascotproject.com/look/{{look._id}}/iframe" width='{{look.size.width}}' height='{{look.size.height}}' frameborder='0'></iframe>
         
       div(style="clear:both")

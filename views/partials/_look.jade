@@ -1,12 +1,1 @@
-div.look
-  img(src="#{look.url}", class="image", ascot="#{look._id}") 
-  div.animateButton
-  div.overlay
-    div.imageMenu
-      ul
-        li 
-          a(href="/look/#{look._id}", target="_blank")
-            img(src='/images/overlayOptions_share.png', id:'share') 
-     
-    div.sourceTag i
-      div.sourceUrl #{look.source}
+img(src="#{look.url}#ascot=#{look._id}", class="image", ascot="#{look._id}") 

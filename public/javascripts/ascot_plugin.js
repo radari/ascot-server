@@ -54,6 +54,10 @@ function initAscotPlugin($, tagSourceUrl) {
       var image = $(el);
       
       var ascotId = getAscotHashParam(url);
+
+      // This is really only useful for Tumblr and other places which insist on
+      // only showing images stored on their servers. On our end we can just use
+      // the #ascot notation, so just hardcode the ascotproject.com stuff for now
       if (ascotId == null && image.parent()) {
         var href = image.parent().attr('href');
         var alt = image.attr('alt');
@@ -81,6 +85,10 @@ function initAscotPlugin($, tagSourceUrl) {
               var wrapper = image.parent();
               wrapper.css('width', image.width() + 'px');
               wrapper.css('height', image.height() + 'px');
+
+              image.css('position', 'absolute');
+              image.css('top', '0px');
+              image.css('left', '0px');
               
               wrapper.append('<div class="ascot_overlay_animate_button"></div>');
               var animateButton = wrapper.children().last();

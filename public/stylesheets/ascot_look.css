@@ -1,12 +1,5 @@
 /*These styles are NOT applied to the IFrame version*/
 
-/*div element that contains tags*/
-.overlay{
-  /*This margin needs to be the same size
-  as the border of the image (TODO: fix with variable?)*/
-  margin: 5px;
-}
-
 .image{
   /*must be same size as overlay margin*/
   border: 5px #C2C0C0  solid;
