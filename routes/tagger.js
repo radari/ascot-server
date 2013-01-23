@@ -56,26 +56,32 @@ exports.put = function(url) {
               res.render('error', { error : 'Internal failure',
                                     title : 'Ascot :: Error' });
             } else {
-              console.log(JSON.stringify(req.body) + "-" + req.body);
-              look.tags = req.body.tags;
-              look.title = req.body.title;
-              look.source = req.body.source;
+              look.tags = req.body.tags || [];
+              look.title = req.body.title || "";
+              look.source = req.body.source || "";
               
               var search_tags = [];
               var title_tags = look.title.match(/[a-zA-Z0-9_]+/g);
-              for (var i = 0; i < title_tags.length; ++i) {
-                search_tags.push(title_tags[i].toLowerCase());
+              if (title_tags) {
+                for (var i = 0; i < title_tags.length; ++i) {
+                  search_tags.push(title_tags[i].toLowerCase());
+                }
               }
               
               for (var i = 0; i < look.tags.length; ++i) {
                 var tag = look.tags[i];
                 var brand_tags = tag.product.brand.match(/[a-zA-Z0-9_]+/g);
-                for (var j = 0; j < brand_tags.length; ++j) {
-                  search_tags.push(brand_tags[j].toLowerCase());
+                if (brand_tags) {
+                  for (var j = 0; j < brand_tags.length; ++j) {
+                    search_tags.push(brand_tags[j].toLowerCase());
+                  }
                 }
+
                 var name_tags = tag.product.name.match(/[a-zA-Z0-9_]+/g);
-                for (var j = 0; j < name_tags.length; ++j) {
-                  search_tags.push(name_tags[j].toLowerCase());
+                if (name_tags) {
+                  for (var j = 0; j < name_tags.length; ++j) {
+                    search_tags.push(name_tags[j].toLowerCase());
+                  }
                 }
               }
               look.search = search_tags;
