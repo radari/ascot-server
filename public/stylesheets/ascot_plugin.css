@@ -57,14 +57,13 @@
 }
 
 .ascot_overlay_image_menu {
-  border:1px transparent solid;
   height:28px;
   width:28px;
-  position:relative;
-  float:right;
-  top:3px;
-  right: 3px;
+  position: absolute;
+  top: 5px;
+  right: 0px;
   z-index:500;
+  padding: 0px;
    border-radius: 5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
@@ -77,8 +76,7 @@
 .ascot_overlay_image_menu ul {
   padding:0;
   width:100%;
-  margin-top:0;
-  margin-bottom:0;
+  margin: 0;
 }
 
 .ascot_overlay_image_menu li {
@@ -87,9 +85,9 @@
   display:block;
   opacity:0.8;
   width:100%;
-  margin:0;
+  margin:0px;
   height:40px;
-  padding: 0;
+  padding: 0px;
 }
 
 .ascot_overlay_image_menu img:hover {
@@ -98,9 +96,14 @@
 }
 
 .ascot_overlay_image_menu img {
- box-shadow:none;
- -moz-box-shadow:none;
- -webkit-box-shadow:none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 
