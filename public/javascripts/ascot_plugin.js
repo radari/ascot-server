@@ -41,7 +41,6 @@ function initAscotPlugin($) {
   $(document).imagesLoaded(function() {
     // Wait for ALL images to load. Certainly not best way to do this, but
     // easiest.
-    alert('hi');
     
     // List of all images
     var images = $('img').get();
@@ -93,15 +92,30 @@ function initAscotPlugin($) {
               
               overlay.append('<div class="ascot_overlay_image_menu"><ul><li><a target="_blank" href="http://www.ascotproject.com/look/' + ascotId + '"><img src="http://www.ascotproject.com/images/overlayOptions_share.png"></li></a></ul></div>');
               
-              overlay.append('<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' + json.source + '</div>');
-              var sourceTag = overlay.children().last();
-              var sourceUrl = sourceTag.children().last();
-              
-              sourceTag.hover(function() {
-                sourceUrl.show(100, function(){});
-              },function(){
-                sourceUrl.hide(100, function(){});
-              });
+              if (json.source && json.source.length > 0) {
+                if (json.source.indexOf('http://') != -1) {
+                  overlay.append(
+                      '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
+                      '<a href="' +
+                      json.source + '\">' +
+                      json.source +
+                      '</a>' +
+                      '</div>');
+                } else {
+                  overlay.append(
+                      '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
+                      json.source +
+                      '</div>');
+                }
+                var sourceTag = overlay.children().last();
+                var sourceUrl = sourceTag.children().last();
+                
+                sourceTag.hover(function() {
+                  sourceUrl.show(100, function(){});
+                }, function() {
+                  sourceUrl.hide(100, function(){});
+                });
+              }
               
               animateButton.click(function(event) {
                 event.stopPropagation();
