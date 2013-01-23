@@ -9,7 +9,7 @@
  *
  */
 
-function initAscotPlugin($) {
+function initAscotPlugin($, tagSourceUrl) {
   var getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
       return null;
@@ -66,7 +66,7 @@ function initAscotPlugin($) {
       if (ascotId != null) {
         $.ajax({
           type: 'GET',
-          url: 'http://www.ascotproject.com/tags.jsonp?id='
+          url: tagSourceUrl + '/tags.jsonp?id='
               + encodeURIComponent(ascotId),
           async: true,
           jsonpCallback: 'callback',

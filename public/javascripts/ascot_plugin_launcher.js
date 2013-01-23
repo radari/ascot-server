@@ -101,7 +101,7 @@
       checkJQueryImagesLoaded(function() {
         loadAscotStylesheets(function() {
           loadAscotPlugin(function() {
-            initAscotPlugin(jQuery);
+            initAscotPlugin(jQuery, 'http://www.ascotproject.com');
           });
         });
       });
