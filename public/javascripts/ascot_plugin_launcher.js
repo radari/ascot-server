@@ -84,24 +84,25 @@
     }
   };
   
-  var loadAscotStylesheets = function(callback) {
+  var loadAscotStylesheets = function(url, callback) {
     loadStylesheet(
-        'http://www.ascotproject.com/stylesheets/ascot_plugin.css',
+        url + '/stylesheets/ascot_plugin.css',
         callback);
   };
   
-  var loadAscotPlugin = function(callback) {
+  var loadAscotPlugin = function(url, callback) {
     loadScript(
-        'http://www.ascotproject.com/javascripts/ascot_plugin.js',
+        url + '/javascripts/ascot_plugin.js',
         callback);
   };
 
+  var url = 'http://www.ascotproject.com';
   checkJQuery(function() {
     checkJQueryUI(function() {
       checkJQueryImagesLoaded(function() {
-        loadAscotStylesheets(function() {
-          loadAscotPlugin(function() {
-            initAscotPlugin(jQuery, 'http://www.ascotproject.com');
+        loadAscotStylesheets(url, function() {
+          loadAscotPlugin(url, function() {
+            initAscotPlugin(jQuery, url);
           });
         });
       });
