@@ -96,7 +96,7 @@
         callback);
   };
 
-  var url = 'http://www.ascotproject.com';
+  var url = 'http://vkarpov.izvor.ru:3000';
   checkJQuery(function() {
     checkJQueryUI(function() {
       checkJQueryImagesLoaded(function() {
