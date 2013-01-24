@@ -184,16 +184,20 @@ exports.brand = function(req, res) {
   var p = req.query["p"] || 0;
 
   Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).count(function(error, count) {
-    Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }, function(error, looks) {
-      res.render('looks_list',
-          { looks : looks,
-            listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
-            title : 'Ascot :: ' + req.query["v"],
-            routeUrl : '/brand?v=' + encodeURIComponent(req.query["v"]) + '&',
-            page : p,
-            sizer : generateLookImageSize(looks, 5, 780),
-            numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
-    });
+    Look.
+        find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).
+        sort({ _id : -1 }).
+        limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
+        exec(function(error, looks) {
+          res.render('looks_list',
+            { looks : looks,
+              listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
+              title : 'Ascot :: ' + req.query["v"],
+              routeUrl : '/brand?v=' + encodeURIComponent(req.query["v"]) + '&',
+              page : p,
+              sizer : generateLookImageSize(looks, 5, 780),
+              numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+        });
   });
 };
 
@@ -210,20 +214,24 @@ exports.keywords = function(req, res) {
   }
   
   Look.find({ search : { $all : keywords }, showOnCrossList : 1 }).count(function(error, count) {
-    Look.find({ search : { $all : keywords }, showOnCrossList : 1 }, function(error, looks) {
-      if (error || !looks) {
-        res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
-      } else {
-        res.render('looks_list',
-            { looks : looks,
-              listTitle : 'Looks with Keywords : ' + req.query["v"],
-              title : 'Ascot :: ' + req.query["v"],
-              routeUrl : '/keywords?v=' + encodeURIComponent(req.query["v"]) + '&',
-              page : p,
-              sizer : generateLookImageSize(looks, 5, 780),
-              numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
-      }
-    });
+    Look.
+        find({ search : { $all : keywords }, showOnCrossList : 1 }).
+        sort({ _id : -1 }).
+        limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
+        exec(function(error, looks) {
+          if (error || !looks) {
+            res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+          } else {
+            res.render('looks_list',
+                { looks : looks,
+                  listTitle : 'Looks with Keywords : ' + req.query["v"],
+                  title : 'Ascot :: ' + req.query["v"],
+                  routeUrl : '/keywords?v=' + encodeURIComponent(req.query["v"]) + '&',
+                  page : p,
+                  sizer : generateLookImageSize(looks, 5, 780),
+                  numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+          }
+        });
   });
 }
 
@@ -235,20 +243,23 @@ exports.all = function(req, res) {
   var p = req.query["p"] || 0;
   
   Look.find({}).count(function(error, count) {
-    Look.find({}).limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).exec(function(error, looks) {
-    if (error || !looks) {
-      res.render('error',
-          { title : "Ascot :: Error", error : "Couldn't load looks'" });
-    } else {
-      res.render('looks_list',
-          { looks : looks,
-            listTitle : 'All Looks',
-            title : 'Ascot :: All Looks',
-            routeUrl : '/all?',
-            page : p,
-            sizer : generateLookImageSize(looks, 5, 780),
-            numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
-    }
-  });
+    Look.find({}).
+        sort({ _id : -1 }).
+        limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
+        exec(function(error, looks) {
+          if (error || !looks) {
+            res.render('error',
+                { title : "Ascot :: Error", error : "Couldn't load looks'" });
+          } else {
+            res.render('looks_list',
+                { looks : looks,
+                  listTitle : 'All Looks',
+                  title : 'Ascot :: All Looks',
+                  routeUrl : '/all?',
+                  page : p,
+                  sizer : generateLookImageSize(looks, 5, 780),
+                  numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
+          }
+        });
   });
 }

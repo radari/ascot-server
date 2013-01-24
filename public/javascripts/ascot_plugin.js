@@ -98,7 +98,7 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('width', image.width() + 'px');
               overlay.css('height', image.height() + 'px');
               
-              overlay.append('<div class="ascot_overlay_image_menu"><ul><li><a target="_blank" href="http://www.ascotproject.com/look/' + ascotId + '"><img src="http://www.ascotproject.com/images/overlayOptions_share.png"></li></a></ul></div>');
+              overlay.append('<div class="ascot_overlay_image_menu"><ul><li><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="http://www.ascotproject.com/images/overlayOptions_share.png"></li></a></ul></div>');
               
               if (json.source && json.source.length > 0) {
                 if (json.source.indexOf('http://') != -1) {
@@ -156,7 +156,7 @@ function initAscotPlugin($, tagSourceUrl) {
                     "<br/>" +
                     (tag.product.buyLink.length > 0 ? "<a target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
                     (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
-                    "<a target='_blank' href='http://www.ascotproject.com/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
+                    "<a target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
 
                 if (tagX > width / 2.0) {
                   tagDescription.css('right', '10px');
