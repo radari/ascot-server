@@ -63,7 +63,7 @@ function initAscotPlugin($, tagSourceUrl) {
         var alt = image.attr('alt');
         if (href && href.toLowerCase().indexOf('ascotproject.com/look/') != -1) {
           ascotId = href.toLowerCase().substr(href.indexOf('ascotproject.com/look/') + 'ascotproject.com/look/'.length, '50f8bae560ad830943000004'.length);
-          image.parent().attr('href', '#');
+          //image.parent().attr('href', '');
         }
       }
 
@@ -126,7 +126,7 @@ function initAscotPlugin($, tagSourceUrl) {
               }
               
               animateButton.click(function(event) {
-                event.stopPropagation();
+                event.preventDefault();
                 overlay.toggle("slide", { direction: "left" }, 500, function(){});
               });
               
