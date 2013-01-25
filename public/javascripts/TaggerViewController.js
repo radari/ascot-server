@@ -8,7 +8,7 @@
  *
  */
 
-function TaggerViewController($scope, $http, ImageOffsetService, $location) {
+function TaggerViewController($scope, $http, ImageOffsetService, $redirect) {
   this.$scope = $scope;
 
   $scope.idsToLooks = {};
@@ -147,8 +147,7 @@ function TaggerViewController($scope, $http, ImageOffsetService, $location) {
   $scope.finalize = function(id, key) {
     $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id]).success(
         function(data) {
-          // TODO: This method isn't testable because of this jQuery call
-          $(location).attr('href', '/look/' + id);
+          $redirect('/look/' + id);
         });
   };
 
