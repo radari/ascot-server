@@ -284,6 +284,9 @@ div.autocomplete {
   width: 200px;
  	margin-top: 5px;
  	margin-left: 17px;
+ 	position: absolute;
+ 	right:135px;
+	top:52px;
 }
 
 div.autocomplete div {

@@ -11,13 +11,12 @@ html(ng-app='AscotModule')
     script(src='/javascripts/ImageOffsetService.js')
     script(src="/javascripts/Redirect.js")
     script(src='/javascripts/AscotModule.js')
+    script(src='/javascripts/MainSearchBarController.js')
     script(src='/vendor/javascripts/jquery.imagesloaded.js')
 
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='icon', type='image/png', href='/images/favicon.ico')
     link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/start/jquery-ui.css')
-    script(src='/vendor/autocomplete/jquery.autocomplete.js')
-    script(src='/javascripts/search_autocomplete.js')
     
     block head
 
@@ -36,7 +35,7 @@ html(ng-app='AscotModule')
 
     canvas#redStripe
 
-    #wrapper
+    #wrapper(ng-controller='MainSearchBarController')
       a(href="/")
         img#logo(src='/images/ascotLogo.png', id:'logo')
 
@@ -58,9 +57,18 @@ html(ng-app='AscotModule')
             h3 About
 
       form(method='get', action='/keywords')
-        input(type='text', name='v', id='main_search', placeholder="brand or keywords")
+        input(type='text',
+              name='v',
+              id='main_search',
+              ng-model='mainSearch',
+              ng-change='updateResults()'
+              placeholder="brand or keywords")
         span#glass 
           i
+      div.autocomplete
+        div(ng-repeat='result in results',
+            ng-click='onSelected(result)')
+          span(ng-bind-html-unsafe='suggestions[$index] | boldInstances:mainSearch')
 
       ul#social
         li
