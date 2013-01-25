@@ -1,10 +1,11 @@
 
 describe('TaggerViewController', function() {
-  var scope, v, $httpBackend;
+  var scope, v, $httpBackend, url;
 
   beforeEach(inject(function($injector, $rootScope, $controller) {
     $httpBackend = $injector.get('$httpBackend');
     scope = $rootScope.$new();
+    url = "";
 
     v = $controller(TaggerViewController,
         { $scope : scope,
@@ -19,7 +20,10 @@ describe('TaggerViewController', function() {
                 getWidth : function(id) {
                   return 200;
                 }
-               }
+               },
+          $redirect : function(u) {
+            url = u;
+          }
         });
   }));
 
@@ -95,5 +99,19 @@ describe('TaggerViewController', function() {
     scope.finishDraggingTag('1234', tag1);
     expect(tag1.position.x).toBe(26);
     expect(tag1.position.y).toBe(16);
+  });
+
+  it('should do a put and redirect after clicking save', function () {
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ tags : [], size : { height : 200, width: 200 } });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+    var tag1 = scope.addTag('1234', 25, 15);
+
+    $httpBackend.expectPUT('/tagger/5678/1234').respond({});
+    scope.finalize('1234', '5678');
+    $httpBackend.flush();
+    expect(url).toBe('/look/1234');
   });
 });
