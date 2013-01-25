@@ -9,7 +9,7 @@ describe('Ascot Project', function() {
     });
 
     it('should have search results', function() {
-      input('#main_search').enter('bullshit');
+      input('mainSearch').enter('bullshit');
       expect(repeater('.autocomplete div').count()).toBe(1);
     });
   })
