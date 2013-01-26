@@ -37,4 +37,30 @@ describe('MainSearchBarController', function() {
     expect(scope.suggestions.length).toBe(1);
     expect(scope.suggestions[0]).toBe('def');
   });
+  
+  it('should redirect properly', function() {
+    scope.mainSearch = 'test1234';
+    
+    var filters =
+        [
+          { type : 'Brand', v : 'nike' },
+          { type : 'Keyword', v : 'ni' }
+        ];
+    
+    $httpBackend.expectGET('/filters.json?query=test1234').
+        respond(
+        { data : filters,
+          suggestions : ['def', 'abc']
+        });
+    scope.updateResults();
+    $httpBackend.flush();
+    
+    expect(url).toBe('');
+    
+    scope.onSelected(filters[0]);
+    expect(url).toBe('/brand?v=nike');
+    
+    scope.onSelected(filters[1]);
+    expect(url).toBe('/keywords?v=ni');
+  });
 });
