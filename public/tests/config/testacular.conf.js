@@ -10,6 +10,7 @@ files = [
   'tests/angular-mocks.js',
   'javascripts/basic_tools.js',
   'javascripts/TaggerViewController.js',
+  'javascripts/MainSearchBarController.js',
   'tests/*.js'
 ];
 
