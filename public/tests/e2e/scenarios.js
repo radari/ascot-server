@@ -8,11 +8,17 @@ describe('Ascot Project', function() {
       browser().navigateTo('/');
     });
 
-    it('Search bar should work', function() {
+    it('should handle user interaction with search bar', function() {
       input('mainSearch').enter('bullshit');
       expect(repeater('.autocomplete div').count()).toBe(1);
       element('.autocomplete div').click();
       expect(browser().location().url()).toBe('/keywords?v=bullshit');
+    });
+    
+    it('should be able to upload an image', function() {
+      element('#submitLink').val('https://www.google.com/images/srpr/logo3w.png');
+      element('#submit').click();
+      expect(browser().window().href()).toBe('/tagger/');
     });
   })
 });
