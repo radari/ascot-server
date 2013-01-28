@@ -8,9 +8,11 @@ describe('Ascot Project', function() {
       browser().navigateTo('/');
     });
 
-    it('should have search results', function() {
+    it('Search bar should work', function() {
       input('mainSearch').enter('bullshit');
       expect(repeater('.autocomplete div').count()).toBe(1);
+      element('.autocomplete div').click();
+      expect(browser().location().url()).toBe('/keywords?v=bullshit');
     });
   })
 });

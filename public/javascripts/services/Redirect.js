@@ -10,9 +10,11 @@
  */
 
 angular.module('RedirectModule', []).
-    factory('$redirect', [function() {
-      // Abuse jQuery
+    factory('$redirect', ['$window', '$location', function($window, $location) {
       return function(url) {
-        $(location).attr('href', url);
+        // First one only for sake of E2E testing working. Second one is for
+        // actual redirect
+        $location.url(url);
+        $window.location.href = url;
       };
     }]);
