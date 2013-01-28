@@ -163,11 +163,11 @@
 }
 
 .ascot_overlay .ascot_overlay_source_tag {
-  position:relative;
+  position: absolute;
   background: #171717;
   line-height: 16px;
   color: #fff;
-  border: 3px solid #fff;
+  border: 3px solid white;
   margin: 0px;
   padding: 2px;
   padding-top: 0px;
@@ -185,8 +185,8 @@
   -moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
   -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
   text-align: center;
-  top:96%;
-  margin-left:6px;
+  bottom: 0px;
+  left: 10px;
   z-index:4;
 }
 
@@ -198,9 +198,9 @@
   color:#323232;
   border-radius: 3px;
   font-family:"Lucida Grande", Helvetica, Arial, sans-serif; 
-  display:none;
-  position:absolute;
-  bottom: 0px;
+  display: none;
+  position: absolute;
+  bottom: -3px;
   z-index: 1;
   left: 21px;
   padding: 3px;
