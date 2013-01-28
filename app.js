@@ -38,7 +38,7 @@ app.configure('development', function(){
 // Static views
 app.get('/', routes.index);
 app.get('/about', routes.about);
-app.get('/tumblr', routes.tumblr);
+app.get('/howto/tumblr', routes.tumblr);
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(app.get('url')));

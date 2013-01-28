@@ -16,7 +16,7 @@ exports.about = function(req, res) {
 };
 
 /*
- * GET /tumblr
+ * GET /howto/tumblr
  */
 exports.tumblr = function(req, res) {
   res.render('tumblr', { title : 'Ascot :: Tumblr Help' });
