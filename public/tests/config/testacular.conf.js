@@ -9,8 +9,8 @@ files = [
   'vendor/angular/angular-*.js',
   'tests/lib/angular-mocks.js',
   'javascripts/basic_tools.js',
-  'javascripts/TaggerViewController.js',
-  'javascripts/MainSearchBarController.js',
+  'javascripts/controllers/TaggerViewController.js',
+  'javascripts/controllers/MainSearchBarController.js',
   'tests/*.js'
 ];
 
