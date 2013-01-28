@@ -95,15 +95,23 @@ exports.upload = function(url) {
       });
     } else if (req.body.url) {
       console.log("From url " + req.body.url);
-      mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
-        if (error) {
-          res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
-        } else {
-          ImageMagick.identify(look.url, function(error, features) {
-            mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
-              res.redirect('/tagger/' + permissions._id + '/' + look._id);
-            });
+      ImageMagick.identify(req.body.url, function(error, features) {
+        if (features) {
+          mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
+            if (error) {
+              res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
+            } else {
+              mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
+                res.redirect('/tagger/' + permissions._id + '/' + look._id);
+              });
+            }
           });
+        } else {
+          res.render('error',
+              { title : "Ascot :: Error",
+                error : "Image '" + req.body.url +
+                        "' couldn't be found. Please make sure the URL is correct."
+              });
         }
       });
     }
