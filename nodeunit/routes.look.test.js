@@ -14,11 +14,23 @@ exports.testGetLook = function(test) {
   var viewName = "";
   var viewParams = {};
 
-  var fn = LookRoutes.get('localhost:3000');
-  fn({ params : { id : '50be5616715bb7bf22000004' } },
+  var testLook = { title : 'Test Title', id : 'MYFAKEID' };
+  var fn = LookRoutes.get({
+    buildFromId : function(id, cb) {
+      if (id == 'MYFAKEID') {
+        cb(null, testLook);
+      } else {
+        cb({ error : 'error' }, null);
+      }
+    }
+  });
+
+  fn({ params : { id : 'MYFAKEID' } },
       { render :
         function(view, params) {
           test.equal('look', view, "render correct view");
+          test.equal('Ascot :: Test Title', params.title);
+          test.equal(testLook, params.look);
           test.done();
         }
       });
