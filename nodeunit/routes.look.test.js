@@ -11,9 +11,6 @@
 var LookRoutes = require('../routes/look.js')
 
 exports.testGetLook = function(test) {
-  var viewName = "";
-  var viewParams = {};
-
   var testLook = { title : 'Test Title', id : 'MYFAKEID' };
   var fn = LookRoutes.get({
     buildFromId : function(id, cb) {
@@ -31,6 +28,27 @@ exports.testGetLook = function(test) {
           test.equal('look', view, "render correct view");
           test.equal('Ascot :: Test Title', params.title);
           test.equal(testLook, params.look);
+          test.done();
+        }
+      });
+};
+
+exports.testGetLookFail = function(test) {
+  var testLook = { title : 'Test Title', id : 'MYFAKEID' };
+  var fn = LookRoutes.get({
+    buildFromId : function(id, cb) {
+      if (id == 'MYFAKEID') {
+        cb(null, testLook);
+      } else {
+        cb({ error : 'error' }, null);
+      }
+    }
+  });
+
+  fn({ params : { id : 'MYBSID' } },
+      { render :
+        function(view, params) {
+          test.equal('error', view, "render correct view");
           test.done();
         }
       });
