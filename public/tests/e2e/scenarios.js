@@ -16,9 +16,12 @@ describe('Ascot Project', function() {
     });
     
     it('should be able to upload an image', function() {
-      element('#submitLink').val('https://www.google.com/images/srpr/logo3w.png');
+      element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
       element('#submit').click();
-      expect(browser().window().href()).toBe('/tagger/');
+      sleep(5);
+      sleep(5);
+      // Wait for 10 seconds for next page to load
+      expect(browser().window().href()).toContain('/tagger/');
     });
   })
 });
