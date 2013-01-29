@@ -15,9 +15,7 @@ var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFact
  *
  * Defaults to returning regular json if no callback is specified
  */
-
-exports.get = function(url) {
-  var mongoLookFactory = new MongoLookFactory(url);
+exports.get = function(mongoLookFactory) {
   return function(req, res) {
     mongoLookFactory.buildFromId(req.query["id"], function(error, look) {
       if (error) {

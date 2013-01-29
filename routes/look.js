@@ -14,8 +14,7 @@ var ImageMagick = require('imagemagick');
  * GET /look/:id
  */
 
-exports.get = function(url) {
-  var look = new MongoLookFactory(url);
+exports.get = function(look) {
   return function(req, res) {
     // retrieve database
     look.buildFromId(req.params.id, function(error, result) {
@@ -35,8 +34,7 @@ exports.get = function(url) {
 /*
  * GET /look/:id/iframe
  */
-exports.iframe = function(url) {
-  var mongoLookFactory = new MongoLookFactory(url);
+exports.iframe = function(mongoLookFactory) {
   return function(req, res) {
     mongoLookFactory.buildFromId(req.params.id, function(error, result) {
       if (error) {
@@ -79,8 +77,7 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
 /*
  * POST /image-upload
  */
-exports.upload = function(url) {
-  var mongoLookFactory = new MongoLookFactory(url);
+exports.upload = function(mongoLookFactory) {
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       console.log("Upload? " + JSON.stringify(req.files.files));

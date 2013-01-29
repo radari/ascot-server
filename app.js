@@ -16,6 +16,7 @@ var express = require('express')
   , fs = require('fs');
 
 var app = express();
+var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -40,10 +41,12 @@ app.get('/', routes.index);
 app.get('/about', routes.about);
 app.get('/howto/tumblr', routes.tumblr);
 
+var mongoLookFactory = new MongoLookFactory(app.get('url'));
+
 // Looks and search dynamic displays
-app.get('/look/:id', look.get(app.get('url')));
-app.get('/look/:id/iframe', look.iframe(app.get('url')));
-app.get('/tagger/:key/:look', tagger.get(app.get('url')));
+app.get('/look/:id', look.get(mongoLookFactory));
+app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
+app.get('/tagger/:key/:look', tagger.get(mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random);
 app.get('/brand', look.brand);
@@ -51,14 +54,14 @@ app.get('/keywords', look.keywords);
 app.get('/all', look.all);
 
 // JSON queries
-app.get('/tags.jsonp', tags.get(app.get('url')));
+app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/filters.json', look.filters);
 
 // Upload
-app.post('/image-upload', look.upload(app.get('url')));
+app.post('/image-upload', look.upload(mongoLookFactory));
 
 // Set tags for image
-app.put('/tagger/:key/:look', tagger.put(app.get('url')));
+app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));

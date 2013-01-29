@@ -16,8 +16,7 @@ var validator = new Validator();
 /*
  * GET /tagger/:key/:look
  */
-exports.get = function(url) {
-  var mongoLookFactory = new MongoLookFactory(url);
+exports.get = function(mongoLookFactory) {
   return function(req, res) {
     if (req.params.key && req.params.look) {
       validator.canEditTags(req.params.key, req.params.look, function(error, permission) {
@@ -40,8 +39,7 @@ exports.get = function(url) {
 /*
  * PUT /tagger/:key/:look
  */
-exports.put = function(url) {
-  var mongoLookFactory = new MongoLookFactory(url);
+exports.put = function(mongoLookFactory) {
   return function(req, res) {
     if (req.params.key && req.params.look) {
       validator.canEditTags(req.params.key,
