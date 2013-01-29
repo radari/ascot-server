@@ -18,7 +18,7 @@ exports.get = function(url) {
   var look = new MongoLookFactory(url);
   return function(req, res) {
     // retrieve database
-    look.buildFromId(req.params.id, function(error, result){
+    look.buildFromId(req.params.id, function(error, result) {
       if (error) {
         res.render('error', { error : 'Failed to find image', title : 'Error' });
       } else if (!result) {

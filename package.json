@@ -12,6 +12,7 @@
     "mongodb": ">= 0.9.6-7",
     "mongoose" : "*",
     "imagemagick" : "*",
-    "testacular" : "*"
+    "testacular" : "*",
+    "nodeunit" : "*"
   }
 }
