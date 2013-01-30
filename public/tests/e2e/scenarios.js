@@ -20,7 +20,10 @@ describe('Ascot Project', function() {
       element('#submit').click();
       sleep(5);
       sleep(5);
-      // Wait for 10 seconds for next page to load
+      sleep(5);
+      sleep(5);
+      sleep(5);
+      // Wait for 15 seconds for next page to load
       expect(browser().window().href()).toContain('/tagger/');
     });
   })
