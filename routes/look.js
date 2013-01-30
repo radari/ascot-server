@@ -10,10 +10,11 @@ var Look = db.model('looks', LookSchema);
 
 var ImageMagick = require('imagemagick');
 
+var Stopwatch = require('../public/common/Stopwatch.js').Stopwatch;
+
 /*
  * GET /look/:id
  */
-
 exports.get = function(look) {
   return function(req, res) {
     // retrieve database
@@ -78,6 +79,7 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
  * POST /image-upload
  */
 exports.upload = function(mongoLookFactory) {
+  var stopwatch = new Stopwatch();
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       console.log("Upload? " + JSON.stringify(req.files.files));
@@ -92,7 +94,9 @@ exports.upload = function(mongoLookFactory) {
       });
     } else if (req.body.url) {
       console.log("From url " + req.body.url);
+      stopwatch.start('IMAGEMAGICK');
       ImageMagick.identify(req.body.url, function(error, features) {
+        console.log('ImageMagick time : ' + stopwatch.stop('IMAGEMAGICK') + 'ms');
         if (features) {
           mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
             if (error) {
