@@ -82,7 +82,6 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
  * POST /image-upload
  */
 exports.upload = function(mongoLookFactory) {
-  var stopwatch = new Stopwatch();
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
@@ -136,15 +135,16 @@ exports.upload = function(mongoLookFactory) {
 /*
  * GET /random
  */
-exports.random = function(req, res) {
-  rand = Math.random();
-  Look.findOne({ random : { $near : [rand, 0] }, showOnCrossList : 1 }, function(error, look) {
-    if (error || !look) {
-      res.render('error', { error : 'Could not find a random look?', title : 'Ascot :: Error' });
-    } else {
-      res.redirect('/look/' + look._id);
-    }
-  });
+exports.random = function(mongoLookFactory) {
+  return function(req, res) {
+    mongoLookFactory.getRandom(function(error, look) {
+      if (error || !look) {
+        res.render('error', { error : 'Could not find a random look?', title : 'Ascot :: Error' });
+      } else {
+        res.redirect('/look/' + look._id);
+      }
+    });
+  };
 };
 
 /*

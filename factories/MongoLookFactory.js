@@ -18,12 +18,13 @@ var PermissionsSchema = require('../models/Permissions.js').PermissionsSchema;
 var Permissions = db.model('permissions', PermissionsSchema);
 
 exports.MongoLookFactory = function(url) {
-  this.buildFromUrl = function(url, callback) {
-    Look.findOne({ url : url }).exec(function(error, result) {
-      if (error || !result) {
+  this.getRandom = function(callback) {
+    rand = Math.random();
+    Look.findOne({ random : { $near : [rand, 0] }, showOnCrossList : 1 }, function(error, look) {
+      if (error || !look) {
         callback(error, null);
       } else {
-        callback(null, result);
+        callback(error, look);
       }
     });
   };
