@@ -28,7 +28,6 @@ exports.get = function(look) {
         res.render('error', { error : 'Image not found', title : 'Error' });
       } else {
         // render layout
-        console.log(JSON.stringify(result));
         res.render('look', { title: 'Ascot :: ' + result.title, look: result });
       }
     });

@@ -11,7 +11,7 @@
 var LookRoutes = require('../routes/look.js')
 
 exports.testGetLook = function(test) {
-  var testLook = { title : 'Test Title', id : 'MYFAKEID' };
+  var testLook = { title : 'Test Title', _id : 'MYFAKEID' };
   var fn = LookRoutes.get({
     buildFromId : function(id, cb) {
       if (id == 'MYFAKEID') {
@@ -34,7 +34,7 @@ exports.testGetLook = function(test) {
 };
 
 exports.testGetLookFail = function(test) {
-  var testLook = { title : 'Test Title', id : 'MYFAKEID' };
+  var testLook = { title : 'Test Title', _id : 'MYFAKEID' };
   var fn = LookRoutes.get({
     buildFromId : function(id, cb) {
       if (id == 'MYFAKEID') {
@@ -51,5 +51,22 @@ exports.testGetLookFail = function(test) {
           test.equal('error', view, "render correct view");
           test.done();
         }
+      });
+};
+
+exports.testGetRandom = function(test) {
+  var testLook = { title : 'Test Title', _id : 'MYFAKEID' };
+  var fn = LookRoutes.random({
+    getRandom : function(cb) {
+      cb(null, testLook);
+    }
+  });
+
+  fn({},
+      { redirect :
+        function(url) {
+          test.equal('/look/MYFAKEID', url);
+          test.done();
+        } 
       });
 };
