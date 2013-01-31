@@ -12,18 +12,16 @@ describe('Ascot Project', function() {
       input('mainSearch').enter('bullshit');
       expect(repeater('.autocomplete div').count()).toBe(1);
       element('.autocomplete div').click();
-      expect(browser().location().url()).toBe('/keywords?v=bullshit');
+      sleep(3);
+      expect(browser().window().path()).toBe('/keywords');
+      expect(browser().window().search()).toBe('?v=bullshit');
     });
     
     it('should be able to upload an image', function() {
       element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
       element('#submit').click();
       sleep(5);
-      sleep(5);
-      sleep(5);
-      sleep(5);
-      sleep(5);
-      // Wait for 15 seconds for next page to load
+      // Wait for 12 seconds for next page to load
       expect(browser().window().href()).toContain('/tagger/');
     });
   })
