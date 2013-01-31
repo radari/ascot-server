@@ -4,7 +4,6 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 var LookSchema = require('../../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
-var ImageMagick = require('imagemagick');
 
 Array.prototype.ascotRemove = function(from, to) {
   var rest = this.slice((to || from) + 1 || this.length);
@@ -105,7 +104,7 @@ var checkForBadTags = function(look) {
 
 var addHeightAndWidthForLook = function(look, callback) {
   if (!look.size || !look.size.height || !look.size.width || look.size.height == 0 || look.size.width == 0) {
-    ImageMagick.identify(look.url, function(error, features) {
+    /*ImageMagick.identify(look.url, function(error, features) {
       if (error || !features) {
         look.size.height = 0;
         look.size.width = 0;
@@ -116,7 +115,7 @@ var addHeightAndWidthForLook = function(look, callback) {
         look.size.width = features.width;
         callback(look, true);
       }
-    });
+    });*/
   } else {
     callback(look, true);
   }

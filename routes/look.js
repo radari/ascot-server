@@ -8,9 +8,12 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 var LookSchema = require('../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
-var ImageMagick = require('imagemagick');
+var gm = require('gm');
 
 var Stopwatch = require('../public/common/Stopwatch.js').Stopwatch;
+
+var http = require('http-get');
+var fs = require('fs');
 
 /*
  * GET /look/:id
@@ -62,7 +65,7 @@ var handleUpload = function(handle, mongoLookFactory, callback) {
       if (error) {
         callback(error, null, null);
       } else {
-        ImageMagick.identify(targetPath, function(error, features) {
+        gm(targetPath).size(function(error, features) {
           mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
             fs.unlink(tmpPath, function(error) {
               // Don't care about error, probably means files already gone
@@ -94,27 +97,44 @@ exports.upload = function(mongoLookFactory) {
       });
     } else if (req.body.url) {
       console.log("From url " + req.body.url);
-      stopwatch.start('IMAGEMAGICK');
-      ImageMagick.identify(req.body.url, function(error, features) {
-        console.log('ImageMagick time : ' + stopwatch.stop('IMAGEMAGICK') + 'ms');
-        if (features) {
-          mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
-            if (error) {
-              res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
-            } else {
-              mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
-                res.redirect('/tagger/' + permissions._id + '/' + look._id);
-              });
-            }
-          });
-        } else {
+      var random = Math.random().toString(36).substr(2);
+      var tmpPath = './public/images/uploads/' + random + '.png';
+      stopwatch.start('NETWORK');
+      http.get(req.body.url, tmpPath, function(error, result) {
+        console.log('Image Download Time : ' + stopwatch.stop('NETWORK'));
+        if (error) {
           res.render('error',
               { title : "Ascot :: Error",
                 error : "Image '" + req.body.url +
                         "' couldn't be found. Please make sure the URL is correct."
               });
+        } else {
+          stopwatch.start('IMAGEMAGICK');
+          gm(result.file).size(function(error, size) {
+            console.log('GraphicsMagick time : ' + stopwatch.stop('IMAGEMAGICK') + 'ms');
+            fs.unlink(result.file, function() {
+              if (size) {
+                mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
+                  if (error) {
+                    res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
+                  } else {
+                    mongoLookFactory.setHeightAndWidth(look._id, size.height, size.width, function(error, look) {
+                      res.redirect('/tagger/' + permissions._id + '/' + look._id);
+                    });
+                  }
+                });
+              } else {
+                res.render('error',
+                    { title : "Ascot :: Error",
+                      error : "Image '" + error +
+                              "' couldn't be found. Please make sure the URL is correct."
+                    });
+              }
+            });
+          });
         }
       });
+      
     }
   };
 };
