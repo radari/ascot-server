@@ -44,14 +44,8 @@
     link.rel = 'stylesheet';
     link.href = src;
     
-    link.onreadystatechange = function() {
-      if (this.readyState == 'complete' || this.readyState == 'loaded') {
-        callback();
-      }
-    }
-    link.onload = callback;
-    
     head.appendChild(link);
+    callback();
   };
 
   var checkJQuery = function(callback) {
@@ -108,5 +102,4 @@
       });
     });
   });
-
 })();
