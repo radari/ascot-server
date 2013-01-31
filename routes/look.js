@@ -85,7 +85,6 @@ exports.upload = function(mongoLookFactory) {
   var stopwatch = new Stopwatch();
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
-      console.log("Upload? " + JSON.stringify(req.files.files));
       var ret = [];
       handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
         if (error) {
@@ -96,12 +95,9 @@ exports.upload = function(mongoLookFactory) {
         }
       });
     } else if (req.body.url) {
-      console.log("From url " + req.body.url);
       var random = Math.random().toString(36).substr(2);
       var tmpPath = './public/images/uploads/' + random + '.png';
-      stopwatch.start('NETWORK');
       http.get(req.body.url, tmpPath, function(error, result) {
-        console.log('Image Download Time : ' + stopwatch.stop('NETWORK'));
         if (error) {
           res.render('error',
               { title : "Ascot :: Error",
@@ -109,9 +105,7 @@ exports.upload = function(mongoLookFactory) {
                         "' couldn't be found. Please make sure the URL is correct."
               });
         } else {
-          stopwatch.start('IMAGEMAGICK');
           gm(result.file).size(function(error, size) {
-            console.log('GraphicsMagick time : ' + stopwatch.stop('IMAGEMAGICK') + 'ms');
             fs.unlink(result.file, function() {
               if (size) {
                 mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
