@@ -54,19 +54,22 @@ block content
           div#overlay(ng-show="isEdittingTag(look)",
                       ng-style="{ position : 'absolute', left : (computeTagDisplayPosition(look, idsToEditTag[look]).x + 25) + 'px', top : (computeTagDisplayPosition(look, idsToEditTag[look]).y + 25) + 'px' }")
             input.tagger_input( type="text",
-                                id="focusOnOpen"
+                                id="brandInput"
                                 placeholder="Brand (e.g. Bonobos)"
                                 ng-model="idsToEditTag[look].product.brand")
             br
             input.tagger_input( type="text",
+                                id="nameInput"
                                 placeholder="Name (e.g. Jet Blues - Boot Cut)"
                                 ng-model="idsToEditTag[look].product.name")
             br
             input.tagger_input( type="text",
+                                id="buyLinkInput"
                                 placeholder="URL (e.g. http://www.bonobos.com/navy-boot-cut-pants-for-men-jet-blues)"
                                 ng-model="idsToEditTag[look].product.buyLink")
             br
-            input.save_button(type="submit"
+            input.save_button(type="submit",
+                              id="saveTagButton",
                               value="Save Tag",
                               ng-click="finishEdittingTag(look)")
     br

@@ -72,6 +72,12 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect) {
   // Add a tag
   $scope.addTag = function(id, pageX, pageY) {
     var position = $scope.computePositionFromDisplay(id, pageX, pageY);
+    if (position.x < 0) {
+      position.x = 0;
+    }
+    if (position.y < 0) {
+      position.y = 0;
+    }
     
     var newTag =
         { index : $scope.idsToLooks[id].tags.length + 1,
