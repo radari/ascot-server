@@ -164,7 +164,7 @@ exports.filters = function(req, res) {
       exec(function(error, brands) {
         var numAdded = 0;
         for (var i = 0; i < brands.length; ++i) {
-          if (brands[i].toLowerCase().indexOf(req.query["query"]) != -1) {
+          if (brands[i].toLowerCase().indexOf(req.query["query"].toLowerCase()) != -1) {
             ret["data"].push({ v : brands[i], type : 'Brand' });
             ret["suggestions"].push(brands[i] + ' (Brand)');
             if (++numAdded >= 8) {
