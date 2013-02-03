@@ -162,9 +162,16 @@ exports.filters = function(req, res) {
       where('tags.product.brand').
       regex(new RegExp(req.query["query"], "i")).
       exec(function(error, brands) {
+        var numAdded = 0;
         for (var i = 0; i < brands.length; ++i) {
-          ret["data"].push({ v : brands[i], type : 'Brand' });
-          ret["suggestions"].push(brands[i] + ' (Brand)');
+          if (brands[i].toLowerCase().indexOf(req.query["query"]) != -1) {
+            ret["data"].push({ v : brands[i], type : 'Brand' });
+            ret["suggestions"].push(brands[i] + ' (Brand)');
+            if (++numAdded >= 8) {
+              // Limit to 8 results
+              break;
+            }
+          }
         }
         res.json(ret);
       });
