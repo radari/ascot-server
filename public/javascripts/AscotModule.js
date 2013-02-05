@@ -8,4 +8,4 @@
  *
  */
 
-angular.module('AscotModule', ['AngularFilters', 'AscotImageModule', 'RedirectModule']);
+angular.module('AscotModule', ['AngularFilters', 'AscotImageModule', 'RedirectModule', 'AutocompleteModule']);
