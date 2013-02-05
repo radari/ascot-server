@@ -8,12 +8,16 @@
  *
  */
 
-function TaggerViewController($scope, $http, ImageOffsetService, $redirect) {
+function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $autocomplete) {
   this.$scope = $scope;
 
   $scope.idsToLooks = {};
   $scope.idsToEditTag = {};
   $scope.idsToDraggingTag = {};
+
+  $scope.autocomplete = $autocomplete;
+  $scope.autocomplete.setUrl('BRAND', '/brands.json');
+  $scope.autocomplete.setUrl('NAME', '/names.json');
 
   // Initial load of look
   $scope.loadLook = function(id) {
