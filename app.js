@@ -10,6 +10,7 @@ var express = require('express')
   , look = require('./routes/look.js')
   , tagger = require('./routes/tagger.js')
   , upload = require('./routes/upload.js')
+  , product = require('./routes/product.js')
 
   , http = require('http')
   , path = require('path')
@@ -17,6 +18,12 @@ var express = require('express')
 
 var app = express();
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
+
+var Mongoose = require('mongoose');
+var db = Mongoose.createConnection('localhost', 'ascot');
+
+var LookSchema = require('./models/Look.js').LookSchema;
+var Look = db.model('looks', LookSchema);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -56,6 +63,8 @@ app.get('/all', look.all);
 // JSON queries
 app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/filters.json', look.filters);
+app.get('/brands.json', product.brands(Look));
+app.get('/names.json', product.names(Look));
 
 // Upload
 app.post('/image-upload', look.upload(mongoLookFactory));
