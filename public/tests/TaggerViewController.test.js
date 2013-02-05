@@ -23,6 +23,10 @@ describe('TaggerViewController', function() {
                },
           $redirect : function(u) {
             url = u;
+          },
+          $autocomplete : {
+            // Currently no-op just to make tests pass
+            setUrl : function(tag, url) {}
           }
         });
   }));
