@@ -275,7 +275,8 @@ exports.all = function(req, res) {
   var p = req.query["p"] || 0;
   
   Look.find({}).count(function(error, count) {
-    Look.find({}).
+    Look.
+        find({}).
         sort({ _id : -1 }).
         limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
         exec(function(error, looks) {
@@ -294,4 +295,26 @@ exports.all = function(req, res) {
           }
         });
   });
-}
+};
+
+/*
+ * PUT /upvote/:id.json
+ */
+exports.upvote = function(mongoLookFactory) {
+  return function(req, res) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+      if (error || !look) {
+        res.json({ error : 'Invalid look' });
+      } else {
+        ++look.numUpVotes;
+        look.save(function(error, look) {
+          if (error || !look) {
+            res.json({ error : 'Failed to upvote look' });
+          } else {
+            res.json({});
+          }
+        });
+      }
+    });
+  };
+};
