@@ -306,14 +306,22 @@ exports.upvote = function(mongoLookFactory) {
       if (error || !look) {
         res.json({ error : 'Invalid look' });
       } else {
-        ++look.numUpVotes;
-        look.save(function(error, look) {
-          if (error || !look) {
-            res.json({ error : 'Failed to upvote look' });
-          } else {
-            res.json({});
-          }
-        });
+        var upvotedMap = req.cookies ? req.cookies.upvotes || {} : {};
+        console.log("zt " + JSON.stringify(upvotedMap));
+        if (req.params.id in upvotedMap) {
+          res.json({ error : 'Already upvoted' });
+        } else {
+          ++look.numUpVotes;
+          look.save(function(error, look) {
+            if (error || !look) {
+              res.json({ error : 'Failed to upvote look' });
+            } else {
+              upvotedMap[req.params.id] = true;
+              res.cookie('upvotes', upvotedMap, { maxAge : 900000, httpOnly : false });
+              res.json({});
+            }
+          });
+        }
       }
     });
   };
