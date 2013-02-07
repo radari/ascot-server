@@ -59,22 +59,20 @@ block content
                                 ng-change="autocomplete.updateResults('BRAND', idsToEditTag[look].product.brand)"
                                 ng-model="idsToEditTag[look].product.brand")
             div(style="position: relative")
-              div.autocomplete( style="top: -5px; left: -5px",
-                                ng-show="autocomplete.show['BRAND']")
-                div(ng-repeat="suggestion in autocomplete.results['BRAND']")
-                  span( ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.brand",
-                        ng-click="idsToEditTag[look].product.brand = suggestion; autocomplete.show['BRAND'] = false;")
+              div.tagger_autocomplete(ng-show="autocomplete.show['BRAND']")
+                div(ng-repeat="suggestion in autocomplete.results['BRAND']",
+                    ng-click="idsToEditTag[look].product.brand = suggestion; autocomplete.show['BRAND'] = false;")
+                  span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.brand")
             input.tagger_input( type="text",
                                 id="nameInput",
                                 placeholder="Name (e.g. Jet Blues - Boot Cut)",
                                 ng-change="autocomplete.updateResults('NAME', idsToEditTag[look].product.name)",
                                 ng-model="idsToEditTag[look].product.name")
             div(style="position: relative")
-              div.autocomplete( style="top: -5px; left: -5px",
-                                ng-show="autocomplete.show['NAME']")
-                div(ng-repeat="suggestion in autocomplete.results['NAME']")
-                  span( ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.name",
-                        ng-click="idsToEditTag[look].product.name = suggestion; autocomplete.show['NAME'] = false;")
+              div.tagger_autocomplete(ng-show="autocomplete.show['NAME']")
+                div(ng-repeat="suggestion in autocomplete.results['NAME']",
+                    ng-click="idsToEditTag[look].product.name = suggestion; autocomplete.show['NAME'] = false;")
+                  span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.name")
             input.tagger_input( type="text",
                                 id="buyLinkInput"
                                 placeholder="URL (e.g. http://www.bonobos.com/navy-boot-cut-pants-for-men-jet-blues)"
