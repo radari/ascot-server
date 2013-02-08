@@ -98,7 +98,11 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('width', image.width() + 'px');
               overlay.css('height', image.height() + 'px');
               
-              overlay.append('<div class="ascot_overlay_image_menu"><ul><li><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="http://www.ascotproject.com/images/overlayOptions_share.png"></li></a></ul></div>');
+              overlay.append(
+                '<div class="ascot_overlay_image_menu">' +
+                '<div><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
+                '<div><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
+                '</div>');
               
               if (json.source && json.source.length > 0) {
                 if (json.source.indexOf('http://') != -1) {

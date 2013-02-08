@@ -81,14 +81,14 @@
 
 
 .imageMenu {
-  border:1px transparent solid;
+  border:1px solid white;
   height:28px;
-  width:28px;
+  width:52px;
   position:relative;
   float:right;
   top:0px;
   z-index:500;
-   border-radius: 5px;
+  border-radius: 5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
    /*background-color:rgba(0,0,0,0.5);*/
