@@ -38,6 +38,27 @@ function initAscotPlugin($, tagSourceUrl) {
     }
   };
 
+  window.ascotUpvoteLook = function(ascotId) {
+    alert(ascotId);
+    $.ajax({
+      type: 'PUT',
+      url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
+      async: true,
+      jsonpCallback: 'callback',
+      contentType: 'application/jsonp',
+      dataType: 'jsonp',
+      success : function(json) {
+        if (!json.error) {
+          $("#ascot_upvote_" + ascotId).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
+          $("#ascot_upvote_" + ascotId).css('cursor', '');
+          $("#ascot_upvote_" + ascotId).css('opacity', '1');
+        } else {
+          alert(json.error);
+        }
+      }
+    });
+  };
+
   $(document).imagesLoaded(function() {
     // Wait for ALL images to load. Certainly not best way to do this, but
     // easiest.
@@ -77,7 +98,10 @@ function initAscotPlugin($, tagSourceUrl) {
           contentType: 'application/jsonp',
           dataType: 'jsonp',
           success: function (json) {
-            if (json && json.tags) {
+            if (json && json.look && json.look.tags) {
+              var data = json;
+              json = json.look;
+
               var height = image.height();
               var width = image.width();
             
@@ -101,8 +125,14 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.append(
                 '<div class="ascot_overlay_image_menu">' +
                 '<div><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
-                '<div><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
+                '<div><img id="ascot_upvote_' + ascotId + '" onclick="ascotUpvoteLook(\'' + ascotId + '\')" style="cursor: pointer" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
                 '</div>');
+
+              if (data.hasUpvotedCookie) {
+                $("#ascot_upvote_" + ascotId).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
+                $("#ascot_upvote_" + ascotId).css('cursor', '');
+                $("#ascot_upvote_" + ascotId).css('opacity', '1');
+              }
               
               if (json.source && json.source.length > 0) {
                 if (json.source.indexOf('http://') != -1) {

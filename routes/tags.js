@@ -20,17 +20,17 @@ exports.get = function(mongoLookFactory) {
     var upvotedMap = req.cookies ? req.cookies.upvotes || {} : {};
     mongoLookFactory.buildFromId(req.query["id"], function(error, look) {
       if (error) {
-        res.render('error', { error : "Image not found", title : "Error" });
+        res.jsonp({ error : "Look failed" });
         console.log(JSON.stringify(error));
       } else if (!look) {
         res.jsonp({});
       } else {
+        var hasUpvotedCookie = false;
         if (look._id in upvotedMap) {
-          look.hasUpvotedCookie = true;
-        } else {
-          look.hasUpvotedCookie = false;
+          hasUpvotedCookie = true;
         }
-        res.jsonp(look);
+
+        res.jsonp({ look : look, hasUpvotedCookie : hasUpvotedCookie });
       }
     });
   };

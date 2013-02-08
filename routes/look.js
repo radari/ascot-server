@@ -304,21 +304,20 @@ exports.upvote = function(mongoLookFactory) {
   return function(req, res) {
     mongoLookFactory.buildFromId(req.params.id, function(error, look) {
       if (error || !look) {
-        res.json({ error : 'Invalid look' });
+        res.jsonp({ error : 'Invalid look' });
       } else {
         var upvotedMap = req.cookies ? req.cookies.upvotes || {} : {};
-        console.log("zt " + JSON.stringify(upvotedMap));
         if (req.params.id in upvotedMap) {
-          res.json({ error : 'Already upvoted' });
+          res.jsonp({ error : 'Already upvoted' });
         } else {
           ++look.numUpVotes;
           look.save(function(error, look) {
             if (error || !look) {
-              res.json({ error : 'Failed to upvote look' });
+              res.jsonp({ error : 'Failed to upvote look' });
             } else {
               upvotedMap[req.params.id] = true;
               res.cookie('upvotes', upvotedMap, { maxAge : 900000, httpOnly : false });
-              res.json({});
+              res.jsonp({});
             }
           });
         }

@@ -74,7 +74,7 @@ app.post('/image-upload', look.upload(mongoLookFactory));
 app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
 
 // Upvote image
-app.put('/upvote/:id.json', look.upvote(mongoLookFactory));
+app.put('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));
