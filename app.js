@@ -14,7 +14,9 @@ var express = require('express')
 
   , http = require('http')
   , path = require('path')
-  , fs = require('fs');
+  , fs = require('fs')
+  , passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
@@ -75,6 +77,8 @@ app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
 
 // Upvote image
 app.put('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
+
+app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));

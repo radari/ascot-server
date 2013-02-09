@@ -14,6 +14,7 @@
     "gm" : "*",
     "http-get" : "*",
     "testacular" : "*",
-    "nodeunit" : "*"
+    "nodeunit" : "*",
+    "passport" :"*"
   }
 }
