@@ -70,3 +70,38 @@ exports.testGetRandom = function(test) {
         } 
       });
 };
+
+exports.testUpvote = function(test) {
+  var saved = false;
+  var testLook = {  title : 'Test Title',
+                    _id : 'MYFAKEID',
+                    numUpVotes : 2,
+                    save : function(cb) {
+                      saved = true;
+                      cb(null, this);
+                    }
+                  };
+  var fn = LookRoutes.upvote({
+    buildFromId : function(id, cb) {
+      if (id == 'MYFAKEID') {
+        cb(null, testLook);
+      } else {
+        cb({ error : 'error' }, null);
+      }
+    }
+  });
+
+  fn({ params : { id : 'MYFAKEID' }, cookie : {} },
+      { jsonp :
+        function(json) {
+          test.equal(true, saved, "should call save");
+          test.equal(undefined, json.error, 'shouldnt have an error');
+          test.done();
+        },
+        cookie :
+          function(name, val, params) {
+            test.equal(name, 'upvotes', 'should save with correct cookie name');
+            test.equal(true, val['MYFAKEID'], 'should save upvote in cookie');
+          }
+      });
+};
