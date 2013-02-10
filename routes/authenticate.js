@@ -1,3 +1,12 @@
+/**
+ *  authenticate.js
+ *
+ *  Created on: February 10, 2012
+ *      Author: Matt Green
+ *
+ *  Methods for dealing with user authentication
+ *
+ */
 
 var users = [
   { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' },

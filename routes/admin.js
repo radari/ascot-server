@@ -1,4 +1,12 @@
-
+/**
+ *  admin.js
+ *
+ *  Created on: February 10, 2012
+ *      Author: Matt Green
+ *
+ *  Routes for an admin interface
+ *
+ */
 
 var authenticate = require('./authenticate.js');
 
