@@ -91,7 +91,12 @@ app.put('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 //login
 app.get('/login', authenticate.login);
 app.get('/logout', authenticate.logout);
-app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
+  function(req, res) {
+    res.redirect('/');
+  }
+);
 
 
 http.createServer(app).listen(app.get('port'), function(){

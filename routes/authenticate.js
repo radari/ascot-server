@@ -38,18 +38,19 @@ exports.logout = function(req, res){
   res.redirect('/');
 };
 
+
+// TODO: change function to query database
 exports.localStrategy = function(username, password, done) {
-  User.findOne({ username: username }, function (err, user) {
-    if (err) { return done(err); }
-    if (!user) {
-      return done(null, false, { message: 'Incorrect username.' });
-    }
-    if (!user.validPassword(password)) {
-      return done(null, false, { message: 'Incorrect password.' });
-    }
-    return done(null, user);
+  process.nextTick(function () {
+    
+    findByUsername(username, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+      if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
+      return done(null, user);
+    })
   });
-};
+}
 
 exports.serializeUser = function(user, done) {
   done(null, user.id);
@@ -61,7 +62,10 @@ exports.deserializeUser = function(id, done) {
   });
 };
 
-
+exports.ensureAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+};
 
 
 
