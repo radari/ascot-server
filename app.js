@@ -11,6 +11,7 @@ var express = require('express')
   , tagger = require('./routes/tagger.js')
   , upload = require('./routes/upload.js')
   , product = require('./routes/product.js')
+  , authenticate = require('./routes/authenticate.js')
 
   , http = require('http')
   , path = require('path')
@@ -26,6 +27,11 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
+
+// configure passport for user auth
+passport.use(new LocalStrategy(authenticate.localStrategy));
+passport.serializeUser(authenticate.serializeUser);
+passport.deserializeUser(authenticate.deserializeUser);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -49,20 +55,6 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
 
 // Static views
 app.get('/', routes.index);
@@ -96,7 +88,11 @@ app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
 // Upvote image
 app.put('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 
+//login
+app.get('/login', authenticate.login);
+app.get('/logout', authenticate.logout);
 app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));
