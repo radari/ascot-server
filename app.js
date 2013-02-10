@@ -12,6 +12,7 @@ var express = require('express')
   , upload = require('./routes/upload.js')
   , product = require('./routes/product.js')
   , authenticate = require('./routes/authenticate.js')
+  , admin = require('./routes/admin.js')
 
   , http = require('http')
   , path = require('path')
@@ -94,10 +95,11 @@ app.get('/logout', authenticate.logout);
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/admin');
   }
 );
 
+app.get('/admin', admin.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));
