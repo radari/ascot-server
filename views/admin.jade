@@ -1,6 +1,14 @@
+-#
+-# admin.jade
+-#
+-# Created on: 2/10, 2013
+-#     Author: Matt Green
+-#
+-# Admin interface view
+-#  
 extends layout
 
+prepend head
+  script(src='/javascripts/admin_panel.js')
+
 block content
-  h2 Admin
-  p
-    | hello #{user.username}
