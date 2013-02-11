@@ -208,6 +208,10 @@ var generateLookImageSize = function(looks, numPerRow, maxWidth) {
   };
 };
 
+// export the gunction
+exports.generateLookImageSize = generateLookImageSize;
+
+
 /*
  * GET /brand?v=<brand>
  */
