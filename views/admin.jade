@@ -22,7 +22,7 @@ block content
         div(style="display: inline-block")
           div(style="position: relative;")
             - for (var j = 0; j < 5 && i + j < looks.length; ++j) {
-              div(style="float: left")
+              div(style="float: left", class="#{looks[i+j].showOnCrossList ? "unpublished":"published"}")
                 a(href="/look/#{looks[i + j]._id}")
                   img(src="#{looks[i + j].url}", style="margin: 10px; width: #{sizer.getWidth(i + j)}px; height: #{sizer.getHeight(i + j)}px")
             - }

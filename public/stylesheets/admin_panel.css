@@ -1,8 +1,8 @@
 
 .published{
-
+  background-color: green;
 }
 
 .unpublished{
-  
+  background-color: red;
 }
