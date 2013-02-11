@@ -23,8 +23,8 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
   $scope.loadLook = function(id) {
     $scope.idsToLooks[id] = { _id : id, tags : [] };
     $http.get('/tags.jsonp?id=' + encodeURIComponent(id)).success(
-        function(look) {
-          $scope.idsToLooks[id] = look;
+        function(result) {
+          $scope.idsToLooks[id] = result.look;
           $scope.idsToEditTag[id] = null;
           $scope.idsToDraggingTag[id] = null;
         });
