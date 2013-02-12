@@ -34,29 +34,37 @@ html(ng-app='AscotModule')
 
   body
 
-    canvas#redStripe
+   
 
     #wrapper(ng-controller='MainSearchBarController')
-      a(href="/")
-        img#logo(src='/images/ascotLogo.png', id:'logo')
+      a#logoWrapper(href="/")
+        img#logo(src='/images/ascotLogo_redo.png', id:'logo')
 
-      a(href="/")
-        h1 Ascot
+      
 
       ul#nav 
         li
           a(href="/")  
             h3 Upload
+            p Paste an image link or upload an image to start tagging.
         li
           a(href="/all")
             h3 Looks
+            p See iamges that have already been tagged.
         li
           a(href="/random")
             h3 Random
+            p See a random image. 
         li
           a(href="/about")  
             h3 About
+            p Learn about the Ascot Project.
+      br
+      img#bottomStripe(src='/images/bottomStripe.png', id:'stripe')
 
+
+
+      br 
       form(method='get', action='/keywords')
         input(type='text',
               name='v',
@@ -71,6 +79,9 @@ html(ng-app='AscotModule')
             ng-click='onSelected(result)')
           span(ng-bind-html-unsafe='suggestions[$index] | boldInstances:mainSearch')
 
+      
+
+      
       ul#social
         li
           a(href="http://ascotproject.tumblr.com/", target="_blank")
@@ -83,7 +94,6 @@ html(ng-app='AscotModule')
             img#facebook(src='/images/facebookButton.png', id:'fbButton')
 
       br
-
       block content
 
     

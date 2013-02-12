@@ -46,14 +46,15 @@
 }
 
 .ascot_overlay_animate_button {
-  opacity:0.8;
+  opacity:0.7;
   position:absolute;
   z-index:8;
   cursor:pointer;
-  height:79px;
-  width:52px;
+  height:65px;
+  width:65px;
   display: block;
-  background-image:url('http://www.ascotproject.com/images/ascot_watermark.png');
+  margin:10px;
+  background-image:url('/images/ascot_watermark_circle.png');
 }
 
 .ascot_overlay_image_menu {
