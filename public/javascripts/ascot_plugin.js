@@ -60,7 +60,7 @@ function initAscotPlugin($, tagSourceUrl) {
     });
   };
 
-  $(document).imagesLoaded(function() {
+  $('body').imagesLoaded(function() {
     // Wait for ALL images to load. Certainly not best way to do this, but
     // easiest.
    
