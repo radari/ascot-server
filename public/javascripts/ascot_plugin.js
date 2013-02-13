@@ -9,6 +9,8 @@
  *
  */
 
+
+
 function initAscotPlugin($, tagSourceUrl) {
   var getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
@@ -61,7 +63,7 @@ function initAscotPlugin($, tagSourceUrl) {
   $(document).imagesLoaded(function() {
     // Wait for ALL images to load. Certainly not best way to do this, but
     // easiest.
-    
+   
     // List of all images
     var images = $('img').get();
 
@@ -122,7 +124,7 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('height', image.height() + 'px');
               
               overlay.append(
-                '<div class="ascot_overlay_image_menu">' +
+                '<div class="shareMenu"><div class="shareArrow"><img src="/images/popupArrow.png"></div><ul><li><div class="socialIcon"><img src="/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></li><br><li><div class="socialIcon"><img src="/images/socialEmbed.png"></div><div class="socialName">Embed</div></li><br><li><div class="socialIcon"><img src="/images/socialTwitter.png"></div><div class="socialName">Twitter</div></li></ul></div><div class="ascot_overlay_image_menu">' +
                 '<div><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
                 '<div><img id="ascot_upvote_' + ascotId + '" onclick="ascotUpvoteLook(\'' + ascotId + '\')" style="cursor: pointer" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
                 '</div>');
@@ -230,3 +232,8 @@ function initAscotPlugin($, tagSourceUrl) {
     }
   });
 };
+
+
+
+
+

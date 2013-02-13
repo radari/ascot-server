@@ -170,6 +170,9 @@ h3{
 	padding:0;
 }
 
+h1, h2 {
+	font-weight:400;
+}
 
 
 
@@ -403,6 +406,6 @@ div.list_header {
   width: 100%;
   text-align: center;
   font-size: 18pt;
-  font-weight: bold;
+  font-weight: 400;
   margin: 10px;
 }
