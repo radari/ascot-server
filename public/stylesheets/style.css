@@ -2,6 +2,7 @@ html {
 	padding:0;
 	width:100%;
 	font-family:"Georgia", Helvetica, Arial, sans-serif; 
+	color:#666;
 
 }
 
@@ -13,6 +14,13 @@ max-width:700px;
 body {
 	padding:0;
 	margin:0;
+}
+
+
+
+#aboutText p{
+	padding:10px;
+	border:1px transparent solid;
 }
 
 .aboutHead{
@@ -177,6 +185,10 @@ h3{
 	color:#7b7979;
 }
 
+#nav a:hover {
+	color:#b0b0b0;
+}
+
 #nav h3 {
 	border-bottom:1px #dbdcdc solid;
 	width:100%;
@@ -311,7 +323,7 @@ h3{
 }
 
 #line1 {
-	color:#7b7979;
+	color:#666;
 }
 
 #step1, #step2, #step3 {
