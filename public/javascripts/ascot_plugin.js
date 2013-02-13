@@ -39,7 +39,6 @@ function initAscotPlugin($, tagSourceUrl) {
   };
 
   window.ascotUpvoteLook = function(ascotId) {
-    alert(ascotId);
     $.ajax({
       type: 'PUT',
       url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
@@ -53,7 +52,7 @@ function initAscotPlugin($, tagSourceUrl) {
           $("#ascot_upvote_" + ascotId).css('cursor', '');
           $("#ascot_upvote_" + ascotId).css('opacity', '1');
         } else {
-          alert(json.error);
+          // Nothing to do here for now, just ignore
         }
       }
     });
