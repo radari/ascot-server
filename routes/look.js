@@ -104,25 +104,30 @@ exports.upload = function(mongoLookFactory) {
               });
         } else {
           gm(result.file).size(function(error, size) {
-            fs.unlink(result.file, function() {
-              if (size) {
-                mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
-                  if (error) {
-                    res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
-                  } else {
+            if (size) {
+              mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
+                if (error) {
+                  res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
+                } else {
+                  // Keep the image for tumblr uploading
+                  fs.rename(tmpPath, './public/images/uploads/' + look._id + '.png', function(error) {
                     mongoLookFactory.setHeightAndWidth(look._id, size.height, size.width, function(error, look) {
-                      res.redirect('/tagger/' + permissions._id + '/' + look._id);
+                      if (error || !look) {
+                        res.render('error', { title : "Ascot :: Error", error : "Internal failure" });
+                      } else {
+                        res.redirect('/tagger/' + permissions._id + '/' + look._id);
+                      }
                     });
-                  }
-                });
-              } else {
-                res.render('error',
-                    { title : "Ascot :: Error",
-                      error : "Image '" + error +
-                              "' couldn't be found. Please make sure the URL is correct."
-                    });
-              }
-            });
+                  });
+                }
+              });
+            } else {
+              res.render('error',
+                  { title : "Ascot :: Error",
+                    error : "Image '" + error +
+                            "' couldn't be found. Please make sure the URL is correct."
+                  });
+            }
           });
         }
       });

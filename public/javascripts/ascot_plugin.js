@@ -124,10 +124,25 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('height', image.height() + 'px');
               
               overlay.append(
-                '<div class="shareMenu"><div class="shareArrow"><img src="/images/popupArrow.png"></div><ul><li><div class="socialIcon"><img src="/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></li><br><li><div class="socialIcon"><img src="/images/socialEmbed.png"></div><div class="socialName">Embed</div></li><br><li><div class="socialIcon"><img src="/images/socialTwitter.png"></div><div class="socialName">Twitter</div></li></ul></div><div class="ascot_overlay_image_menu">' +
-                '<div><a target="_blank" href="' + tagSourceUrl + '/look/' + ascotId + '"><img src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
+                '<div class="shareMenu"><div class="shareArrow">' + 
+                '<img src="/images/popupArrow.png"></div><ul>' + 
+                '<li><div class="socialIcon"><img src="/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></li>' + 
+                '<br><li><div class="socialIcon"><img src="/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
+                '<br><li><div class="socialIcon"><img src="/images/socialTwitter.png"></div><div class="socialName">Twitter</div></li>' +
+                '</ul></div>');
+              var shareMenu = overlay.children().last();
+              shareMenu.hide();
+
+              overlay.append(
+                '<div class="ascot_overlay_image_menu">' +
+                '<div><img style="cursor: pointer" id="ascot_overlay_share_' + ascotId + '" src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
                 '<div><img id="ascot_upvote_' + ascotId + '" onclick="ascotUpvoteLook(\'' + ascotId + '\')" style="cursor: pointer" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
                 '</div>');
+              var imageMenu = overlay.children().last();
+              var shareButton = imageMenu.children().first();
+              shareButton.click(function() {
+                shareMenu.toggle();
+              });
 
               if (data.hasUpvotedCookie) {
                 $("#ascot_upvote_" + ascotId).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
