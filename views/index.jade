@@ -23,22 +23,3 @@ block content
     .description Embed and share. 
     .stepImg 
       img(src='/images/step3.png', id:'step3')
-
-  div#uploadToolsWrap
-    form(method='post', enctype='multipart/form-data', action='/image-upload')
-      #tagline
-        h2  Upload Any Image and Tag Products
-      #uploadURL
-        input(type='text', name='url', placeholder="paste a link to an image", id="submitLink")
-
-      br
-
-      h2 or
-   
-      br
-
-      input(type='file', name='files', id='chooseFile')
-
-      br
-
-      input(type='submit', class='btn btn-primary start', id="submit", value="Next")
