@@ -161,7 +161,7 @@ function initAscotPlugin($, tagSourceUrl) {
               var imageMenu = overlay.children().last();
               var shareButton = imageMenu.children().first();
               shareButton.click(function() {
-                shareMenu.toggle();
+                shareMenu.fadeToggle();
               });
 
               if (data.hasUpvotedCookie) {
