@@ -123,6 +123,9 @@ function initAscotPlugin($, tagSourceUrl) {
                   '&caption=' + encodeURIComponent(htmlifyTags(json)) +
                   '&tags=ascot';
 
+              var twitterUrl = "https://twitter.com/share"
+              var twitterDataUrl = "http://www.ascotproject.com/look/" + json._id;
+
               var height = image.height();
               var width = image.width();
             
@@ -148,7 +151,7 @@ function initAscotPlugin($, tagSourceUrl) {
                 '<img src="/images/popupArrow.png"></div><ul>' + 
                 '<li><a target="_blank" href="' + tumblrUrl + '"><div class="socialIcon"><img src="/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></a></li>' + 
                 '<br><li><div class="socialIcon"><img src="/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
-                '<br><li><div class="socialIcon"><img src="/images/socialTwitter.png"></div><div class="socialName">Twitter</div></li>' +
+                '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="socialIcon"><img src="/images/socialTwitter.png"></div><div class="socialName">Twitter</div></a></li>' +
                 '</ul></div>');
               var shareMenu = overlay.children().last();
               shareMenu.hide();
