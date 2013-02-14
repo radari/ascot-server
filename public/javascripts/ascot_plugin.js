@@ -42,7 +42,7 @@ function initAscotPlugin($, tagSourceUrl) {
 
   window.ascotUpvoteLook = function(ascotId) {
     $.ajax({
-      type: 'PUT',
+      type: 'GET',
       url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
       async: true,
       jsonpCallback: 'callback',
@@ -149,13 +149,15 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('height', image.height() + 'px');
               
               overlay.append(
-                '<div class="shareMenu" style="right: 152px; width: 142px; top: 35px;"><div class="shareArrow" style="left: 130px;"><img src="/images/popupArrow.png"></div><textarea style="width: 122px; height: 80px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
+                '<div class="shareMenu" style="right: 152px; width: 142px; top: 35px;"><div class="shareArrow" style="left: 130px;">' +
+                '<img src="' + tagSourceUrl + '/images/popupArrow.png"></div>' + 
+                '<textarea style="width: 122px; height: 80px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
               var iframeDisplay = overlay.children().last();
               iframeDisplay.hide();
 
               overlay.append(
                 '<div class="shareMenu"><div class="shareArrow">' + 
-                '<img src="/images/popupArrow.png"></div><ul>' + 
+                '<img src="' + tagSourceUrl + '/images/popupArrow.png"></div><ul>' + 
                 '<li><a target="_blank" href="' + tumblrUrl + '"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></a></li>' + 
                 '<br><li class="embedLink" style="cursor: pointer"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
                 '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="socialName">Twitter</div></a></li>' +
@@ -169,14 +171,20 @@ function initAscotPlugin($, tagSourceUrl) {
 
               overlay.append(
                 '<div class="ascot_overlay_image_menu">' +
-                '<div><img style="cursor: pointer" id="ascot_overlay_share_' + ascotId + '" src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
-                '<div><img id="ascot_upvote_' + ascotId + '" onclick="ascotUpvoteLook(\'' + ascotId + '\')" style="cursor: pointer" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
+                '<div><img style="cursor: pointer; height: 28px; width: 24px;" id="ascot_overlay_share_' + ascotId + '" src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
+                '<div><img id="ascot_upvote_' + ascotId + '" style="cursor: pointer; height: 24px; width: 24px;" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
                 '</div>');
               var imageMenu = overlay.children().last();
               var shareButton = imageMenu.children().first();
-              shareButton.click(function() {
+              shareButton.click(function(event) {
+                event.preventDefault();
                 iframeDisplay.hide();
                 shareMenu.fadeToggle();
+              });
+              var upvoteButton = imageMenu.children().last();
+              upvoteButton.click(function(event) {
+                event.preventDefault();
+                ascotUpvoteLook(ascotId);
               });
 
               if (data.hasUpvotedCookie) {
