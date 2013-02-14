@@ -103,6 +103,26 @@ function initAscotPlugin($, tagSourceUrl) {
               var data = json;
               json = json.look;
 
+              var htmlifyTags = function(look) {
+                var ret = look.title;
+                ret += (look.source.length > 0 ? "\n<br>\nSource: " + look.source : "");
+                ret += "\n<br>\n<br>\n";
+                for (var i = 0; i < look.tags.length; ++i) {
+                  var tag = look.tags[i];
+                  ret += (i > 0 ? "\n<br>\n" : "");
+                  ret += "<a href='" + tag.product.buyLink + "'>" + 
+                      "<b>" + tag.product.brand + "</b> " + tag.product.name +
+                      "</a>"; 
+                };
+                return ret;
+              };
+
+              var tumblrUrl = 'http://www.tumblr.com/share/photo?' +
+                  'source=' + encodeURIComponent(json.url) +
+                  '&clickthru=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) +
+                  '&caption=' + encodeURIComponent(htmlifyTags(json)) +
+                  '&tags=ascot';
+
               var height = image.height();
               var width = image.width();
             
@@ -126,7 +146,7 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.append(
                 '<div class="shareMenu"><div class="shareArrow">' + 
                 '<img src="/images/popupArrow.png"></div><ul>' + 
-                '<li><div class="socialIcon"><img src="/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></li>' + 
+                '<li><a target="_blank" href="' + tumblrUrl + '"><div class="socialIcon"><img src="/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></a></li>' + 
                 '<br><li><div class="socialIcon"><img src="/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
                 '<br><li><div class="socialIcon"><img src="/images/socialTwitter.png"></div><div class="socialName">Twitter</div></li>' +
                 '</ul></div>');
