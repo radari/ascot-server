@@ -126,6 +126,8 @@ function initAscotPlugin($, tagSourceUrl) {
               var twitterUrl = "https://twitter.com/share"
               var twitterDataUrl = "http://www.ascotproject.com/look/" + json._id;
 
+              var iframeCode = '<iframe src="http://www.ascotproject.com/look/' + json._id + '/iframe" width="' + json.size.width + '" height="' + json.size.height + '" frameborder="0"></iframe>';
+
               var height = image.height();
               var width = image.width();
             
@@ -147,14 +149,23 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('height', image.height() + 'px');
               
               overlay.append(
+                '<div class="shareMenu" style="right: 152px; width: 142px; top: 35px;"><div class="shareArrow" style="left: 130px;"><img src="/images/popupArrow.png"></div><textarea style="width: 122px; height: 80px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
+              var iframeDisplay = overlay.children().last();
+              iframeDisplay.hide();
+
+              overlay.append(
                 '<div class="shareMenu"><div class="shareArrow">' + 
                 '<img src="/images/popupArrow.png"></div><ul>' + 
-                '<li><a target="_blank" href="' + tumblrUrl + '"><div class="socialIcon"><img src="/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></a></li>' + 
-                '<br><li><div class="socialIcon"><img src="/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
-                '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="socialIcon"><img src="/images/socialTwitter.png"></div><div class="socialName">Twitter</div></a></li>' +
+                '<li><a target="_blank" href="' + tumblrUrl + '"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></a></li>' + 
+                '<br><li class="embedLink" style="cursor: pointer"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
+                '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="socialName">Twitter</div></a></li>' +
                 '</ul></div>');
               var shareMenu = overlay.children().last();
               shareMenu.hide();
+              var embedItem = shareMenu.children('ul').first().children('li.embedLink').first();
+              embedItem.click(function() {
+                iframeDisplay.toggle();
+              });
 
               overlay.append(
                 '<div class="ascot_overlay_image_menu">' +
@@ -164,6 +175,7 @@ function initAscotPlugin($, tagSourceUrl) {
               var imageMenu = overlay.children().last();
               var shareButton = imageMenu.children().first();
               shareButton.click(function() {
+                iframeDisplay.hide();
                 shareMenu.fadeToggle();
               });
 
