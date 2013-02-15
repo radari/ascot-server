@@ -149,12 +149,15 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('height', image.height() + 'px');
               
               overlay.append(
-                '<div class="shareMenu" style="right: 152px; width: 152px; top: 35px; height:150px"><div class="shareArrow" style="left: 142px;">' +
+                '<div class="shareMenu" style="right: 152px; width: 152px; top: 35px; height:150px"><div class="shareArrow" style="right: -20px;">' +
                 '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
                 '<p id="embedInstruct">Copy code & paste in body of your site</p>'+
                 '<textarea style="width: 142px; height: 110px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
               var iframeDisplay = overlay.children().last();
               iframeDisplay.hide();
+              iframeDisplay.click(function(event) {
+                event.preventDefault();
+              });
 
               overlay.append(
                 '<div class="shareMenu"><div class="shareArrow">' + 
@@ -166,7 +169,8 @@ function initAscotPlugin($, tagSourceUrl) {
               var shareMenu = overlay.children().last();
               shareMenu.hide();
               var embedItem = shareMenu.children('ul').first().children('li.embedLink').first();
-              embedItem.click(function() {
+              embedItem.click(function(event) {
+                event.preventDefault();
                 iframeDisplay.toggle();
               });
 
