@@ -150,14 +150,14 @@ function initAscotPlugin($, tagSourceUrl) {
               
               overlay.append(
                 '<div class="shareMenu" style="right: 152px; width: 142px; top: 35px;"><div class="shareArrow" style="left: 130px;">' +
-                '<img src="' + tagSourceUrl + '/images/popupArrow.png"></div>' + 
+                '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
                 '<textarea style="width: 122px; height: 80px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
               var iframeDisplay = overlay.children().last();
               iframeDisplay.hide();
 
               overlay.append(
                 '<div class="shareMenu"><div class="shareArrow">' + 
-                '<img src="' + tagSourceUrl + '/images/popupArrow.png"></div><ul>' + 
+                '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div><ul>' + 
                 '<li><a target="_blank" href="' + tumblrUrl + '"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></a></li>' + 
                 '<br><li class="embedLink" style="cursor: pointer"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
                 '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="socialName">Twitter</div></a></li>' +
