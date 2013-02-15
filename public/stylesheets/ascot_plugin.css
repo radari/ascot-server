@@ -179,6 +179,17 @@ margin-left:0;
   position:relative;
   left:0;
 }
+
+#embedInstruct {
+  font-size:12px;
+  text-align:left;
+  width:85%;
+  position:relative;
+  top:0;
+  margin-top:0;
+  margin-bottom:0;
+  left:7px;
+}
 .ascot_overlay_tag_container {
   float: none;
   position:absolute;

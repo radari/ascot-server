@@ -149,9 +149,10 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('height', image.height() + 'px');
               
               overlay.append(
-                '<div class="shareMenu" style="right: 152px; width: 142px; top: 35px;"><div class="shareArrow" style="left: 130px;">' +
+                '<div class="shareMenu" style="right: 152px; width: 152px; top: 35px; height:150px"><div class="shareArrow" style="left: 142px;">' +
                 '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
-                '<textarea style="width: 122px; height: 80px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
+                '<p id="embedInstruct">Copy code & paste in body of your site</p>'+
+                '<textarea style="width: 142px; height: 110px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
               var iframeDisplay = overlay.children().last();
               iframeDisplay.hide();
 
