@@ -14,6 +14,9 @@ max-width:700px;
 body {
 	padding:0;
 	margin:0;
+	width:100%;
+
+
 }
 
 
@@ -41,12 +44,14 @@ iframe {
   padding-top:0;
   font: 14px Georgia, Helvetica, Arial, sans-serif;
   margin:0;
-
-  position:absolute;
+  position:relative;
   margin:auto;
   left:0;
   right:0;
   top:0;
+  overflow:auto;
+  padding-bottom: 120px;
+	
 }
 
 .heading {
@@ -123,14 +128,23 @@ a:visited {
 #social {
 	padding:0;
 	top:0px;
-	
-	width:160px;
+	width:920px;
 	position:relative;
+	margin:auto;
+	right:10px;
+	bottom:0;
+	top:50px;
+	border-top: 1px #5f5858 solid;
+			
+}
+
+#footer {
+	position: relative;
+	margin-top: -100px;
+	height:100px;
+
+
 	
-	right:0;
-	top:10px;
-	display:none;
-		
 }
 
 #main_search {
@@ -245,11 +259,8 @@ h1, h2 {
 	
 }
 
-#tagline h2 {
-	color:#171717;
 
 
-}
 
 #submit	 {
 	font-family: Arial, Helvetica, sans-serif;
@@ -285,10 +296,10 @@ h1, h2 {
 #uploadURL {
 	background-color: #b54f37;
 	width:415px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-	padding:5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding:3px;
 	position:relative;
 	margin:auto;
 	left:0;
@@ -303,6 +314,7 @@ h1, h2 {
 	margin:auto;
 	left:0;
 	right:0;
+	color:#666;
 }
 
 .uploadedImg{
