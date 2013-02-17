@@ -5,7 +5,7 @@
 describe('Ascot Project', function() {
   describe('Basic home page', function() {
     beforeEach(function() {
-      browser().navigateTo('/');
+      browser().navigateTo('/upload');
     });
 
     it('should handle user interaction with search bar', function() {

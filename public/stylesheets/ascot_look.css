@@ -14,6 +14,7 @@
 .look-container {
   position:relative;
   margin: auto;
+  top:20px;
 }
 
 /* this makes the links show up the same style as on the looks page. Any changes to this must also be made in style.css*/

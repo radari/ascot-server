@@ -87,7 +87,8 @@ app.post('/image-upload', look.upload(mongoLookFactory));
 app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
 
 // Upvote image
-app.put('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
+// JSONP is only possible through GET, so need to use GET =(
+app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 
 //login
 app.get('/login', authenticate.login);

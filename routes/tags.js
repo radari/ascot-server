@@ -30,7 +30,11 @@ exports.get = function(mongoLookFactory) {
           hasUpvotedCookie = true;
         }
 
-        res.jsonp({ look : look, hasUpvotedCookie : hasUpvotedCookie });
+        ++look.numViews;
+        
+        look.save(function(error, look) {
+          res.jsonp({ look : look, hasUpvotedCookie : hasUpvotedCookie });
+        });
       }
     });
   };

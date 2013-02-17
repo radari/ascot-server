@@ -12,7 +12,8 @@ var LookRoutes = require('../routes/look.js')
 
 exports.testGetLook = function(test) {
   var testLook = { title : 'Test Title', _id : 'MYFAKEID' };
-  var fn = LookRoutes.get({
+  
+  var mockMongoLookFactory = {
     buildFromId : function(id, cb) {
       if (id == 'MYFAKEID') {
         cb(null, testLook);
@@ -20,9 +21,13 @@ exports.testGetLook = function(test) {
         cb({ error : 'error' }, null);
       }
     }
-  });
+  };
+  
+  var fn = LookRoutes.get(mockMongoLookFactory);
 
-  fn({ params : { id : 'MYFAKEID' } },
+  fn( // Mock req
+      { params : { id : 'MYFAKEID' } },
+      // Mock res
       { render :
         function(view, params) {
           test.equal('look', view, "render correct view");
@@ -71,6 +76,68 @@ exports.testGetRandom = function(test) {
       });
 };
 
+exports.testHandleUpload = function(test) {
+  var mockHandle = { path : '/test/bs' };
+  
+  var newLookCalled = false;
+  var setHeightAndWidthCalled = false;
+  var height = 200;
+  var width = 250;
+  var mockLook = { '_id' : 'MYFAKEID' };
+  var mockPermissions = { '_id' : 'BS123' };
+  
+  var mockMongoLookFactory = {
+    newLook : function(callback) {
+      newLookCalled = true;
+      callback(null, mockLook, mockPermissions);
+    },
+    setHeightAndWidth : function(id, h, w, callback) {
+      setHeightAndWidthCalled = true;
+      test.equal('MYFAKEID', id);
+      test.equal(height, h);
+      test.equal(width, w);
+      callback(null, mockLook);
+    }
+  };
+  
+  var mockFs = {
+    rename : function(source, target, callback) {
+      test.ok(newLookCalled);
+      test.equal(mockHandle.path, source);
+      test.equal(target, './public/images/uploads/MYFAKEID.png');
+      callback(null);
+    },
+    unlink : function(path, callback) {
+      test.ok(setHeightAndWidthCalled);
+      callback({});
+    } 
+  };
+  
+  var mockGm = function(path) {
+    test.equal(path, './public/images/uploads/MYFAKEID.png');
+    return {
+      size : function(callback) {
+        callback(null, { height : height, width : width });
+      }
+    };
+  };
+  
+  LookRoutes.handleUpload(
+      mockHandle,
+      mockMongoLookFactory,
+      mockFs,
+      mockGm,
+      function(error, look, permissions) {
+        test.equal(null, error);
+        test.equal(mockLook, look);
+        test.equal(mockPermissions, permissions);
+        test.ok(newLookCalled);
+        test.ok(setHeightAndWidthCalled);
+        test.expect(13);
+        test.done();
+      });
+};
+
 exports.testUpvote = function(test) {
   var saved = false;
   var testLook = {  title : 'Test Title',
@@ -96,6 +163,7 @@ exports.testUpvote = function(test) {
         function(json) {
           test.equal(true, saved, "should call save");
           test.equal(undefined, json.error, 'shouldnt have an error');
+          test.expect(4);
           test.done();
         },
         cookie :

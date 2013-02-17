@@ -1,21 +1,25 @@
 extends layout
 
 block content
-  div#uploadToolsWrap
-    form(method='post', enctype='multipart/form-data', action='/image-upload')
-      #tagline
-        h2  Upload Any Image and Tag Products
-      #uploadURL
-        input(type='text', name='url', placeholder="paste a link to an image", id="submitLink")
 
-      br
+  #leading 
+    h1#line1 Ascot.
+    h1 What are they wearing?
 
-      h2 or
-   
-      br
 
-      input(type='file', name='files', id='chooseFile')
+  div#step1
+    .heading 1
+    .description Upload a picture to Ascot
+    .stepImg 
+      img(src='/images/step1.png', id:'step1')
+  div#step2
+    .heading 2
+    .description Tags clothes and brands. Add links to items if possible. 
+    .stepImg 
+      img(src='/images/step2.png', id:'step2')
 
-      br
-
-      input(type='submit', class='btn btn-primary start', id="submit", value="Next")
+  div#step3
+    .heading#third 3
+    .description Embed and share. 
+    .stepImg 
+      img(src='/images/step3.png', id:'step3')

@@ -23,7 +23,7 @@
 
 (function() {
   var loadScript = function(src, callback) {
-    var head = document.getElementsByTagName('head')[0];
+    var head = document.getElementsByTagName('body')[0];
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.onreadystatechange = function() {
@@ -38,7 +38,7 @@
   };
   
   var loadStylesheet = function(src, callback) {
-    var head = document.getElementsByTagName('head')[0];
+    var head = document.getElementsByTagName('body')[0];
     var link = document.createElement('link');
     link.type = 'text/css';
     link.rel = 'stylesheet';
@@ -68,16 +68,18 @@
     }
   };
   
+  
+  var url = 'http://www.ascotproject.com';
   var checkJQueryImagesLoaded = function(callback) {
     if (jQuery.imagesLoaded) {
       callback();
     } else {
       loadScript(
-        'http://www.ascotproject.com/vendor/javascripts/jquery.imagesloaded.js',
+        url + '/vendor/javascripts/jquery.imagesloaded.js',
         callback);
     }
   };
-  
+
   var loadAscotStylesheets = function(url, callback) {
     loadStylesheet(
         url + '/stylesheets/ascot_plugin.css',
@@ -89,8 +91,7 @@
         url + '/javascripts/ascot_plugin.js',
         callback);
   };
-
-  var url = 'http://www.ascotproject.com';
+  
   checkJQuery(function() {
     checkJQueryUI(function() {
       checkJQueryImagesLoaded(function() {

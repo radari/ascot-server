@@ -18,10 +18,10 @@ var fs = require('fs');
 /*
  * GET /look/:id
  */
-exports.get = function(look) {
+exports.get = function(mongoLookFactory) {
   return function(req, res) {
     // retrieve database
-    look.buildFromId(req.params.id, function(error, result) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, result) {
       if (error) {
         res.render('error', { error : 'Failed to find image', title : 'Error' });
       } else if (!result) {
@@ -51,7 +51,7 @@ exports.iframe = function(mongoLookFactory) {
   };
 };
 
-var handleUpload = function(handle, mongoLookFactory, callback) {
+exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
   var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
   mongoLookFactory.newLook(function(error, look, permissions) {
@@ -84,7 +84,7 @@ exports.upload = function(mongoLookFactory) {
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      handleUpload(req.files.files, mongoLookFactory, function(error, look, permissions) {
+      handleUpload(req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
         if (error) {
           res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
@@ -104,25 +104,30 @@ exports.upload = function(mongoLookFactory) {
               });
         } else {
           gm(result.file).size(function(error, size) {
-            fs.unlink(result.file, function() {
-              if (size) {
-                mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
-                  if (error) {
-                    res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
-                  } else {
+            if (size) {
+              mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
+                if (error) {
+                  res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
+                } else {
+                  // Keep the image for tumblr uploading
+                  fs.rename(tmpPath, './public/images/uploads/' + look._id + '.png', function(error) {
                     mongoLookFactory.setHeightAndWidth(look._id, size.height, size.width, function(error, look) {
-                      res.redirect('/tagger/' + permissions._id + '/' + look._id);
+                      if (error || !look) {
+                        res.render('error', { title : "Ascot :: Error", error : "Internal failure" });
+                      } else {
+                        res.redirect('/tagger/' + permissions._id + '/' + look._id);
+                      }
                     });
-                  }
-                });
-              } else {
-                res.render('error',
-                    { title : "Ascot :: Error",
-                      error : "Image '" + error +
-                              "' couldn't be found. Please make sure the URL is correct."
-                    });
-              }
-            });
+                  });
+                }
+              });
+            } else {
+              res.render('error',
+                  { title : "Ascot :: Error",
+                    error : "Image '" + error +
+                            "' couldn't be found. Please make sure the URL is correct."
+                  });
+            }
           });
         }
       });
