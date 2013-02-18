@@ -154,32 +154,34 @@ exports.random = function(mongoLookFactory) {
 /*
  * GET /filters.json?query=<query>
  */
-exports.filters = function(req, res) {
-  var ret = {};
-  ret["query"] = req.query["query"];
-  ret["suggestions"] = [];
-  ret["data"] = [];
-  
-  ret["suggestions"].push('Search for: ' + ret["query"]);
-  ret["data"].push({ v : ret["query"], type : 'Keyword' });
-  
-  Look.distinct('tags.product.brand').
-      where('tags.product.brand').
-      regex(new RegExp(req.query["query"], "i")).
-      exec(function(error, brands) {
-        var numAdded = 0;
-        for (var i = 0; i < brands.length; ++i) {
-          if (brands[i].toLowerCase().indexOf(req.query["query"].toLowerCase()) != -1) {
-            ret["data"].push({ v : brands[i], type : 'Brand' });
-            ret["suggestions"].push(brands[i] + ' (Brand)');
-            if (++numAdded >= 8) {
-              // Limit to 8 results
-              break;
+exports.filters = function(Look) {
+  return function(req, res) {
+    var ret = {};
+    ret["query"] = req.query["query"];
+    ret["suggestions"] = [];
+    ret["data"] = [];
+    
+    ret["suggestions"].push('Search for: ' + ret["query"]);
+    ret["data"].push({ v : ret["query"], type : 'Keyword' });
+    
+    Look.distinct('tags.product.brand').
+        where('tags.product.brand').
+        regex(new RegExp(req.query["query"], "i")).
+        exec(function(error, brands) {
+          var numAdded = 0;
+          for (var i = 0; i < brands.length; ++i) {
+            if (brands[i].toLowerCase().indexOf(req.query["query"].toLowerCase()) != -1) {
+              ret["data"].push({ v : brands[i], type : 'Brand' });
+              ret["suggestions"].push(brands[i] + ' (Brand)');
+              if (++numAdded >= 8) {
+                // Limit to 8 results
+                break;
+              }
             }
           }
-        }
-        res.json(ret);
-      });
+          res.json(ret);
+        });
+  };
 };
 
 var generateLookImageSize = function(looks, numPerRow, maxWidth) {

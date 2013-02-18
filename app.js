@@ -64,7 +64,7 @@ app.get('/all', look.all);
 
 // JSON queries
 app.get('/tags.jsonp', tags.get(mongoLookFactory));
-app.get('/filters.json', look.filters);
+app.get('/filters.json', look.filters(Look));
 app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
 

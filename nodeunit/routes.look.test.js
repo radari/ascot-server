@@ -195,6 +195,39 @@ exports.testUpload = function(test) {
       });
 };
 
+exports.testFilters = function(test) {
+  var query = 'tes';
+
+  var mockLook = {
+    distinct : function(d) {
+      return this;
+    },
+    where : function(d) {
+      return this;
+    },
+    regex : function(d) {
+      return this;
+    },
+    exec : function(callback) {
+      test.ok(true);
+      callback(null, ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9', 'bs']);
+    }
+  };
+
+  var fn = LookRoutes.filters(mockLook);
+  fn({ query : { query : query } },
+      { json : function(data) {
+          test.equal(data.suggestions.length, 9);
+          test.equal(data.data.length, 9);
+          test.ok('test1 (Brand)', data.suggestions[1]);
+          test.ok(!('bs (Brand)' in data.suggestions));
+          test.equal(data.data[0].type, 'Keyword');
+          test.equal(data.data[1].type, 'Brand');
+          test.done();
+        }
+      });
+};
+
 exports.testUpvote = function(test) {
   var saved = false;
   var testLook = {  title : 'Test Title',
