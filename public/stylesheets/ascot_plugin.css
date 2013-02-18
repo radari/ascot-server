@@ -55,6 +55,10 @@
   background-image:url('/images/ascot_watermark_circle.png');
 }
 
+.ascot_overlay_animate_button:hover {
+ opacity:1;
+}
+
 .ascot_overlay_image_menu {
   height:62px;
   width:28px;
