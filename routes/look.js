@@ -80,11 +80,11 @@ exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory) {
+exports.upload = function(mongoLookFactory, fs, gm, http) {
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      handleUpload(req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
+      exports.handleUpload(req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
         if (error) {
           res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
           console.log(JSON.stringify(error));

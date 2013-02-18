@@ -138,6 +138,63 @@ exports.testHandleUpload = function(test) {
       });
 };
 
+exports.testUpload = function(test) {
+  var url = 'MYFAKEURL';
+  var height = 200;
+  var width = 250;
+
+  var mockLook = { '_id' : 'MYFAKEID' };
+  var mockPermissions = { '_id' : 'BS123' };
+  
+  var mockMongoLookFactory = {
+    newLookWithUrl : function(u, callback) {
+      test.equal(u, url);
+      callback(null, mockLook, mockPermissions);
+    },
+    setHeightAndWidth : function(id, h, w, callback) {
+      setHeightAndWidthCalled = true;
+      test.equal('MYFAKEID', id);
+      test.equal(height, h);
+      test.equal(width, w);
+      callback(null, mockLook);
+    }
+  };
+
+  var mockFs = {
+    rename : function(source, target, callback) {
+      callback(null);
+    }
+  };
+
+  var mockHttp = {
+    get : function(image, path, callback) {
+      test.equal(url, image);
+      test.equal(path.indexOf('./public/images/uploads/'), 0);
+      callback(null, { file : 'MYTESTPATH' });
+    }
+  };
+
+  var mockGm = function(path) {
+    test.equal(path, 'MYTESTPATH');
+    return {
+      size : function(callback) {
+        callback(null, { height : height, width : width });
+      }
+    };
+  };
+
+  var fn = LookRoutes.upload(mockMongoLookFactory, mockFs, mockGm, mockHttp);
+
+  fn({ body : { url : url } },
+      { redirect :
+        function(url) {
+          test.equal('/tagger/BS123/MYFAKEID', url);
+          test.expect(8);
+          test.done();
+        } 
+      });
+};
+
 exports.testUpvote = function(test) {
   var saved = false;
   var testLook = {  title : 'Test Title',
