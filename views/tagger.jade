@@ -52,7 +52,8 @@ block content
             {{tag.index}}
 
           div#overlay(ng-show="isEdittingTag(look)",
-                      ng-style="{ position : 'absolute', left : (computeTagDisplayPosition(look, idsToEditTag[look]).x + 25) + 'px', top : (computeTagDisplayPosition(look, idsToEditTag[look]).y + 25) + 'px' }")
+                      ng-style="{ position : 'absolute', left : (computeTagDisplayPosition(look, idsToEditTag[look]).x + 25) + 'px', top : (computeTagDisplayPosition(look, idsToEditTag[look]).y + 25) + 'px' }",
+                      ng-click="autocomplete.hide('BRAND'); autocomplete.hide('NAME');")
             input.tagger_input( type="text",
                                 id="brandInput",
                                 placeholder="Brand (e.g. Bonobos)",

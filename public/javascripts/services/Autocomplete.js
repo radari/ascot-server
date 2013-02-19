@@ -40,6 +40,10 @@ angular.module('AutocompleteModule', []).
             this.results[tag] = [];
           }
         };
+        
+        this.hide = function(tag) {
+          this.show[tag] = false;
+        };
       };
 
       return new $autocomplete();
