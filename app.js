@@ -58,7 +58,7 @@ app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
 app.get('/tagger/:key/:look', tagger.get(mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
-app.get('/brand', look.brand);
+app.get('/brand', look.brand(Look));
 app.get('/keywords', look.keywords);
 app.get('/all', look.all);
 

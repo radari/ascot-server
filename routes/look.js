@@ -184,7 +184,7 @@ exports.filters = function(Look) {
   };
 };
 
-var generateLookImageSize = function(looks, numPerRow, maxWidth) {
+exports.generateLookImageSize = function(looks, numPerRow, maxWidth) {
   var totalRowWidth = [];
   var totalRowHeight = [];
   var totalAspect = [];
@@ -218,26 +218,29 @@ var generateLookImageSize = function(looks, numPerRow, maxWidth) {
 /*
  * GET /brand?v=<brand>
  */
-exports.brand = function(req, res) {
+exports.brand = function(Look) {
   var MAX_PER_PAGE = 20;
-  var p = req.query["p"] || 0;
+  
+  return function(req, res) {
+    var p = req.query["p"] || 0;
 
-  Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).count(function(error, count) {
-    Look.
-        find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).
-        sort({ _id : -1 }).
-        limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
-        exec(function(error, looks) {
-          res.render('looks_list',
-            { looks : looks,
-              listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
-              title : 'Ascot :: ' + req.query["v"],
-              routeUrl : '/brand?v=' + encodeURIComponent(req.query["v"]) + '&',
-              page : p,
-              sizer : generateLookImageSize(looks, 5, 780),
-              numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
-        });
-  });
+    Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).count(function(error, count) {
+      Look.
+          find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).
+          sort({ _id : -1 }).
+          limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
+          exec(function(error, looks) {
+            res.render('looks_list',
+              { looks : looks,
+                listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
+                title : 'Ascot :: ' + req.query["v"],
+                routeUrl : '/brand?v=' + encodeURIComponent(req.query["v"]) + '&',
+                page : p,
+                sizer : exports.generateLookImageSize(looks, 5, 780),
+                numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+          });
+    });
+  };
 };
 
 /*
@@ -267,7 +270,7 @@ exports.keywords = function(req, res) {
                   title : 'Ascot :: ' + req.query["v"],
                   routeUrl : '/keywords?v=' + encodeURIComponent(req.query["v"]) + '&',
                   page : p,
-                  sizer : generateLookImageSize(looks, 5, 780),
+                  sizer : exports.generateLookImageSize(looks, 5, 780),
                   numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
           }
         });
@@ -297,7 +300,7 @@ exports.all = function(req, res) {
                   title : 'Ascot :: All Looks',
                   routeUrl : '/all?',
                   page : p,
-                  sizer : generateLookImageSize(looks, 5, 780),
+                  sizer : exports.generateLookImageSize(looks, 5, 780),
                   numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
           }
         });
