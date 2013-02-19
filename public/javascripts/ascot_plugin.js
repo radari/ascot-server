@@ -135,7 +135,7 @@ function initAscotPlugin($, tagSourceUrl) {
           '<li><a target="_blank" href="' + tumblrUrl + '"><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="ascot_overlay_social_name">Tumblr</div></a></li>' + 
           '<br><li class="embedLink" style="cursor: pointer"><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="ascot_overlay_social_name">Embed</div></li>' + 
           '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></li></a>' +
-          '<br><a target="_blank" href="' + facebookUrl + '"><li><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
+          '<br><a target="_blank" href="' + facebookUrl + '"><li><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialEmbed_facebook.png"></div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
           '</ul></div>');
       var shareMenu = overlay.children().last();
       shareMenu.hide();
