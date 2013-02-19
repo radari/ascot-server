@@ -44,21 +44,27 @@ html(ng-app='AscotModule')
 
       ul#nav 
         li
-          a(href="/upload")  
+          a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
             h3 Upload
             p Paste an image link or upload an image to start tagging.
         li
-          a(href="/all")
+          a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}")
             h3 Looks
             p See images that have already been tagged.
         li
-          a(href="/random")
+          a(href="/random", id="#{url.indexOf('/random') == 0 ? 'currentPage' : 'nonCurrentPage'}")
             h3 Random
             p See a random image. 
         li
+<<<<<<< HEAD
           a(href="/howto/tumblr")  
             h3 How To
             p Learn how to use the ascot plugin. 
+=======
+          a(href="/about", id="#{url.indexOf('/about') == 0 ? 'currentPage' : 'nonCurrentPage'}")
+            h3 About
+            p Learn about the Ascot Project.
+>>>>>>> 4584603114f6dc297c6594e71e2d8abafc5a919a
       br
       img#bottomStripe(src='/images/bottomStripe.png', id:'stripe')
 

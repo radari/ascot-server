@@ -123,8 +123,10 @@ a:visited {
 	margin-bottom:10px;
 	right:0;
 	overflow:auto;
-	
-	
+}
+
+#nav #currentPage {
+  color: #323232;
 }
 
 #social {
