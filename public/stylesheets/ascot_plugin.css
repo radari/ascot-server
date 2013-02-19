@@ -9,11 +9,6 @@
  *
  */
 
-
-
-.ascot_overlay_social_name {
-  float:right;
-}
 .ascot_overlay_look {
   position: relative;
   margin: auto;
@@ -140,8 +135,8 @@
 
 .ascot_overlay_share_menu {
   position: absolute;
-  width:82px;
-  height:100px;
+  width:102px;
+  height:132px;
   border:1px white solid;
   right:50px;
   background-color:#323232;
@@ -178,7 +173,7 @@
 
 .ascot_overlay_share_menu ul {
   list-style:none;
-  width:75px;
+  width:95px;
   height:100%;
   position:relative;
   overflow:none;
@@ -189,8 +184,9 @@
 
 .ascot_overlay_share_menu li {
   position:relative;
-  width:75px;
+  width:95px;
   height:20px;
+  text-align: left;
   margin-left:0;
 }
 
@@ -201,6 +197,12 @@
   width:20px;
   height:20px;
   padding:0;
+}
+
+.ascot_overlay_social_name {
+  float:left;
+  margin-left: 10px;
+  margin-top: 3px;
 }
 
 .ascot_overlay_share_menu .ascot_overlay_social_icon img {
