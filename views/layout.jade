@@ -56,9 +56,9 @@ html(ng-app='AscotModule')
             h3 Random
             p See a random image. 
         li
-          a(href="/about")  
-            h3 About
-            p Learn about the Ascot Project.
+          a(href="/howto/tumblr")  
+            h3 How To
+            p Learn how to use the ascot plugin. 
       br
       img#bottomStripe(src='/images/bottomStripe.png', id:'stripe')
 
@@ -85,7 +85,16 @@ html(ng-app='AscotModule')
 
       br
       block content
-    #footer   
+    #footer  
+      ul#companyInfo
+        li
+          a(href="/about") about-
+        li
+          a(href="#") privacy-
+        li
+          a(href="#") contact   
+
+
       ul#social
         li
           a(href="http://ascotproject.tumblr.com/", target="_blank")
