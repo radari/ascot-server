@@ -130,6 +130,8 @@ function initAscotPlugin($, tagSourceUrl) {
 
               var height = image.height();
               var width = image.width();
+              
+              var smallImage = height < 300 && width < 300;
             
               image.wrap('<div class="ascot_overlay_look" />');
               var wrapper = image.parent();
@@ -142,6 +144,10 @@ function initAscotPlugin($, tagSourceUrl) {
               
               wrapper.append('<div class="ascot_overlay_animate_button"></div>');
               var animateButton = wrapper.children().last();
+              if (smallImage) {
+                animateButton.removeClass('ascot_overlay_animate_button');
+                animateButton.addClass('ascot_overlay_animate_button_small');
+              }
               
               wrapper.append('<div class="ascot_overlay"></div>');
               var overlay = wrapper.children().last();
@@ -216,6 +222,14 @@ function initAscotPlugin($, tagSourceUrl) {
                 var sourceTag = overlay.children().last();
                 var sourceUrl = sourceTag.children().last();
                 
+                if (smallImage) {
+                  sourceTag.removeClass('ascot_overlay_source_tag');
+                  sourceTag.addClass('ascot_overlay_source_tag_small');
+                  
+                  sourceUrl.removeClass('ascot_overlay_source_url');
+                  sourceUrl.addClass('ascot_overlay_source_url_small');
+                }
+                
                 sourceTag.hover(function() {
                   sourceUrl.show(100, function(){});
                 }, function() {
@@ -247,6 +261,10 @@ function initAscotPlugin($, tagSourceUrl) {
                 
                 var tagName = $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>")
                 tagName.appendTo(tagContainer);
+                if (smallImage) {
+                  tagName.removeClass('ascot_overlay_tag_name');
+                  tagName.addClass('ascot_overlay_tag_name_small');
+                }
                 
                 var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
                 tagDescription.html(
@@ -255,6 +273,10 @@ function initAscotPlugin($, tagSourceUrl) {
                     (tag.product.buyLink.length > 0 ? "<a target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
                     (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
                     "<a target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
+                if (smallImage) {
+                  tagDescription.removeClass('ascot_overlay_tag_description');
+                  tagDescription.addClass('ascot_overlay_tag_description_small');
+                }
 
                 if (tagX > width / 2.0) {
                   tagDescription.css('right', '10px');
