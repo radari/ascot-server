@@ -60,17 +60,32 @@ exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
     }
     var targetPath = './public/images/uploads/' + look._id + '.png';
     // move the file from the temporary location to the intended location
-    fs.rename(tmpPath, targetPath, function(error) {
-      if (error) {
-        callback(error, null, null);
-      } else {
-        gm(targetPath).size(function(error, features) {
-          mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
-            fs.unlink(tmpPath, function(error) {
-              // Don't care about error, probably means files already gone
-              callback(null, look, permissions);
+    gm(tmpPath).size(function(error, features) {
+      if (features.width > 700) {
+        gm(tmpPath).resize(700, features.height * (700 / features.width)).write(targetPath, function(error) {
+          if (error) {
+            callback(error, null, null);
+          } else {
+            mongoLookFactory.setHeightAndWidth(look._id, features.height * (700 / features.width), 700, function(error, look) {
+              fs.unlink(tmpPath, function(error) {
+                // Don't care about error, probably means files already gone
+                callback(null, look, permissions);
+              });
             });
-          });
+          }
+        });
+      } else {
+        fs.rename(tmpPath, targetPath, function(error) {
+          if (error) {
+            callback(error, null, null);
+          } else {
+            mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
+              fs.unlink(tmpPath, function(error) {
+                // Don't care about error, probably means files already gone
+                callback(null, look, permissions);
+              });
+            });
+          }
         });
       }
     });
