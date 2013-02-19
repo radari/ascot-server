@@ -51,9 +51,7 @@ iframe {
   left:0;
   right:0;
   top:0;
-  overflow: hidden;
   padding-bottom: 120px;
-	
 }
 
 .heading {
@@ -122,8 +120,9 @@ a:visited {
 	width:600px;
 	position:relative;
 	left:350px;
-	margin-bottom: 100px;
+	margin-bottom:20px;
 	right:0;
+	overflow:auto;
 	
 }
 
@@ -248,6 +247,7 @@ h1, h2 {
 
 #logoWrapper {
 	margin-top:5px;
+
 }
 
 #submitLink {
@@ -369,8 +369,8 @@ h1, h2 {
 
 
 .all_looks_wrapper {
-	width: 960px;
-	overflow: hidden;
+	width: 100%;
+	
 }
 
 .looks_wrapper img {
