@@ -114,7 +114,7 @@ exports.testHandleUpload = function(test) {
   };
   
   var mockGm = function(path) {
-    test.equal(path, './public/images/uploads/MYFAKEID.png');
+    test.equal(path, mockHandle.path);
     return {
       size : function(callback) {
         callback(null, { height : height, width : width });
