@@ -36,6 +36,13 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
+  
+  app.use(function(req, res, next) {
+    // Expose URL relative to root in views
+    res.locals.url = req.url;
+    next();
+  });
+  
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
