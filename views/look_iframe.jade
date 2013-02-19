@@ -11,7 +11,11 @@ head
   script(type='text/javascript')
     $(document).ready(function() {
       initAscotPlugin(jQuery, '');
-    })
+      $('#wrapper').css('width', ($(window).width()) + 'px');
+      $('#wrapper').css('height', ($(window).height()) + 'px');
+      $('#ascotImage').css('width', ($(window).width()) + 'px');
+      $('#ascotImage').css('height', ($(window).height()) + 'px');
+    });
 
   meta( property="og:title",
         content="#{look.title.length > 0 ? look.title + ' - Ascot Project' : 'Ascot Project'}")
@@ -24,5 +28,6 @@ head
   meta( property="og:site_name",
         content="Ascot Project")
 
-body
-  include partials/_look.jade
+body(style="margin: 0px; padding: 0px;")
+  div#wrapper(style="margin: 0px; padding: 0px;")
+    img(src="#{look.url}#ascot=#{look._id}", ascot="#{look._id}", id="ascotImage") 
