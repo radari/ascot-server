@@ -56,7 +56,7 @@ html(ng-app='AscotModule')
             h3 Random
             p See a random image. 
         li
-          a(href="/howto/tumblr")  
+          a(href="/howto/tumblr", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
             h3 How To
             p Learn how to use the ascot plugin. 
 
