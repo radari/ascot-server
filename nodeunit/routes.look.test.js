@@ -228,6 +228,20 @@ exports.testFilters = function(test) {
       });
 };
 
+exports.testGenerateLookImageSize = function(test) {
+  var mockLooks = [
+    { size : { height : 100, width : 200 } },
+    { size : { height : 200, width : 100 } }
+  ];
+
+  var sizer = LookRoutes.generateLookImageSize(mockLooks, 2, 125);
+  test.equal(sizer.getHeight(0), 50);
+  test.equal(sizer.getWidth(0), 100);
+  test.equal(sizer.getHeight(1), 50);
+  test.equal(sizer.getWidth(1), 25);
+  test.done();
+};
+
 exports.testUpvote = function(test) {
   var saved = false;
   var testLook = {  title : 'Test Title',
