@@ -149,9 +149,9 @@ function initAscotPlugin($, tagSourceUrl) {
               overlay.css('height', image.height() + 'px');
               
               overlay.append(
-                '<div class="shareMenu" style="right: 152px; width: 152px; top: 35px; height:150px"><div class="shareArrow" style="right: -20px;">' +
+                '<div class="ascot_overlay_share_menu" style="right: 152px; width: 152px; top: 35px; height:150px"><div class="ascot_overlay_share_arrow" style="right: -20px;">' +
                 '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
-                '<p id="embedInstruct">Copy code & paste in body of your site</p>'+
+                '<p class="ascot_overlay_embed_instruct">Copy code & paste in body of your site</p>'+
                 '<textarea style="width: 142px; height: 110px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
               var iframeDisplay = overlay.children().last();
               iframeDisplay.hide();
@@ -160,11 +160,11 @@ function initAscotPlugin($, tagSourceUrl) {
               });
 
               overlay.append(
-                '<div class="shareMenu"><div class="shareArrow">' + 
+                '<div class="ascot_overlay_share_menu"><div class="ascot_overlay_share_arrow">' + 
                 '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div><ul>' + 
-                '<li><a target="_blank" href="' + tumblrUrl + '"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="socialName">Tumblr</div></a></li>' + 
-                '<br><li class="embedLink" style="cursor: pointer"><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="socialName">Embed</div></li>' + 
-                '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="socialIcon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="socialName">Twitter</div></a></li>' +
+                '<li><a target="_blank" href="' + tumblrUrl + '"><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="ascot_overlay_social_name">Tumblr</div></a></li>' + 
+                '<br><li class="embedLink" style="cursor: pointer"><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="ascot_overlay_social_name">Embed</div></li>' + 
+                '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></a></li>' +
                 '</ul></div>');
               var shareMenu = overlay.children().last();
               shareMenu.hide();
