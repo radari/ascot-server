@@ -11,12 +11,13 @@ files = [
   'javascripts/basic_tools.js',
   'javascripts/controllers/TaggerViewController.js',
   'javascripts/controllers/MainSearchBarController.js',
+  'javascripts/services/Autocomplete.js',
   'tests/*.js'
 ];
 
 autoWatch = true;
 
-browsers = ['Chrome', 'Firefox', 'IE'];
+browsers = ['Chrome', 'Firefox'];
 
 junitReporter = {
   outputFile: 'test_out/unit.xml',
