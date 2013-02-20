@@ -8,6 +8,14 @@
  *
  */
 
-function MainSearchBarController($scope){
+function AdminController($scope){
+  
+  $scope.togglePublished = function() {
+    if($scope.isPublished === "published"){
+      $scope.isPublished = "unpublished";
+    } else {
+      $scope.isPublished = "published";
+    }
+  };
 
 }

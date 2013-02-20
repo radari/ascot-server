@@ -10,21 +10,28 @@ extends layout
 
 prepend head
   script(src='/javascripts/admin_panel.js')
-  
+  script(src='/javascripts/controllers/AdminController.js')
+
   link(rel='stylesheet', href='/stylesheets/admin_panel.css')
 
 block content
   div.list_header #{listTitle}
 
-  div.all_looks_wrapper(style="text-align: center", ng-controller="AdminController")
+  div.all_looks_wrapper(style="text-align: center")
     - if (looks.length > 0)
       - for (var i = 0; i < looks.length; i += 5) { 
         div(style="display: inline-block")
           div(style="position: relative;")
             - for (var j = 0; j < 5 && i + j < looks.length; ++j) {
-              div(style="float: left", class="#{looks[i+j].showOnCrossList ? "unpublished":"published"}")
-                a(href="/look/#{looks[i + j]._id}")
-                  img(src="#{looks[i + j].url}", style="margin: 10px; width: #{sizer.getWidth(i + j)}px; height: #{sizer.getHeight(i + j)}px")
+              div(style="float: left", 
+                  ng-controller="AdminController",
+                  ng-init="isPublished=#{looks[i+j].showOnCrossList ? "'unpublished'":"'published'"}", 
+                  ng-click="togglePublished()",
+                  ng-class="isPublished")
+
+                //a(href="/look/#{looks[i + j]._id}")
+                img(src="#{looks[i + j].url}", style="margin: 10px; width: #{sizer.getWidth(i + j)}px; height: #{sizer.getHeight(i + j)}px")
+
             - }
             div(style="clear: both")
       - }
