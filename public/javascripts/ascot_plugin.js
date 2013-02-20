@@ -244,8 +244,7 @@ function initAscotPlugin($, tagSourceUrl) {
             (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
             "<a target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
         if (smallImage) {
-          tagDescription.removeClass('ascot_overlay_tag_description');
-          tagDescription.addClass('ascot_overlay_tag_description_small');
+          tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
         }
 
         if (tagX > width / 2.0) {
