@@ -17,9 +17,6 @@ prepend head
 
 block content
  div(ng-controller="TaggerViewController")
-    input.save_button(type="submit",
-                      value="Save",
-                      ng-click="finalize('#{look._id}', '#{key}')")
     h2.info Add Image Info
     p.title Title
     input(type="text", 
@@ -96,4 +93,6 @@ block content
                               value="Save Tag",
                               ng-click="finishEdittingTag(look)")
     br
-   
+    input#submitButton.save_button(type="submit",
+                      value="Save",
+                      ng-click="finalize('#{look._id}', '#{key}')")

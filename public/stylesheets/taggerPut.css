@@ -36,6 +36,11 @@ overflow:hidden;
 #save_button:hover {
   cursor: pointer;
 }
+
+#submitButton {
+  position:relative;
+  left:780px;
+}
 .info {
   border-bottom:1px #7B7979 solid;
   padding-bottom: 3px;
