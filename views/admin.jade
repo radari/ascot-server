@@ -16,7 +16,7 @@ prepend head
 block content
   div.list_header #{listTitle}
 
-  div.all_looks_wrapper(style="text-align: center")
+  div.all_looks_wrapper(style="text-align: center", ng-controller="AdminController")
     - if (looks.length > 0)
       - for (var i = 0; i < looks.length; i += 5) { 
         div(style="display: inline-block")
