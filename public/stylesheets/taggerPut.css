@@ -171,7 +171,7 @@ div.tagger_autocomplete div {
   -webkit-border-radius: 5px;
 }
 
-div.tagger_autocomplete div:hover {
+div.tagger_autocomplete div.selection {
   background-color:rgba(0,0,0,0.9);
   color: rgba(255,255,255,1);
 }
