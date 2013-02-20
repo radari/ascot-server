@@ -58,21 +58,33 @@ block content
                                 id="brandInput",
                                 placeholder="Brand (e.g. Bonobos)",
                                 ng-change="autocomplete.updateResults('BRAND', idsToEditTag[look].product.brand)"
-                                ng-model="idsToEditTag[look].product.brand")
+                                ng-model="idsToEditTag[look].product.brand",
+                                ng-directional="true",
+                                key-up="autocomplete.prevSelection('BRAND');",
+                                key-down="autocomplete.nextSelection('BRAND');",
+                                key-return="idsToEditTag[look].product.brand = autocomplete.getSelected('BRAND'); autocomplete.hide('BRAND');")
             div(style="position: relative")
               div.tagger_autocomplete(ng-show="autocomplete.show['BRAND']")
                 div(ng-repeat="suggestion in autocomplete.results['BRAND']",
-                    ng-click="idsToEditTag[look].product.brand = suggestion; autocomplete.show['BRAND'] = false;")
+                    ng-class="autocomplete.checkSelection('BRAND', $index)",
+                    ng-mouseover="autocomplete.selection['BRAND'] = $index;",
+                    ng-click="idsToEditTag[look].product.brand = suggestion; autocomplete.hide('BRAND');")
                   span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.brand")
             input.tagger_input( type="text",
                                 id="nameInput",
                                 placeholder="Name (e.g. Jet Blues - Boot Cut)",
                                 ng-change="autocomplete.updateResults('NAME', idsToEditTag[look].product.name)",
-                                ng-model="idsToEditTag[look].product.name")
+                                ng-model="idsToEditTag[look].product.name",
+                                ng-directional="true",
+                                key-up="autocomplete.prevSelection('NAME');",
+                                key-down="autocomplete.nextSelection('NAME');",
+                                key-return="idsToEditTag[look].product.name = autocomplete.getSelected('NAME'); autocomplete.hide('NAME');")
             div(style="position: relative")
               div.tagger_autocomplete(ng-show="autocomplete.show['NAME']")
                 div(ng-repeat="suggestion in autocomplete.results['NAME']",
-                    ng-click="idsToEditTag[look].product.name = suggestion; autocomplete.show['NAME'] = false;")
+                    ng-class="autocomplete.checkSelection('NAME', $index)",
+                    ng-mouseover="autocomplete.selection['NAME'] = $index;",
+                    ng-click="idsToEditTag[look].product.name = suggestion; autocomplete.hide('NAME')")
                   span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.name")
             input.tagger_input( type="text",
                                 id="buyLinkInput"
