@@ -13,6 +13,7 @@ var express = require('express')
   , product = require('./routes/product.js')
 
   , http = require('http')
+  , httpGet = require('http-get')
   , path = require('path')
   , gm = require('gm')
   , fs = require('fs');
@@ -76,7 +77,7 @@ app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
 
 // Upload
-app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, http));
+app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet));
 
 // Set tags for image
 app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
