@@ -21,3 +21,11 @@ exports.about = function(req, res) {
 exports.tumblr = function(req, res) {
   res.render('tumblr', { title : 'Ascot :: Tumblr Help' });
 };
+
+exports.howto = function(req, res) {
+  res.render('howto', { title : 'Ascot : How To' });
+};
+
+exports.contact = function(req, res) {
+  res.render('contact', { title : 'Contact' });
+};

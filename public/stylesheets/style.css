@@ -4,6 +4,7 @@ html {
 	font-family:"Georgia", Times, serif;
 	color:#666;
 
+
 }
 
 img {
@@ -52,6 +53,11 @@ iframe {
   right:0;
   top:0;
   padding-bottom: 120px;
+  
+}
+
+#wrapper p {
+	line-height:18px;
 }
 
 .heading {
@@ -123,6 +129,8 @@ a:visited {
 	margin-bottom:10px;
 	right:0;
 	overflow:auto;
+	font-size:14px;
+	line-height:14px;
 }
 
 #nav #currentPage {
@@ -459,4 +467,13 @@ div.list_header {
   font-size: 18pt;
   font-weight: 400;
   margin: 10px;
+}
+
+.howToTitle {
+	color:blue;
+	font-weight:700;
+}
+
+#contact a {
+	color:#b54e37;
 }
