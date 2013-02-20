@@ -125,8 +125,11 @@ a:visited {
 	overflow:auto;
 }
 
-#nav, #currentPage {
+#nav #currentPage {
   color: #323232;
+  
+
+
 }
 
 #social {
