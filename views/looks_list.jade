@@ -18,7 +18,8 @@ block content
 
   div.all_looks_wrapper(style="text-align: center",
                         ng-controller="LooksListController",
-                        ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page})")
+                        ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page})",
+                        ng-when-scrolled="loadNextPage();")
     div(ng-repeat="row in rows",
         style="display: inline-block")
       div(ng-repeat="look in row",
@@ -27,13 +28,6 @@ block content
           img(ng-src="{{look.url}}",
               ng-style="{ 'height' : sizer.getHeight(look.index) + 'px', 'width' : sizer.getWidth(look.index) + 'px' }")
       div.clear
-    div.list_header
-      div(style="display: inline-block; position: relative")
-        div.pageNumber( ng-repeat="p in $R(0, numPages)"
-                        ng-class="conditional(p == currentPage, 'currentPage', '')")
-          a(ng-href="?p={{p}}")
-            | {{p + 1}}
-        div.clear
     div.list_header(ng-show="looks.length == 0")
       | No looks found
 
