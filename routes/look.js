@@ -323,9 +323,9 @@ exports.all = function(req, res) {
   var MAX_PER_PAGE = 20;
   var p = req.query["p"] || 0;
   
-  Look.find({}).count(function(error, count) {
+  Look.find({showOnCrossList : 1}).count(function(error, count) {
     Look.
-        find({}).
+        find({showOnCrossList : 1}).
         sort({ _id : -1 }).
         limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
         exec(function(error, looks) {
