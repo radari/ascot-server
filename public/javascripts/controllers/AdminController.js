@@ -8,11 +8,17 @@
  *
  */
 
-function AdminController($scope){
+function AdminController($scope, $http){
   
   $scope.togglePublished = function() {
     if($scope.isPublished === "published"){
+      
+      
+
       $scope.isPublished = "unpublished";
+
+
+
     } else {
       $scope.isPublished = "published";
     }

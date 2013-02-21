@@ -51,6 +51,36 @@ exports.iframe = function(mongoLookFactory) {
   };
 };
 
+
+/*
+ * PUT /look/:id/published
+ */
+exports.updatePublishedStatus = function(mongoLookFactory) {
+  return function(req, res) {
+    
+    console.log(req.body);
+
+    if(!req.is('json')){
+
+      res.writeHead(400, {'Content-Type': 'text/plain'});
+      res.end();
+
+    } else {
+
+      mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+        if (error) {
+          res.render('error', { error : 'Failed to find image', title : 'Ascot :: Error' });
+        } else {
+
+          //look.showOnCrossList = 
+          res.json({'id':look._id, 'success': 'true' });
+        
+        }
+      });
+    }
+  };
+}
+
 exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
   var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
@@ -213,7 +243,7 @@ var generateLookImageSize = function(looks, numPerRow, maxWidth) {
   };
 };
 
-// export the gunction
+// export the function
 exports.generateLookImageSize = generateLookImageSize;
 
 
@@ -334,3 +364,14 @@ exports.upvote = function(mongoLookFactory) {
     });
   };
 };
+
+
+
+
+
+
+
+
+
+
+

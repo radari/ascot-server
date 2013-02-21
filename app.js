@@ -67,6 +67,8 @@ var mongoLookFactory = new MongoLookFactory(app.get('url'));
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
 app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
+app.put('/look/:id/published', look.updatePublishedStatus(mongoLookFactory));
+
 app.get('/tagger/:key/:look', tagger.get(mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
