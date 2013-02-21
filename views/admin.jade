@@ -25,7 +25,7 @@ block content
             - for (var j = 0; j < 5 && i + j < looks.length; ++j) {
               div(style="float: left", 
                   ng-controller="AdminController",
-                  ng-init="isPublished=#{looks[i+j].showOnCrossList ? "'unpublished'":"'published'"} ; lookId='#{looks[i+j]._id}'", 
+                  ng-init="isPublished=#{looks[i+j].showOnCrossList ? "'published'":"'unpublished'"} ; lookId='#{looks[i+j]._id}'", 
                   ng-click="togglePublished()",
                   ng-class="isPublished")
 
