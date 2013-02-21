@@ -33,3 +33,11 @@ exports.contact = function(req, res) {
 exports.privacy = function(req, res) {
   res.render('privacy', { title : 'Privacy' });
 };
+
+exports.websites = function(req, res) {
+  res.render('websites', { title : 'Websites' });
+};
+
+exports.planB = function(req, res) {
+  res.render('planB', { title : 'planB' });
+};

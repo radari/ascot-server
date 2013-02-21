@@ -60,6 +60,8 @@ app.get('/howto/tumblr', routes.tumblr);
 app.get('/howto', routes.howto);
 app.get('/contact', routes.contact);
 app.get('/privacy', routes.privacy);
+app.get('/howto/websites', routes.websites);
+app.get('/howto/planB', routes.planB);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'));
 
