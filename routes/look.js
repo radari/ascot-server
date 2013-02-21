@@ -61,20 +61,30 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
     console.log(req.body);
 
     if(!req.is('json')){
-
+      console.log("Bad json");
       res.writeHead(400, {'Content-Type': 'text/plain'});
       res.end();
-
     } else {
-
       mongoLookFactory.buildFromId(req.params.id, function(error, look) {
         if (error) {
-          res.render('error', { error : 'Failed to find image', title : 'Ascot :: Error' });
+          res.json({'id':req.params.id, 'error':'Could not find look' });
+        } else if(!req.body.publish){
+          res.json({'id':req.params.id, 'error':'invalid parameter passed' });
         } else {
 
-          //look.showOnCrossList = 
-          res.json({'id':look._id, 'success': 'true' });
-        
+          if(req.body.publish == 1){
+            look.showOnCrossList = 1;
+          } else {
+            look.showOnCrossList = 0;
+          }
+
+          look.save(function(error, look){
+            if (error || !look) {
+              res.json({'id':look._id, 'error': 'Failed to save look' });
+            } else {
+              res.json({'id':look._id, 'success': 'true', 'published': look.showOnCrossList });
+            }
+          });  
         }
       });
     }
