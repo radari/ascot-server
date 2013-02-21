@@ -1,0 +1,28 @@
+extends layout
+
+block content
+	div#fails
+		h2 When Other Sites Don't Play Nice 
+		|Our goal here at Ascot to make fashion discovery and sharing easier. We want every picture of clothing to be tagged using Ascot for everyone's benefit. Truth be told, it's going to take a while to get the word out. As of now, not every site can display the ascot plugin in all it's glory. We tried to build ascot with these cases in mind so that the plugin degrades easily. Here are some examples of what happens in certain scenarios: 
+		br
+		br
+		h3 Tumblr 
+		p If an ascot-generated tumblr post is on a tumblr that doesn't have the ascot plugin installed (via a reblog), the links to all of the tagged items are displayed below the images in the post. For a tutorial on how to install the ascot plugin in your tumblr, go 
+			a(href="#") here. 
+		br
+		h3 Facebook
+		p Facebook doesn't support custom javascript or embedding of iframes into it's site. Therefore, the ascot tag overlay will not show up on facbeook. However, an ascot-generated post will contain links to the tagged items in the body of the post and a link to the image on ascot. 
+		br
+		h3 Wordpress.com
+		p If you have a Wordpress hosted blog, you are not allowed to use custom javascript or iframes. Embedding an ascot post using our embed code will not work. We are currently working on a wordpress plugin that will work in the future. Sorry for the temporary inconveience. 
+			strong note: this does not apply to self-hosted wordpress blogs
+		br
+		h3 No Javascript
+		p Ascot depends on Javascript. In fact, the modern internet depends on Javascript. If you have it turned off, please turn it on. 
+		br
+		h3 Other Issues
+		p If you have a case of wonky ascot compatability that we didn't cover. Please let us know and we'll do what we can with your particular situation. Email 
+			a.contact(href="mailto:team@ascotproject.com") team@ascotproject.com 
+			| with the subject "issues".
+
+
