@@ -72,7 +72,7 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
           res.json({'id':req.params.id, 'error':'invalid parameter passed' });
         } else {
 
-          if(req.body.publish == 1){
+          if(req.body.publish === "1"){
             look.showOnCrossList = 1;
           } else {
             look.showOnCrossList = 0;

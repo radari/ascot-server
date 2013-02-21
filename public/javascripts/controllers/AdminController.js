@@ -12,15 +12,18 @@ function AdminController($scope, $http){
   
   $scope.togglePublished = function() {
     if($scope.isPublished === "published"){
+      $http.put('/look/'+$scope.lookId+'/published', JSON.stringify({'publish':'0'})).
+        success(function(data){
+          console.log(data);
+          $scope.isPublished = "unpublished";
+        });
       
-      
-
-      $scope.isPublished = "unpublished";
-
-
-
     } else {
-      $scope.isPublished = "published";
+      $http.put('/look/'+$scope.lookId+'/published', JSON.stringify({'publish':'1'})).
+        success(function(data){
+          console.log(data);
+          $scope.isPublished = "published";
+        });
     }
   };
 
