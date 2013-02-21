@@ -1,8 +1,8 @@
-angular.module('DirectivesModule', []).directive('ngDirectional', function() {
+angular.module('CustomDirectives', []).directive('ngDirectional', function() {
   return function(scope, elm, attrs) {
-    var keyUp = attrs.keyUp;
-    var keyDown = attrs.keyDown;
-    var enter = attrs.keyReturn;
+    var keyUp = attrs.ngKeyUp;
+    var keyDown = attrs.ngKeyDown;
+    var enter = attrs.ngKeyReturn;
     elm.bind('keyup', function(evt) {
       //$apply makes sure that angular knows 
       //we're changing something
