@@ -98,20 +98,22 @@
   padding: 0px;
 }
 
-.ascot_overlay_look .ascot_overlay_image_menu img:hover {
+.ascot_overlay_look .ascot_overlay_image_menu img#ascot_overlay_menu_item:hover {
   opacity:1;
   
 }
 
-.ascot_overlay_look .ascot_overlay_image_menu img {
-  padding: 0;
-  margin: 0;
+.ascot_overlay_look .ascot_overlay_image_menu img#ascot_overlay_menu_item {
+  padding: 0px;
+  margin: 0px;
   margin-top: 4px;
   position: relative;
   opacity: 0.7;
   top: 0px;
   left: 0px;
   display: inline-block;
+  background: transparent;
+  border: 0px;
   box-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
@@ -147,23 +149,27 @@
   z-index: 4;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_share_arrow img {
+.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_share_arrow img#ascot_overlay_share_arrow {
    box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   height: 15px;
   width: 9px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu ul {
+div.ascot_overlay_look div.ascot_overlay_share_menu ul#ascot_overlay_share_list {
   list-style:none;
   width:95px;
   height:100%;
   position:relative;
   overflow:none;
   top:2px;
-  margin-top:0;
   padding:0;
+  margin: 0px;
 }
 
 .ascot_overlay_look .ascot_overlay_share_menu li {
@@ -183,31 +189,37 @@
   padding:0;
 }
 
-.ascot_overlay_look .ascot_overlay_social_name {
+div.ascot_overlay_look div.ascot_overlay_social_name {
   float:left;
   margin-left: 10px;
   margin-top: 3px;
+  color: white;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_social_icon img {
+div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon img#ascot_overlay_social {
   box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   width:20px;
   height:20px;
-  margin:0;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  background: transparent;
   position:relative;
   left:0;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_embed_instruct {
+.ascot_overlay_look .ascot_overlay_share_menu #ascot_overlay_embed_instruct {
   font-size:12px;
   text-align:left;
   width:85%;
   position:relative;
   top:0;
-  margin-top:0;
-  margin-bottom:0;
+  margin: 0px;
   left:7px;
+  line-height: 1;
+  color: white;
+  text-shadow: 0px 0px 0px transparent;
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container {

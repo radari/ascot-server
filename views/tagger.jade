@@ -57,9 +57,9 @@ block content
                                 ng-change="autocomplete.updateResults('BRAND', idsToEditTag[look].product.brand)"
                                 ng-model="idsToEditTag[look].product.brand",
                                 ng-directional="true",
-                                key-up="autocomplete.prevSelection('BRAND');",
-                                key-down="autocomplete.nextSelection('BRAND');",
-                                key-return="idsToEditTag[look].product.brand = autocomplete.getSelected('BRAND'); autocomplete.hide('BRAND');")
+                                ng-key-up="autocomplete.prevSelection('BRAND');",
+                                ng-key-down="autocomplete.nextSelection('BRAND');",
+                                ng-key-return="idsToEditTag[look].product.brand = autocomplete.getSelected('BRAND'); autocomplete.hide('BRAND');")
             div(style="position: relative")
               div.tagger_autocomplete(ng-show="autocomplete.show['BRAND']")
                 div(ng-repeat="suggestion in autocomplete.results['BRAND']",
@@ -73,9 +73,9 @@ block content
                                 ng-change="autocomplete.updateResults('NAME', idsToEditTag[look].product.name)",
                                 ng-model="idsToEditTag[look].product.name",
                                 ng-directional="true",
-                                key-up="autocomplete.prevSelection('NAME');",
-                                key-down="autocomplete.nextSelection('NAME');",
-                                key-return="idsToEditTag[look].product.name = autocomplete.getSelected('NAME'); autocomplete.hide('NAME');")
+                                ng-key-up="autocomplete.prevSelection('NAME');",
+                                ng-key-down="autocomplete.nextSelection('NAME');",
+                                ng-key-return="idsToEditTag[look].product.name = autocomplete.getSelected('NAME'); autocomplete.hide('NAME');")
             div(style="position: relative")
               div.tagger_autocomplete(ng-show="autocomplete.show['NAME']")
                 div(ng-repeat="suggestion in autocomplete.results['NAME']",
