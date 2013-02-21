@@ -124,7 +124,7 @@ function initAscotPlugin($, tagSourceUrl) {
       menuWrapper.append(
           '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 35px; height:150px"><div class="ascot_overlay_share_arrow" style="right: -20px;">' +
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
-          '<p class="ascot_overlay_embed_instruct">Copy code & paste in body of your site</p>'+
+          '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site</p>'+
           '<textarea style="width: 142px; height: 110px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
       var iframeDisplay = menuWrapper.children().last();
       iframeDisplay.hide();
@@ -160,7 +160,7 @@ function initAscotPlugin($, tagSourceUrl) {
         iframeDisplay.hide();
         shareMenu.fadeToggle();
       });
-      var upvoteButton = imageMenu.children().last();
+      var upvoteButton = imageMenu.children().last().children().first();
       upvoteButton.click(function(event) {
         event.preventDefault();
         ascotUpvoteLook(upvoteButton, ascotId);
@@ -171,9 +171,9 @@ function initAscotPlugin($, tagSourceUrl) {
       }
 
       if (data.hasUpvotedCookie) {
-        $("#ascot_upvote_" + ascotId).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
-        $("#ascot_upvote_" + ascotId).css('cursor', '');
-        $("#ascot_upvote_" + ascotId).css('opacity', '1');
+        $(upvoteButton).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
+        $(upvoteButton).css('cursor', '');
+        $(upvoteButton).css('opacity', '1');
       }
               
       if (json.source && json.source.length > 0) {

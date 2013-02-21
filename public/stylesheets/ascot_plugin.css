@@ -168,8 +168,8 @@ div.ascot_overlay_look div.ascot_overlay_share_menu ul#ascot_overlay_share_list 
   position:relative;
   overflow:none;
   top:2px;
-  margin-top:0;
   padding:0;
+  margin: 0px;
 }
 
 .ascot_overlay_look .ascot_overlay_share_menu li {
@@ -209,15 +209,17 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   left:0;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_embed_instruct {
+.ascot_overlay_look .ascot_overlay_share_menu #ascot_overlay_embed_instruct {
   font-size:12px;
   text-align:left;
   width:85%;
   position:relative;
   top:0;
-  margin-top:0;
-  margin-bottom:0;
+  margin: 0px;
   left:7px;
+  line-height: 1;
+  color: white;
+  text-shadow: 0px 0px 0px transparent;
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container {
