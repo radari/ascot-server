@@ -40,7 +40,7 @@ function initAscotPlugin($, tagSourceUrl) {
     }
   };
 
-  window.ascotUpvoteLook = function(ascotId) {
+  window.ascotUpvoteLook = function(upvoteButton, ascotId) {
     $.ajax({
       type: 'GET',
       url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
@@ -50,9 +50,9 @@ function initAscotPlugin($, tagSourceUrl) {
       dataType: 'jsonp',
       success : function(json) {
         if (!json.error) {
-          $("#ascot_upvote_" + ascotId).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
-          $("#ascot_upvote_" + ascotId).css('cursor', '');
-          $("#ascot_upvote_" + ascotId).css('opacity', '1');
+          upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
+          upvoteButton.css('cursor', '');
+          upvoteButton.css('opacity', '1');
         } else {
           // Nothing to do here for now, just ignore
         }
@@ -150,8 +150,8 @@ function initAscotPlugin($, tagSourceUrl) {
 
       menuWrapper.append(
           '<div class="ascot_overlay_image_menu">' +
-          '<div><img style="cursor: pointer; height: 28px; width: 24px;" id="ascot_overlay_share_' + ascotId + '" src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
-          '<div><img id="ascot_upvote_' + ascotId + '" style="cursor: pointer; height: 24px; width: 24px;" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
+          '<div><img style="cursor: pointer; height: 28px; width: 24px;" id="ascot_overlay_menu_item" src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
+          '<div><img id="ascot_overlay_menu_item" style="cursor: pointer; height: 24px; width: 24px;" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
           '</div>');
       var imageMenu = menuWrapper.children().last();
       var shareButton = imageMenu.children().first();
@@ -163,7 +163,7 @@ function initAscotPlugin($, tagSourceUrl) {
       var upvoteButton = imageMenu.children().last();
       upvoteButton.click(function(event) {
         event.preventDefault();
-        ascotUpvoteLook(ascotId);
+        ascotUpvoteLook(upvoteButton, ascotId);
       });
       
       if (smallImage) {
