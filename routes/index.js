@@ -29,3 +29,7 @@ exports.howto = function(req, res) {
 exports.contact = function(req, res) {
   res.render('contact', { title : 'Contact' });
 };
+
+exports.privacy = function(req, res) {
+  res.render('privacy', { title : 'Privacy' });
+};

@@ -59,6 +59,7 @@ app.get('/about', routes.about);
 app.get('/howto/tumblr', routes.tumblr);
 app.get('/howto', routes.howto);
 app.get('/contact', routes.contact);
+app.get('/privacy', routes.privacy);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'));
 
