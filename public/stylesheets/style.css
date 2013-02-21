@@ -23,15 +23,20 @@ body {
 .clear {
 	clear: both;
 }
-
+#aboutText {
+	position:relative;
+	left:5px;
+}
 #aboutText p{
-	
+	width:950px;
 }
 
 #aboutText h2{
 	 border-bottom:1px #7B7979 solid;
 	 margin-bottom:5px;
-	 }
+	 width:950px;
+}
+
 iframe {
 	position:relative;
 	margin:auto;
@@ -219,7 +224,6 @@ a:visited {
 h3{
 	font-weight:400;
 	margin:2px;
-	padding:0;
 }
 
 h1, h2 {
