@@ -18,4 +18,12 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
       }
     });
   };
+}).directive('ngWhenScrolled', function() {
+  return function(scope, elm, attr) {
+    $(window).bind('scroll', function() {
+      if ($(document).scrollTop() + $(window).height() >= elm.offset().top + elm.height()) {
+        scope.$apply(attr.ngWhenScrolled);
+      }
+    });
+  };
 });

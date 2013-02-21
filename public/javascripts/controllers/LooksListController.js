@@ -27,7 +27,7 @@ function LooksListController($scope) {
   
   $scope.conditional = function(b, t, f) {
     return b ? t : f;
-  }
+  };
 
   $scope.init = function(looks, numPages, currentPage) {
     $scope.looks = looks;
