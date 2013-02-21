@@ -11,6 +11,7 @@ var Look = db.model('looks', LookSchema);
 var gm = require('gm');
 
 var Stopwatch = require('../public/common/Stopwatch.js').Stopwatch;
+var createLookImageSizer = require('../public/common/LookImageSizer.js').createLookImageSizer;
 
 var http = require('http-get');
 var fs = require('fs');
@@ -199,37 +200,6 @@ exports.filters = function(Look) {
   };
 };
 
-exports.generateLookImageSize = function(looks, numPerRow, maxWidth) {
-  var totalRowWidth = [];
-  var totalRowHeight = [];
-  var totalAspect = [];
-  var numInRow = [];
-  for (var i = 0; i < looks.length; i += numPerRow) {
-    totalRowWidth.push(0);
-    totalRowHeight.push(0);
-    totalAspect.push(0);
-    numInRow.push(0);
-    var row = i / numPerRow;
-    for (var j = 0; j < numPerRow && i + j < looks.length; ++j) {
-      totalRowWidth[row] += looks[i + j].size.width;
-      totalRowHeight[row] += looks[i + j].size.height;
-      // Total width of the row if all images have size 1
-      totalAspect[row] += (looks[i + j].size.width / looks[i + j].size.height);
-      numInRow[row] += 1;
-    }
-  }
-
-  return {
-    getWidth : function(index) {
-      return Math.floor((this.getHeight(index) / looks[index].size.height) * looks[index].size.width);
-    },
-    getHeight : function(index) {
-      var row = Math.floor(index / numPerRow);
-      return Math.min(Math.floor(maxWidth / totalAspect[row]), 250);
-    }
-  };
-};
-
 /*
  * GET /brand?v=<brand>
  */
@@ -251,7 +221,7 @@ exports.brand = function(Look) {
                 title : 'Ascot :: ' + req.query["v"],
                 routeUrl : '/brand?v=' + encodeURIComponent(req.query["v"]) + '&',
                 page : p,
-                sizer : exports.generateLookImageSize(looks, 5, 780),
+                sizer : createLookImageSizer(looks, 5, 780),
                 numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
           });
     });
@@ -285,7 +255,7 @@ exports.keywords = function(req, res) {
                   title : 'Ascot :: ' + req.query["v"],
                   routeUrl : '/keywords?v=' + encodeURIComponent(req.query["v"]) + '&',
                   page : p,
-                  sizer : exports.generateLookImageSize(looks, 5, 780),
+                  sizer : createLookImageSizer(looks, 5, 780),
                   numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
           }
         });
@@ -315,7 +285,7 @@ exports.all = function(req, res) {
                   title : 'Ascot :: All Looks',
                   routeUrl : '/all?',
                   page : p,
-                  sizer : exports.generateLookImageSize(looks, 5, 780),
+                  sizer : createLookImageSizer(looks, 5, 780),
                   numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
           }
         });

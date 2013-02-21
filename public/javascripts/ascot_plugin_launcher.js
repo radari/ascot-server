@@ -47,37 +47,35 @@
     head.appendChild(link);
     callback();
   };
+  
+  var localJQuery;
 
   var checkJQuery = function(callback) {
-    if (typeof jQuery !== 'undefined') {
-      callback();
-    } else {
-      loadScript(
-          'https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js',
-          callback);
-    }
+    loadScript(
+        'https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js',
+        callback);
   };
   
   var checkJQueryUI = function(callback) {
-    if (jQuery.ui) {
-      callback();
-    } else {
-      loadScript(
-        'https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
-        callback);
-    }
+    loadScript(
+      'https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js',
+      callback);
   };
   
   
   var url = 'http://www.ascotproject.com';
   var checkJQueryImagesLoaded = function(callback) {
-    if (jQuery.imagesLoaded) {
-      callback();
-    } else {
-      loadScript(
-        url + '/vendor/javascripts/jquery.imagesloaded.js',
-        callback);
-    }
+    loadScript(
+      url + '/vendor/javascripts/jquery.imagesloaded.js',
+      function() {
+        // Getting fancy with this jQuery shit - when you load a 2nd version of
+        // jQuery, the first version gets saved and calling $.noConflict
+        // removes our jQuery from the global scope. Our version should be the
+        // one that has the global scope
+        localJQuery = jQuery;
+        $.noConflict();
+        callback();
+      });
   };
 
   var loadAscotStylesheets = function(url, callback) {
@@ -97,7 +95,7 @@
       checkJQueryImagesLoaded(function() {
         loadAscotStylesheets(url, function() {
           loadAscotPlugin(url, function() {
-            initAscotPlugin(jQuery, url);
+            initAscotPlugin(localJQuery, url);
           });
         });
       });
