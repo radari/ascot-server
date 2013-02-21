@@ -149,15 +149,19 @@
   z-index: 4;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_share_arrow img {
+.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_share_arrow img#ascot_overlay_share_arrow {
    box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   height: 15px;
   width: 9px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu ul {
+div.ascot_overlay_look div.ascot_overlay_share_menu ul#ascot_overlay_share_list {
   list-style:none;
   width:95px;
   height:100%;
@@ -185,18 +189,22 @@
   padding:0;
 }
 
-.ascot_overlay_look .ascot_overlay_social_name {
+div.ascot_overlay_look div.ascot_overlay_social_name {
   float:left;
   margin-left: 10px;
   margin-top: 3px;
+  color: white;
 }
 
-.ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_social_icon img {
+div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon img#ascot_overlay_social {
   box-shadow:0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
   width:20px;
   height:20px;
-  margin:0;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  background: transparent;
   position:relative;
   left:0;
 }

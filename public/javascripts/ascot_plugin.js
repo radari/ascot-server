@@ -123,7 +123,7 @@ function initAscotPlugin($, tagSourceUrl) {
               
       menuWrapper.append(
           '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 35px; height:150px"><div class="ascot_overlay_share_arrow" style="right: -20px;">' +
-          '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
+          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
           '<p class="ascot_overlay_embed_instruct">Copy code & paste in body of your site</p>'+
           '<textarea style="width: 142px; height: 110px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
       var iframeDisplay = menuWrapper.children().last();
@@ -134,11 +134,11 @@ function initAscotPlugin($, tagSourceUrl) {
 
       menuWrapper.append(
           '<div class="ascot_overlay_share_menu"><div class="ascot_overlay_share_arrow">' + 
-          '<img src="' + tagSourceUrl + '/images/popupArrow_border.png"></div><ul>' + 
-          '<li><a target="_blank" href="' + tumblrUrl + '"><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="ascot_overlay_social_name">Tumblr</div></a></li>' + 
-          '<br><li class="embedLink" style="cursor: pointer"><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="ascot_overlay_social_name">Embed</div></li>' + 
-          '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></li></a>' +
-          '<br><a target="_blank" href="' + facebookUrl + '"><li><div class="ascot_overlay_social_icon"><img src="' + tagSourceUrl + '/images/socialEmbed_facebook.png"></div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
+          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div><ul id="ascot_overlay_share_list">' + 
+          '<li><a target="_blank" href="' + tumblrUrl + '"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="ascot_overlay_social_name">Tumblr</div></a></li>' + 
+          '<br><li class="embedLink" style="cursor: pointer"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="ascot_overlay_social_name">Embed</div></li>' + 
+          '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></li></a>' +
+          '<br><a target="_blank" href="' + facebookUrl + '"><li><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_facebook.png"></div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
           '</ul></div>');
       var shareMenu = menuWrapper.children().last();
       shareMenu.hide();
