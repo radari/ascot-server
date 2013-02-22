@@ -58,8 +58,6 @@ exports.iframe = function(mongoLookFactory) {
 exports.updatePublishedStatus = function(mongoLookFactory) {
   return function(req, res) {
     
-    console.log(req.body);
-
     if(!req.is('json')){
       console.log("Bad json");
       res.writeHead(400, {'Content-Type': 'text/plain'});
