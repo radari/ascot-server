@@ -23,6 +23,11 @@ body {
 .clear {
 	clear: both;
 }
+#aboutExample {
+	border-radius:5px;
+	border:5px solid rgb(194, 192, 192);
+}
+
 #aboutText {
 	position:relative;
 	left:5px;
