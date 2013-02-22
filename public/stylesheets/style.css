@@ -144,7 +144,10 @@ a:visited {
 
 #nav p {
 	line-height:14px;
+	display:none;
 }
+
+
 
 #nav #currentPage {
   color: #323232;
