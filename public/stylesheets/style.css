@@ -364,6 +364,22 @@ h1, h2 {
 	right:0;
 }
 
+
+.progress {
+	position:relative;
+	width:100%;
+	height:80px;
+	
+}
+.progress img{
+	position:absolute;
+	right:0;
+	left:0;
+	width:391px;
+	margin:auto;
+}
+
+
 #uploadToolsWrap {
 	text-align: center;
 	border:1px transparent solid;
