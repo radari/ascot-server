@@ -17,14 +17,12 @@ var express = require('express')
   , http = require('http')
   , httpGet = require('http-get')
   , path = require('path')
-<<<<<<< HEAD
   , fs = require('fs')
+  , gm = require('gm')
+  
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
-=======
-  , gm = require('gm')
-  , fs = require('fs');
->>>>>>> ddf53eacb80a3119057793c26903e10473111d5d
+
 
 var app = express();
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
