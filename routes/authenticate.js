@@ -44,14 +44,16 @@ exports.logout = function(req, res){
 
 // TODO: change function to query database
 exports.localStrategy = function(username, password, done) {
-  process.nextTick(function () {
-    
-    findByUsername(username, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-      if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
+  findByUsername(username, function(err, user) {
+    if (err) {
+      return done(err);
+    } else if (!user) {
+      return done(null, false, { message: 'Unknown user ' + username });
+    } else if (user.password != password) {
+      return done(null, false, { message: 'Invalid password' });
+    } else {
       return done(null, user);
-    })
+    }
   });
 }
 
@@ -66,18 +68,9 @@ exports.deserializeUser = function(id, done) {
 };
 
 exports.ensureAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
 };
-
-
-
-
-
-
-
-
-
-
-
-
