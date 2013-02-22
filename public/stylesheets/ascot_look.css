@@ -36,16 +36,16 @@ a:visited {
 .share_container {
   margin: auto;
   position: relative;
-  width: 680px;
+  width: 681px;
   color: #333333;
   margin-top: 25px;
+  text-align: center;
 }
 
 .share_container .header {
   font-size: 14pt;
   color: black;
   width: 100%;
-  text-align: center;
 }
 
 .share_container div {
@@ -54,22 +54,23 @@ a:visited {
 
 .tumblr_container {
   float: left;
-  width: 300px;
+  width: 320px;
   position: relative;
   padding: 10px;
 }
 
 .iframe_code_container {
   float: right;
-  width: 300px;
+  width: 320px;
   padding: 10px;
   border-left: 1px solid black;
 }
 
 .share_container textarea {
-  width: 250px;
-  height: 50px;
+  width: 300px;
+  height: 65px;
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: 18px;
+  margin-left: auto;
+  resize: none;
 }
