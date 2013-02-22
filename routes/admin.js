@@ -9,8 +9,7 @@
  */
 
 var authenticate = require('./authenticate.js');
-var look = require('./look.js');
-
+var createLookImageSizer = require('../public/common/LookImageSizer').createLookImageSizer;
 
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 var fs = require('fs');
@@ -44,7 +43,7 @@ exports.index = function(req, res) {
                   title : 'Ascot :: Admin',
                   routeUrl : '/admin?',
                   page : p,
-                  sizer : look.generateLookImageSize(looks, 5, 780),
+                  sizer : createLookImageSizer(looks, 5, 780),
                   numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)),
                   user : req.user 
                 });
