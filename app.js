@@ -119,7 +119,7 @@ app.post('/login',
   }
 );
 
-app.get('/admin', admin.index);
+app.get('/admin', authenticate.ensureAuthenticated, admin.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));
