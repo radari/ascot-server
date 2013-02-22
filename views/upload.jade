@@ -5,6 +5,7 @@ block content
  #uploadToolsWrap
     #tagline
       h2  Upload Any Image and Tag Products
+      
     form(method='post', enctype='multipart/form-data', action='/image-upload')
       #uploadURL
         input(type='text', name='url', placeholder="paste a link to an image", id="submitLink")
@@ -14,7 +15,6 @@ block content
       h2 or
    
       br
-
+    
       input(type='file', name='files')
       input(type='submit', class='btn btn-primary start', id="submit", value="Next")
-

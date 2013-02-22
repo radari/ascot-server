@@ -15,10 +15,16 @@ var express = require('express')
   , admin = require('./routes/admin.js')
 
   , http = require('http')
+  , httpGet = require('http-get')
   , path = require('path')
+<<<<<<< HEAD
   , fs = require('fs')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
+=======
+  , gm = require('gm')
+  , fs = require('fs');
+>>>>>>> ddf53eacb80a3119057793c26903e10473111d5d
 
 var app = express();
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
@@ -44,9 +50,17 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
+ 
   app.use(express.session({ secret: 'LS295K8NO2O2l8' }));
   app.use(passport.initialize());
   app.use(passport.session());
+  
+  app.use(function(req, res, next) {
+    // Expose URL relative to root in views
+    res.locals.url = req.url;
+    next();
+  });
+  
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
@@ -61,6 +75,11 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/about', routes.about);
 app.get('/howto/tumblr', routes.tumblr);
+app.get('/howto', routes.howto);
+app.get('/contact', routes.contact);
+app.get('/privacy', routes.privacy);
+app.get('/howto/websites', routes.websites);
+app.get('/howto/planB', routes.planB);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'));
 
@@ -72,18 +91,18 @@ app.put('/look/:id/published', look.updatePublishedStatus(mongoLookFactory));
 app.get('/tagger/:key/:look', tagger.get(mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
-app.get('/brand', look.brand);
+app.get('/brand', look.brand(Look));
 app.get('/keywords', look.keywords);
 app.get('/all', look.all);
 
 // JSON queries
 app.get('/tags.jsonp', tags.get(mongoLookFactory));
-app.get('/filters.json', look.filters);
+app.get('/filters.json', look.filters(Look));
 app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
 
 // Upload
-app.post('/image-upload', look.upload(mongoLookFactory));
+app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet));
 
 // Set tags for image
 app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));

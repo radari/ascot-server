@@ -17,9 +17,6 @@ prepend head
 
 block content
  div(ng-controller="TaggerViewController")
-    input.save_button(type="submit",
-                      value="Save",
-                      ng-click="finalize('#{look._id}', '#{key}')")
     h2.info Add Image Info
     p.title Title
     input(type="text", 
@@ -52,26 +49,39 @@ block content
             {{tag.index}}
 
           div#overlay(ng-show="isEdittingTag(look)",
-                      ng-style="{ position : 'absolute', left : (computeTagDisplayPosition(look, idsToEditTag[look]).x + 25) + 'px', top : (computeTagDisplayPosition(look, idsToEditTag[look]).y + 25) + 'px' }")
+                      ng-style="{ position : 'absolute', left : (computeTagDisplayPosition(look, idsToEditTag[look]).x + 25) + 'px', top : (computeTagDisplayPosition(look, idsToEditTag[look]).y + 25) + 'px' }",
+                      ng-click="autocomplete.hide('BRAND'); autocomplete.hide('NAME');")
             input.tagger_input( type="text",
                                 id="brandInput",
                                 placeholder="Brand (e.g. Bonobos)",
                                 ng-change="autocomplete.updateResults('BRAND', idsToEditTag[look].product.brand)"
-                                ng-model="idsToEditTag[look].product.brand")
+                                ng-model="idsToEditTag[look].product.brand",
+                                ng-directional="true",
+                                ng-key-up="autocomplete.prevSelection('BRAND');",
+                                ng-key-down="autocomplete.nextSelection('BRAND');",
+                                ng-key-return="idsToEditTag[look].product.brand = autocomplete.getSelected('BRAND'); autocomplete.hide('BRAND');")
             div(style="position: relative")
               div.tagger_autocomplete(ng-show="autocomplete.show['BRAND']")
                 div(ng-repeat="suggestion in autocomplete.results['BRAND']",
-                    ng-click="idsToEditTag[look].product.brand = suggestion; autocomplete.show['BRAND'] = false;")
+                    ng-class="autocomplete.checkSelection('BRAND', $index)",
+                    ng-mouseover="autocomplete.selection['BRAND'] = $index;",
+                    ng-click="idsToEditTag[look].product.brand = suggestion; autocomplete.hide('BRAND');")
                   span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.brand")
             input.tagger_input( type="text",
                                 id="nameInput",
                                 placeholder="Name (e.g. Jet Blues - Boot Cut)",
                                 ng-change="autocomplete.updateResults('NAME', idsToEditTag[look].product.name)",
-                                ng-model="idsToEditTag[look].product.name")
+                                ng-model="idsToEditTag[look].product.name",
+                                ng-directional="true",
+                                ng-key-up="autocomplete.prevSelection('NAME');",
+                                ng-key-down="autocomplete.nextSelection('NAME');",
+                                ng-key-return="idsToEditTag[look].product.name = autocomplete.getSelected('NAME'); autocomplete.hide('NAME');")
             div(style="position: relative")
               div.tagger_autocomplete(ng-show="autocomplete.show['NAME']")
                 div(ng-repeat="suggestion in autocomplete.results['NAME']",
-                    ng-click="idsToEditTag[look].product.name = suggestion; autocomplete.show['NAME'] = false;")
+                    ng-class="autocomplete.checkSelection('NAME', $index)",
+                    ng-mouseover="autocomplete.selection['NAME'] = $index;",
+                    ng-click="idsToEditTag[look].product.name = suggestion; autocomplete.hide('NAME')")
                   span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.name")
             input.tagger_input( type="text",
                                 id="buyLinkInput"
@@ -83,4 +93,6 @@ block content
                               value="Save Tag",
                               ng-click="finishEdittingTag(look)")
     br
-   
+    input#submitButton.save_button(type="submit",
+                      value="Save",
+                      ng-click="finalize('#{look._id}', '#{key}')")

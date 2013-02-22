@@ -11,6 +11,7 @@ var Look = db.model('looks', LookSchema);
 var gm = require('gm');
 
 var Stopwatch = require('../public/common/Stopwatch.js').Stopwatch;
+var createLookImageSizer = require('../public/common/LookImageSizer.js').createLookImageSizer;
 
 var http = require('http-get');
 var fs = require('fs');
@@ -98,17 +99,32 @@ exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
     }
     var targetPath = './public/images/uploads/' + look._id + '.png';
     // move the file from the temporary location to the intended location
-    fs.rename(tmpPath, targetPath, function(error) {
-      if (error) {
-        callback(error, null, null);
-      } else {
-        gm(targetPath).size(function(error, features) {
-          mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
-            fs.unlink(tmpPath, function(error) {
-              // Don't care about error, probably means files already gone
-              callback(null, look, permissions);
+    gm(tmpPath).size(function(error, features) {
+      if (features.width > 700) {
+        gm(tmpPath).resize(700, features.height * (700 / features.width)).write(targetPath, function(error) {
+          if (error) {
+            callback(error, null, null);
+          } else {
+            mongoLookFactory.setHeightAndWidth(look._id, features.height * (700 / features.width), 700, function(error, look) {
+              fs.unlink(tmpPath, function(error) {
+                // Don't care about error, probably means files already gone
+                callback(null, look, permissions);
+              });
             });
-          });
+          }
+        });
+      } else {
+        fs.rename(tmpPath, targetPath, function(error) {
+          if (error) {
+            callback(error, null, null);
+          } else {
+            mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
+              fs.unlink(tmpPath, function(error) {
+                // Don't care about error, probably means files already gone
+                callback(null, look, permissions);
+              });
+            });
+          }
         });
       }
     });
@@ -118,11 +134,11 @@ exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory) {
+exports.upload = function(mongoLookFactory, fs, gm, http) {
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      handleUpload(req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
+      exports.handleUpload(req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
         if (error) {
           res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
@@ -192,62 +208,33 @@ exports.random = function(mongoLookFactory) {
 /*
  * GET /filters.json?query=<query>
  */
-exports.filters = function(req, res) {
-  var ret = {};
-  ret["query"] = req.query["query"];
-  ret["suggestions"] = [];
-  ret["data"] = [];
-  
-  ret["suggestions"].push('Search for: ' + ret["query"]);
-  ret["data"].push({ v : ret["query"], type : 'Keyword' });
-  
-  Look.distinct('tags.product.brand').
-      where('tags.product.brand').
-      regex(new RegExp(req.query["query"], "i")).
-      exec(function(error, brands) {
-        var numAdded = 0;
-        for (var i = 0; i < brands.length; ++i) {
-          if (brands[i].toLowerCase().indexOf(req.query["query"].toLowerCase()) != -1) {
-            ret["data"].push({ v : brands[i], type : 'Brand' });
-            ret["suggestions"].push(brands[i] + ' (Brand)');
-            if (++numAdded >= 8) {
-              // Limit to 8 results
-              break;
+exports.filters = function(Look) {
+  return function(req, res) {
+    var ret = {};
+    ret["query"] = req.query["query"];
+    ret["suggestions"] = [];
+    ret["data"] = [];
+    
+    ret["suggestions"].push('Search for: ' + ret["query"]);
+    ret["data"].push({ v : ret["query"], type : 'Keyword' });
+    
+    Look.distinct('tags.product.brand').
+        where('tags.product.brand').
+        regex(new RegExp(req.query["query"], "i")).
+        exec(function(error, brands) {
+          var numAdded = 0;
+          for (var i = 0; i < brands.length; ++i) {
+            if (brands[i].toLowerCase().indexOf(req.query["query"].toLowerCase()) != -1) {
+              ret["data"].push({ v : brands[i], type : 'Brand' });
+              ret["suggestions"].push(brands[i] + ' (Brand)');
+              if (++numAdded >= 8) {
+                // Limit to 8 results
+                break;
+              }
             }
           }
-        }
-        res.json(ret);
-      });
-};
-
-var generateLookImageSize = function(looks, numPerRow, maxWidth) {
-  var totalRowWidth = [];
-  var totalRowHeight = [];
-  var totalAspect = [];
-  var numInRow = [];
-  for (var i = 0; i < looks.length; i += numPerRow) {
-    totalRowWidth.push(0);
-    totalRowHeight.push(0);
-    totalAspect.push(0);
-    numInRow.push(0);
-    var row = i / numPerRow;
-    for (var j = 0; j < numPerRow && i + j < looks.length; ++j) {
-      totalRowWidth[row] += looks[i + j].size.width;
-      totalRowHeight[row] += looks[i + j].size.height;
-      // Total width of the row if all images have size 1
-      totalAspect[row] += (looks[i + j].size.width / looks[i + j].size.height);
-      numInRow[row] += 1;
-    }
-  }
-
-  return {
-    getWidth : function(index) {
-      return Math.floor((this.getHeight(index) / looks[index].size.height) * looks[index].size.width);
-    },
-    getHeight : function(index) {
-      var row = Math.floor(index / numPerRow);
-      return Math.min(Math.floor(maxWidth / totalAspect[row]), 250);
-    }
+          res.json(ret);
+        });
   };
 };
 
@@ -258,26 +245,50 @@ exports.generateLookImageSize = generateLookImageSize;
 /*
  * GET /brand?v=<brand>
  */
-exports.brand = function(req, res) {
+exports.brand = function(Look) {
   var MAX_PER_PAGE = 20;
-  var p = req.query["p"] || 0;
+  
+  return function(req, res) {
+    var p = req.query["p"] || 0;
 
-  Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).count(function(error, count) {
-    Look.
-        find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).
-        sort({ _id : -1 }).
-        limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
-        exec(function(error, looks) {
-          res.render('looks_list',
-            { looks : looks,
-              listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
-              title : 'Ascot :: ' + req.query["v"],
-              routeUrl : '/brand?v=' + encodeURIComponent(req.query["v"]) + '&',
-              page : p,
-              sizer : generateLookImageSize(looks, 5, 780),
-              numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
-        });
-  });
+    Look.find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).count(function(error, count) {
+      Look.
+          find({ 'tags.product.brand' : req.query["v"], showOnCrossList : 1 }).
+          sort({ _id : -1 }).
+          limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
+          exec(function(error, looks) {
+            if (error || !looks) {
+              res.format({
+                'html' :
+                    function() {
+                      res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+                    },
+                 'json' :
+                    function() {
+                      res.json({ error : error });
+                    }
+              });
+            } else {
+              res.format({
+                'html' :
+                    function() {
+                      res.render('looks_list',
+                          { looks : looks,
+                            listTitle : 'Looks for ' + req.query["v"] + ' (Brand)',
+                            title : 'Ascot :: ' + req.query["v"],
+                            page : p,
+                            numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+                    },
+                'json' :
+                    function() {
+                      res.json({ error : error });
+                    }
+              })
+            }
+            
+          });
+    });
+  };
 };
 
 /*
@@ -299,16 +310,33 @@ exports.keywords = function(req, res) {
         limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
         exec(function(error, looks) {
           if (error || !looks) {
-            res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+            res.format({
+              'html' :
+                  function() {
+                    res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+                  },
+               'json' :
+                  function() {
+                    res.json({ error : error });
+                  }
+            });
           } else {
-            res.render('looks_list',
-                { looks : looks,
-                  listTitle : 'Looks with Keywords : ' + req.query["v"],
-                  title : 'Ascot :: ' + req.query["v"],
-                  routeUrl : '/keywords?v=' + encodeURIComponent(req.query["v"]) + '&',
-                  page : p,
-                  sizer : generateLookImageSize(looks, 5, 780),
-                  numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+            res.format({
+              'html' :
+                  function() {
+                    res.render('looks_list',
+                        { looks : looks,
+                          listTitle : 'Looks with Keywords : ' + req.query["v"],
+                          title : 'Ascot :: ' + req.query["v"],
+                          page : p,
+                          numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0)) });
+                  },
+              'json' :
+                  function() {
+                    res.json({ looks : looks });
+                  }
+            });
+            
           }
         });
   });
@@ -328,17 +356,33 @@ exports.all = function(req, res) {
         limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
         exec(function(error, looks) {
           if (error || !looks) {
-            res.render('error',
-                { title : "Ascot :: Error", error : "Couldn't load looks'" });
+            res.format({
+                'html' :
+                  function() {
+                    res.render('error',
+                      { title : "Ascot :: Error", error : "Couldn't load looks'" });
+                  },
+                'json' :
+                  function() {
+                    res.json({ error : error });
+                  }
+            });
           } else {
-            res.render('looks_list',
-                { looks : looks,
-                  listTitle : 'All Looks',
-                  title : 'Ascot :: All Looks',
-                  routeUrl : '/all?',
-                  page : p,
-                  sizer : generateLookImageSize(looks, 5, 780),
-                  numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
+            res.format({
+                'html' :
+                  function() {
+                    res.render('looks_list',
+                      { looks : looks,
+                        listTitle : 'All Looks',
+                        title : 'Ascot :: All Looks',
+                        page : p,
+                        numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
+                  },
+                'json' :
+                  function() {
+                    res.json({ looks : looks });
+                  }
+            });
           }
         });
   });
