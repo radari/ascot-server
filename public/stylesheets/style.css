@@ -26,10 +26,11 @@ body {
 
 .exampleIframe img {
 	position:absolute;
-	top:110px;
+	top:80px;
 	max-width:960px;
-	width:960px;
-	height:351px;
+	width:817px;
+	height:670px;
+	left:80px;
 }
 #aboutExample {
 	border-radius:5px;
