@@ -157,7 +157,7 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
   $scope.finalize = function(id, key) {
     $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id]).success(
         function(data) {
-          $redirect('/look/' + id);
+          $redirect('/look/' + id + '?showProgress=1');
         });
   };
 

@@ -56,6 +56,8 @@ app.configure(function(){
   app.use(function(req, res, next) {
     // Expose URL relative to root in views
     res.locals.url = req.url;
+    // Expose query params
+    res.locals.query = req.query;
     next();
   });
   

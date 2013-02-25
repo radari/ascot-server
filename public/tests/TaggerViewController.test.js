@@ -113,7 +113,7 @@ describe('TaggerViewController', function() {
     $httpBackend.flush();
     var tag1 = scope.addTag('1234', 25, 15);
 
-    $httpBackend.expectPUT('/tagger/5678/1234').respond({});
+    $httpBackend.expectPUT('/tagger/5678/1234?showProgress=1').respond({});
     scope.finalize('1234', '5678');
     $httpBackend.flush();
     expect(url).toBe('/look/1234');
