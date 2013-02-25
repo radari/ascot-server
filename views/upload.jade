@@ -17,5 +17,7 @@ block content
    
       br
     
-      input(type='file', name='files')
+      input(type='file', name='files', id="uploadInput", style="visibility: hidden")
+      div.customUpload(onclick='$("#uploadInput").click();')
+        | Select a file
       input(type='submit', class='btn btn-primary start', id="submit", value="Next")

@@ -377,6 +377,15 @@ h1, h2 {
 	right:0;
 }
 
+.customUpload {
+	background-color: #b54f37;
+	padding: 5px;
+	margin: auto;
+	color: white;
+	width: 200px;
+	cursor: pointer;
+}
+
 
 .progress {
 	position:relative;
