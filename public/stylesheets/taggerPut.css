@@ -100,7 +100,7 @@ overflow:hidden;
 #overlay{
   position:absolute;
   display:block;
-  z-index: 4;
+  z-index: 11;
   background-color: rgba(218,126,104,0.8);
   border-top-left-radius:0px;
 border-top-right-radius:8px;

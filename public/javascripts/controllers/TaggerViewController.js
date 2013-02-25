@@ -50,6 +50,29 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
     
     return position;
   };
+
+  $scope.computeEditTagOverlayDisplayPosition = function(id) {
+    if (!$scope.idsToEditTag[id]) {
+      return {};
+    }
+
+    var position = $scope.computeTagDisplayPosition(id, $scope.idsToEditTag[id]);
+    var displayHeight = ImageOffsetService.getHeight(id);
+    var displayWidth = ImageOffsetService.getWidth(id);
+
+    if (position.x <= displayWidth / 2.0 &&
+        position.y <= displayHeight / 2.0) {
+      return { left : (position.x + 25) + 'px', top : (position.y + 25) + 'px' };
+    } else if (position.x <= displayWidth / 2.0 &&
+        position.y > displayHeight / 2.0) {
+      return { left : (position.x + 25) + 'px', bottom : ((displayHeight - position.y)) + 'px' };
+    } else if (position.x > displayWidth / 2.0 &&
+        position.y <= displayHeight / 2.0) {
+      return { right : ((displayWidth - position.x)) + 'px', top : (position.y + 25) + 'px' };
+    } else {
+      return { right : ((displayWidth - position.x)) + 'px', bottom : ((displayHeight - position.y)) + 'px' };
+    }
+  };
   
   $scope.computePositionFromDisplay = function(id, pageX, pageY) {
     var offset = ImageOffsetService.getOffset(id);
