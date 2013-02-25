@@ -91,6 +91,10 @@ block content
                                 ng-model="idsToEditTag[look].product.buyLink")
             br
             input.save_button(type="submit",
+                              id="deleteTagButton",
+                              value="Delete Tag",
+                              ng-click="deleteTag(look, idsToEditTag[look]);")
+            input.save_button(type="submit",
                               id="saveTagButton",
                               value="Save Tag",
                               ng-click="finishEdittingTag(look)")
