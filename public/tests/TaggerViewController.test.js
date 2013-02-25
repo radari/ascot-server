@@ -51,8 +51,35 @@ describe('TaggerViewController', function() {
     scope.addTag('1234', 25, 15);
     expect(scope.idsToLooks['1234'].tags.length).toBe(2);
     expect(scope.idsToLooks['1234'].tags[1].index).toBe(2);
+    // mouse click at 25, x offset 10
     expect(scope.idsToLooks['1234'].tags[1].position.x).toBe(15);
     expect(scope.idsToLooks['1234'].tags[1].position.y).toBe(10);
+  });
+
+  it('should display edit tag overlay in the right place', function() {
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ look : { tags : [{index : 1}], size : { height : 200, width: 200 } } });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+
+    scope.addTag('1234', 25, 15);
+    // mouse click at 25, subtract x offset 10, add 25
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').left).toBe('40px');
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').top).toBe('35px');
+
+    scope.addTag('1234', 120, 15);
+    // add tag at absolute position 120, subtract 10 for offset
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').right).toBe('90px');
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').top).toBe('35px');
+
+    scope.addTag('1234', 25, 120);
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').left).toBe('40px');
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').bottom).toBe('85px');
+
+    scope.addTag('1234', 120, 120);
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').right).toBe('90px');
+    expect(scope.computeEditTagOverlayDisplayPosition('1234').bottom).toBe('85px');
   });
 
   it('should delete tag successfully including updating indices', function() {
@@ -113,9 +140,9 @@ describe('TaggerViewController', function() {
     $httpBackend.flush();
     var tag1 = scope.addTag('1234', 25, 15);
 
-    $httpBackend.expectPUT('/tagger/5678/1234?showProgress=1').respond({});
+    $httpBackend.expectPUT('/tagger/5678/1234').respond({});
     scope.finalize('1234', '5678');
     $httpBackend.flush();
-    expect(url).toBe('/look/1234');
+    expect(url).toBe('/look/1234?showProgress=1');
   });
 });
