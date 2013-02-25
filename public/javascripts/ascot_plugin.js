@@ -238,11 +238,12 @@ function initAscotPlugin($, tagSourceUrl) {
                 
         var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
         tagDescription.html(
-            "<b>" + tag.product.brand + "</b> " + tag.product.name +
+            "<b>" +
+            "<a target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" +
+            tag.product.brand + "</b></a> " + tag.product.name +
             "<br/>" +
             (tag.product.buyLink.length > 0 ? "<a target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : "") +
-            (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : "") +
-            "<a target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>Other looks from " + tag.product.brand + "</a>");
+            (tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : ""));
         if (smallImage) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
         }
