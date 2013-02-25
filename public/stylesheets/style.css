@@ -31,6 +31,11 @@ body {
 	width:817px;
 	height:670px;
 	left:80px;
+	z-index:0;
+}
+
+.exampleIframe iframe {
+	z-index:10;
 }
 #aboutExample {
 	border-radius:5px;
