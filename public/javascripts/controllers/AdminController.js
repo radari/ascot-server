@@ -27,4 +27,8 @@ function AdminController($scope, $http){
     }
   };
 
+  $scope.init_admin = function(published) {
+    $scope.isPublished = (published == 1 ? "'published'":"'unpublished'");
+  };
+
 }
