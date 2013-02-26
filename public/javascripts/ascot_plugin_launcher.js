@@ -78,6 +78,14 @@
       });
   };
 
+  var loadJQueryHoverDelay = function(callback) {
+    loadScript(
+      url + '/vendor/javascripts/jquery.hoverdelay.js',
+      function() {
+        callback();
+      });
+  }
+
   var loadAscotStylesheets = function(url, callback) {
     loadStylesheet(
         url + '/stylesheets/ascot_plugin.css',
@@ -92,10 +100,12 @@
   
   checkJQuery(function() {
     checkJQueryUI(function() {
-      checkJQueryImagesLoaded(function() {
-        loadAscotStylesheets(url, function() {
-          loadAscotPlugin(url, function() {
-            initAscotPlugin(localJQuery, url);
+      checkJQueryHoverDelay(function() {
+        checkJQueryImagesLoaded(function() {
+          loadAscotStylesheets(url, function() {
+            loadAscotPlugin(url, function() {
+              initAscotPlugin(localJQuery, url);
+            });
           });
         });
       });

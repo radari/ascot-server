@@ -267,7 +267,7 @@ function initAscotPlugin($, tagSourceUrl) {
           tagDescription.show(100, function(){});
         },function(){
           tagDescription.hide(100, function(){});
-        });
+        }, 250);
       });  
     }
   };
