@@ -29,8 +29,8 @@ block content
         style="display: inline-block")
       div(ng-repeat="look in row",
           style="float: left; margin: 5px",
-          ng-controller="AdminController",
-          ng-init="lookId=look._id ; init_admin(look.showOnCrossList)", 
+          ng-controller="AdminController",  
+          ng-init="lookId=look._id ; isPublished=conditional(look.showOnCrossList, 'published','unpublished')",
           ng-click="togglePublished()",
           ng-class="isPublished")
 
