@@ -6,6 +6,7 @@ block content
  #uploadToolsWrap
     #tagline
       h2  1. Upload Any Image
+    br
       
     form(method='post', enctype='multipart/form-data', action='/image-upload')
       #uploadURL
@@ -14,8 +15,6 @@ block content
       br
 
       h2 or
-   
-      br
     
       input(type='file', name='files', id="uploadInput", style="visibility: hidden")
       div.customUpload(onclick='$("#uploadInput").click();')
