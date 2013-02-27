@@ -271,10 +271,25 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   width:200px;
   text-align:center;
   border-radius:5px;
+  padding-bottom: 8px;
   z-index: 2;
   -webkit-box-shadow: 0px 0px 6px rgba(50, 50, 50, 0.75);
   -moz-box-shadow:    0px 0px 6px rgba(50, 50, 50, 0.75);
   box-shadow:         0px 0px 6px rgba(50, 50, 50, 0.75);
+}
+
+.ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_description a#ascot_overlay_link {
+  color: black;
+  text-decoration: underline;
+}
+
+.ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_description a#ascot_overlay_buy_button {
+  background-color: rgba(218,126,104,0.8);
+  padding: 2px;
+  color: white;
+  position: relative;
+  top: 5px;
+  border-radius: 3px;
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_name_small {
