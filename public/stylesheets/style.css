@@ -44,9 +44,16 @@ body {
 }
 
 .benefitText {
-	border:1px blue solid;
 	width:317px;	
 	float:left;
+}
+
+.benefitImg {
+
+	
+	overflow:none;	
+	position:relative;
+	left:30px;
 }
 #aboutExample {
 	border-radius:5px;
@@ -508,6 +515,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.55);
 	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.55);
 	box-shadow:         1px 1px 5px rgba(50, 50, 50,0.55);
+	display:none;
 }
 
 
