@@ -30,12 +30,30 @@ body {
 	max-width:960px;
 	width:817px;
 	height:670px;
-	left:80px;
+	left:95px;
 	z-index:0;
 }
 
 .exampleIframe iframe {
 	z-index:10;
+}
+
+#benefits {
+	width:100%;
+	border-top:1px #5f5858 solid;
+}
+
+.benefitText {
+	width:317px;	
+	float:left;
+}
+
+.benefitImg {
+
+	
+	overflow:none;	
+	position:relative;
+	left:30px;
 }
 #aboutExample {
 	border-radius:5px;
@@ -471,13 +489,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	padding:10px;
 }
 
-#leading h1 {
+.leading h1 {
 	font-weight:100;
 	margin-top:0;
 	margin-bottom:0;
 }
 
-#leading {
+.leading {
 	color: #b54f37;
 	margin-left:10px;
 }
@@ -497,6 +515,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.55);
 	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.55);
 	box-shadow:         1px 1px 5px rgba(50, 50, 50,0.55);
+	display:none;
 }
 
 
