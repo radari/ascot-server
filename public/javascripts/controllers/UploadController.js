@@ -9,7 +9,6 @@
  */
 
 function UploadController($scope) {
-  alert('x');
   $scope.url = "";
   $scope.path = "";
 
@@ -17,6 +16,8 @@ function UploadController($scope) {
     return $scope.url.length > 0 || $scope.path.length > 0;
   };
 
+  // TODO: Hack alert! Borrowed from http://jsfiddle.net/marcenuc/ADukg/49/
+  // However this is very bad practice in Angular - global state is nasty
   UploadController.prototype.$scope = $scope;
 }
 
