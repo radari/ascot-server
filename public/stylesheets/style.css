@@ -30,12 +30,23 @@ body {
 	max-width:960px;
 	width:817px;
 	height:670px;
-	left:80px;
+	left:95px;
 	z-index:0;
 }
 
 .exampleIframe iframe {
 	z-index:10;
+}
+
+#benefits {
+	width:100%;
+	border-top:1px #5f5858 solid;
+}
+
+.benefitText {
+	border:1px blue solid;
+	width:317px;	
+	float:left;
 }
 #aboutExample {
 	border-radius:5px;
@@ -471,13 +482,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	padding:10px;
 }
 
-#leading h1 {
+.leading h1 {
 	font-weight:100;
 	margin-top:0;
 	margin-bottom:0;
 }
 
-#leading {
+.leading {
 	color: #b54f37;
 	margin-left:10px;
 }
