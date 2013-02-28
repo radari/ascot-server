@@ -30,12 +30,30 @@ body {
 	max-width:960px;
 	width:817px;
 	height:670px;
-	left:80px;
+	left:95px;
 	z-index:0;
 }
 
 .exampleIframe iframe {
 	z-index:10;
+}
+
+#benefits {
+	width:100%;
+	border-top:1px #5f5858 solid;
+}
+
+.benefitText {
+	width:317px;	
+	float:left;
+}
+
+.benefitImg {
+
+	
+	overflow:none;	
+	position:relative;
+	left:30px;
 }
 #aboutExample {
 	border-radius:5px;
@@ -377,15 +395,58 @@ h1, h2 {
 	right:0;
 }
 
+
+
 .customUpload {
 	background-color: #b54f37;
 	padding: 5px;
 	margin: auto;
-	color: white;
+	color: #323232;
 	width: 200px;
 	cursor: pointer;
+	border-radius:5px;
+
+	background: -moz-linear-gradient(
+		top,
+		#b54e37 0%,
+		#822816);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#b54e37),
+		to(#822816));
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	border: 1px solid #ababab;
+	-moz-box-shadow:
+		0px 1px 3px rgba(000,000,000,0.5),
+		inset 0px 0px 2px rgba(0,0,255,1);
+	-webkit-box-shadow:
+		0px 1px 3px rgba(000,000,000,0.5),
+		inset 0px 0px 2px rgba(0,0,0,1);
+	box-shadow:
+		0px 1px 3px rgba(000,000,000,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	text-shadow:
+		0px -1px 0px rgba(000,000,000,0),
+		0px 1px 0px rgba(255,255,255,0.3);
+
+
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* IE10+ */
+background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+-webkit-transition: border-color 0.2s linear, background-color 0.2s linear, color 0.1s linear, -webkit-box-shadow 0.3s linear, opacity 0.3s linear;
+
 }
 
+.customUpload:hover {
+-webkit-box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.6);
+}
 
 .progress {
 	position:relative;
@@ -428,13 +489,13 @@ h1, h2 {
 	padding:10px;
 }
 
-#leading h1 {
+.leading h1 {
 	font-weight:100;
 	margin-top:0;
 	margin-bottom:0;
 }
 
-#leading {
+.leading {
 	color: #b54f37;
 	margin-left:10px;
 }
@@ -454,6 +515,7 @@ h1, h2 {
 	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.55);
 	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.55);
 	box-shadow:         1px 1px 5px rgba(50, 50, 50,0.55);
+	display:none;
 }
 
 
