@@ -8,27 +8,33 @@ block content
   br
   .exampleIframe 
     iframe#aboutExample(src='http://ascotproject.com/look/512eda523e92dee93b00000f/iframe', width='513', height='244', frameborder= '0')
-    img(src='/images/onboardMockup2.png', id:'step1')
+    img(src='/images/onboardMockup3.png', id:'step1')
 
   br
   div#benefits
     br
     .benefitText
-      img.benefitImg(src='/images/shared.png', id:'step1')
+      img.benefitImg(src='/images/shareOptions.png', id:'step1')
       br
       | The ascot overylay makes it really easy for your users to share your images on Tumblr, Facebook, Twitter, or their own site. We make it so easy that some of our users use ascot to share their images on their own social media channels. 
     .benefitText
-      img.benefitImg(src='/images/shared.png', id:'step1')
+      img.benefitImg(src='/images/shareDerby.png', id:'step1')
       br 
       | Prevent people from wondering what you've got on. Your audience will thank you and you'll get more traffic to your site as the image is shared. 
     .benefitText
       img.benefitImg(src='/images/shared.png', id:'step1')
       br
       | By reducing information loss when sharing, Ascot allows your brand to be everywhere your users are sharing. 
-  br
-  h1.leading Get started in seconds.
-
-
+  
+  div#getStarted
+    br
+    h2.leading Ready to get started?
+    br
+    input(type='submit',
+            value="Start Tagging",
+            class="startButton"
+            )
+    
   div#step1
     .heading 1
     .description Upload a picture to Ascot
