@@ -21,7 +21,7 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
 }).directive('ngWhenScrolled', function($timeout) {
   return function(scope, elm, attr) {
     var fn = function(callback) {
-      if ($(document).scrollTop() + $(window).height() >= elm.offset().top + elm.height()) {
+      if ($(document).scrollTop() + $(window).height() >= elm.offset().top + elm.height() - 250) {
         scope.$apply(attr.ngWhenScrolled);
       }
     };
