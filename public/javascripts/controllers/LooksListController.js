@@ -8,15 +8,16 @@
  *
  */
  
-function LooksListController($scope, $http) {
+function LooksListController($scope, $http, $timeout) {
   var PER_ROW = 5;
   var ROW_WIDTH = 780;
   
   $scope.looks = [];
-  $scope.rows = [];
+  $scope.numLoaded = 0;
   $scope.numPages = 0;
   $scope.currentPage = 0;
   $scope.nextPage = 0;
+  $scope.masonryActive = false;
   
   $scope.$R = function(low, high) {
     var ret = [];
@@ -33,17 +34,25 @@ function LooksListController($scope, $http) {
   var addLooks = function(looks) {
     var row = 0;
     for (var i = 0; i < looks.length; ++i) {
-      looks[i].index = i;
-      if (i % PER_ROW == 0) {
-        row = $scope.rows.length;
-        $scope.rows.push([]);
-      }
-      $scope.rows[row].push(looks[i]);
+      $scope.looks.push(looks[i]);
+    }
+
+    if ($scope.masonryActive) {
+      $timeout(function() {
+        $('.all_looks_wrapper').masonry('reload');
+      }, 5);
+    } else {
+      $timeout(function() {
+        $('.all_looks_wrapper').masonry({
+          itemSelector : '.all_looks_element'
+        });
+      }, 5);
+      $scope.masonryActive = true;
     }
   };
 
   $scope.init = function(looks, numPages, currentPage) {
-    $scope.looks = looks;
+    //$scope.looks = looks;
     $scope.numPages = numPages;
     $scope.currentPage = currentPage;
     $scope.nextPage = currentPage + 1;

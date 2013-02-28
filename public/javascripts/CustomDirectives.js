@@ -26,12 +26,16 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
       }
     };
 
-    var interval = setInterval(fn, 750);
+    var interval = setInterval(fn, 250);
 
     $(window).bind('scroll', function() {
       fn();
     });
-
-
+  };
+}).directive('ngImagesLoaded', function() {
+  return function(scope, elm, attr) {
+    elm.imagesLoaded(function() {
+      scope.$apply(attr.ngImagesLoaded);
+    });
   };
 });
