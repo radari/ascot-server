@@ -186,6 +186,10 @@ exports.upload = function(mongoLookFactory, fs, gm, http) {
         }
       });
       
+    } else {
+      res.render('error',
+          { title : "Ascot :: Error",
+            error : "No image or file selected" });
     }
   };
 };
