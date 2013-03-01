@@ -9,15 +9,13 @@
  */
  
 function LooksListController($scope, $http, $timeout, $dialog) {
-  var PER_ROW = 5;
-  var ROW_WIDTH = 780;
   
   $scope.looks = [];
+  $scope.columns = [];
   $scope.numLoaded = 0;
   $scope.numPages = 0;
   $scope.currentPage = 0;
   $scope.nextPage = 0;
-  $scope.masonryActive = false;
   
   $scope.$R = function(low, high) {
     var ret = [];
@@ -34,31 +32,20 @@ function LooksListController($scope, $http, $timeout, $dialog) {
   var addLooks = function(looks) {
     var row = 0;
     for (var i = 0; i < looks.length; ++i) {
+      $scope.columns[$scope.looks.length % $scope.numColumns].push(looks[i]);
       $scope.looks.push(looks[i]);
-    }
-
-    if ($scope.masonryActive) {
-      $timeout(function() {
-        $('.all_looks_wrapper').masonry('reload');
-      }, 5);
-    } else {
-      $timeout(function() {
-        $('.all_looks_wrapper').masonry({
-          itemSelector : '.all_looks_element'
-        });
-      }, 5);
-      $scope.masonryActive = true;
     }
   };
 
-  $scope.init = function(looks, numPages, currentPage) {
-    //$scope.looks = looks;
+  $scope.init = function(looks, numPages, currentPage, numColumns) {
     $scope.numPages = numPages;
     $scope.currentPage = currentPage;
     $scope.nextPage = currentPage + 1;
-    
-    // TODO: make this a service, right now doing a DI reacharound
-    $scope.sizer = exports.createLookImageSizer($scope.looks, PER_ROW, ROW_WIDTH);
+    $scope.numColumns = numColumns;
+
+    for (var i = 0; i < numColumns; ++i) {
+      $scope.columns.push([]);
+    }
     
     addLooks(looks);
   };

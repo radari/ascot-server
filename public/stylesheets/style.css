@@ -598,9 +598,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .all_looks_element {
 	width: 228px;
 	margin: 5px;
+	float: left;
 }
 
 .all_looks_element img {
+	margin-top: 5px;
+	margin-bottom: 5px;
 	width: 228px;
 }
 
