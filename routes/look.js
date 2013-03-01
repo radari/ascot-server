@@ -52,6 +52,44 @@ exports.iframe = function(mongoLookFactory) {
   };
 };
 
+
+/*
+ * PUT /look/:id/published
+ */
+exports.updatePublishedStatus = function(mongoLookFactory) {
+  return function(req, res) {
+    
+    if(!req.is('json')){
+      console.log("Bad json");
+      res.writeHead(400, {'Content-Type': 'text/plain'});
+      res.end();
+    } else {
+      mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+        if (error) {
+          res.json({'id':req.params.id, 'error':'Could not find look' });
+        } else if(!req.body.publish){
+          res.json({'id':req.params.id, 'error':'invalid parameter passed' });
+        } else {
+
+          if(req.body.publish === "1"){
+            look.showOnCrossList = 1;
+          } else {
+            look.showOnCrossList = 0;
+          }
+
+          look.save(function(error, look){
+            if (error || !look) {
+              res.json({'id':look._id, 'error': 'Failed to save look' });
+            } else {
+              res.json({'id':look._id, 'success': 'true', 'published': look.showOnCrossList });
+            }
+          });  
+        }
+      });
+    }
+  };
+}
+
 exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
   var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
@@ -148,6 +186,10 @@ exports.upload = function(mongoLookFactory, fs, gm, http) {
         }
       });
       
+    } else {
+      res.render('error',
+          { title : "Ascot :: Error",
+            error : "No image or file selected" });
     }
   };
 };
@@ -307,9 +349,9 @@ exports.all = function(req, res) {
   var MAX_PER_PAGE = 20;
   var p = req.query["p"] || 0;
   
-  Look.find({}).count(function(error, count) {
+  Look.find({showOnCrossList : 1}).count(function(error, count) {
     Look.
-        find({}).
+        find({showOnCrossList : 1}).
         sort({ _id : -1 }).
         limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
         exec(function(error, looks) {
@@ -374,3 +416,14 @@ exports.upvote = function(mongoLookFactory) {
     });
   };
 };
+
+
+
+
+
+
+
+
+
+
+

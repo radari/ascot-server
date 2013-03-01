@@ -23,7 +23,7 @@ exports.LookSchema = new Mongoose.Schema({
     height : { type : Number, default : 0 },
     width : { type : Number, default : 0 } 
   },
-  showOnCrossList : { type : Number, default : 1 }, // Display on looks_list
+  showOnCrossList : { type : Number, default : 0 }, // Display on looks_list
   numUpVotes : { type : Number, default : 0 },
   numViews : { type : Number, default : 0 },
   tags : [

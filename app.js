@@ -11,12 +11,18 @@ var express = require('express')
   , tagger = require('./routes/tagger.js')
   , upload = require('./routes/upload.js')
   , product = require('./routes/product.js')
+  , authenticate = require('./routes/authenticate.js')
+  , admin = require('./routes/admin.js')
 
   , http = require('http')
   , httpGet = require('http-get')
   , path = require('path')
+  , fs = require('fs')
   , gm = require('gm')
-  , fs = require('fs');
+  
+  , passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+
 
 var app = express();
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
@@ -26,6 +32,11 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
+
+// configure passport for user auth
+passport.use(new LocalStrategy(authenticate.localStrategy));
+passport.serializeUser(authenticate.serializeUser);
+passport.deserializeUser(authenticate.deserializeUser);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -37,10 +48,16 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
+ 
+  app.use(express.session({ secret: 'LS295K8NO2O2l8' }));
+  app.use(passport.initialize());
+  app.use(passport.session());
   
   app.use(function(req, res, next) {
     // Expose URL relative to root in views
     res.locals.url = req.url;
+    // Expose query params
+    res.locals.query = req.query;
     next();
   });
   
@@ -52,6 +69,7 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+
 
 // Static views
 app.get('/', routes.index);
@@ -68,6 +86,10 @@ var mongoLookFactory = new MongoLookFactory(app.get('url'));
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
 app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
+app.put('/look/:id/published',
+    authenticate.ensureAuthenticated,
+    look.updatePublishedStatus(mongoLookFactory));
+
 app.get('/tagger/:key/:look', tagger.get(mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
@@ -90,6 +112,18 @@ app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
 // Upvote image
 // JSONP is only possible through GET, so need to use GET =(
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
+
+//login
+app.get('/login', authenticate.login);
+app.get('/logout', authenticate.logout);
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
+  function(req, res) {
+    res.redirect('/admin');
+  }
+);
+
+app.get('/admin', authenticate.ensureAuthenticated, admin.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));

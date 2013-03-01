@@ -11,6 +11,7 @@ extends layout
 prepend head
   script(src="/common/LookImageSizer.js")
   script(src="/javascripts/controllers/LooksListController.js")
+  script(src="/vendor/javascripts/jquery.masonry.js")
 
 block content
   div.list_header
@@ -20,14 +21,12 @@ block content
                         ng-controller="LooksListController",
                         ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page})",
                         ng-when-scrolled="loadNextPage();")
-    div(ng-repeat="row in rows",
-        style="display: inline-block")
-      div(ng-repeat="look in row",
-          style="float: left; margin: 5px")
-        a(ng-href="/look/{{look._id}}")
-          img(ng-src="{{look.url}}",
-              ng-style="{ 'height' : sizer.getHeight(look.index) + 'px', 'width' : sizer.getWidth(look.index) + 'px' }")
-      div.clear
+    div.all_looks_element(ng-repeat="look in looks")
+      a(ng-href="/look/{{look._id}}")
+        img(ng-src="{{look.url}}",
+            ng-images-loaded="onImageLoaded($index);",
+            ng-style="{ 'height' : sizer.getHeight($index) + 'px', 'width' : sizer.getWidth($index) + 'px' }")
+    div.clear
     div.list_header(ng-show="looks.length == 0")
       | No looks found
 
