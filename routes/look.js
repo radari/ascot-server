@@ -67,17 +67,17 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
       mongoLookFactory.buildFromId(req.params.id, function(error, look) {
         if (error) {
           res.json({'id':req.params.id, 'error':'Could not find look' });
-        } else if(!req.body.publish){
+        } else if (!req.body.publish) {
           res.json({'id':req.params.id, 'error':'invalid parameter passed' });
         } else {
 
-          if(req.body.publish === "1"){
+          if (req.body.publish === "1"){
             look.showOnCrossList = 1;
           } else {
             look.showOnCrossList = 0;
           }
 
-          look.save(function(error, look){
+          look.save(function(error, look) {
             if (error || !look) {
               res.json({'id':look._id, 'error': 'Failed to save look' });
             } else {
@@ -203,7 +203,16 @@ exports.random = function(mongoLookFactory) {
       if (error || !look) {
         res.render('error', { error : 'Could not find a random look?', title : 'Ascot :: Error' });
       } else {
-        res.redirect('/look/' + look._id);
+        res.format({
+          'html' :
+              function() {
+                res.redirect('/look/' + look._id);
+              },
+          'json' :
+              function() {
+                res.json(look);
+              }
+        });
       }
     });
   };
