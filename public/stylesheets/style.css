@@ -684,3 +684,22 @@ div.list_header {
   font-weight: bold;
   color: black;
 }
+
+#taggerHelp {
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	background-color:rgba(255,255,255,0.6);
+	margin-left:5px;
+	margin-top:5px;
+}
+
+#taggerHelp img {
+	position:absolute;
+	top:10%;
+	margin:auto;
+	width:449px;
+	left:0;
+	right:0;
+}

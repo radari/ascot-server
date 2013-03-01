@@ -12,7 +12,7 @@ var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFact
 
 var Validator = require('../factories/Validator.js').Validator;
 var validator = new Validator();
-
+ 
 /*
  * GET /tagger/:key/:look
  */

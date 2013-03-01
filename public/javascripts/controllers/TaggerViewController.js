@@ -183,5 +183,9 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
           $redirect('/look/' + id + '?showProgress=1');
         });
   };
-
+  $("#taggerHelp").click(function() {
+  $("#taggerHelp").fadeOut(300);
+  });
 }
+
+
