@@ -8,7 +8,7 @@
  *
  */
  
-function LooksListController($scope, $http, $timeout) {
+function LooksListController($scope, $http, $timeout, $dialog) {
   var PER_ROW = 5;
   var ROW_WIDTH = 780;
   
