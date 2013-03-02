@@ -52,6 +52,10 @@ function LooksListController($scope, $http, $timeout, $dialog) {
       $scope.looks.push(looks[i]);
     }
   };
+  
+  $scope.computeHeight = function(look, width) {
+    return look.size.height * (width / look.size.width);
+  };
 
   $scope.init = function(looks, numPages, currentPage, numColumns) {
     $scope.numPages = numPages;
