@@ -22,7 +22,6 @@ function UploadController($scope) {
 }
 
 UploadController.prototype.setPath = function(path) {
-  alert(path);
   var $scope = this.$scope;
   $scope.$apply(function() {
     $scope.path = path;
