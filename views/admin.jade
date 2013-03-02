@@ -24,21 +24,17 @@ block content
                         ng-controller="LooksListController",
                         ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page})",
                         ng-when-scrolled="loadNextPage();")
-  
-    div(ng-repeat="row in rows",
-        style="display: inline-block")
-      div(ng-repeat="look in row",
-          style="float: left; margin: 5px",
+    div.all_looks_element(ng-repeat="column in columns")
+      div(ng-repeat="look in column",
           ng-controller="AdminController",  
           ng-init="lookId=look._id ; isPublished=conditional(look.showOnCrossList, 'published','unpublished')",
           ng-click="togglePublished()",
-          ng-class="isPublished")
+          ng-class="isPublished"))
+        a(ng-href="/look/{{look._id}}")
+          img(ng-src="{{look.url}}",
+              ng-images-loaded="onImageLoaded($index);")
+    div.clear
+    div.list_header(ng-show="looks.length == 0")
+      | No looks found
 
-        img(ng-src="{{look.url}}",
-            ng-style="{ 'height' : sizer.getHeight(look.index) + 'px', 'width' : sizer.getWidth(look.index) + 'px' }")
-
-
-        div.clear
-      div.list_header(ng-show="looks.length == 0")
-        | No looks found
 
