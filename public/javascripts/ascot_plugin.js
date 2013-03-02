@@ -213,13 +213,15 @@ function initAscotPlugin($, tagSourceUrl) {
           sourceTag.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
                   
           sourceUrl.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
+
+          sourceUrl.css('left', '-5px');
         }
-                
+
         sourceTag.hover(function() {
           sourceUrl.show(100, function(){});
         }, function() {
           sourceUrl.hide(100, function(){});
-        });
+        }, 250);
       }
               
       animateButton.click(function(event) {
@@ -263,16 +265,17 @@ function initAscotPlugin($, tagSourceUrl) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
         }
 
+        var offset = smallImage ? 0 : 10;
         if (tagX > width / 2.0) {
-          tagDescription.css('right', '10px');
+          tagDescription.css('right', offset + 'px');
         } else {
-          tagDescription.css('left', '10px');
+          tagDescription.css('left', offset + 'px');
         }
                 
         if (tagY > height / 2.0) {
-          tagDescription.css('bottom', '10px');
+          tagDescription.css('bottom', offset + 'px');
         } else {
-          tagDescription.css('top', '10px');
+          tagDescription.css('top', offset + 'px');
         }
                 
         tagDescription.appendTo(tagContainer);
