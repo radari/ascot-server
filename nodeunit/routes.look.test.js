@@ -68,11 +68,18 @@ exports.testGetRandom = function(test) {
   });
 
   fn({},
-      { redirect :
-        function(url) {
+      { redirect : function(url) {
           test.equal('/look/MYFAKEID', url);
+        },
+        json : function(object) {
+          test.equal(testLook, object);
+        },
+        format : function(format) {
+          format.html();
+          format.json();
+          test.expect(2);
           test.done();
-        } 
+        }
       });
 };
 
