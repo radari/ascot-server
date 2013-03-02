@@ -25,7 +25,7 @@ block content
       div(ng-repeat="look in column")
         a(ng-href="/look/{{look._id}}")
           img(ng-src="{{look.url}}",
-              ng-images-loaded="onImageLoaded($index);")
+              ng-style="{ height : computeHeight(look, 228) }")
     div.clear
     div.list_header(ng-show="looks.length == 0")
       | No looks found
