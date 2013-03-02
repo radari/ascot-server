@@ -41,3 +41,7 @@ exports.websites = function(req, res) {
 exports.planB = function(req, res) {
   res.render('planB', { title : 'planB' });
 };
+
+exports.guidelines = function(req, res) {
+  res.render('guidelines', { title : 'Tagging Guidelines' });
+};
