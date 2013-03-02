@@ -148,7 +148,7 @@ iframe {
 	width:960px;
 	position: absolute;
 	max-width: 960px;
-	top:100px;
+	top:78px;
 }
 
 
@@ -176,7 +176,7 @@ a:visited {
 
 #nav {
 	padding:0;
-	top:50px;
+	top:28px;
 	width:330px;
 	position:relative;
 	left:650px;
@@ -245,7 +245,7 @@ a:visited {
 	height:20px;
 	position:absolute;
 	right:13px;
-	top:130px;
+	top:110px;
 	padding-left: 20px;
 	width:290px;
 }
@@ -265,7 +265,7 @@ a:visited {
     padding: 7px 8px 5px;
     position: absolute;
     right:92px;
-    top:130px;
+    top:110px;
     margin-right:21.5%;
  
 }
