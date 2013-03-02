@@ -88,3 +88,4 @@ angular.module('AutocompleteModule', []).
 
       return new $autocomplete();
     }]);
+

@@ -16,6 +16,7 @@ html(ng-app='AscotModule')
     script(src='/javascripts/controllers/MainSearchBarController.js')
     script(src='/vendor/javascripts/jquery.imagesloaded.js')
     script(src='/vendor/javascripts/jquery.hoverdelay.js')
+    script(src='/javascripts/navMagic.js')
     
     link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap-modal.css')
     script(src="/vendor/bootstrap/javascripts/bootstrap.js")
@@ -53,18 +54,14 @@ html(ng-app='AscotModule')
           a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
             h3 Start Tagging
             p Paste an image link or upload an image to start tagging.
+        li#howToNav
+          a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
+            h3 How To
+            p Learn how to use the ascot plugin.
         li
           a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}")
             h3 Looks
-            p See images that have already been tagged.
-        li
-          a(href="/random", id="#{url.indexOf('/random') == 0 ? 'currentPage' : 'nonCurrentPage'}")
-            h3 Random
-            p See a random image. 
-        li
-          a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
-            h3 How To
-            p Learn how to use the ascot plugin. 
+            p See images that have already been tagged.  
 
       br
       img#bottomStripe(src='/images/bottomStripe_long.png', id:'stripe')
