@@ -27,7 +27,8 @@
   z-index:2;
   float: none;
   line-height: 1;
-  font-family:"Georgia", Times, serif;
+  font-family:"Georgia", Helvetica, Arial, serif;
+  font-size: 14px;
 }
 
 .ascot_overlay_look .ascot_overlay_look img {
