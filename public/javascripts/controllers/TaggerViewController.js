@@ -105,6 +105,13 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
     if (position.y < 0) {
       position.y = 0;
     }
+
+    if (position.x > $scope.idsToLooks[id].size.width) {
+      position.x = $scope.idsToLooks[id].size.width;
+    }
+    if (position.y > $scope.idsToLooks[id].size.height) {
+      position.y = $scope.idsToLooks[id].size.height;
+    }
     
     var newTag =
         { index : $scope.idsToLooks[id].tags.length + 1,
@@ -183,9 +190,6 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
           $redirect('/look/' + id + '?showProgress=1');
         });
   };
-  $("#taggerHelp").click(function() {
-  $("#taggerHelp").fadeOut(300);
-  });
 }
 
 
