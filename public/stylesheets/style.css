@@ -100,7 +100,7 @@ iframe {
   left:0;
   right:0;
   top:0;
-  padding-bottom: 120px;
+  padding-bottom: 80px;
   padding-left:5px;
   padding-right:5px;
 
@@ -209,7 +209,7 @@ a:visited {
 	margin:auto;
 	right:5px;
 	bottom:0;
-	top:50px;
+	top:0px;
 	border-top: 1px #5f5858 solid;
 			
 }
@@ -222,7 +222,7 @@ a:visited {
 	margin:auto;
 	right:10px;
 	bottom:0;
-	top:70px;
+	top:20px;
 	list-style:none;
 	font-size:12px;
 	height:13px;
@@ -234,11 +234,8 @@ a:visited {
 
 #footer {
 	position: relative;
-	margin-top: -100px;
-	height:100px;
-
-
-	
+	padding-top: 0px;
+	height:50px;
 }
 
 #main_search {
@@ -464,6 +461,12 @@ h1, h2 {
 	left:0;
 	right:0;
 	width:100px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.startButton a {
+  color: white;
 }
 
 
@@ -559,7 +562,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	left:0;
 	right:0;
 	color:#666;
-	height:400px;
+	height:280px;
 }
 
 .uploadedImg{
