@@ -38,6 +38,10 @@ body {
 	z-index:10;
 }
 
+#onboardAbout {
+	height:670px;
+}
+
 #benefits {
 	width:100%;
 	border-top:1px #5f5858 solid;
@@ -136,7 +140,7 @@ iframe {
 
 .stepImg {
 	position:relative;
-	top:48px;
+	top:28px;
 }
 
 #bottomStripe {
@@ -407,6 +411,11 @@ h1, h2 {
 #derby {
 	position:relative;
 	left:50px;
+	margin-bottom:4px;
+}
+
+#shared {
+	margin-bottom:5px;
 }
 
 .startButton {
@@ -573,18 +582,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 #step1, #step2, #step3 {
 	width:290px;
-	height:385px;
+	height:365px;
 	border:1px #b1b3b3 solid;
 	margin-left:10px;
-	margin-top:20px;
+	margin-top:0px;
+	margin-bottom:20px;
 	float:left;
 	margin-right:5px;
 	-webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.55);
 	-moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.55);
 	box-shadow:         1px 1px 5px rgba(50, 50, 50,0.55);
-	display:none;
 }
 
+.underline {
+	width:950px;
+	border-bottom:1px #7B7979 solid;
+}
 
 .all_looks_wrapper {
 	width: 100%;
