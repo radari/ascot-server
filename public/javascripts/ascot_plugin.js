@@ -74,6 +74,18 @@ function initAscotPlugin($, tagSourceUrl) {
     return ret;
   };
   
+  var htmlifyTagsForPinterest = function(look) {
+    var ret = look.title;
+    ret += (look.source.length > 0 ? " / Source: " + look.source : "");
+    for (var i = 0; i < look.tags.length; ++i) {
+      var tag = look.tags[i];
+      ret += " / ";
+      ret += tag.product.brand + " " + tag.product.name + " " +
+             tag.product.buyLink; 
+    };
+    return ret;
+  }
+  
   var makeOverlay = function(image, ascotId, url, json) {
     if (json && json.look && json.look.tags) {
       var data = json;
@@ -91,6 +103,8 @@ function initAscotPlugin($, tagSourceUrl) {
       var iframeCode = '<iframe src="http://www.ascotproject.com/look/' + json._id + '/iframe" width="' + json.size.width + '" height="' + json.size.height + '" frameborder="0"></iframe>';
 
       var facebookUrl = 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) + '&redirect_uri=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id);
+      
+      var pinterestUrl = '//pinterest.com/pin/create/button/?url=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) + '&media=' + encodeURIComponent(json.url) + '&description=' + encodeURIComponent('From: http://www.ascotproject.com/look/' + json._id);
 
       var height = image.height();
       var width = image.width();
@@ -139,6 +153,7 @@ function initAscotPlugin($, tagSourceUrl) {
           '<br><li class="embedLink" style="cursor: pointer"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="ascot_overlay_social_name">Embed</div></li>' + 
           '<br><a target="_blank" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></li></a>' +
           '<br><a target="_blank" href="' + facebookUrl + '"><li><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_facebook.png"></div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
+          '<br><a target="_blank" href="' + pinterestUrl + '"><li><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_pinterest.png"></div><div class="ascot_overlay_social_name">Pinterest</div></li></a>' +
           '</ul></div>');
       var shareMenu = menuWrapper.children().last();
       shareMenu.hide();
@@ -198,13 +213,15 @@ function initAscotPlugin($, tagSourceUrl) {
           sourceTag.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
                   
           sourceUrl.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
+
+          sourceUrl.css('left', '-5px');
         }
-                
+
         sourceTag.hover(function() {
           sourceUrl.show(100, function(){});
         }, function() {
           sourceUrl.hide(100, function(){});
-        });
+        }, 250);
       }
               
       animateButton.click(function(event) {
@@ -248,16 +265,17 @@ function initAscotPlugin($, tagSourceUrl) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
         }
 
+        var offset = smallImage ? 0 : 10;
         if (tagX > width / 2.0) {
-          tagDescription.css('right', '10px');
+          tagDescription.css('right', offset + 'px');
         } else {
-          tagDescription.css('left', '10px');
+          tagDescription.css('left', offset + 'px');
         }
                 
         if (tagY > height / 2.0) {
-          tagDescription.css('bottom', '10px');
+          tagDescription.css('bottom', offset + 'px');
         } else {
-          tagDescription.css('top', '10px');
+          tagDescription.css('top', offset + 'px');
         }
                 
         tagDescription.appendTo(tagContainer);

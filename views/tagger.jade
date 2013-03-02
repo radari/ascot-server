@@ -14,12 +14,11 @@ prepend head
   script(src="/javascripts/adjust_wrappers.js")
   link(rel='stylesheet', href='/stylesheets/taggerPut.css')
 
-
 block content
  .progress
     img(src='/images/progressStep2.png', id:'step2')
  div(ng-controller="TaggerViewController")
-    h2.info 2. Add Image Info
+    h2.info Add Image Info
     p.title Title
     input(type="text", 
           placeholder="",
@@ -30,7 +29,7 @@ block content
           placeholder="",
           id="sourceField"
           ng-model="idsToLooks['#{look._id}'].source")     
-    h2.info 3. Click on the image to add tags. Double click to delete. 
+    h2.info Click on the image to add tags. Double click to delete. 
 
     div.look-container
       div#look
@@ -49,6 +48,10 @@ block content
                    ng-mousedown="startDraggingTag(look, tag)",
                    ng-mouseup="finishDraggingTag(look, tag)")
             {{tag.index}}
+
+          div#taggerHelp( ng-show="idsToLooks[look].tags.length == 0",
+                          ng-click="addTag(look, $event.pageX, $event.pageY);")
+            img(src='/images/taggerPrompt.png', id='prompt')
 
           div#overlay(ng-show="isEdittingTag(look)",
                       ng-style="computeEditTagOverlayDisplayPosition(look)",

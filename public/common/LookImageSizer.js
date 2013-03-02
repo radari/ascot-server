@@ -33,11 +33,10 @@ exports.createLookImageSizer = function(looks, numPerRow, maxWidth) {
 
   return {
     getWidth : function(index) {
-      return Math.floor((this.getHeight(index) / looks[index].size.height) * looks[index].size.width);
+      return 228;
     },
     getHeight : function(index) {
-      var row = Math.floor(index / numPerRow);
-      return Math.min(Math.floor(maxWidth / totalAspect[row]), 250);
+      return looks[index].size.height * (getWidth(index) / looks[index].size.width);
     }
   };
 };

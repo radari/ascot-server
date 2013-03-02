@@ -21,17 +21,21 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
 }).directive('ngWhenScrolled', function($timeout) {
   return function(scope, elm, attr) {
     var fn = function(callback) {
-      if ($(document).scrollTop() + $(window).height() >= elm.offset().top + elm.height()) {
+      if ($(document).scrollTop() + $(window).height() >= elm.offset().top + elm.height() - 250) {
         scope.$apply(attr.ngWhenScrolled);
       }
     };
 
-    var interval = setInterval(fn, 750);
+    var interval = setInterval(fn, 250);
 
     $(window).bind('scroll', function() {
       fn();
     });
-
-
+  };
+}).directive('ngImagesLoaded', function() {
+  return function(scope, elm, attr) {
+    elm.imagesLoaded(function() {
+      scope.$apply(attr.ngImagesLoaded);
+    });
   };
 });

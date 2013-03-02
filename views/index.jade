@@ -1,47 +1,38 @@
 extends layout
 
 block content
- #stepsWrapper
+ #homeWrapper
   .leading 
     h1 Tag here. Share everywhere.
     h3#line1 Ascot is an image-tagging tool for tagging products in pictures. Tag brand name, item name, and even links to the items in the pictures. When people share that image, that information goes with it. 
   br
   .exampleIframe 
     iframe#aboutExample(src='http://ascotproject.com/look/512eda523e92dee93b00000f/iframe', width='513', height='244', frameborder= '0')
-    img(src='/images/onboardMockup2.png', id:'step1')
+    img(src='/images/onboardMockup3.png', id:'step1')
 
   br
   div#benefits
     br
     .benefitText
-      img.benefitImg(src='/images/shared.png', id:'step1')
+      img.benefitImg(src='/images/shareOptions.png', id:'step1')
       br
-      | The ascot overylay makes it really easy for your users to share your images on Tumblr, Facebook, Twitter, or their own site. We make it so easy that some of our users use ascot to share their images on their own social media channels. 
+      | The Ascot overylay makes it really easy for your users to share your images on Tumblr, Facebook, Twitter, or their own site. We make it so easy that some of our users use Ascot to share their images on their own social media channels. 
     .benefitText
-      img.benefitImg(src='/images/shared.png', id:'step1')
+      img.benefitImg(src='/images/shareDerby.png', id='derby')
       br 
-      | Prevent people from wondering what you've got on. Your audience will thank you and you'll get more traffic to your site as the image is shared. 
+      | Your users can stop wondering wondering what you've got on. Your audience will thank you and you'll get more traffic to your site as the image is shared. 
     .benefitText
-      img.benefitImg(src='/images/shared.png', id:'step1')
+      img.benefitImg(src='/images/shared.png', id='shared')
       br
       | By reducing information loss when sharing, Ascot allows your brand to be everywhere your users are sharing. 
-  br
-  h1.leading Get started in seconds.
-
-
-  div#step1
-    .heading 1
-    .description Upload a picture to Ascot
-    .stepImg 
-      img(src='/images/step1.png', id:'step1')
-  div#step2
-    .heading 2
-    .description Click to add tags. Label clothes, brands, and the source site. 
-    .stepImg 
-      img(src='/images/step2.png', id:'step2')
-
-  div#step3
-    .heading#third 3
-    .description Embed and share. 
-    .stepImg 
-      img(src='/images/step3.png', id:'step3')
+  
+  div#getStarted
+    br
+    h2.leading Ready to get started?
+    br
+    input(type='submit',
+            value="Start Tagging",
+            class="startButton"
+            )
+    
+  
