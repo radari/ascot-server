@@ -8,8 +8,8 @@ html {
 }
 
 img {
-max-width:700px;	
-	
+	max-width:700px;
+	border: 0;
 }
 
 body {
