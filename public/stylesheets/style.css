@@ -570,11 +570,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
-#stepsWrapper {
+#homeWrapper {
 	position:relative;
 	width:100%;
 	overflow:hidden;
 	padding:10px;
+	margin-bottom:-82px;
 }
 
 .leading h1 {
