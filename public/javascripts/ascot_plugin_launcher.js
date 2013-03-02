@@ -64,7 +64,7 @@
   
   
   var url = 'http://www.ascotproject.com';
-  var checkJQueryImagesLoaded = function(callback) {
+  var loadJQueryImagesLoaded = function(callback) {
     loadScript(
       url + '/vendor/javascripts/jquery.imagesloaded.js',
       function() {
@@ -100,8 +100,8 @@
   
   checkJQuery(function() {
     checkJQueryUI(function() {
-      checkJQueryHoverDelay(function() {
-        checkJQueryImagesLoaded(function() {
+      loadJQueryHoverDelay(function() {
+        loadJQueryImagesLoaded(function() {
           loadAscotStylesheets(url, function() {
             loadAscotPlugin(url, function() {
               initAscotPlugin(localJQuery, url);
