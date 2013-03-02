@@ -132,6 +132,19 @@ describe('TaggerViewController', function() {
     expect(tag1.position.y).toBe(16);
   });
 
+  it('should compute positions properly for resized images', function() {
+    // Image is 2x size of test ImageOffsetService
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ look : { tags : [], size : { height : 400, width: 400 } } });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+    var tag1 = scope.addTag('1234', 40, 15);
+
+    expect(tag1.position.x).toBe(60);
+    expect(tag1.position.y).toBe(20);
+  });
+
   it('should do a put and redirect after clicking save', function () {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
         respond({ look : { tags : [], size : { height : 200, width: 200 } } });
