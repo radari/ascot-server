@@ -24,55 +24,17 @@ block content
                         ng-controller="LooksListController",
                         ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page})",
                         ng-when-scrolled="loadNextPage();")
-  
-    div(ng-repeat="row in rows",
-        style="display: inline-block")
-      div(ng-repeat="look in row",
-          style="float: left; margin: 5px",
+    div.all_looks_element(ng-repeat="column in columns")
+      div(ng-repeat="look in column",
           ng-controller="AdminController",  
           ng-init="lookId=look._id ; isPublished=conditional(look.showOnCrossList, 'published','unpublished')",
           ng-click="togglePublished()",
-          ng-class="isPublished")
-
-        img(ng-src="{{look.url}}",
-            ng-style="{ 'height' : sizer.getHeight(look.index) + 'px', 'width' : sizer.getWidth(look.index) + 'px' }")
-
-
-        div.clear
-      div.list_header(ng-show="looks.length == 0")
-        | No looks found
+          ng-class="isPublished"))
+        a(ng-href="/look/{{look._id}}")
+          img(ng-src="{{look.url}}",
+              ng-images-loaded="onImageLoaded($index);")
+    div.clear
+    div.list_header(ng-show="looks.length == 0")
+      | No looks found
 
 
-  //- div.all_looks_wrapper(style="text-align: center")
-  //-   - if (looks.length > 0)
-  //-     - for (var i = 0; i < looks.length; i += 5) { 
-  //-       div(style="display: inline-block")
-  //-         div(style="position: relative;")
-  //-           - for (var j = 0; j < 5 && i + j < looks.length; ++j) {
-  //-             div(style="float: left", 
-  //-                 ng-controller="AdminController",
-  //-                 ng-init="isPublished=#{looks[i+j].showOnCrossList == 1 ? "'published'":"'unpublished'"} ; lookId='#{looks[i+j]._id}'", 
-  //-                 ng-click="togglePublished()",
-  //-                 ng-class="isPublished")
-
-  //-               //a(href="/look/#{looks[i + j]._id}")
-  //-               img(src="#{looks[i + j].url}", style="margin: 10px; width: #{sizer.getWidth(i + j)}px; height: #{sizer.getHeight(i + j)}px")
-  //-           - }
-  //-           div(style="clear: both")
-  //-     - }
-              
-  //-     div(style="clear:both")
-  //-     div.list_header
-  //-       div(style="display: inline-block; position: relative")
-  //-         - for (var i = 0; i < numPages; ++i) {
-  //-           - if (page == i) {
-  //-             div(style="float:left; padding: 10px; font-weight: bold") #{i + 1}
-  //-           - }
-  //-           - else {
-  //-             div(style="float:left; padding: 10px;")
-  //-               a(href='#{routeUrl}p=#{i}') #{i + 1}
-  //-           - }
-  //-         - }
-  //-       div(style="clear: both")
-  //-   - else
-  //-     div.list_header No looks found
