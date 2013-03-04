@@ -1,6 +1,6 @@
 
 describe('TaggerViewController', function() {
-  var scope, v, $httpBackend, url;
+  var scope, v, $httpBackend, url, confirm;
 
   beforeEach(inject(function($injector, $rootScope, $controller) {
     $httpBackend = $injector.get('$httpBackend');
@@ -27,6 +27,11 @@ describe('TaggerViewController', function() {
           $autocomplete : {
             // Currently no-op just to make tests pass
             setUrl : function(tag, url) {}
+          },
+          $window : {
+            confirm : function(msg) {
+              confirm = msg;
+            }
           }
         });
   }));
@@ -157,5 +162,15 @@ describe('TaggerViewController', function() {
     scope.finalize('1234', '5678');
     $httpBackend.flush();
     expect(url).toBe('/look/1234?showProgress=1');
+  });
+  
+  it('should pop up a confirm message if there are no tags', function() {
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ look : { tags : [], size : { height : 200, width: 200 } } });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+    scope.finalize('1234', '5678');
+    expect(confirm).toBe("You haven't added any tags. Are you sure you want to submit?");
   });
 });

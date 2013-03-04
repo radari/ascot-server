@@ -8,7 +8,7 @@
  *
  */
 
-function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $autocomplete) {
+function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $autocomplete, $window) {
   this.$scope = $scope;
 
   $scope.idsToLooks = {};
@@ -185,10 +185,19 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
   }
   
   $scope.finalize = function(id, key) {
-    $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id]).success(
-        function(data) {
-          $redirect('/look/' + id + '?showProgress=1');
-        });
+    if ($scope.idsToLooks[id].tags.length == 0) {
+      if ($window.confirm("You haven't added any tags. Are you sure you want to submit?")) {
+        $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id]).success(
+          function(data) {
+            $redirect('/look/' + id + '?showProgress=1');
+          });
+      }
+    } else {
+      $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id]).success(
+          function(data) {
+            $redirect('/look/' + id + '?showProgress=1');
+          });
+    }
   };
 }
 
