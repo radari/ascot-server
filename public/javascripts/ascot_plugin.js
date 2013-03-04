@@ -12,6 +12,14 @@
 
 
 function initAscotPlugin($, tagSourceUrl) {
+  var _gaq = _gaq || [];
+  
+  _gaq.push(function() {
+    var googleAnalyticsTracker = _gat.createTracker('UA-36829509-1', 'ascot');
+    _gaq.push(['ascot._setAccount', 'UA-36829509-1']);
+    _gaq.push(['ascot._trackPageview']);
+  });
+
   var getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
       return null;
@@ -259,7 +267,7 @@ function initAscotPlugin($, tagSourceUrl) {
             "<a id='ascot_overlay_link' target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" +
             tag.product.brand + "</b></a> " + tag.product.name +
             "<br/>" +
-            (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
+            (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"_trackEvent\", \"buyLinkClicked\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
             //(tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : ""));
         if (smallImage) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
