@@ -178,7 +178,11 @@ div.ascot_overlay_look div.ascot_overlay_share_menu ul#ascot_overlay_share_list 
   width:95px;
   height:20px;
   text-align: left;
-  margin-left:0;
+  margin:0;
+}
+
+.ascot_overlay_look .ascot_overlay_share_menu li#ascot_overlay_share {
+  margin: 0;
 }
 
 .ascot_overlay_look .ascot_overlay_share_menu .ascot_overlay_social_icon {
@@ -195,7 +199,7 @@ div.ascot_overlay_look div.ascot_overlay_social_name {
   margin-left: 10px;
   margin-top: 3px;
   color: white;
-  font-size:90%;
+  font-size:12px;
 }
 
 div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon img#ascot_overlay_social {
