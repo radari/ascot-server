@@ -671,7 +671,13 @@ div.autocomplete div {
 
 div.autocomplete div:hover {
 	background-color:rgba(0,0,0,0.6);
-	color: rgba(255,255,255,1);}
+	color: rgba(255,255,255,1);
+}
+
+div.autocomplete div.selection {
+  background-color:rgba(0,0,0,0.6);
+	color: rgba(255,255,255,1);
+}
 
 #save_button {
 	margin-top: 40px;

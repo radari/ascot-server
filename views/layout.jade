@@ -52,7 +52,7 @@ html(ng-app='AscotModule')
       ul#nav 
         li
           a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
-            h3 Start Tagging
+            h3 Start Tagging {{currentSelection}}
             p Paste an image link or upload an image to start tagging.
         li#howToNav
           a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
@@ -66,20 +66,23 @@ html(ng-app='AscotModule')
       br
       img#bottomStripe(src='/images/bottomStripe_short.png', id:'stripe')
 
-
-
       br 
-      form(method='get', action='/keywords')
-        input(type='text',
-              name='v',
-              id='main_search',
-              ng-model='mainSearch',
-              ng-change='updateResults()'
-              placeholder="brand or keywords")
-        span#glass 
-          i
+      input(type='text',
+            name='v',
+            id='main_search',
+            ng-model='mainSearch',
+            ng-change='updateResults()'
+            placeholder="brand or keywords",
+            ng-directional="true",
+            ng-key-up="prevSelection();",
+            ng-key-down="nextSelection();",
+            ng-key-return="onSelected(results[currentSelection]);")
+      span#glass 
+        i
       div.autocomplete
         div(ng-repeat='result in results',
+            ng-class="checkSelection($index)",
+            ng-mouseover='currentSelection = $index',
             ng-click='onSelected(result)')
           span(ng-bind-html-unsafe='suggestions[$index] | boldInstances:mainSearch')
 

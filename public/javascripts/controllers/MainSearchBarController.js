@@ -12,6 +12,7 @@ function MainSearchBarController($scope, $http, $redirect) {
   $scope.mainSearch = "";
   $scope.results = [];
   $scope.suggestions = [];
+  $scope.currentSelection = 0;
 
   $scope.updateResults = function() {
     if ($scope.mainSearch.length >= 2) {
@@ -25,6 +26,37 @@ function MainSearchBarController($scope, $http, $redirect) {
       $scope.results = [];
       $scope.suggestions = [];
     }
+  };
+  
+  $scope.prevSelection = function() {
+    if ($scope.results.length == 0) {
+      return;
+    }
+  
+    if ($scope.currentSelection == 0) {
+      $scope.currentSelection = $scope.results.length - 1;
+    } else {
+      --$scope.currentSelection;
+    }
+  };
+  
+  $scope.nextSelection = function() {
+    if ($scope.results.length == 0) {
+      return;
+    }
+  
+    if ($scope.currentSelection == $scope.results.length - 1) {
+      $scope.currentSelection = 0;
+    } else {
+      ++$scope.currentSelection;
+    }
+  };
+  
+  $scope.checkSelection = function(index) {
+    if ($scope.currentSelection == index) {
+      return 'selection';
+    }
+    return '';
   };
 
   $scope.onSelected = function(filter) {
