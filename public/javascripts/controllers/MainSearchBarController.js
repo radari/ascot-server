@@ -8,55 +8,23 @@
  *
  */
 
-function MainSearchBarController($scope, $http, $redirect) {
+function MainSearchBarController($scope, $autocomplete, $redirect) {
   $scope.mainSearch = "";
-  $scope.results = [];
-  $scope.suggestions = [];
-  $scope.currentSelection = 0;
+  $scope.autocomplete = $autocomplete;
+  $autocomplete.setUrl('MAIN', '/filters.json');
 
   $scope.updateResults = function() {
-    if ($scope.mainSearch.length >= 2) {
-      $http.get('/filters.json?query=' +
-          encodeURIComponent($scope.mainSearch)).
-          success(function(data) {
-            $scope.results = data.data;
-            $scope.suggestions = data.suggestions;
-          });
-    } else {
-      $scope.results = [];
-      $scope.suggestions = [];
-    }
+    $autocomplete.updateResults('MAIN', $scope.mainSearch);
   };
   
-  $scope.prevSelection = function() {
-    if ($scope.results.length == 0) {
-      return;
-    }
-  
-    if ($scope.currentSelection == 0) {
-      $scope.currentSelection = $scope.results.length - 1;
+  $scope.filterToString = function(filter) {
+    if (filter.type == 'Brand') {
+      return filter.v + ' (Brand)';
+    } else if (filter.type == 'Keyword') {
+      return 'Search for ' + filter.v;
     } else {
-      --$scope.currentSelection;
+      alert('Invalid filter');
     }
-  };
-  
-  $scope.nextSelection = function() {
-    if ($scope.results.length == 0) {
-      return;
-    }
-  
-    if ($scope.currentSelection == $scope.results.length - 1) {
-      $scope.currentSelection = 0;
-    } else {
-      ++$scope.currentSelection;
-    }
-  };
-  
-  $scope.checkSelection = function(index) {
-    if ($scope.currentSelection == index) {
-      return 'selection';
-    }
-    return '';
   };
 
   $scope.onSelected = function(filter) {

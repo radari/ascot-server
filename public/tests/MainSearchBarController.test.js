@@ -9,10 +9,9 @@
  */
 
 describe('MainSearchBarController', function() {
-  var scope, v, $httpBackend, url;
+  var scope, v, url, autocompleteUrl;
   
   beforeEach(inject(function($injector, $rootScope, $controller) {
-    $httpBackend = $injector.get('$httpBackend');
     scope = $rootScope.$new();
     url = "";
     
@@ -20,22 +19,28 @@ describe('MainSearchBarController', function() {
         { $scope : scope,
           $redirect : function(u) {
             url = u;
+          },
+          $autocomplete : {
+            setUrl : function(tag, url) {
+              autocompleteUrl = url;
+            }
           }
         });
   }));
   
-  it('should make HTTP callout when updating results', function() {
-    scope.mainSearch = 'test1234';
-    
-    $httpBackend.expectGET('/filters.json?query=test1234').
-        respond({ data : ['abc'], suggestions : ['def'] });
-    scope.updateResults();
-    $httpBackend.flush();
-    
-    expect(scope.results.length).toBe(1);
-    expect(scope.results[0]).toBe('abc');
-    expect(scope.suggestions.length).toBe(1);
-    expect(scope.suggestions[0]).toBe('def');
+  it('should set autocomplete url properly', function() {
+    expect(autocompleteUrl).toBe('/filters.json');
+  });
+  
+  it('should display filters properly', function() {
+    var filters =
+        [
+          { type : 'Brand', v : 'nike' },
+          { type : 'Keyword', v : 'ni' }
+        ];
+
+    expect(scope.filterToString(filters[0])).toBe('nike (Brand)');
+    expect(scope.filterToString(filters[1])).toBe('Search for ni');
   });
   
   it('should redirect properly', function() {
@@ -46,14 +51,6 @@ describe('MainSearchBarController', function() {
           { type : 'Brand', v : 'nike' },
           { type : 'Keyword', v : 'ni' }
         ];
-    
-    $httpBackend.expectGET('/filters.json?query=test1234').
-        respond(
-        { data : filters,
-          suggestions : ['def', 'abc']
-        });
-    scope.updateResults();
-    $httpBackend.flush();
     
     expect(url).toBe('');
     

@@ -223,13 +223,9 @@ exports.random = function(mongoLookFactory) {
  */
 exports.filters = function(Look) {
   return function(req, res) {
-    var ret = {};
-    ret["query"] = req.query["query"];
-    ret["suggestions"] = [];
-    ret["data"] = [];
+    var ret = [];
     
-    ret["suggestions"].push('Search for: ' + ret["query"]);
-    ret["data"].push({ v : ret["query"], type : 'Keyword' });
+    ret.push({ v : req.query["query"], type : 'Keyword' });
     
     Look.distinct('tags.product.brand').
         where('tags.product.brand').
@@ -238,8 +234,7 @@ exports.filters = function(Look) {
           var numAdded = 0;
           for (var i = 0; i < brands.length; ++i) {
             if (brands[i].toLowerCase().indexOf(req.query["query"].toLowerCase()) != -1) {
-              ret["data"].push({ v : brands[i], type : 'Brand' });
-              ret["suggestions"].push(brands[i] + ' (Brand)');
+              ret.push({ v : brands[i], type : 'Brand' });
               if (++numAdded >= 8) {
                 // Limit to 8 results
                 break;

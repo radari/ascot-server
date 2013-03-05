@@ -52,7 +52,7 @@ html(ng-app='AscotModule')
       ul#nav 
         li
           a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
-            h3 Start Tagging {{currentSelection}}
+            h3 Start Tagging
             p Paste an image link or upload an image to start tagging.
         li#howToNav
           a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
@@ -74,17 +74,17 @@ html(ng-app='AscotModule')
             ng-change='updateResults()'
             placeholder="brand or keywords",
             ng-directional="true",
-            ng-key-up="prevSelection();",
-            ng-key-down="nextSelection();",
-            ng-key-return="onSelected(results[currentSelection]);")
+            ng-key-up="autocomplete.prevSelection('MAIN');",
+            ng-key-down="autocomplete.nextSelection('MAIN');",
+            ng-key-return="onSelected(autocomplete.getSelected('MAIN'));")
       span#glass 
         i
       div.autocomplete
-        div(ng-repeat='result in results',
-            ng-class="checkSelection($index)",
-            ng-mouseover='currentSelection = $index',
+        div(ng-repeat='result in autocomplete.results["MAIN"]',
+            ng-class="autocomplete.checkSelection('MAIN', $index)",
+            ng-mouseover='autocomplete.setSelection("MAIN", $index)',
             ng-click='onSelected(result)')
-          span(ng-bind-html-unsafe='suggestions[$index] | boldInstances:mainSearch')
+          span(ng-bind-html-unsafe='filterToString(result) | boldInstances:mainSearch')
 
       block content
     #footer  
