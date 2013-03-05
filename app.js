@@ -97,6 +97,7 @@ app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
 app.get('/keywords', look.keywords);
 app.get('/all', look.all);
+app.get('/favorites', look.favorites(Look));
 
 // JSON queries
 app.get('/tags.jsonp', tags.get(mongoLookFactory));

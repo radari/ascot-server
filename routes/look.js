@@ -421,13 +421,35 @@ exports.upvote = function(mongoLookFactory) {
   };
 };
 
+/*
+ * GET /favorites
+ */
+exports.favorites = function(Look) {
+  return function(req, res) {
+    var upvotedMap = req.cookies.upvotes || {};
 
+    var upvotes = [];
+    for (var key in upvotedMap) {
+      if (upvotedMap[key] == true) {
+        upvotes.push(key);
+      }
+    }
 
-
-
-
-
-
-
-
-
+    Look.
+        find({ showOnCrossList : 1 }).
+        where('_id').in(upvotes).
+        exec(function(error, looks) {
+          if (error || !looks) {
+            res.render('error', { title : 'Ascot :: Error', error : "Couldn't load looks" });
+          } else {
+            res.render('looks_list',
+                { looks : looks,
+                  listTitle : 'My Favorites',
+                  title : 'Ascot :: Favorites',
+                  page : 0,
+                  numPages : 1
+                });
+          }
+        });
+  };
+};
