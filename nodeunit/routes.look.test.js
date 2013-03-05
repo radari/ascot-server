@@ -224,12 +224,10 @@ exports.testFilters = function(test) {
   var fn = LookRoutes.filters(mockLook);
   fn({ query : { query : query } },
       { json : function(data) {
-          test.equal(data.suggestions.length, 9);
-          test.equal(data.data.length, 9);
-          test.ok('test1 (Brand)', data.suggestions[1]);
-          test.ok(!('bs (Brand)' in data.suggestions));
-          test.equal(data.data[0].type, 'Keyword');
-          test.equal(data.data[1].type, 'Brand');
+          test.equal(data.length, 9);
+          test.equal('test1', data[1].v);
+          test.equal(data[0].type, 'Keyword');
+          test.equal(data[1].type, 'Brand');
           test.done();
         }
       });
