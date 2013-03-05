@@ -373,7 +373,12 @@ exports.upvote = function(mongoLookFactory) {
       } else {
         var upvotedMap = req.cookies ? req.cookies.upvotes || {} : {};
         if (req.params.id in upvotedMap) {
-          res.jsonp({ error : 'Already upvoted' });
+          delete upvotedMap[req.params.id];
+          --look.numUpVotes;
+          look.save(function(error, look) {
+            res.cookie('upvotes', upvotedMap, { maxAge : 900000, httpOnly : false });
+            res.jsonp({ remove : true });
+          });
         } else {
           ++look.numUpVotes;
           look.save(function(error, look) {
@@ -382,7 +387,7 @@ exports.upvote = function(mongoLookFactory) {
             } else {
               upvotedMap[req.params.id] = true;
               res.cookie('upvotes', upvotedMap, { maxAge : 900000, httpOnly : false });
-              res.jsonp({});
+              res.jsonp({ add : true });
             }
           });
         }
