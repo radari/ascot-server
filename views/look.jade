@@ -23,31 +23,32 @@ prepend head
 
 
 block content
-  div.progress(style="#{query.showProgress ? 'display: block' : 'display: none'}")
-    img(src='/images/progressStep3.png', id:'step3')
-  div.look-container(ng-init="look = #{JSON.stringify(look)}")
-    div(style="text-align: center")
-      include partials/_look.jade
-    
-    div.share_container
-      div.tumblr_container
-        div.header Share on Tumblr
-        div
-          | Make sure the Ascot plugin is installed in your Tumblr theme 
-          a(href='/howto/tumblr')[help] 
-          | and click below to share:
-        div(style="padding-top:10px")
-          a(target='_blank',
-            title='Share on Tumblr',
-            style='display:inline-block; text-indent:-9999px; overflow:hidden; width:129px; height:20px; background:url("http://platform.tumblr.com/v1/share_3.png") top left no-repeat transparent;',
-            ng-href='http://www.tumblr.com/share/photo?source={{look.url | encodeURIComponent}}&clickthru={{("http://www.ascotproject.com/look/" + look._id) | encodeURIComponent}}&caption={{look | htmlifyTags | encodeURIComponent}}&tags=ascot') 
-            | Share on Tumblr
+  div#lookViewWrapper
+    div.progress(style="#{query.showProgress ? 'display: block' : 'display: none'}")
+      img(src='/images/progressStep3.png', id:'step3')
+    div.look-container(ng-init="look = #{JSON.stringify(look)}")
+      div(style="text-align: center")
+        include partials/_look.jade
+      
+      div.share_container
+        div.tumblr_container
+          div.header Share on Tumblr
+          div
+            | Make sure the Ascot plugin is installed in your Tumblr theme 
+            a(href='/howto/tumblr')[help] 
+            | and click below to share:
+          div(style="padding-top:10px")
+            a(target='_blank',
+              title='Share on Tumblr',
+              style='display:inline-block; text-indent:-9999px; overflow:hidden; width:129px; height:20px; background:url("http://platform.tumblr.com/v1/share_3.png") top left no-repeat transparent;',
+              ng-href='http://www.tumblr.com/share/photo?source={{look.url | encodeURIComponent}}&clickthru={{("http://www.ascotproject.com/look/" + look._id) | encodeURIComponent}}&caption={{look | htmlifyTags | encodeURIComponent}}&tags=ascot') 
+              | Share on Tumblr
 
-      div.iframe_code_container
-        div.header Embed
-        div
-          | Copy the below code into your blog or website
-          textarea.iframe_code(readonly)
-            | <iframe width='{{look.size.width}}' height='{{look.size.height}}' src="http://www.ascotproject.com/look/{{look._id}}/iframe" frameborder='0'></iframe>
+        div.iframe_code_container
+          div.header Embed
+          div
+            | Copy the below code into your blog or website
+            textarea.iframe_code(readonly)
+              | <iframe width='{{look.size.width}}' height='{{look.size.height}}' src="http://www.ascotproject.com/look/{{look._id}}/iframe" frameborder='0'></iframe>
 
-      div(style="clear:both")
+        div(style="clear:both")
