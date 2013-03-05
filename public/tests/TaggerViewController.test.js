@@ -173,4 +173,23 @@ describe('TaggerViewController', function() {
     scope.finalize('1234', '5678');
     expect(confirm).toBe("You haven't added any tags. Are you sure you want to submit?");
   });
+
+  it('should add http:// before buy link if it isn\'t already there', function() {
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ look : { tags : [], size : { height : 200, width: 200 } } });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+
+    var tag1 = scope.addTag('1234', 40, 15);
+    tag1.product.buyLink = 'www.test.tk';
+
+    scope.finishEdittingTag('1234');
+    expect(tag1.product.buyLink).toBe('http://www.test.tk');
+
+    scope.startEdittingTag('1234', tag1);
+    tag1.product.buyLink = 'http://www.google.com';
+    scope.finishEdittingTag('1234');
+    expect(tag1.product.buyLink).toBe('http://www.google.com');
+  });
 });

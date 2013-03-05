@@ -142,6 +142,11 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
   // Finish editting tag
   $scope.finishEdittingTag = function(id) {
     if ($scope.isEdittingTag(id)) {
+      if ($scope.idsToEditTag[id].product.buyLink.length > 0 &&
+          $scope.idsToEditTag[id].product.buyLink.indexOf('http://') == -1) {
+        $scope.idsToEditTag[id].product.buyLink = 'http://' + $scope.idsToEditTag[id].product.buyLink;
+      }
+
       $scope.idsToEditTag[id] = null;
     }
   };
