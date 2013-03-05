@@ -12,12 +12,20 @@
 
 
 function initAscotPlugin($, tagSourceUrl) {
-  var _gaq = _gaq || [];
+  if (typeof '_gaq' == 'undefined') {
+    // Insert Google Analytics if it doesn't already exist
+    window._gaq = [];
+    
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    alert('Inserted GA!');
+  }
   
   _gaq.push(function() {
     var googleAnalyticsTracker = _gat.createTracker('UA-36829509-1', 'ascot');
     _gaq.push(['ascot._setAccount', 'UA-36829509-1']);
-    _gaq.push(['ascot._trackPageview']);
+    _gaq.push(['ascot._trackEvent', 'pluginLoaded', $(window).href()]);
   });
 
   var getAscotHashParam = function(url) {
@@ -98,6 +106,8 @@ function initAscotPlugin($, tagSourceUrl) {
     if (json && json.look && json.look.tags) {
       var data = json;
       json = json.look;
+      
+      _gaq.push(['ascot._trackEvent', 'lookLoaded', ascotId]);
 
       var tumblrUrl = 'http://www.tumblr.com/share/photo?' +
                       'source=' + encodeURIComponent(json.url) +
