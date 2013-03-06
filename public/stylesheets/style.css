@@ -703,6 +703,10 @@ div.sort_sub_header {
   margin: 10px;
 }
 
+div.sort_sub_header a {
+  margin-left: 10px;
+}
+
 a.currentSort {
   font-weight: bold;
 }
