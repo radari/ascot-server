@@ -696,6 +696,17 @@ div.list_header {
   margin: 10px;
 }
 
+div.sort_sub_header {
+  width: 100%;
+  text-align: center;
+  font-size: 14pt;
+  margin: 10px;
+}
+
+a.currentSort {
+  font-weight: bold;
+}
+
 .howToTitle {
 	color:#b54e37;
 	font-weight:700;

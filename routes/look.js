@@ -246,13 +246,32 @@ exports.filters = function(Look) {
   };
 };
 
-exports.looksList = function(Look, params, title, page, res) {
+/**
+ * Helper for list looks
+ */
+exports.looksList = function(Look, params, title, page, sortBy, res) {
   var MAX_PER_PAGE = 20;
+  
+  var sortParams = {};
+  switch (sortBy) {
+   case 'newest' :
+    sortParams = { _id : -1 };
+    break;
+   case 'viewed' :
+    sortParams = { numViews : -1 };
+    break;
+   case 'favorited' :
+    sortParams = { numUpVotes : -1 };
+    break;
+   default :
+    sortParams = { _id : -1 };
+    break;
+  }
 
   Look.find(params).count(function(error, count) {
     Look.
       find(params).
-      sort({ _id : -1 }).
+      sort(sortParams).
       limit(MAX_PER_PAGE).
       skip(page * MAX_PER_PAGE).
       exec(function(error, looks) {
@@ -260,7 +279,10 @@ exports.looksList = function(Look, params, title, page, res) {
           res.format({
               'html' :
                   function() {
-                    res.render('error', { error : 'Error ' + JSON.stringify(error), title : 'Ascot :: Error' });
+                    res.render('error',
+                        { error : 'Error ' + JSON.stringify(error),
+                          title : 'Ascot :: Error'
+                        });
                   },
               'json' :
                   function() {
@@ -293,14 +315,16 @@ exports.looksList = function(Look, params, title, page, res) {
  * GET /brand?v=<brand>
  */
 exports.brand = function(Look) {
-  
   return function(req, res) {
     var p = req.query["p"] || 0;
+    var sortBy = req.query["sortBy"] || "";
+    
     exports.looksList(
         Look,
         { 'tags.product.brand' : req.query["v"], showOnCrossList : 1 },
         'Looks for ' + req.query["v"] + ' (Brand)',
         p,
+        sortBy,
         res);
   };
 };
@@ -310,6 +334,7 @@ exports.brand = function(Look) {
  */
 exports.keywords = function(req, res) {
   var p = req.query["p"] || 0;
+  var sortBy = req.query["sortBy"] || "";
   
   var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
   for (var i = 0; i < keywords.length; ++i) {
@@ -321,6 +346,7 @@ exports.keywords = function(req, res) {
       { search : { $all : keywords }, showOnCrossList : 1 },
       'Looks with Keywords : ' + req.query["v"],
       p,
+      sortBy,
       res);
 };
 
@@ -329,12 +355,14 @@ exports.keywords = function(req, res) {
  */
 exports.all = function(req, res) {
   var p = req.query["p"] || 0;
+  var sortBy = req.query["sortBy"] || "";
   
   exports.looksList(
     Look,
     { showOnCrossList : 1 },
     'All Looks',
     p,
+    sortBy,
     res);
 };
 
@@ -345,6 +373,7 @@ exports.favorites = function(Look) {
   return function(req, res) {
     var p = req.query["p"] || 0;
     var upvotedMap = req.cookies.upvotes || {};
+    var sortBy = req.query["sortBy"] || "";
 
     var upvotes = [];
     for (var key in upvotedMap) {
@@ -358,6 +387,7 @@ exports.favorites = function(Look) {
         { _id : { $in : upvotes }, showOnCrossList : 1 },
         'All Looks',
         p,
+        sortBy,
         res);
   };
 };
