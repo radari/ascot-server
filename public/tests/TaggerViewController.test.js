@@ -9,7 +9,7 @@ describe('TaggerViewController', function() {
 
     v = $controller(TaggerViewController,
         { $scope : scope,
-          ImageOffsetService :
+          $imagePosition :
               { getOffset :
                   function(id) {
                     return { x : 10, y : 5 };
@@ -138,7 +138,7 @@ describe('TaggerViewController', function() {
   });
 
   it('should compute positions properly for resized images', function() {
-    // Image is 2x size of test ImageOffsetService
+    // Image is 2x size of test $imagePosition
     $httpBackend.expectGET('/tags.jsonp?id=1234').
         respond({ look : { tags : [], size : { height : 400, width: 400 } } });
 

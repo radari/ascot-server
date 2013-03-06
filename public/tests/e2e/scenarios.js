@@ -51,7 +51,7 @@ describe('Ascot Project', function() {
       sleep(1);
       expect(element('#brandInput').val()).toBe('Bonobos');
       expect(element('#nameInput').val()).toBe('Tiny Prancers');
-      expect(element('#buyLinkInput').val()).toBe('www.google.com');
+      expect(element('#buyLinkInput').val()).toBe('http://www.google.com');
       element('#saveTagButton').click();
 
       // Save look and wait for /look to load
