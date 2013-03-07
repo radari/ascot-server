@@ -9,7 +9,7 @@
  */
 
 angular.module('AscotImageModule', []).
-    factory('ImageOffsetService', [function() {
+    factory('$imagePosition', [function() {
       var idsToImages = {};
       $("img[ascot_id]").each(function(i, el) {
         idsToImages[$(el).attr("ascot_id")] = $(el);

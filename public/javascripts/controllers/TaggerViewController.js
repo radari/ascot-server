@@ -8,7 +8,7 @@
  *
  */
 
-function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $autocomplete, $window) {
+function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocomplete, $window) {
   this.$scope = $scope;
 
   $scope.idsToLooks = {};
@@ -32,8 +32,8 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
 
   $scope.computeTagDisplayPosition = function(id, tag) {
     var position;
-    var displayHeight = ImageOffsetService.getHeight(id);
-    var displayWidth = ImageOffsetService.getWidth(id);
+    var displayHeight = $imagePosition.getHeight(id);
+    var displayWidth = $imagePosition.getWidth(id);
     
     if ($scope.idsToLooks[id].size.height == displayHeight &&
         $scope.idsToLooks[id].size.width == displayWidth) {
@@ -57,8 +57,8 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
     }
 
     var position = $scope.computeTagDisplayPosition(id, $scope.idsToEditTag[id]);
-    var displayHeight = ImageOffsetService.getHeight(id);
-    var displayWidth = ImageOffsetService.getWidth(id);
+    var displayHeight = $imagePosition.getHeight(id);
+    var displayWidth = $imagePosition.getWidth(id);
 
     if (position.x <= displayWidth / 2.0 &&
         position.y <= displayHeight / 2.0) {
@@ -75,11 +75,11 @@ function TaggerViewController($scope, $http, ImageOffsetService, $redirect, $aut
   };
   
   $scope.computePositionFromDisplay = function(id, pageX, pageY) {
-    var offset = ImageOffsetService.getOffset(id);
+    var offset = $imagePosition.getOffset(id);
     
     var position;
-    var displayHeight = ImageOffsetService.getHeight(id);
-    var displayWidth = ImageOffsetService.getWidth(id);
+    var displayHeight = $imagePosition.getHeight(id);
+    var displayWidth = $imagePosition.getWidth(id);
     if ($scope.idsToLooks[id].size.height == displayHeight &&
         $scope.idsToLooks[id].size.width == displayWidth) {
       position = {

@@ -64,10 +64,14 @@ function initAscotPlugin($, tagSourceUrl) {
       contentType: 'application/jsonp',
       dataType: 'jsonp',
       success : function(json) {
-        if (!json.error) {
+        if (json.add) {
           upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
-          upvoteButton.css('cursor', '');
+          upvoteButton.css('cursor', 'pointer');
           upvoteButton.css('opacity', '1');
+        } else if (json.remove) {
+          upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small.png');
+          upvoteButton.css('cursor', 'pointer');
+          upvoteButton.css('opacity', '0.6');
         } else {
           // Nothing to do here for now, just ignore
         }
@@ -204,7 +208,7 @@ function initAscotPlugin($, tagSourceUrl) {
 
       if (data.hasUpvotedCookie) {
         $(upvoteButton).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
-        $(upvoteButton).css('cursor', '');
+        $(upvoteButton).css('cursor', 'pointer');
         $(upvoteButton).css('opacity', '1');
       }
               
