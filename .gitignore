@@ -16,5 +16,5 @@ node_modules
 public/images/uploads/*
 
 .DS_Store
-
+.cache
 *.swp
