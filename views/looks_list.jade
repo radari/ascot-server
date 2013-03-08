@@ -14,22 +14,22 @@ prepend head
   script(src="/javascripts/controllers/LooksListController.js")
 
 block content
-  div.list_header
+  h2.list_header
     | #{listTitle}
   div.sort_sub_header
-    u Sort By:
+    strong 
     | 
     a(href="?sortBy=newest",
       class="#{!query.sortBy || query.sortBy == 'newest' ? 'currentSort' : ''}")
       | Latest
-    | 
+    | -
     a(href="?sortBy=viewed",
       class="#{query.sortBy == 'viewed' ? 'currentSort' : ''}")
-      | Views
-    | 
+      | Most Viewed
+    | -
     a(href="?sortBy=favorited",
       class="#{query.sortBy == 'favorited' ? 'currentSort' : '' }")
-      | Upvotes
+      | Highest Rated
 
   div.all_looks_wrapper(style="text-align: center",
                         ng-controller="LooksListController",

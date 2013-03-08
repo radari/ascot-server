@@ -688,10 +688,9 @@ div.autocomplete div.selection {
 	margin-top: 40px;
 }
 
-div.list_header {
+.list_header {
   width: 100%;
-  text-align: center;
-  font-size: 18pt;
+  border-bottom:1px #7B7979 solid;
   font-weight: 400;
   margin: 10px;
 }
@@ -699,16 +698,18 @@ div.list_header {
 div.sort_sub_header {
   width: 100%;
   text-align: center;
-  font-size: 14pt;
+  font-size: 16px;
   margin: 10px;
 }
 
 div.sort_sub_header a {
-  margin-left: 10px;
+  margin-left: 0px;
+  border:1px transparent solid;
 }
 
 a.currentSort {
-  font-weight: bold;
+  font-weight: 400;
+  color:#b54e37;
 }
 
 .howToTitle {
