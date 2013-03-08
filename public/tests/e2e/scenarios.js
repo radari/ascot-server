@@ -3,38 +3,6 @@
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
 describe('Ascot Project', function() {
-  describe('Ascot plugin', function() {
-    beforeEach(function() {
-      browser().navigateTo('/samples/no_launcher.html');
-    });
-
-    it('should display tags and image menu', function() {
-      sleep(1);
-      expect(repeater('.ascot_overlay_tag_container').count()).toBe(4);
-      expect(element('.ascot_overlay_menu_wrapper:nth-child(1)').html()).not().toBe('');
-      expect(element('.ascot_overlay_tag_container:nth-child(3) .ascot_overlay_tag_name').html()).toBe('1');
-      expect(element('.ascot_overlay_tag_container:nth-child(4) .ascot_overlay_tag_name').html()).toBe('2');
-      expect(element('.ascot_overlay_tag_container:nth-child(5) .ascot_overlay_tag_name').html()).toBe('3');
-      expect(element('.ascot_overlay_tag_container:nth-child(6) .ascot_overlay_tag_name').html()).toBe('4');
-    });
-
-    it('should display tag descriptions on hover', function() {
-      sleep(1);
-      element('.ascot_overlay_tag_container:nth-child(3)').mouseover();
-      sleep(0.5);
-      expect(element('.ascot_overlay_tag_container:nth-child(3) .ascot_overlay_tag_description').css('display')).toBe('block');
-      expect(element('.ascot_overlay_tag_container:nth-child(4) .ascot_overlay_tag_description').css('display')).toBe('none');
-      expect(element('.ascot_overlay_tag_container:nth-child(5) .ascot_overlay_tag_description').css('display')).toBe('none');
-      expect(element('.ascot_overlay_tag_container:nth-child(6) .ascot_overlay_tag_description').css('display')).toBe('none');
-      element('.ascot_overlay_tag_container:nth-child(3)').mouseout();
-      sleep(0.5);
-      expect(element('.ascot_overlay_tag_container:nth-child(3) .ascot_overlay_tag_description').css('display')).toBe('none');
-      expect(element('.ascot_overlay_tag_container:nth-child(4) .ascot_overlay_tag_description').css('display')).toBe('none');
-      expect(element('.ascot_overlay_tag_container:nth-child(5) .ascot_overlay_tag_description').css('display')).toBe('none');
-      expect(element('.ascot_overlay_tag_container:nth-child(6) .ascot_overlay_tag_description').css('display')).toBe('none');
-    });
-  });
-
   describe('Tagger functionality', function() {
     beforeEach(function() {
       browser().navigateTo('/upload');

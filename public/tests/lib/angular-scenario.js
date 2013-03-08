@@ -24100,7 +24100,7 @@ function browserTrigger(element, type, keys) {
         finalProcessDefault;
 
     // igor: temporary fix for https://bugzilla.mozilla.org/show_bug.cgi?id=684208
-    appWindow.angular['ff-684208-preventDefault'] = false;
+    //appWindow.angular['ff-684208-preventDefault'] = false;
     evnt.preventDefault = function() {
       fakeProcessDefault = false;
       return originalPreventDefault.apply(evnt, arguments);
@@ -24110,9 +24110,9 @@ function browserTrigger(element, type, keys) {
                         pressed('shift'), pressed('meta'), 0, element);
 
     element.dispatchEvent(evnt);
-    finalProcessDefault = !(appWindow.angular['ff-684208-preventDefault'] || !fakeProcessDefault);
+    finalProcessDefault = fakeProcessDefault;
 
-    delete appWindow.angular['ff-684208-preventDefault'];
+    //delete appWindow.angular['ff-684208-preventDefault'];
 
     return finalProcessDefault;
   }
