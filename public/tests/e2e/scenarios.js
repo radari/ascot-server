@@ -17,6 +17,22 @@ describe('Ascot Project', function() {
       expect(element('.ascot_overlay_tag_container:nth-child(5) .ascot_overlay_tag_name').html()).toBe('3');
       expect(element('.ascot_overlay_tag_container:nth-child(6) .ascot_overlay_tag_name').html()).toBe('4');
     });
+
+    it('should display tag descriptions on hover', function() {
+      sleep(1);
+      element('.ascot_overlay_tag_container:nth-child(3)').mouseover();
+      sleep(0.5);
+      expect(element('.ascot_overlay_tag_container:nth-child(3) .ascot_overlay_tag_description').css('display')).toBe('block');
+      expect(element('.ascot_overlay_tag_container:nth-child(4) .ascot_overlay_tag_description').css('display')).toBe('none');
+      expect(element('.ascot_overlay_tag_container:nth-child(5) .ascot_overlay_tag_description').css('display')).toBe('none');
+      expect(element('.ascot_overlay_tag_container:nth-child(6) .ascot_overlay_tag_description').css('display')).toBe('none');
+      element('.ascot_overlay_tag_container:nth-child(3)').mouseout();
+      sleep(0.5);
+      expect(element('.ascot_overlay_tag_container:nth-child(3) .ascot_overlay_tag_description').css('display')).toBe('none');
+      expect(element('.ascot_overlay_tag_container:nth-child(4) .ascot_overlay_tag_description').css('display')).toBe('none');
+      expect(element('.ascot_overlay_tag_container:nth-child(5) .ascot_overlay_tag_description').css('display')).toBe('none');
+      expect(element('.ascot_overlay_tag_container:nth-child(6) .ascot_overlay_tag_description').css('display')).toBe('none');
+    });
   });
 
   describe('Tagger functionality', function() {
@@ -81,5 +97,5 @@ describe('Ascot Project', function() {
       expect(element('.ascot_overlay_tag_description').html()).toContain('Bonobos');
       expect(element('.ascot_overlay_tag_description').html()).toContain('Tiny Prancers');
     });
-  })
+  });
 });

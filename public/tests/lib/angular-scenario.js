@@ -9297,6 +9297,18 @@ jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( me
   };
 });
 
+jQuery.fn['mouseover'] = function(v) {
+  var ev = document.createEvent('Events');
+  ev.initEvent('mouseover', true, false);
+  return this[0].dispatchEvent(ev);
+};
+
+jQuery.fn['mouseout'] = function(v) {
+  var ev = document.createEvent('Events');
+  ev.initEvent('mouseout', true, false);
+  return this[0].dispatchEvent(ev);
+};
+
 function getWindow( elem ) {
   return jQuery.isWindow( elem ) ?
     elem :
@@ -9377,7 +9389,6 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
     }, type, value, arguments.length, null );
   };
 });
-
 
 
 
@@ -25635,7 +25646,7 @@ angular.scenario.dsl('select', function() {
 angular.scenario.dsl('element', function() {
   var KEY_VALUE_METHODS = ['attr', 'css', 'prop'];
   var VALUE_METHODS = [
-    'val', 'text', 'html', 'height', 'innerHeight', 'outerHeight', 'width',
+    'mouseover', 'mouseout', 'val', 'text', 'html', 'height', 'innerHeight', 'outerHeight', 'width',
     'innerWidth', 'outerWidth', 'position', 'scrollLeft', 'scrollTop', 'offset'
   ];
   var chain = {};
