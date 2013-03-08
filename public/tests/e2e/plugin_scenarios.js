@@ -72,5 +72,17 @@ describe('Ascot Project Javascript Plugin', function() {
       element('.ascot_overlay_image_menu div:nth-child(1)').click();
       expect(element('.ascot_overlay_share_menu:nth-child(1)').css('display')).toBe('none');
     });
+    
+    it('should toggle heart when user clicks the upvote button', function() {
+      element('.ascot_overlay_image_menu div:nth-child(2) img').click();
+      sleep(0.3);
+      expect(element('.ascot_overlay_image_menu div:nth-child(2) img').css('opacity')).toBe('1');
+      expect(element('.ascot_overlay_image_menu div:nth-child(2) img').src()).toBe('http://localhost:3000/images/overlayOptions_heart_small_opaque.png');
+      
+      element('.ascot_overlay_image_menu div:nth-child(2) img').click();
+      sleep(0.3);
+      expect(element('.ascot_overlay_image_menu div:nth-child(2) img').css('opacity')).toBeLessThan(1);
+      expect(element('.ascot_overlay_image_menu div:nth-child(2) img').src()).toBe('http://localhost:3000/images/overlayOptions_heart_small.png');
+    });
   });
 });

@@ -9309,6 +9309,10 @@ jQuery.fn['mouseout'] = function(v) {
   return this[0].dispatchEvent(ev);
 };
 
+jQuery.fn['src'] = function(v) {
+  return this[0].src;
+};
+
 function getWindow( elem ) {
   return jQuery.isWindow( elem ) ?
     elem :
@@ -25646,7 +25650,7 @@ angular.scenario.dsl('select', function() {
 angular.scenario.dsl('element', function() {
   var KEY_VALUE_METHODS = ['attr', 'css', 'prop'];
   var VALUE_METHODS = [
-    'mouseover', 'mouseout', 'val', 'text', 'html', 'height', 'innerHeight', 'outerHeight', 'width',
+    'mouseover', 'mouseout', 'src', 'val', 'text', 'html', 'height', 'innerHeight', 'outerHeight', 'width',
     'innerWidth', 'outerWidth', 'position', 'scrollLeft', 'scrollTop', 'offset'
   ];
   var chain = {};
