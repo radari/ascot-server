@@ -22,12 +22,13 @@ block content
     p.title Title
     input(type="text", 
           placeholder="",
-          id="titleField"
+          id="titleField",
+          ng-autofocus="true",
           ng-model="idsToLooks['#{look._id}'].title")
     p.title Source
     input(type="text", 
           placeholder="",
-          id="sourceField"
+          id="sourceField",
           ng-model="idsToLooks['#{look._id}'].source")     
     h2.info Click on the image to add tags. Double click to delete. 
 

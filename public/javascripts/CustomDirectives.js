@@ -52,4 +52,10 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
       scope.$apply();
     });
   };
+}).directive('ngAutofocus', function() {
+  return function(scope, elm, attrs) {
+    if(scope.$eval(attrs.ngAutofocus)) {
+      elm.focus();
+    }
+  }
 });
