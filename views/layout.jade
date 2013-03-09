@@ -73,13 +73,15 @@ html(ng-app='AscotModule')
             ng-model='mainSearch',
             ng-change='updateResults()'
             placeholder="brand or keywords",
+            ng-focus="autocomplete.show('MAIN')",
+            ng-blur="autocomplete.hide('MAIN')",
             ng-directional="true",
             ng-key-up="autocomplete.prevSelection('MAIN');",
             ng-key-down="autocomplete.nextSelection('MAIN');",
             ng-key-return="onSelected(autocomplete.getSelected('MAIN'));")
       span#glass 
         i
-      div.autocomplete
+      div.autocomplete(ng-show="autocomplete.show['MAIN']")
         div(ng-repeat='result in autocomplete.results["MAIN"]',
             ng-class="autocomplete.checkSelection('MAIN', $index)",
             ng-mouseover='autocomplete.setSelection("MAIN", $index)',
