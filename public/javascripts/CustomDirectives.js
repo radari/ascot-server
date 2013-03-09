@@ -38,4 +38,18 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
       scope.$apply(attr.ngImagesLoaded);
     });
   };
+}).directive('ngFocus', function() {
+  return function(scope, elm, attrs) {
+    elm.bind('focus', function() {
+      scope.$eval(attrs.ngFocus);
+      scope.$apply();
+    });
+  };
+}).directive('ngBlur', function() {
+  return function(scope, elm, attrs) {
+    elm.bind('blur', function() {
+      scope.$eval(attrs.ngBlur);
+      scope.$apply();
+    });
+  };
 });

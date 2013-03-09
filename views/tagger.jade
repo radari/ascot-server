@@ -54,14 +54,15 @@ block content
             img(src='/images/taggerPrompt.png', id='prompt')
 
           div#overlay(ng-show="isEdittingTag(look)",
-                      ng-style="computeEditTagOverlayDisplayPosition(look)",
-                      ng-click="autocomplete.hide('BRAND'); autocomplete.hide('NAME');")
+                      ng-style="computeEditTagOverlayDisplayPosition(look)")
             input.tagger_input( type="text",
                                 id="brandInput",
                                 placeholder="Brand (e.g. Bonobos)",
                                 ng-change="autocomplete.updateResults('BRAND', idsToEditTag[look].product.brand)"
                                 ng-model="idsToEditTag[look].product.brand",
                                 ng-directional="true",
+                                ng-focus="autocomplete.show('BRAND')",
+                                ng-blur="autocomplete.hide('BRAND')",
                                 ng-key-up="autocomplete.prevSelection('BRAND');",
                                 ng-key-down="autocomplete.nextSelection('BRAND');",
                                 ng-key-return="idsToEditTag[look].product.brand = autocomplete.getSelected('BRAND'); autocomplete.hide('BRAND');")
@@ -77,6 +78,8 @@ block content
                                 placeholder="Name (e.g. Jet Blues - Boot Cut)",
                                 ng-change="autocomplete.updateResults('NAME', idsToEditTag[look].product.name)",
                                 ng-model="idsToEditTag[look].product.name",
+                                ng-focus="autocomplete.show('NAME')",
+                                ng-blur="autocomplete.hide('NAME')",
                                 ng-directional="true",
                                 ng-key-up="autocomplete.prevSelection('NAME');",
                                 ng-key-down="autocomplete.nextSelection('NAME');",
