@@ -31,6 +31,10 @@
   font-size: 14px;
 }
 
+.ascot_overlay {
+  
+}
+
 .ascot_overlay_look .ascot_overlay_look img {
   position:absolute;
   vertical-align: top;
@@ -61,7 +65,7 @@
   height:62px;
   width:28px;
   position: absolute;
-  top: 5px;
+  top: 10px;
   right: 0px;
   z-index:500;
   padding: 0px;
@@ -120,6 +124,7 @@
   -webkit-box-shadow: none;
 }
 
+/* this controls the position of the share menu wrapper within the look. this is for the pinterest, tumblr, etc not the like/share menu*/
 .ascot_overlay_look .ascot_overlay_share_menu {
   position: absolute;
   width:102px;
@@ -127,7 +132,7 @@
   border:1px white solid;
   right:50px;
   background-color:#323232;
-  top:5px;
+  top:10px;
   border-radius: 4px;
   -moz-border-radius:4px;
   -webkit-border-radius:4px;

@@ -249,6 +249,11 @@ function initAscotPlugin($, tagSourceUrl) {
         event.preventDefault();
         overlay.toggle("slide", { direction: "left" }, 500, function(){});
       });
+
+     //  wrapper.hover(function(event) {
+       // event.preventDefault();
+      //  overlay.toggle("slow", function(){});
+      //});
               
       $.each(json.tags, function(i, tag) {
         var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");
