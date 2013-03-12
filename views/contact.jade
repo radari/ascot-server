@@ -1,12 +1,15 @@
 extends layout
 
 block content
-	h2 Contact Ascot
-	#contact 
-		| We love hearing from our users and anyone in the fashion community. We especially would love to hear if there are bugs on our site we should know about. Shoot us an email at 
-		a.contact(href="a href=mailto:team@ascotproject.com") team@ascotproject.com 
-		|If that's not enough, you can contact us on 
-		a.contact(href="http://ascotproject.tumblr.com/") tumblr, &nbsp;
-		a.contact(href="http://facebook.com/ascotproject") facebook, &nbsp;
-		| and &nbsp;
-		a.contact(href="h") twitter &nbsp;
+  h2 Contact Ascot
+  #contact 
+    | We love hearing from our users and anyone in the fashion community.
+    | We especially would love to hear if there are bugs on our site we should know about. 
+    | Shoot us an email at 
+    a.contact(href="mailto:team@ascotproject.com", target="_blank") team@ascotproject.com 
+    | If that's not enough, you can contact us on 
+    a.contact(href="http://ascotproject.tumblr.com/", target="_blank") tumblr
+    | , 
+    a.contact(href="http://facebook.com/ascotproject", target="_blank") facebook
+    | , and 
+    a.contact(href="https://twitter.com/AscotProject", target="_blank") twitter 
