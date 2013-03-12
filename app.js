@@ -81,6 +81,8 @@ app.get('/privacy', routes.privacy);
 app.get('/howto/websites', routes.websites);
 app.get('/howto/planB', routes.planB);
 app.get('/howto/guidelines', routes.guidelines);
+app.get('/security', routes.security);
+
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'));
 

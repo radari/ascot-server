@@ -45,3 +45,7 @@ exports.planB = function(req, res) {
 exports.guidelines = function(req, res) {
   res.render('guidelines', { title : 'Tagging Guidelines' });
 };
+
+exports.security = function(req, res) {
+  res.render('security', {title: 'Security'});
+}
