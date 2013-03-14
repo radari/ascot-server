@@ -12,6 +12,11 @@ extends layout
 prepend head
   script(src="/javascripts/controllers/TaggerViewController.js")
   script(src="/javascripts/adjust_wrappers.js")
+  script(type="text/javascript")
+    $(document).ready(function() {
+      $('#look').mousedown(function(e) { e.preventDefault(); });
+    });
+
   link(rel='stylesheet', href='/stylesheets/taggerPut.css')
 
 block content
@@ -34,7 +39,8 @@ block content
 
     div.look-container
       div#look
-        div.magicdiv(style="position: relative")
+        div.magicdiv( style="position: relative",
+                      ng-style="{ 'cursor' : isDraggingTag(look, 'move', '') }")
           img(src="#{look.url}",
               class="uploadedImg",
               ascot_id="#{look._id}",
@@ -43,7 +49,7 @@ block content
               ng-click="addTag(look, $event.pageX, $event.pageY)",
               ng-mousemove="updateDraggingTagPosition(look, $event.pageX, $event.pageY)")
           div.item(ng-repeat="tag in idsToLooks[look].tags",
-                   ng-style="{ position : 'absolute', left : computeTagDisplayPosition(look, tag).x + 'px', top : computeTagDisplayPosition(look, tag).y + 'px' }",
+                   ng-style="{ cursor : isDraggingTag(look, 'move', 'pointer'), position : 'absolute', left : computeTagDisplayPosition(look, tag).x + 'px', top : computeTagDisplayPosition(look, tag).y + 'px' }",
                    ng-dblclick="deleteTag(look, tag)",
                    ng-click="startEdittingTag(look, tag)",
                    ng-mousedown="startDraggingTag(look, tag)",

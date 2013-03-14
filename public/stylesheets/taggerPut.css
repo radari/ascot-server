@@ -11,6 +11,10 @@ h2 {
 width:100%;
 padding-bottom:20px;
 overflow:hidden;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .save_button {
@@ -126,7 +130,6 @@ box-shadow: 0px 0px 6px rgba(50, 50, 50, 0.75);
   opacity:1;
   height:15px;
   width:15px;
-  cursor:pointer;
 }
 
 .item-description{
@@ -159,6 +162,10 @@ box-shadow: 0px 0px 6px rgba(50, 50, 50, 0.75);
   -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
   z-index:10;
   text-align: center;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 div.tagger_autocomplete {

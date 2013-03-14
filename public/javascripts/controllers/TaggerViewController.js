@@ -174,11 +174,15 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
 
   $scope.startDraggingTag = function(id, tag) {
     $scope.idsToDraggingTag[id] = tag;
-  }
+  };
   
   $scope.finishDraggingTag = function(id, tag) {
     $scope.idsToDraggingTag[id] = null;
-  }
+  };
+
+  $scope.isDraggingTag = function(id, t, f) {
+    return $scope.idsToDraggingTag[id] != null ? (t || true) : (f || false);
+  };
 
   // Update tag thats currently being editted's position
   $scope.updateDraggingTagPosition = function(id, pageX, pageY) {
