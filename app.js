@@ -33,6 +33,9 @@ var db = Mongoose.createConnection('localhost', 'ascot');
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
+var UserSchema = require('./models/User.js').UserSchema;
+var User = db.model('users', UserSchema);
+
 // configure passport for user auth
 passport.use(new LocalStrategy(authenticate.localStrategy));
 passport.serializeUser(authenticate.serializeUser);
