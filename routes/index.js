@@ -46,6 +46,6 @@ exports.guidelines = function(req, res) {
   res.render('guidelines', { title : 'Tagging Guidelines' });
 };
 
-exports.security = function(req, res) {
-  res.render('security', {title: 'Security'});
+exports.disclosures = function(req, res) {
+  res.render('disclosures', {title: 'disclosures'});
 }
