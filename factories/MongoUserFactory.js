@@ -31,4 +31,40 @@ exports.MongoUserFactory = function(User, Password) {
       }
     });
   };
+
+  this.findByUsername = function(username, callback) {
+    User.findOne({ username : username }, function(error, user) {
+      if (error || !user) {
+        callback({ error : 'User not found' }, null);
+      } else {
+        callback(null, user);
+      }
+    });
+  };
+
+  this.findById = function(id, callback) {
+    User.findOne({ _id : id }, function(error, user) {
+      if (error || !user) {
+        callback({ error : 'User not found' }, null);
+      } else {
+        callback(null, user);
+      }
+    });
+  };
+
+  // Note - this returns user WITH password populated, be careful with this one
+  this.authenticatePassword = function(username, password, callback) {
+    console.log('c ' + username + ' ' + password);
+    User.
+        findOne({ username : username }).
+        populate('password').exec(function(error, user) {
+          if (error || !user) {
+            callback({ error : 'User not found' }, null);
+          } else if (password.toString() == user.password.pw.toString()) {
+            callback(null, user);
+          } else {
+            callback({ error : 'Password incorrect' }, null);
+          }
+        });
+  };
 };

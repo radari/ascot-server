@@ -45,9 +45,10 @@ var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFacto
 var mongoUserFactory = new MongoUserFactory(User, Password);
 
 // configure passport for user auth
-passport.use(new LocalStrategy(authenticate.localStrategy));
-passport.serializeUser(authenticate.serializeUser);
-passport.deserializeUser(authenticate.deserializeUser);
+var strategy = authenticate.strategyFactory(mongoUserFactory);
+passport.use(new LocalStrategy(strategy.localStrategy));
+passport.serializeUser(strategy.serializeUser);
+passport.deserializeUser(strategy.deserializeUser);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -134,7 +135,7 @@ app.get('/logout', authenticate.logout);
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
   function(req, res) {
-    res.redirect('/admin');
+    res.redirect('/hi');
   }
 );
 
