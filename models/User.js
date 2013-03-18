@@ -20,5 +20,8 @@ exports.UserSchema = new Mongoose.Schema({
       enabled : { type : Boolean, default : true },
       key : { type : String, default : "" }
     }
-  }
+  },
+  // List of looks this user has permission to tag
+  looks : [{ type : Mongoose.Schema.ObjectId, ref : 'looks' }],
+  favorites : [{ type : Mongoose.Schema.ObjectId, ref : 'looks' }]
 });

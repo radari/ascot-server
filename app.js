@@ -25,6 +25,8 @@ var express = require('express')
 
 
 var app = express();
+
+// Set up Mongoose / MongoDB interfaces
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
 
 var Mongoose = require('mongoose');
@@ -35,6 +37,12 @@ var Look = db.model('looks', LookSchema);
 
 var UserSchema = require('./models/User.js').UserSchema;
 var User = db.model('users', UserSchema);
+
+var PasswordSchema = require('./models/Password.js').PasswordSchema;
+var Password = db.model('passwords', PasswordSchema);
+
+var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFactory;
+var mongoUserFactory = new MongoUserFactory(User, Password);
 
 // configure passport for user auth
 passport.use(new LocalStrategy(authenticate.localStrategy));
