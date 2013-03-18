@@ -62,9 +62,12 @@ html(ng-app='AscotModule')
           a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}")
             h3 Looks
             p See images that have already been tagged.  
-
+        li
+          a(href="/all", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}")
+            h3 Login
+            p Login to your ascot account to see your tagged images. 
       br
-      img#bottomStripe(src='/images/bottomStripe_short.png', id:'stripe')
+      img#bottomStripe(src='/images/bottomStripe_long.png', id:'stripe')
 
       br 
       input(type='text',

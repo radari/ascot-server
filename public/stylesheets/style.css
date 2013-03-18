@@ -177,9 +177,9 @@ a:visited {
 #nav {
   padding:0;
   top:28px;
-  width:330px;
+  width:460px;
   position:relative;
-  left:650px;
+  left:550px;
   margin-bottom:10px;
   right:0;
   overflow:auto;
@@ -299,6 +299,7 @@ h1, h2 {
 
 #nav li:nth-child(3) {
   margin-right:0;
+  width:80px;
 }
 
 #nav a:hover {
@@ -763,4 +764,18 @@ a.contact:visited{
   width:449px;
   left:0;
   right:0;
+}
+
+#loginForm {
+}
+
+#loginForm input {
+  height:20px;
+  font-size:100%;
+  margin:5px;
+  padding:5px;
+  border: 1px #666 solid;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
 }
