@@ -1,13 +1,12 @@
 form(action='/login', method='post', id="loginForm")
+  div
+    input(type='text', name='username', placeholder="username", id="username")
+    div      
+      input(type='password', name='password', placeholder="password")
     div
-        
-        input(type='text', name='username', placeholder="username", autofocus, id="username")
-      div      
-        input(type='password', name='password', placeholder="password")
-      div
-        input(type='text', name='password', placeholder="email", id='pickEmail')
-br
-div.signInOptions
+      input(type='text', name='password', placeholder="email", id='pickEmail')
+  br
+  div.signInOptions
     input.hideMe(type='submit', value='Sign In',id='signIn')
     input.hideMe(type='submit', value='Sign Up', id='signUp')
     input(type='submit', value='Create Account', id='createAccount')
