@@ -47,3 +47,19 @@ exports.ensureAuthenticated = function(req, res, next) {
     res.redirect('/login');
   }
 };
+
+exports.administratorValidator = function(Administrator) {
+  return function(req, res, next) {
+    if (req.isAuthenticated()) {
+      Administrator.findOne({ user : req.user._id }, function(error, admin) {
+        if (error || !admin) {
+          res.redirect('/login');
+        } else {
+          return next();
+        }
+      });
+    } else {
+      res.redirect('/login');
+    }
+  };
+};

@@ -41,8 +41,13 @@ var User = db.model('users', UserSchema);
 var PasswordSchema = require('./models/Password.js').PasswordSchema;
 var Password = db.model('passwords', PasswordSchema);
 
+var AdministratorSchema = require('./models/Administrator.js').AdministratorSchema;
+var Administrator = db.model('passwords', AdministratorSchema);
+
 var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFactory;
 var mongoUserFactory = new MongoUserFactory(User, Password);
+
+var administratorValidator = authenticate.administratorValidator(Administrator);
 
 // configure passport for user auth
 var strategy = authenticate.strategyFactory(mongoUserFactory);
@@ -103,6 +108,7 @@ app.get('/look/:id', look.get(mongoLookFactory));
 app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
 app.put('/look/:id/published',
     authenticate.ensureAuthenticated,
+    administratorValidator,
     look.updatePublishedStatus(mongoLookFactory));
 
 app.get('/tagger/:key/:look', tagger.get(mongoLookFactory));
@@ -139,7 +145,10 @@ app.post('/login',
   }
 );
 
-app.get('/admin', authenticate.ensureAuthenticated, admin.index);
+app.get('/admin',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  admin.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));
