@@ -884,6 +884,15 @@ a.contact:visited{
   right:0;
 }
 
+.loginError {
+  margin: auto;
+  width: 270px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #822816;
+  text-align: center;
+}
+
 #loginForm {
   position:relative;
   margin:auto;

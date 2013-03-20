@@ -19,6 +19,7 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , gm = require('gm')
+  , flash = require('connect-flash')
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
@@ -69,6 +70,9 @@ app.configure(function(){
   app.use(express.session({ secret: 'LS295K8NO2O2l8' }));
   app.use(passport.initialize());
   app.use(passport.session());
+  
+  // For req.flash
+  app.use(flash());
   
   app.use(function(req, res, next) {
     // Expose URL relative to root in views

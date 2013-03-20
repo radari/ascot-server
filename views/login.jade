@@ -11,3 +11,7 @@ block content
   h2.signupHead Create an Ascot Account
   br
   include partials/_login.jade
+  br
+  - if (message)
+    div.loginError
+      | #{message}

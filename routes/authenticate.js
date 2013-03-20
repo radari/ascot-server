@@ -1,7 +1,7 @@
 /**
  *  authenticate.js
  *
- *  Created on: February 10, 2012
+ *  Created on: February 10, 2013
  *      Author: Matt Green
  *
  *  Methods for dealing with user authentication
@@ -10,7 +10,7 @@
 
 
 exports.login = function(req, res) {
-  res.render('login', { title : 'Ascot :: Login' });
+  res.render('login', { title : 'Ascot :: Login', message : req.flash('error') });
 };
 
 exports.logout = function(req, res){
@@ -24,7 +24,7 @@ exports.strategyFactory = function(mongoUserFactory) {
       mongoUserFactory.authenticatePassword(username, password, function(error, user) {
         if (error || !user) {
           console.log('FAILED ' + JSON.stringify(error));
-          return done({ error : error }, false, { message : error });
+          return done(null, false, { message : error.error });
         } else {
           console.log('LOGGED IN');
           return done(null, user);
