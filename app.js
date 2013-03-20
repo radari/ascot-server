@@ -13,6 +13,7 @@ var express = require('express')
   , product = require('./routes/product.js')
   , authenticate = require('./routes/authenticate.js')
   , admin = require('./routes/admin.js')
+  , user = require('./routes/user.js')
 
   , http = require('http')
   , httpGet = require('http-get')
@@ -146,13 +147,14 @@ app.get('/login', authenticate.login);
 app.get('/logout', authenticate.logout);
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
-  function(req, res) {
-    res.redirect('/hi');
-  }
+  authenticate.onSuccessfulLogin
 );
 
 // registration
 app.post('/register', authenticate.createUser(mongoUserFactory));
+
+// Authed routes for users
+app.get('/home', authenticate.ensureAuthenticated, user.home);
 
 app.get('/admin',
   authenticate.ensureAuthenticated,

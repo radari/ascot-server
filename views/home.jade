@@ -1,0 +1,20 @@
+-#
+-# home.jade
+-#
+-# Created on: March 20, 2013
+-#     Author: Valeri Karpov
+-#
+-# View that user sees when they first log in
+-#
+
+extends layout
+
+block content
+  div
+    | Welcome #{user.username}
+  br
+  a(href='/looks') My Looks
+  br
+  a(href='/favorites') My Favorites
+  br
+  a(href='/settings') My Settings

@@ -36,6 +36,10 @@ exports.createUser = function(mongoUserFactory) {
   };
 };
 
+exports.onSuccessfulLogin = function(req, res) {
+  res.redirect('/home');
+};
+
 exports.strategyFactory = function(mongoUserFactory) {
   return {
     localStrategy : function(username, password, done) {
