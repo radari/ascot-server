@@ -13,7 +13,8 @@ $(document).ready(function () {
 $(document).ready(function() {
   $('form.register').hide();
 	$("#signUp").click(
-		function() {
+		function(event) {
+		  event.preventDefault();
 			$('form.login').fadeOut(10);
 			$('form.register').fadeIn(500);
 		});

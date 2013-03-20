@@ -651,7 +651,6 @@ font-size:14px;
   margin-right:5px;
   width:145px;
   cursor:pointer;
-  display:none;
 }
 
 .customUpload:hover {
@@ -893,7 +892,7 @@ a.contact:visited{
   text-align: center;
 }
 
-#loginForm {
+.loginForm {
   position:relative;
   margin:auto;
   right:0;
@@ -901,7 +900,7 @@ a.contact:visited{
   width:270px;
 }
 
-#loginForm input[type=text], #loginForm input[type=password] {
+.loginForm input[type=text], .loginForm input[type=password] {
   height:20px;
   font-size:100%;
   margin:5px;
@@ -925,10 +924,5 @@ width:250px;
   right:0;
   left:0;
   width:230px;
-  display:none;
-}
-
-
-#pickEmail {
   display:none;
 }
