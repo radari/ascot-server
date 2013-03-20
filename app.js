@@ -79,6 +79,8 @@ app.configure(function(){
     res.locals.url = req.url;
     // Expose query params
     res.locals.query = req.query;
+    // Expose user
+    res.locals.user = req.user;
     next();
   });
   
@@ -148,6 +150,9 @@ app.post('/login',
     res.redirect('/hi');
   }
 );
+
+// registration
+app.post('/register', authenticate.createUser(mongoUserFactory));
 
 app.get('/admin',
   authenticate.ensureAuthenticated,

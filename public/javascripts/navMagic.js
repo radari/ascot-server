@@ -11,13 +11,10 @@ $(document).ready(function () {
 });
 
 $(document).ready(function() {
+  $('form.register').hide();
 	$("#signUp").click(
 		function() {
-			$('#pickEmail').fadeIn(500);
-			$('.loginHead').fadeOut(10);
-			$('.signupHead').fadeIn(500);
-			$('.hideMe').fadeOut(10);
-			$('#createAccount').fadeIn(500);
-			$('#loginForm').find('#username').focus();
+			$('form.login').fadeOut(10);
+			$('form.register').fadeIn(500);
 		});
 });

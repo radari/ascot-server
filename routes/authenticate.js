@@ -18,6 +18,24 @@ exports.logout = function(req, res){
   res.redirect('/');
 };
 
+exports.createUser = function(mongoUserFactory) {
+  return function(req, res) {
+    mongoUserFactory.newUser(
+        req.body["username"],
+        req.body["email"],
+        req.body["password"],
+        function(error, user) {
+          if (error || !user) {
+            req.flash('error', error.error);
+            res.redirect('/login');
+          } else {
+            req.flash('error', 'Registration successful. Please log in');
+            res.redirect('/login');
+          }
+        });
+  };
+};
+
 exports.strategyFactory = function(mongoUserFactory) {
   return {
     localStrategy : function(username, password, done) {

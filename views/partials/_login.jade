@@ -1,4 +1,4 @@
-form(action='/login', method='post', id="loginForm")
+form.login(action='/login', method='post', id="loginForm")
   div
     input(type='text', name='username', placeholder="username", id="username")
     div      
@@ -7,8 +7,18 @@ form(action='/login', method='post', id="loginForm")
       input(type='text', name='email', placeholder="email", id='pickEmail')
   br
   div.signInOptions
-    input.hideMe(type='submit', value='Sign In',id='signIn')
-    input.hideMe(type='submit', value='Sign Up', id='signUp')
+    input(type='submit', value='Sign In',id='signIn')
+input(type='submit', value='Sign Up', id='signUp')
+
+form.register(action='/login', method='post', id="registerForm")
+  div
+    input(type='text', name='username', placeholder="username", id="username")
+    div
+      input(type='text', name='email', placeholder="email", id='pickEmail')
+    div      
+      input(type='password', name='password', placeholder="password")
+  br
+  div.signInOptions
     input(type='submit', value='Create Account', id='createAccount')
 
 

@@ -12,5 +12,5 @@
 var Mongoose = require('mongoose');
 
 exports.PasswordSchema = new Mongoose.Schema({
-  pw : { type : String }
+  pw : { type : String, validator : /.+/ }
 });
