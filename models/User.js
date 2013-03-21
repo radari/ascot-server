@@ -18,7 +18,8 @@ exports.UserSchema = new Mongoose.Schema({
   affiliates : {
     shopsense : {
       enabled : { type : Boolean, default : true },
-      key : { type : String, default : "" }
+      // Shopsense key. By default Ascot Project's
+      key : { type : String, default : "uid4336-13314844-31" }
     }
   },
   // List of looks this user has permission to tag
