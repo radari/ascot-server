@@ -25,15 +25,17 @@ exports.get = function(mongoLookFactory) {
       } else if (!look) {
         res.jsonp({});
       } else {
-        var hasUpvotedCookie = false;
-        if (look._id in upvotedMap) {
-          hasUpvotedCookie = true;
+        var favorited = false;
+        if (req.user && look._id in req.user.favorites) {
+          favorited = true;
+        } else if (look._id in upvotedMap) {
+          favorited = true;
         }
 
         ++look.numViews;
         
         look.save(function(error, look) {
-          res.jsonp({ look : look, hasUpvotedCookie : hasUpvotedCookie });
+          res.jsonp({ look : look, hasUpvotedCookie : favorited });
         });
       }
     });

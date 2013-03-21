@@ -406,24 +406,46 @@ exports.upvote = function(mongoLookFactory) {
         res.jsonp({ error : 'Invalid look' });
       } else {
         var upvotedMap = req.cookies ? req.cookies.upvotes || {} : {};
-        if (req.params.id in upvotedMap) {
-          delete upvotedMap[req.params.id];
-          --look.numUpVotes;
-          look.save(function(error, look) {
-            res.cookie('upvotes', upvotedMap, { maxAge : 900000, httpOnly : false });
-            res.jsonp({ remove : true });
-          });
+        if (req.user) {
+          if (look._id in req.user.favorites) {
+            --look.numUpVotes;
+            look.save(function(error, look) {
+              req.user.favorites.remove(look._id);
+              req.user.save(function(error, user) {
+                // Assume success
+                res.jsonp({ remove : true });
+              });
+            });
+          } else {
+            ++look.numUpVotes;
+            look.save(function(error, look) {
+              req.user.favorites.push(look._id);
+              req.user.save(function(error, user) {
+                // Assume success
+                res.jsonp({ add : true });
+              });
+            });
+          }
         } else {
-          ++look.numUpVotes;
-          look.save(function(error, look) {
-            if (error || !look) {
-              res.jsonp({ error : 'Failed to upvote look' });
-            } else {
-              upvotedMap[req.params.id] = true;
+          if (req.params.id in upvotedMap) {
+            delete upvotedMap[req.params.id];
+            --look.numUpVotes;
+            look.save(function(error, look) {
               res.cookie('upvotes', upvotedMap, { maxAge : 900000, httpOnly : false });
-              res.jsonp({ add : true });
-            }
-          });
+              res.jsonp({ remove : true });
+            });
+          } else {
+            ++look.numUpVotes;
+            look.save(function(error, look) {
+              if (error || !look) {
+                res.jsonp({ error : 'Failed to upvote look' });
+              } else {
+                upvotedMap[req.params.id] = true;
+                res.cookie('upvotes', upvotedMap, { maxAge : 900000, httpOnly : false });
+                res.jsonp({ add : true });
+              }
+            });
+          }
         }
       }
     });

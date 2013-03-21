@@ -28,6 +28,8 @@ var express = require('express')
 
 var app = express();
 
+require('./public/common/basic_tools.js');
+
 // Set up Mongoose / MongoDB interfaces
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
 
