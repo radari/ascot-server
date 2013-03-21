@@ -8,7 +8,7 @@ files = [
   'http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.js',
   'vendor/angular/angular-*.js',
   'tests/lib/angular-mocks.js',
-  'javascripts/basic_tools.js',
+  'common/basic_tools.js',
   'javascripts/controllers/TaggerViewController.js',
   'javascripts/controllers/MainSearchBarController.js',
   'javascripts/services/Autocomplete.js',

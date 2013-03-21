@@ -376,9 +376,13 @@ exports.favorites = function(Look) {
     var sortBy = req.query["sortBy"] || "";
 
     var upvotes = [];
-    for (var key in upvotedMap) {
-      if (upvotedMap[key] == true) {
-        upvotes.push(key);
+    if (req.user) {
+      upvotes = req.user.favorites;
+    } else {
+      for (var key in upvotedMap) {
+        if (upvotedMap[key] == true) {
+          upvotes.push(key);
+        }
       }
     }
 
