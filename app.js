@@ -155,9 +155,12 @@ app.post('/login',
 // registration
 app.post('/register', authenticate.createUser(mongoUserFactory));
 
-// Authed routes for users
+// Authenticated displays for users
 app.get('/home', authenticate.ensureAuthenticated, user.home);
 app.get('/settings', authenticate.ensureAuthenticated, user.settings);
+
+// Authenticated functionality for users
+app.put('/user/settings', authenticate.ensureAuthenticated, user.saveSettings);
 
 app.get('/admin',
   authenticate.ensureAuthenticated,

@@ -4,14 +4,22 @@
 -# Created on: March 20, 2013
 -#     Author: Valeri Karpov
 -#
--# View to modify user's settings, mostly changing their affiliate
--# link settings for now 
+-# View to modify users settings, mostly changing their affiliate
+-# link settings for now
 -#
 
 extends layout
 
+prepend head
+  script(src="/javascripts/controllers/SettingsController.js")
+
 block content
-  h1
-    | #{user.username}'s settings
-  div
-    | #{user.affiliates.shopsense.key}
+  div(ng-controller="SettingsController", ng-init="init(#{JSON.stringify(user.settings)})")
+    h1
+      | #{user.username}'s settings
+    div
+      | Automatically convert tagger links to Shopsense links if possible?
+      input(type="checkbox", ng-model="data.affiliates.shopsense.enabled")
+    div(ng-show="data.affiliates.shopsense.enabled")
+      | What is your Shopsense partner id?
+      input(type="text", ng-model="data.affiliates.shopsense.key")

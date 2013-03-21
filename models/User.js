@@ -12,14 +12,17 @@ var Mongoose = require('mongoose');
 
 exports.UserSchema = new Mongoose.Schema({
   username : { type : String, index : { unique : true }, validate : /.+/ },
-  email : { type : String, validate : /.+@.+\..+/ },
-  // See Password.js for description of why this is reference
-  password : { type : Mongoose.Schema.ObjectId, ref : 'passwords' },
-  affiliates : {
-    shopsense : {
-      enabled : { type : Boolean, default : true },
-      // Shopsense key. By default Ascot Project's
-      key : { type : String, default : "uid4336-13314844-31" }
+  // Configurable settings
+  settings : {
+    email : { type : String, validate : /.+@.+\..+/ },
+    // See Password.js for description of why this is reference
+    password : { type : Mongoose.Schema.ObjectId, ref : 'passwords' },
+    affiliates : {
+      shopsense : {
+        enabled : { type : Boolean, default : true },
+        // Shopsense key. By default Ascot Project's
+        key : { type : String, default : "uid4336-13314844-31" }
+      }
     }
   },
   // List of looks this user has permission to tag

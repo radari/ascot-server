@@ -16,8 +16,10 @@ exports.MongoUserFactory = function(User, Password) {
         callback({ error : 'Failed to save password' }, null);
       } else {
         var user = new User({ username : username, 
-                              email : email,
-                              password : password,
+                              settings : {
+                                email : email,
+                                password : password
+                              },
                               looks : [],
                               favorites : [] });
 
@@ -57,10 +59,10 @@ exports.MongoUserFactory = function(User, Password) {
     console.log('c ' + username + ' ' + password);
     User.
         findOne({ username : username }).
-        populate('password').exec(function(error, user) {
+        populate('settings.password').exec(function(error, user) {
           if (error || !user) {
             callback({ error : 'User not found' }, null);
-          } else if (password.toString() == user.password.pw.toString()) {
+          } else if (password.toString() == user.settings.password.pw.toString()) {
             callback(null, user);
           } else {
             callback({ error : 'Password incorrect' }, null);
