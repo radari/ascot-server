@@ -1,0 +1,17 @@
+-#
+-# settings.jade
+-#
+-# Created on: March 20, 2013
+-#     Author: Valeri Karpov
+-#
+-# View to modify user's settings, mostly changing their affiliate
+-# link settings for now 
+-#
+
+extends layout
+
+block content
+  h1
+    | #{user.username}'s settings
+  div
+    | #{user.affiliates.shopsense.key}

@@ -11,3 +11,8 @@
 exports.home = function(req, res) {
   res.render('home', { title : 'Ascot :: ' + req.user.username });
 };
+
+exports.settings = function(req, res) {
+  res.render(
+      'settings', { title : 'Ascot :: ' + req.user.username + '\'s settings'} );
+};
