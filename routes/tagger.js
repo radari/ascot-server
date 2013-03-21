@@ -36,6 +36,22 @@ exports.get = function(mongoLookFactory) {
   };
 };
 
+exports.toShopsense = function(httpGet, url, callback) {
+  var shopsenseQuery =
+      'https://shopsense.shopstyle.com/action/buildDeeplinkURL?url=' +
+      encodeURIComponent(url) +
+      '&ssAjax=1';
+  httpGet.get(shopsenseQuery, function(error, result) {
+    var response = JSON.parse(result.buffer);
+    console.log(JSON.stringify(response));
+    if (response.url) {
+      callback(null, response.url);
+    } else {
+      callback({ error : 'This retailer is not on Shopsense' }, null);
+    }
+  });
+};
+
 /*
  * PUT /tagger/:key/:look
  */
