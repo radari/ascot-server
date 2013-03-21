@@ -16,7 +16,7 @@ prepend head
     // Quick hack to make it so cursor doesn't change to 'text' in
     // Chrome when dragging a tag
     $(document).ready(function() {
-      $('#look').mousedown(function(e) { e.preventDefault(); });
+      document.onselectstart = function(){ return false; }
     });
 
   link(rel='stylesheet', href='/stylesheets/taggerPut.css')
