@@ -15,6 +15,8 @@ var express = require('express')
   , admin = require('./routes/admin.js')
   , user = require('./routes/user.js')
 
+  , affiliates = require('./routes/tools/affiliates.js')
+
   , http = require('http')
   , httpGet = require('http-get')
   , path = require('path')
@@ -52,6 +54,8 @@ var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFacto
 var mongoUserFactory = new MongoUserFactory(User, Password);
 
 var administratorValidator = authenticate.administratorValidator(Administrator);
+
+var shopsense = affiliates.shopsense(httpGet);
 
 // configure passport for user auth
 var strategy = authenticate.strategyFactory(mongoUserFactory);
@@ -138,7 +142,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet));
 
 // Set tags for image
-app.put('/tagger/:key/:look', tagger.put(mongoLookFactory));
+app.put('/tagger/:key/:look', tagger.put(mongoLookFactory, shopsense));
 
 // Upvote image
 // JSONP is only possible through GET, so need to use GET =(

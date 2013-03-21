@@ -15,6 +15,7 @@ exports.UserSchema = new Mongoose.Schema({
   // Configurable settings
   settings : {
     email : { type : String, validate : /.+@.+\..+/ },
+    sendUpdates : { type : Boolean, default : true },
     // See Password.js for description of why this is reference
     password : { type : Mongoose.Schema.ObjectId, ref : 'passwords' },
     affiliates : {

@@ -55,7 +55,7 @@ exports.toShopsense = function(httpGet, url, callback) {
 /*
  * PUT /tagger/:key/:look
  */
-exports.put = function(mongoLookFactory) {
+exports.put = function(mongoLookFactory, shopsense) {
   return function(req, res) {
     if (req.params.key && req.params.look) {
       validator.canEditTags(req.params.key,
