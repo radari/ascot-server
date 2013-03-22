@@ -7,9 +7,8 @@
  *  Interface to MongoDB for creating Users from Mongoose model
  *
  */
-var bcrypt = require('bcrypt-nodejs');
 
-exports.MongoUserFactory = function(User, Password) {
+exports.MongoUserFactory = function(User, Password, bcrypt) {
   this.newUser = function(username, email, password, callback) {
     bcrypt.hash(password, null, null, function(err, hash){
       var password = new Password({ pw : hash });

@@ -52,7 +52,7 @@ var AdministratorSchema = require('./models/Administrator.js').AdministratorSche
 var Administrator = db.model('administrators', AdministratorSchema);
 
 var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFactory;
-var mongoUserFactory = new MongoUserFactory(User, Password);
+var mongoUserFactory = new MongoUserFactory(User, Password, bcrypt);
 
 var administratorValidator = authenticate.administratorValidator(Administrator);
 
