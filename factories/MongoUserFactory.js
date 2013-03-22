@@ -7,30 +7,33 @@
  *  Interface to MongoDB for creating Users from Mongoose model
  *
  */
+var bcrypt = require('bcrypt-nodejs');
 
 exports.MongoUserFactory = function(User, Password) {
   this.newUser = function(username, email, password, callback) {
-    var password = new Password({ pw : password });
-    password.save(function(error, password) {
-      if (error || !password) {
-        callback({ error : 'Failed to save password' }, null);
-      } else {
-        var user = new User({ username : username, 
-                              settings : {
-                                email : email,
-                                password : password
-                              },
-                              looks : [],
-                              favorites : [] });
+    bcrypt.hash(password, null, null, function(err, hash){
+      var password = new Password({ pw : hash });
+      password.save(function(error, password) {
+        if (error || !password) {
+          callback({ error : 'Failed to save password' }, null);
+        } else {
+          var user = new User({ username : username, 
+                                settings : {
+                                  email : email,
+                                  password : password
+                                },
+                                looks : [],
+                                favorites : [] });
 
-        user.save(function(error, user) {
-          if (error || !user) {
-            callback({ error : 'Failed to create user : ' + error }, null);
-          } else {
-            callback(null, user);
-          }
-        });
-      }
+          user.save(function(error, user) {
+            if (error || !user) {
+              callback({ error : 'Failed to create user : ' + error }, null);
+            } else {
+              callback(null, user);
+            }
+          });
+        }
+      });
     });
   };
 
@@ -62,11 +65,16 @@ exports.MongoUserFactory = function(User, Password) {
         populate('settings.password').exec(function(error, user) {
           if (error || !user) {
             callback({ error : 'User not found' }, null);
-          } else if (password.toString() == user.settings.password.pw.toString()) {
-            callback(null, user);
-          } else {
-            callback({ error : 'Password incorrect' }, null);
-          }
+          } 
+
+          
+          bcrypt.compare(password.toString(), user.settings.password.pw.toString(), function(err, res) {
+            if(res){
+              callback(null, user);
+            } else{
+              callback({ error : 'Password incorrect' }, null);  
+            }
+          });
         });
   };
 };

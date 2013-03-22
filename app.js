@@ -25,7 +25,8 @@ var express = require('express')
   , flash = require('connect-flash')
   
   , passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+  , LocalStrategy = require('passport-local').Strategy
+  , bcrypt = require('bcrypt-nodejs');
 
 
 var app = express();
@@ -78,6 +79,7 @@ app.configure(function(){
   app.use(passport.initialize());
   app.use(passport.session());
   
+
   // For req.flash
   app.use(flash());
   
@@ -149,9 +151,22 @@ app.put('/tagger/:key/:look', tagger.put(mongoLookFactory, shopsense));
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 
 //login
-app.get('/login', authenticate.login);
+app.get('/login',
+  authenticate.login
+);
+
 app.get('/logout', authenticate.logout);
 app.post('/login',
+  function(req, res, next){
+    console.log("I'm some middleware!");
+    console.log("========================== RES ==========================");
+    
+    bcrypt.hash(req.body.password, null, null, function(err, hash){
+      req.body.password = hash;
+      console.log(req.body);
+      next();
+    });
+  },
   passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
   authenticate.onSuccessfulLogin
 );

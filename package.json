@@ -17,6 +17,7 @@
     "nodeunit" : "*",
     "connect-flash" : "*",
     "passport" :"*",
-    "passport-local" :"*"
+    "passport-local" :"*",
+    "bcrypt-nodejs" :"*"
   }
 }
