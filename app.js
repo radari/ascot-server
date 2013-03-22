@@ -157,16 +157,6 @@ app.get('/login',
 
 app.get('/logout', authenticate.logout);
 app.post('/login',
-  function(req, res, next){
-    console.log("I'm some middleware!");
-    console.log("========================== RES ==========================");
-    
-    bcrypt.hash(req.body.password, null, null, function(err, hash){
-      req.body.password = hash;
-      console.log(req.body);
-      next();
-    });
-  },
   passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
   authenticate.onSuccessfulLogin
 );
