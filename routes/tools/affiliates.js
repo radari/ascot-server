@@ -9,7 +9,7 @@
  */
 
 exports.shopsense = function(httpGet) {
-  return function(url, callback) {
+  return function(key, url, callback) {
     var shopsenseQuery =
         'https://shopsense.shopstyle.com/action/buildDeeplinkURL?url=' +
         encodeURIComponent(url) +
@@ -23,6 +23,8 @@ exports.shopsense = function(httpGet) {
       var response = JSON.parse(result.buffer);
       console.log(JSON.stringify(response));
       if (response.url) {
+        response.url +=
+            "&pid=" + key + "&utm_medium=widget&utm_source=Product+Link";
         callback(null, response.url);
       } else {
         callback({ error : 'This retailer is not on Shopsense' }, null);

@@ -64,6 +64,7 @@ exports.MongoUserFactory = function(User, Password, bcrypt) {
         populate('settings.password').exec(function(error, user) {
           if (error || !user) {
             callback({ error : 'User not found' }, null);
+            return;
           } 
 
           

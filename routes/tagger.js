@@ -84,38 +84,49 @@ exports.put = function(mongoLookFactory, shopsense) {
               }
               look.search = search_tags;
               
-              var shopsenseLinkCount = 0;
-              var shopsenseLinkify = function(index) {
-                console.log('Checking tag ' + index);
-                
-                shopsense(look.tags[index].product.buyLink, function(error, url) {
-                  if (!error && url) {
-                    look.tags[index].product.buyLink = url;
-                  }
+              if ((req.user && req.user.settings.affiliates.shopsense.enabled)
+                  || !req.user) {
+                var shopsenseLinkCount = 0;
+                var shopsenseKey =
+                    req.user ?
+                        req.user.settings.affiliates.shopsense.key :
+                        'uid4336-13314844-31';
+                var shopsenseLinkify = function(index) {
+                  console.log('Checking tag ' + index);
                   
-                  ++shopsenseLinkCount;
-                  if (shopsenseLinkCount >= look.tags.length) {
-                    look.save(function(error, savedLook) {
-                      if (error || !savedLook) {
-                        console.log(error);
-                        res.render('error', { error : 'Failed to save tags',
-                                              title : 'Ascot :: Error' });
-                      } else {
-                        // Return nothing, client should handle this how it wants
-                        res.json({});
-                      }
-                    });
-                    return;
-                  }
+                  shopsense(shopsenseKey,
+                            look.tags[index].product.buyLink,
+                            function(error, url) {
+                              if (!error && url) {
+                                look.tags[index].product.buyLink = url;
+                              }
+                              
+                              ++shopsenseLinkCount;
+                              if (shopsenseLinkCount >= look.tags.length) {
+                                look.save(function(error, savedLook) {
+                                  if (error || !savedLook) {
+                                    console.log(error);
+                                    res.render('error',
+                                        { error : 'Failed to save tags',
+                                          title : 'Ascot :: Error' });
+                                  } else {
+                                    // Return nothing, client should handle this
+                                    // how it wants
+                                    res.json({});
+                                  }
+                                });
+                                return;
+                              }
+                    
+                  });
                   
-                });
+                  if (index + 1 < look.tags.length) {
+                    shopsenseLinkify(index + 1);
+                  }
+                };
                 
-                if (index + 1 < look.tags.length) {
-                  shopsenseLinkify(index + 1);
-                }
-              };
-              
-              shopsenseLinkify(0);
+                shopsenseLinkify(0);
+              }
             }
           });
         }
