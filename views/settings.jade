@@ -15,11 +15,14 @@ prepend head
 
 block content
   div(ng-controller="SettingsController", ng-init="init(#{JSON.stringify(user.settings)})")
-    h1
-      | #{user.username}'s settings
-    div
-      | Automatically convert tagger links to Shopsense links if possible?
-      input(type="checkbox", ng-model="data.affiliates.shopsense.enabled")
-    div(ng-show="data.affiliates.shopsense.enabled")
-      | What is your Shopsense partner id?
-      input(type="text", ng-model="data.affiliates.shopsense.key")
+    form(name="settingsForm", ng-submit="save(settingsForm.$valid)")
+      h1
+        | #{user.username}'s settings
+      div
+        | Automatically convert tagger links to Shopsense links if possible?
+        input(type="checkbox", ng-model="data.affiliates.shopsense.enabled")
+      div(ng-show="data.affiliates.shopsense.enabled")
+        | What is your Shopsense partner id?
+        input(type="text", ng-model="data.affiliates.shopsense.key")
+      div
+        input(type="submit", value="Save")

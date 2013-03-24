@@ -21,14 +21,14 @@ exports.settings = function(req, res) {
 
 exports.saveSettings = function(User) {
   return function(req, res) {
-    req.user.settings = req.body.settings;
+    console.log('TTTTT');
+    req.user.settings = req.body;
     req.user.save(function(error, user) {
       if (error || !user) {
-        req.flash('settings', 'Error saving settings : ' + error);
+        res.json({ error : error });
       } else {
-        req.flash('settings', 'Settings saved successfully');
+        res.json({ success : true });
       }
-      res.redirect('/settings');
     });
   };
 };

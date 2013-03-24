@@ -169,7 +169,9 @@ app.get('/home', authenticate.ensureAuthenticated, user.home);
 app.get('/settings', authenticate.ensureAuthenticated, user.settings);
 
 // Authenticated functionality for users
-app.put('/user/settings', authenticate.ensureAuthenticated, user.saveSettings);
+app.put('/user/settings',
+    authenticate.ensureAuthenticated,
+    user.saveSettings(User));
 
 app.get('/admin',
   authenticate.ensureAuthenticated,
