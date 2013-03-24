@@ -10,7 +10,7 @@
 
 exports.MongoUserFactory = function(User, Password, bcrypt) {
   this.newUser = function(username, email, password, callback) {
-    bcrypt.hash(password, null, null, function(err, hash){
+    bcrypt.hash(password, null, null, function(err, hash) {
       var password = new Password({ pw : hash });
       password.save(function(error, password) {
         if (error || !password) {

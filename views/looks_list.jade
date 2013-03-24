@@ -36,7 +36,7 @@ block content
                         ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page}, 4)",
                         ng-when-scrolled="loadNextPage();")
     div.all_looks_element(ng-repeat="column in columns")
-      div(ng-repeat="look in column")
+      div.look_element(ng-repeat="look in column")
         a(ng-href="/look/{{look._id}}")
           img(ng-src="{{look.url}}",
               ng-style="{ height : computeHeight(look, 228) }")

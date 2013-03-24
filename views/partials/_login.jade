@@ -2,10 +2,10 @@ form.login(action='/login', method='post', class="loginForm", id="loginForm")
   div
     input(type='text', name='username', placeholder="username", id="username")
     div      
-      input(type='password', name='password', placeholder="password")
+      input(type='password', name='password', placeholder="password", id="password")
   br
   div.signInOptions
-    input(type='submit', value='Sign In',id='signIn')
+    input(type='submit', value='Sign In', id='signIn')
     input(type='submit', value='Sign Up', id='signUp')
 
 form.register(action='/register', method='post', class="loginForm", id="registerForm")
@@ -14,7 +14,7 @@ form.register(action='/register', method='post', class="loginForm", id="register
     div
       input(type='text', name='email', placeholder="email", id='pickEmail')
     div      
-      input(type='password', name='password', placeholder="password")
+      input(type='password', name='password', placeholder="password", id="password")
   br
   div.signInOptions
     input(type='submit', value='Create Account', id='createAccount')
