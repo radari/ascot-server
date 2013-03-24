@@ -255,7 +255,13 @@ exports.filters = function(Look) {
 /**
  * Helper for list looks
  */
-exports.looksList = function(Look, params, title, page, sortBy, res) {
+exports.looksList = function( Look,
+                              params,
+                              title,
+                              page,
+                              sortBy,
+                              clickthroughRoute,
+                              res) {
   var MAX_PER_PAGE = 20;
   
   var sortParams = {};
@@ -304,7 +310,8 @@ exports.looksList = function(Look, params, title, page, sortBy, res) {
                           listTitle : title,
                           title : 'Ascot :: ' + title,
                           page : page,
-                          numPages : Math.ceil(count / MAX_PER_PAGE)
+                          numPages : Math.ceil(count / MAX_PER_PAGE),
+                          route : clickthroughRoute
                         });
                     },
                 'json' :
@@ -331,6 +338,7 @@ exports.brand = function(Look) {
         'Looks for ' + req.query["v"] + ' (Brand)',
         p,
         sortBy,
+        '/look',
         res);
   };
 };
@@ -353,6 +361,7 @@ exports.keywords = function(req, res) {
       'Looks with Keywords : ' + req.query["v"],
       p,
       sortBy,
+      '/look',
       res);
 };
 
@@ -369,6 +378,7 @@ exports.all = function(req, res) {
     'All Looks',
     p,
     sortBy,
+    '/look',
     res);
 };
 
@@ -398,6 +408,7 @@ exports.favorites = function(Look) {
         'All Looks',
         p,
         sortBy,
+        '/look',
         res);
   };
 };
@@ -419,6 +430,7 @@ exports.myLooks = function(Look) {
         'My Looks',
         p,
         sortBy,
+        '/tagger',
         res);
   };
 };
