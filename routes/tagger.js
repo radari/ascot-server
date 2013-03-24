@@ -36,22 +36,6 @@ exports.get = function(mongoLookFactory) {
   };
 };
 
-exports.toShopsense = function(httpGet, url, callback) {
-  var shopsenseQuery =
-      'https://shopsense.shopstyle.com/action/buildDeeplinkURL?url=' +
-      encodeURIComponent(url) +
-      '&ssAjax=1';
-  httpGet.get(shopsenseQuery, function(error, result) {
-    var response = JSON.parse(result.buffer);
-    console.log(JSON.stringify(response));
-    if (response.url) {
-      callback(null, response.url);
-    } else {
-      callback({ error : 'This retailer is not on Shopsense' }, null);
-    }
-  });
-};
-
 /*
  * PUT /tagger/:key/:look
  */
@@ -100,16 +84,38 @@ exports.put = function(mongoLookFactory, shopsense) {
               }
               look.search = search_tags;
               
-              look.save(function(error, savedLook) {
-                if (error || !savedLook) {
-                  console.log(error);
-                  res.render('error', { error : 'Failed to save tags',
-                                        title : 'Ascot :: Error' });
-                } else {
-                  // Return nothing, client should handle this how it wants
-                  res.json({});
+              var shopsenseLinkCount = 0;
+              var shopsenseLinkify = function(index) {
+                console.log('Checking tag ' + index);
+                
+                shopsense(look.tags[index].product.buyLink, function(error, url) {
+                  if (!error && url) {
+                    look.tags[index].product.buyLink = url;
+                  }
+                  
+                  ++shopsenseLinkCount;
+                  if (shopsenseLinkCount >= look.tags.length) {
+                    look.save(function(error, savedLook) {
+                      if (error || !savedLook) {
+                        console.log(error);
+                        res.render('error', { error : 'Failed to save tags',
+                                              title : 'Ascot :: Error' });
+                      } else {
+                        // Return nothing, client should handle this how it wants
+                        res.json({});
+                      }
+                    });
+                    return;
+                  }
+                  
+                });
+                
+                if (index + 1 < look.tags.length) {
+                  shopsenseLinkify(index + 1);
                 }
-              });
+              };
+              
+              shopsenseLinkify(0);
             }
           });
         }
