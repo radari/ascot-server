@@ -21,7 +21,6 @@ var fs = require('fs');
  */
 exports.get = function(mongoLookFactory) {
   return function(req, res) {
-    // retrieve database
     mongoLookFactory.buildFromId(req.params.id, function(error, result) {
       if (error) {
         res.render('error', { error : 'Failed to find image', title : 'Error' });
@@ -52,6 +51,43 @@ exports.iframe = function(mongoLookFactory) {
   };
 };
 
+/*
+ * GET /new/look/:user?url=<url>
+ */
+exports.newLookForUser = function(mongoLookFactory, mongoUserFactory) {
+  return function(req, res) {
+    var permissionsList = req.cookies.permissions || [];
+  
+    mongoUserFactory.findById(req.params.user, function(error, user) {
+      if (error || !user) {
+        res.render('error', { error : 'User ' + req.params.user + ' not found', title : 'Ascot :: Error' });
+      } else {
+        mongoLookFactory.newLookWithUrl(user, req.query.url, function(error, look, permissions) {
+          if (error || !look || !permissions) {
+            res.render('error', { error : error, title : 'Ascot :: Error' });
+          } else {
+            if (req.user) {
+              // Don't double add if for some reason this is user using this
+              // route for themselves
+              if (req.user._id.toString() == user._id.toString()) {
+                res.redirect('/tagger/' + look._id);
+              } else {
+                req.user.looks.push(look);
+                req.user.save(function(error, user) {
+                  res.redirect('/tagger/' + look._id);
+                });
+              }
+            } else {
+              permissionsList.push(permissions._id);
+              res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+              res.redirect('/tagger/' + look._id);
+            }
+          }
+        });
+      }
+    });
+  }
+};
 
 /*
  * PUT /look/:id/published

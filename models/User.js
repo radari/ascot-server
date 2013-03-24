@@ -28,5 +28,6 @@ exports.UserSchema = new Mongoose.Schema({
   },
   // List of looks this user has permission to tag
   looks : [{ type : Mongoose.Schema.ObjectId, ref : 'looks' }],
+  // User's favorites
   favorites : [{ type : Mongoose.Schema.ObjectId, ref : 'looks' }]
 });

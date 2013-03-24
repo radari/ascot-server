@@ -135,7 +135,6 @@ app.get('/all', look.all);
 app.get('/favorites', look.favorites(Look));
 
 // JSON queries
-app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/filters.json', look.filters(Look));
 app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
@@ -146,11 +145,13 @@ app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet));
 // Set tags for image
 app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense));
 
-// Upvote image
+// Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
+app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
+app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory));
 
-//login
+// login
 app.get('/login',
   authenticate.login
 );
