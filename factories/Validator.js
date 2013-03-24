@@ -19,7 +19,6 @@ var Permissions = db.model('permissions', PermissionsSchema);
 
 exports.Validator = function() {
   this.canEditTags = function(user, keys, lookId, callback) {
-    console.log("** Checking for " + lookId + " in " + JSON.stringify(user.looks));
     if (user && user.looks && user.looks.indexOf(lookId) != -1) {
       callback(null, true);
     } else {
