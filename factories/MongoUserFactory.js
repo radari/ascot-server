@@ -68,13 +68,15 @@ exports.MongoUserFactory = function(User, Password, bcrypt) {
           } 
 
           
-          bcrypt.compare(password.toString(), user.settings.password.pw.toString(), function(err, res) {
-            if(res){
-              callback(null, user);
-            } else{
-              callback({ error : 'Password incorrect' }, null);  
-            }
-          });
+          bcrypt.compare( password.toString(),
+                          user.settings.password.pw.toString(),
+                          function(err, res) {
+                            if (res) {
+                              callback(null, user);
+                            } else{
+                              callback({ error : 'Password incorrect' }, null);  
+                            }
+                          });
         });
   };
 };
