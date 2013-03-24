@@ -38,8 +38,23 @@ exports.MongoLookFactory = function(url) {
       }
     });
   };
+  
+  var pushLookToUser = function(user, look, permissions, callback) {
+    if (user) {
+      user.looks.push(look._id);
+      user.save(function(error, user) {
+        if (error || !user) {
+          callback(error, null, null);
+        } else {
+          callback(null, look, permissions);
+        }
+      });
+    } else {
+      callback(null, look, permissions);
+    }
+  };
 
-  this.newLook = function(callback) {
+  this.newLook = function(user, callback) {
     var look = new Look({ url : "", search : [], tags : [], random : [Math.random(), 0] });
     look.save(function(error, savedLook) {
       if (error || !savedLook) {
@@ -55,7 +70,7 @@ exports.MongoLookFactory = function(url) {
               if (error || !perms) {
                 callback(error, null);
               } else {
-                callback(null, savedLookWithUrl, perms);
+                pushLookToUser(user, savedLookWithUrl, perms, callback);
               }
             });
           }
@@ -64,7 +79,7 @@ exports.MongoLookFactory = function(url) {
     });
   };
 
-  this.newLookWithUrl = function(url, callback) {
+  this.newLookWithUrl = function(user, url, callback) {
     var look = new Look({ url : url,
                           search : [],
                           tags : [],
@@ -80,7 +95,7 @@ exports.MongoLookFactory = function(url) {
           if (error || !perms) {
             callback(error, null);
           } else {
-            callback(null, savedLook, perms);
+            pushLookToUser(user, savedLook, perms, callback);
           }
         });
       }

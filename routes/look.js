@@ -90,10 +90,10 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
   };
 }
 
-exports.handleUpload = function(handle, mongoLookFactory, fs, gm, callback) {
+exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, callback) {
   var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
-  mongoLookFactory.newLook(function(error, look, permissions) {
+  mongoLookFactory.newLook(user, function(error, look, permissions) {
     if (error) {
       console.log(error);
     }
@@ -138,7 +138,7 @@ exports.upload = function(mongoLookFactory, fs, gm, http) {
   return function(req, res) {
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      exports.handleUpload(req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
+      exports.handleUpload(req.user, req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
         if (error) {
           res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
@@ -159,7 +159,7 @@ exports.upload = function(mongoLookFactory, fs, gm, http) {
         } else {
           gm(result.file).size(function(error, size) {
             if (size) {
-              mongoLookFactory.newLookWithUrl(req.body.url, function(error, look, permissions) {
+              mongoLookFactory.newLookWithUrl(req.user, req.body.url, function(error, look, permissions) {
                 if (error) {
                   res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
                 } else {
