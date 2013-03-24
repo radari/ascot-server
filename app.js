@@ -126,7 +126,7 @@ app.put('/look/:id/published',
     administratorValidator,
     look.updatePublishedStatus(mongoLookFactory));
 
-app.get('/tagger/:key/:look', tagger.get(mongoLookFactory));
+app.get('/tagger/:look', tagger.get(mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
@@ -144,7 +144,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet));
 
 // Set tags for image
-app.put('/tagger/:key/:look', tagger.put(mongoLookFactory, shopsense));
+app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense));
 
 // Upvote image
 // JSONP is only possible through GET, so need to use GET =(

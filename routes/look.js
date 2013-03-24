@@ -136,6 +136,8 @@ exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, callback
  */
 exports.upload = function(mongoLookFactory, fs, gm, http) {
   return function(req, res) {
+    var permissionsList = req.cookies.permissions || [];
+  
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
       exports.handleUpload(req.user, req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
@@ -143,7 +145,9 @@ exports.upload = function(mongoLookFactory, fs, gm, http) {
           res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
         } else {
-          res.redirect('/tagger/' + permissions._id + '/' + look._id);
+          permissionsList.push(permissions._id);
+          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+          res.redirect('/tagger/' + look._id);
         }
       });
     } else if (req.body.url) {
@@ -169,7 +173,9 @@ exports.upload = function(mongoLookFactory, fs, gm, http) {
                       if (error || !look) {
                         res.render('error', { title : "Ascot :: Error", error : "Internal failure" });
                       } else {
-                        res.redirect('/tagger/' + permissions._id + '/' + look._id);
+                        permissionsList.push(permissions._id);
+                        res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+                        res.redirect('/tagger/' + look._id);
                       }
                     });
                   });

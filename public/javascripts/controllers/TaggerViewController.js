@@ -193,16 +193,16 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
     }
   }
   
-  $scope.finalize = function(id, key) {
+  $scope.finalize = function(id) {
     if ($scope.idsToLooks[id].tags.length == 0) {
       if ($window.confirm("You haven't added any tags. Are you sure you want to submit?")) {
-        $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id]).success(
+        $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
           function(data) {
             $redirect('/look/' + id + '?showProgress=1');
           });
       }
     } else {
-      $http.put('/tagger/' + key + '/' + id, $scope.idsToLooks[id]).success(
+      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
           function(data) {
             $redirect('/look/' + id + '?showProgress=1');
           });

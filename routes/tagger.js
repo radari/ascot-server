@@ -18,8 +18,8 @@ var validator = new Validator();
  */
 exports.get = function(mongoLookFactory) {
   return function(req, res) {
-    if (req.params.key && req.params.look) {
-      validator.canEditTags(req.params.key, req.params.look, function(error, permission) {
+    if (req.params.look) {
+      validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
         if (error || !permission) {
           res.render('error', { error : 'Access Denied', title : 'Error' });
         } else {
@@ -27,7 +27,7 @@ exports.get = function(mongoLookFactory) {
             if (error || !look) {
               res.render('error', { error : 'Internal failure', title : 'Error' });
             } else {
-              res.render('tagger', { title: "Ascot :: Image Tagger", look : look, key : req.params.key });
+              res.render('tagger', { title: "Ascot :: Image Tagger", look : look });
             }
           });
         }
@@ -41,8 +41,9 @@ exports.get = function(mongoLookFactory) {
  */
 exports.put = function(mongoLookFactory, shopsense) {
   return function(req, res) {
-    if (req.params.key && req.params.look) {
-      validator.canEditTags(req.params.key,
+    if (req.params.look) {
+      validator.canEditTags(req.user,
+                            req.cookies.permissions || [],
                             req.params.look,
                             function(error, permission) {
         if (error || !permission) {

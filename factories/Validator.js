@@ -18,13 +18,18 @@ var PermissionsSchema = require('../models/Permissions.js').PermissionsSchema;
 var Permissions = db.model('permissions', PermissionsSchema);
 
 exports.Validator = function() {
-  this.canEditTags = function(key, lookId, callback) {
-    Permissions.findOne({ _id : key, images : lookId }, function(error, permission) {
-      if (error || !permission) {
-        callback({ error : {} }, null);
-      } else {
-        callback(null, true);
-      }
-    });
+  this.canEditTags = function(user, keys, lookId, callback) {
+    console.log("** Checking for " + lookId + " in " + JSON.stringify(user.looks));
+    if (user && user.looks && user.looks.indexOf(lookId) != -1) {
+      callback(null, true);
+    } else {
+      Permissions.findOne({ _id : { $in : keys }, images : lookId }, function(error, permission) {
+        if (error || !permission) {
+          callback({ error : {} }, null);
+        } else {
+          callback(null, true);
+        }
+      }); 
+    }
   }
 };
