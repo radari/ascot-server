@@ -306,7 +306,7 @@ exports.looksList = function(Look, params, title, page, sortBy, res) {
                       res.json({ looks : looks });
                     }
               });
-            }
+        }
       });
   });
 };
@@ -390,6 +390,27 @@ exports.favorites = function(Look) {
         Look,
         { _id : { $in : upvotes }, showOnCrossList : 1 },
         'All Looks',
+        p,
+        sortBy,
+        res);
+  };
+};
+
+/*
+ * GET /user/looks
+ */
+exports.myLooks = function(Look) {
+  return function(req, res) {
+    var p = req.query["p"] || 0;
+    var upvotedMap = req.cookies.upvotes || {};
+    var sortBy = req.query["sortBy"] || "";
+
+    var looks = req.user.looks;
+
+    exports.looksList(
+        Look,
+        { _id : { $in : looks } },
+        'My Looks',
         p,
         sortBy,
         res);
