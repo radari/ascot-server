@@ -166,9 +166,8 @@ app.post('/login',
 app.post('/register', authenticate.createUser(mongoUserFactory));
 
 // Authenticated displays for users
-app.get('/home', authenticate.ensureAuthenticated, user.home);
+app.get('/home', authenticate.ensureAuthenticated, look.myLooks(Look));
 app.get('/settings', authenticate.ensureAuthenticated, user.settings);
-app.get('/user/looks', authenticate.ensureAuthenticated, look.myLooks(Look));
 
 // Authenticated functionality for users
 app.put('/user/settings',

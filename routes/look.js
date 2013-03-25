@@ -292,6 +292,7 @@ exports.filters = function(Look) {
  * Helper for list looks
  */
 exports.looksList = function( Look,
+                              view,
                               params,
                               title,
                               page,
@@ -341,7 +342,7 @@ exports.looksList = function( Look,
           res.format({
               'html' :
                   function() {
-                    res.render('looks_list',
+                    res.render(view,
                         { looks : looks,
                           listTitle : title,
                           title : 'Ascot :: ' + title,
@@ -370,6 +371,7 @@ exports.brand = function(Look) {
     
     exports.looksList(
         Look,
+        'looks_list',
         { 'tags.product.brand' : req.query["v"], showOnCrossList : 1 },
         'Looks for ' + req.query["v"] + ' (Brand)',
         p,
@@ -393,6 +395,7 @@ exports.keywords = function(req, res) {
 
   exports.looksList(
       Look,
+      'looks_list',
       { search : { $all : keywords }, showOnCrossList : 1 },
       'Looks with Keywords : ' + req.query["v"],
       p,
@@ -410,6 +413,7 @@ exports.all = function(req, res) {
   
   exports.looksList(
     Look,
+    'looks_list',
     { showOnCrossList : 1 },
     'All Looks',
     p,
@@ -440,6 +444,7 @@ exports.favorites = function(Look) {
 
     exports.looksList(
         Look,
+        'looks_list',
         { _id : { $in : upvotes }, showOnCrossList : 1 },
         'All Looks',
         p,
@@ -450,7 +455,7 @@ exports.favorites = function(Look) {
 };
 
 /*
- * GET /user/looks
+ * GET /home
  */
 exports.myLooks = function(Look) {
   return function(req, res) {
@@ -462,6 +467,7 @@ exports.myLooks = function(Look) {
 
     exports.looksList(
         Look,
+        'home',
         { _id : { $in : looks } },
         'My Looks',
         p,
