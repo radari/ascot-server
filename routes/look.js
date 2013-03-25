@@ -469,7 +469,7 @@ exports.myLooks = function(Look) {
         Look,
         'home',
         { _id : { $in : looks } },
-        'My Looks',
+        req.user.username + '\'s Looks',
         p,
         sortBy,
         '/tagger',

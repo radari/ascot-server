@@ -6,44 +6,8 @@
 -#
 -# Views for a list of looks, i.e. for search results
 -#	
-extends layout
+extends looks_list_base
 
-prepend head
-  script(src="/common/LookImageSizer.js")
-  
-  script(src="/javascripts/controllers/LooksListController.js")
-
-block content
+block list_header
   h2.list_header
     | #{listTitle}
-
-  block list_sub_header
-
-  div.sort_sub_header
-    strong 
-    | 
-    a(href="?sortBy=newest",
-      class="#{!query.sortBy || query.sortBy == 'newest' ? 'currentSort' : ''}")
-      | Latest
-    | -
-    a(href="?sortBy=viewed",
-      class="#{query.sortBy == 'viewed' ? 'currentSort' : ''}")
-      | Most Viewed
-    | -
-    a(href="?sortBy=favorited",
-      class="#{query.sortBy == 'favorited' ? 'currentSort' : '' }")
-      | Highest Rated
-
-  div.all_looks_wrapper(style="text-align: center",
-                        ng-controller="LooksListController",
-                        ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page}, 4)",
-                        ng-when-scrolled="loadNextPage();")
-    div.all_looks_element(ng-repeat="column in columns")
-      div.look_element(ng-repeat="look in column")
-        a(ng-href="#{route}/{{look._id}}")
-          img(ng-src="{{look.url}}",
-              ng-style="{ height : computeHeight(look, 228) }")
-    div.clear
-    div.list_header(ng-show="looks.length == 0")
-      | No looks found
-

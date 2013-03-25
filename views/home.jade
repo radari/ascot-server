@@ -7,14 +7,7 @@
 -# View that user sees when they first log in
 -#
 
-extends looks_list
+extends looks_list_base
 
-block list_sub_header
-  div
-    | Welcome #{user.username}
-  br
-  a(href='/user/looks') My Looks
-  br
-  a(href='/favorites') My Favorites
-  br
-  a(href='/settings') My Settings
+block list_header
+  include partials/_account_navigation.jade
