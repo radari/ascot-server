@@ -444,9 +444,9 @@ exports.favorites = function(Look) {
 
     exports.looksList(
         Look,
-        'looks_list',
+        req.user ? 'looks_list_account' : 'looks_list',
         { _id : { $in : upvotes }, showOnCrossList : 1 },
-        'All Looks',
+        'My Favorites',
         p,
         sortBy,
         '/look',
@@ -467,7 +467,7 @@ exports.myLooks = function(Look) {
 
     exports.looksList(
         Look,
-        'home',
+        'looks_list_account',
         { _id : { $in : looks } },
         req.user.username + '\'s Looks',
         p,

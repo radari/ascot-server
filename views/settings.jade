@@ -14,15 +14,21 @@ prepend head
   script(src="/javascripts/controllers/SettingsController.js")
 
 block content
+  include partials/_account_navigation.jade
   div(ng-controller="SettingsController", ng-init="init(#{JSON.stringify(user.settings)})")
     form(name="settingsForm", ng-submit="save(settingsForm.$valid)")
       h1
         | #{user.username}'s settings
-      div
-        | Automatically convert tagger links to Shopsense links if possible?
-        input(type="checkbox", ng-model="data.affiliates.shopsense.enabled")
-      div(ng-show="data.affiliates.shopsense.enabled")
-        | What is your Shopsense partner id?
-        input(type="text", ng-model="data.affiliates.shopsense.key")
-      div
-        input(type="submit", value="Save")
+      div.settings_text
+        div
+          | Automatically convert tagger links to Shopsense links if possible?
+          input(type="checkbox", ng-model="data.affiliates.shopsense.enabled")
+        br
+        div(ng-show="data.affiliates.shopsense.enabled")
+          | What is your Shopsense partner id?
+          br
+          input(type="text", ng-model="data.affiliates.shopsense.key")
+          br
+          br
+        div
+          input(type="submit", value="Save")

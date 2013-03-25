@@ -17,9 +17,7 @@ function SettingsController($scope, $http) {
   };
 
   $scope.save = function(valid) {
-    alert('t');
     if (valid) {
-      alert('x');
       $http.put('/user/settings', $scope.data).
         success(function(data) {
           if (data.error) {
