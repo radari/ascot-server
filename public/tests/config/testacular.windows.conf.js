@@ -11,6 +11,7 @@ files = [
   'common/basic_tools.js',
   'javascripts/controllers/TaggerViewController.js',
   'javascripts/controllers/MainSearchBarController.js',
+  'javascripts/controllers/SettingsController.js',
   'javascripts/services/Autocomplete.js',
   'tests/*.js'
 ];

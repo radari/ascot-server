@@ -8,7 +8,7 @@
  *
  */
 
-function SettingsController($scope, $http) {
+function SettingsController($scope, $http, $window) {
   $scope.init = function(data) {
     if ($scope.data) {
       return;
@@ -21,13 +21,13 @@ function SettingsController($scope, $http) {
       $http.put('/user/settings', $scope.data).
         success(function(data) {
           if (data.error) {
-            alert('Error occurred - ' + data.error.error);
+            $window.alert('Error occurred - ' + data.error.error);
           } else {
-            alert('Successfully saved');
+            $window.alert('Successfully saved');
           }
         });
     } else {
-      alert('There were errors in your settings. Please correct them');
+      $window.alert('There were errors in your settings. Please correct them');
     }
   };
 }
