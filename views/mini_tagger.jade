@@ -1,0 +1,47 @@
+doctype 5
+html(ng-app='AscotModule')
+  head
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.js')
+    script(src='/common/basic_tools.js')
+    script(src='/javascripts/AngularFilters.js')
+    script(src='/javascripts/services/ImageOffsetService.js')
+    script(src="/javascripts/services/Redirect.js")
+    script(src="/javascripts/services/Autocomplete.js")
+    script(src='/javascripts/CustomDirectives.js')
+    script(src='/javascripts/AscotModule.js')
+    script(src='/javascripts/controllers/MainSearchBarController.js')
+    script(src='/vendor/javascripts/jquery.imagesloaded.js')
+    script(src='/vendor/javascripts/jquery.hoverdelay.js')
+    script(src='/javascripts/navMagic.js')
+
+    link(rel='stylesheet', href='/vendor/bootstrap/css/bootstrap-modal.css')
+    script(src="/vendor/bootstrap/javascripts/bootstrap.js")
+    script(src="/vendor/angular/angular-ui-bootstrap-dialog.js")
+
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='icon', type='image/png', href='/images/favicon.ico')
+    link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/start/jquery-ui.css')
+
+    script(src="/javascripts/controllers/TaggerViewController.js")
+    script(type="text/javascript")
+      // Quick hack to make it so cursor doesn't change to 'text' in
+      // Chrome when dragging a tag
+      $(document).ready(function() {
+        document.onselectstart = function() { return false; };
+
+        $('.look').css('width', ($(window).width()) + 'px');
+        $('.look').css('height', ($(window).height()) + 'px');
+        $('.magicdiv').css('width', ($(window).width()) + 'px');
+        $('.magicdiv').css('height', ($(window).height()) + 'px');
+        $('.uploadedImg').css('width', ($(window).width()) + 'px');
+        $('.uploadedImg').css('height', ($(window).height()) + 'px');
+        $('.uploadedImg').css('maxWidth', ($(window).width()) + 'px');
+      });
+
+    link(rel='stylesheet', href='/stylesheets/taggerPut.css')
+
+block content
+  div(ng-controller="TaggerViewController")
+    include partials/_tagger.jade

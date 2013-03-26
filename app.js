@@ -126,7 +126,7 @@ app.put('/look/:id/published',
     administratorValidator,
     look.updatePublishedStatus(mongoLookFactory));
 
-app.get('/tagger/:look', tagger.get(mongoLookFactory));
+app.get('/tagger/:look', tagger.get('tagger', mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
@@ -150,6 +150,7 @@ app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense));
 app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory));
+app.get('/embed/tagger/:look', tagger.get('mini_tagger', mongoLookFactory));
 
 // login
 app.get('/login',

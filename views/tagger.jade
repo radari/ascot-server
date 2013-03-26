@@ -40,3 +40,8 @@ block content
     h2.info Click on the image to add tags. Double click to delete. 
 
     include partials/_tagger.jade
+
+    br
+    input#submitButton.save_button( type="submit",
+                                    value="Save",
+                                    ng-click="finalize('#{look._id}')")

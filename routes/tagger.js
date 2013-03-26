@@ -14,9 +14,9 @@ var Validator = require('../factories/Validator.js').Validator;
 var validator = new Validator();
  
 /*
- * GET /tagger/:key/:look
+ * GET /tagger/:look
  */
-exports.get = function(mongoLookFactory) {
+exports.get = function(displayRoute, mongoLookFactory) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
@@ -27,7 +27,7 @@ exports.get = function(mongoLookFactory) {
             if (error || !look) {
               res.render('error', { error : 'Internal failure', title : 'Error' });
             } else {
-              res.render('tagger', { title: "Ascot :: Image Tagger", look : look });
+              res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
             }
           });
         }
@@ -37,7 +37,7 @@ exports.get = function(mongoLookFactory) {
 };
 
 /*
- * PUT /tagger/:key/:look
+ * PUT /tagger/:look
  */
 exports.put = function(mongoLookFactory, shopsense) {
   return function(req, res) {
