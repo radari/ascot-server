@@ -179,7 +179,7 @@ describe('Ascot Project', function() {
       // Wait for 5 seconds for next page to load
       expect(browser().window().href()).toContain('/tagger/');
       
-      browser().navigateTo('/user/looks');
+      browser().navigateTo('/home');
       sleep(3);
       
       expect(repeater('.look_element').count()).toBe(1);
