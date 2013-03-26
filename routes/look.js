@@ -52,7 +52,7 @@ exports.iframe = function(mongoLookFactory) {
 };
 
 /*
- * GET /new/look/:user?url=<url>
+ * GET /new/look/:user?url=<url>&title=<title>&source=<source>
  */
 exports.newLookForUser = function(mongoLookFactory, mongoUserFactory) {
   return function(req, res) {
@@ -66,22 +66,27 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory) {
           if (error || !look || !permissions) {
             res.render('error', { error : error, title : 'Ascot :: Error' });
           } else {
-            if (req.user) {
-              // Don't double add if for some reason this is user using this
-              // route for themselves
-              if (req.user._id.toString() == user._id.toString()) {
-                res.redirect('/embed/tagger/' + look._id);
-              } else {
-                req.user.looks.push(look);
-                req.user.save(function(error, user) {
+            look.title = req.query.title || "";
+            look.source = req.query.source || "";
+            look.save(function(error, look) {
+              // Assume success
+              if (req.user) {
+                // Don't double add if for some reason this is user using this
+                // route for themselves
+                if (req.user._id.toString() == user._id.toString()) {
                   res.redirect('/embed/tagger/' + look._id);
-                });
+                } else {
+                  req.user.looks.push(look);
+                  req.user.save(function(error, user) {
+                    res.redirect('/embed/tagger/' + look._id);
+                  });
+                }
+              } else {
+                permissionsList.push(permissions._id);
+                res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+                res.redirect('/embed/tagger/' + look._id);
               }
-            } else {
-              permissionsList.push(permissions._id);
-              res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
-              res.redirect('/embed/tagger/' + look._id);
-            }
+            });
           }
         });
       }
