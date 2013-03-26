@@ -193,13 +193,19 @@ exports.testUpload = function(test) {
 
   var fn = LookRoutes.upload(mockMongoLookFactory, mockFs, mockGm, mockHttp);
 
-  fn({ body : { url : url } },
+  fn({ body : { url : url }, cookies : {} },
       { redirect :
-        function(url) {
-          test.equal('/tagger/BS123/MYFAKEID', url);
-          test.expect(8);
-          test.done();
-        } 
+          function(url) {
+            test.equal('/tagger/MYFAKEID', url);
+            test.expect(11);
+            test.done();
+          },
+        cookie :
+          function(tag, data, params) {
+            test.equal('permissions', tag);
+            test.equal(1, data.length);
+            test.equal('BS123', data[0]);
+          }
       });
 };
 
