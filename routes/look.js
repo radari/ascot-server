@@ -70,17 +70,17 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory) {
               // Don't double add if for some reason this is user using this
               // route for themselves
               if (req.user._id.toString() == user._id.toString()) {
-                res.redirect('/tagger/' + look._id);
+                res.redirect('/embed/tagger/' + look._id);
               } else {
                 req.user.looks.push(look);
                 req.user.save(function(error, user) {
-                  res.redirect('/tagger/' + look._id);
+                  res.redirect('/embed/tagger/' + look._id);
                 });
               }
             } else {
               permissionsList.push(permissions._id);
               res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
-              res.redirect('/tagger/' + look._id);
+              res.redirect('/embed/tagger/' + look._id);
             }
           }
         });

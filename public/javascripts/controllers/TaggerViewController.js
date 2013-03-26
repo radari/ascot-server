@@ -30,6 +30,13 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
         });
   };
 
+  $scope.enableSaveOnLeave = function(id) {
+    $window.onbeforeunload = function() {
+      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
+          function(data) {});
+    };
+  };
+
   $scope.computeTagDisplayPosition = function(id, tag) {
     var position;
     var displayHeight = $imagePosition.getHeight(id);
@@ -209,5 +216,3 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
     }
   };
 }
-
-
