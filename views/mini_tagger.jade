@@ -44,5 +44,5 @@ html(ng-app='AscotModule')
     link(rel='stylesheet', href='/stylesheets/taggerPutOverride.css')
 
 block content
-  div(ng-controller="TaggerViewController", ng-init="enableSaveOnLeave('#{look._id}')", style="margin: 0; padding: 0")
+  div(ng-controller="TaggerViewController", ng-init="enableAutosave('#{look._id}', true)", style="margin: 0; padding: 0")
     include partials/_tagger.jade

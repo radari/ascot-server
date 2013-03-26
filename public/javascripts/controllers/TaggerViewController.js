@@ -14,6 +14,7 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   $scope.idsToLooks = {};
   $scope.idsToEditTag = {};
   $scope.idsToDraggingTag = {};
+  $scope.autosave = {};
 
   $scope.autocomplete = $autocomplete;
   $scope.autocomplete.setUrl('BRAND', '/brands.json');
@@ -30,17 +31,8 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
         });
   };
 
-  $scope.enableSaveOnLeave = function(id) {
-    $(window).unload(function() {
-      alert('tz');
-      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
-          function(data) {});
-      alert('t');
-    });
-
-    $scope.$on('$locationChangeStart', function() {
-      alert('CHANGE!');
-    });
+  $scope.enableAutosave = function(id, enabled) {
+    $scope.autosave[id] = enabled;
   };
 
   $scope.computeTagDisplayPosition = function(id, tag) {
@@ -160,6 +152,11 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
         $scope.idsToEditTag[id].product.buyLink = 'http://' + $scope.idsToEditTag[id].product.buyLink;
       }
 
+      if ($scope.autosave[id]) {
+        $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
+          function(data) {});
+      }
+
       $scope.idsToEditTag[id] = null;
     }
   };
@@ -182,6 +179,11 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
       for (var i = 0; i < $scope.idsToLooks[id].tags.length; ++i) {
         $scope.idsToLooks[id].tags[i].index = i + 1;
       }
+    }
+
+    if ($scope.autosave[id]) {
+      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
+        function(data) {});
     }
   };
 
