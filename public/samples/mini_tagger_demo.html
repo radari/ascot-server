@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>Mini-Tagger demo</title>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+      var lookId = '';
+
+      $(document).ready(function() {
+        alert('Here we will demo how to use Ascot\'s embeddable tagger, using only vanilla jQuery for convenience');
+
+        $('#tagger').hide();
+        $('#linkToLook').hide();
+        $('#imageUrl').change(function() {
+          $('#img').attr('src', $('#imageUrl').val());
+        });
+        $('#go').click(function() {
+          $('#tagger').show();
+          $('#myIframe').attr('src',
+              '/new/look/514fbab1991fb28015000003?' +
+              'url=' + encodeURIComponent($('#imageUrl').val()) +
+              '&source=' + encodeURIComponent('My Website Here'));
+        });
+
+        $('#finishTagging').click(function() {
+          if (lookId.length > 0) {
+            alert("Now we're done tagging, so we redirect the iframe to a different page (the look will save automatically) and we then have the look.");
+            $('#myIframe').attr('src', '/look/' + lookId + '/iframe');
+            $('#linkToLook').show();
+            $('#linkToLook').html("<a target='_blank' href='/look/" + lookId + "'>Click To View Look</a>");
+          }
+        });
+      });
+
+      function iframeLoaded(url) {
+        url = url.toString();
+        if (url.indexOf('/embed/tagger') != -1) {
+          alert('We set the iframe target to ascotproject.com/new/look/<your user id>, which then redirects us to the tagger widget. Click to add tags');
+          lookId = url.match(/[a-z0-9]+$/g)[0];
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <input type="text" placeholder="image url" id="imageUrl">
+    <br>
+    <img src="#" style="height: 50px; width: 50px" id="img">
+    <br>
+    <input type="submit" value="Create Look" id="go">
+    <br>
+    <br>
+    <div id="tagger">
+      <iframe id="myIframe" src="" style="height: 500px; width: 500px; border: 1px dashed blue" onload="iframeLoaded(this.contentWindow.location);"></iframe>
+      <br><br>
+      <input type="submit" value="Finish Tagging" id="finishTagging">
+      <div id="linkToLook">
+      </div>
+    </div>
+  </body>
+</html>

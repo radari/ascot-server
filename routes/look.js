@@ -54,7 +54,7 @@ exports.iframe = function(mongoLookFactory) {
 /*
  * GET /new/look/:user?url=<url>&title=<title>&source=<source>
  */
-exports.newLookForUser = function(mongoLookFactory, mongoUserFactory) {
+exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, fs, gm, http) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
@@ -62,7 +62,7 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory) {
       if (error || !user) {
         res.render('error', { error : 'User ' + req.params.user + ' not found', title : 'Ascot :: Error' });
       } else {
-        mongoLookFactory.newLookWithUrl(user, req.query.url, function(error, look, permissions) {
+        exports.handleUrl(mongoLookFactory, fs, gm, http, user, req.query.url, function(error, look, permissions) {
           if (error || !look || !permissions) {
             res.render('error', { error : error, title : 'Ascot :: Error' });
           } else {
@@ -172,6 +172,39 @@ exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, callback
   });
 };
 
+exports.handleUrl = function(mongoLookFactory, fs, gm, http, user, url, callback) {
+  var random = Math.random().toString(36).substr(2);
+  var tmpPath = './public/images/uploads/' + random + '.png';
+  http.get(url, tmpPath, function(error, result) {
+    if (error) {
+      callback("Image " + url + " could not be found", null);
+    } else {
+      gm(result.file).size(function(error, size) {
+        if (size) {
+          mongoLookFactory.newLookWithUrl(user, url, function(error, look, permissions) {
+            if (error) {
+              callback("Upload failed", null);
+            } else {
+              // Keep the image for tumblr uploading
+              fs.rename(tmpPath, './public/images/uploads/' + look._id + '.png', function(error) {
+                mongoLookFactory.setHeightAndWidth(look._id, size.height, size.width, function(error, look) {
+                  if (error || !look) {
+                    callback("Internal failure", null);
+                  } else {
+                    callback(null, look, permissions);
+                  }
+                });
+              });
+            }
+          });
+        } else {
+          callback("Image " + url + " could not be found", null);
+        }
+      });
+    }
+  });
+};
+
 /*
  * POST /image-upload
  */
@@ -192,47 +225,15 @@ exports.upload = function(mongoLookFactory, fs, gm, http) {
         }
       });
     } else if (req.body.url) {
-      var random = Math.random().toString(36).substr(2);
-      var tmpPath = './public/images/uploads/' + random + '.png';
-      http.get(req.body.url, tmpPath, function(error, result) {
-        if (error) {
-          res.render('error',
-              { title : "Ascot :: Error",
-                error : "Image '" + req.body.url +
-                        "' couldn't be found. Please make sure the URL is correct."
-              });
+      exports.handleUrl(mongoLookFactory, fs, gm, http, req.user, req.body.url, function(error, look, permissions) {
+        if (error || !look || !permissions) {
+          res.render('error', { title : "Ascot :: Error", error : error });
         } else {
-          gm(result.file).size(function(error, size) {
-            if (size) {
-              mongoLookFactory.newLookWithUrl(req.user, req.body.url, function(error, look, permissions) {
-                if (error) {
-                  res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
-                } else {
-                  // Keep the image for tumblr uploading
-                  fs.rename(tmpPath, './public/images/uploads/' + look._id + '.png', function(error) {
-                    mongoLookFactory.setHeightAndWidth(look._id, size.height, size.width, function(error, look) {
-                      if (error || !look) {
-                        res.render('error', { title : "Ascot :: Error", error : "Internal failure" });
-                      } else {
-                        permissionsList.push(permissions._id);
-                        res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
-                        res.redirect('/tagger/' + look._id);
-                      }
-                    });
-                  });
-                }
-              });
-            } else {
-              res.render('error',
-                  { title : "Ascot :: Error",
-                    error : "Image '" + error +
-                            "' couldn't be found. Please make sure the URL is correct."
-                  });
-            }
-          });
+          permissionsList.push(permissions._id);
+          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+          res.redirect('/tagger/' + look._id);
         }
       });
-      
     } else {
       res.render('error',
           { title : "Ascot :: Error",

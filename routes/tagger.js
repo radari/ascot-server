@@ -126,7 +126,9 @@ exports.put = function(mongoLookFactory, shopsense) {
                   }
                 };
                 
-                shopsenseLinkify(0);
+                if (look.tags.length > 0) {
+                  shopsenseLinkify(0);
+                }
               }
             }
           });

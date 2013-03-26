@@ -31,10 +31,16 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   };
 
   $scope.enableSaveOnLeave = function(id) {
-    $window.onbeforeunload = function() {
+    $(window).unload(function() {
+      alert('tz');
       $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
           function(data) {});
-    };
+      alert('t');
+    });
+
+    $scope.$on('$locationChangeStart', function() {
+      alert('CHANGE!');
+    });
   };
 
   $scope.computeTagDisplayPosition = function(id, tag) {

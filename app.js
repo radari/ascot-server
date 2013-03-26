@@ -149,7 +149,7 @@ app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense));
 // JSONP is only possible through GET, so need to use GET =(
 app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
-app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory));
+app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory, fs, gm, httpGet));
 app.get('/embed/tagger/:look', tagger.get('mini_tagger', mongoLookFactory));
 
 // login
