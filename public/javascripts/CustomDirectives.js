@@ -57,5 +57,16 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
     if(scope.$eval(attrs.ngAutofocus)) {
       elm.focus();
     }
-  }
+  };
+}).directive('ngFade', function() {
+  return function(scope, elm, attrs) {
+    elm.css('display', 'none');
+    scope.$watch(attrs.ngFade, function(value) {
+      if (value) {
+        elm.fadeIn(200);
+      } else {
+        elm.fadeOut(100);
+      }
+    });
+  };
 });

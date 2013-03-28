@@ -32,5 +32,6 @@ block content
           br
         div
           input#settingsSave(type="submit", value="Save")
-        div(ng-show="showSaved", style="font-weight: bold")
-          | Settings successfully saved
+        div(style="height: 30px")
+          div(ng-fade="showSaved", style="font-weight: bold")
+            | Settings successfully saved
