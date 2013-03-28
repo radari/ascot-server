@@ -27,8 +27,8 @@ block content
             name='files',
             id="uploadInput",
             style="visibility: hidden",
-            onchange="UploadController.prototype.setPath(this.files[0].name);")
-      div.customUpload(onclick='$("#uploadInput").click();')
+            onchange="UploadController.prototype.setPath($('#uploadInput').val());")
+      div.customUpload( onclick='$("#uploadInput").click();')
         | Select a file
       input(type='submit',
             class='btn btn-primary start',
