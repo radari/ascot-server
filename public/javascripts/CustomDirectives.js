@@ -45,11 +45,13 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
       scope.$apply();
     });
   };
-}).directive('ngBlur', function() {
+}).directive('ngBlur', function($timeout) {
   return function(scope, elm, attrs) {
     elm.bind('blur', function() {
-      scope.$eval(attrs.ngBlur);
-      scope.$apply();
+      $timeout(function() {
+        scope.$eval(attrs.ngBlur);
+        scope.$apply();
+      }, 200);
     });
   };
 }).directive('ngAutofocus', function() {
