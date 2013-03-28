@@ -8,7 +8,9 @@
  *
  */
 
-function SettingsController($scope, $http, $window) {
+function SettingsController($scope, $http, $window, $timeout) {
+  $scope.showSaved = false;
+
   $scope.init = function(data) {
     if ($scope.data) {
       return;
@@ -23,7 +25,10 @@ function SettingsController($scope, $http, $window) {
           if (data.error) {
             $window.alert('Error occurred - ' + data.error.error);
           } else {
-            $window.alert('Successfully saved');
+            $scope.showSaved = true;
+            $timeout(function() {
+              $scope.showSaved = false;
+            }, 2500);
           }
         });
     } else {

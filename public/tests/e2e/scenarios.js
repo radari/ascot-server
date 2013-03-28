@@ -184,5 +184,45 @@ describe('Ascot Project', function() {
       
       expect(repeater('.look_element').count()).toBe(1);
     });
+    
+    it('should be able to change and save settings', function() {
+      element('#username').val('vkarpov');
+      element('#password').val('abc123');
+      element('#signIn').click();
+      sleep(3);
+      
+      browser().navigateTo('/settings');
+      sleep(3);
+      
+      expect(input('data.affiliates.shopsense.enabled').val()).toBe('on');
+      expect(input('data.affiliates.shopsense.key').val()).toBe('uid4336-13314844-31');
+      
+      input('data.affiliates.shopsense.key').enter('1234');
+      element('#settingsSave').click();
+      sleep(2);
+      
+      browser().navigateTo('/');
+      sleep(3);
+      
+      browser().navigateTo('/settings');
+      sleep(3);
+      
+      expect(input('data.affiliates.shopsense.key').val()).toBe('1234');
+      
+      input('data.affiliates.shopsense.key').enter('uid4336-13314844-31');
+      element('#settingsSave').click();
+      sleep(2);
+    });
   });
+  
+  /*describe('Tagger plugin', function() {
+    beforeEach(function() {
+      browser().navigateTo('/samples/mini_tagger_demo.html');
+      sleep(2);
+    });
+    
+    it('should successfully upload an image', function() {
+      
+    });
+  });*/
 });
