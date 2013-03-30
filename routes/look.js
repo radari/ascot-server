@@ -141,7 +141,9 @@ exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, callback
     var targetPath = './public/images/uploads/' + look._id + '.png';
     // move the file from the temporary location to the intended location
     gm(tmpPath).size(function(error, features) {
-      if (features.width > 700) {
+      if (!features) {
+        callback("The uploaded file does not appear to be an image", null, null);
+      } else if (features.width > 700) {
         gm(tmpPath).resize(700, features.height * (700 / features.width)).write(targetPath, function(error) {
           if (error) {
             callback(error, null, null);
@@ -198,7 +200,10 @@ exports.handleUrl = function(mongoLookFactory, fs, gm, http, user, url, callback
             }
           });
         } else {
-          callback("Image " + url + " could not be found", null);
+          callback( "URL " + url + " doesn't seem to be a valid image. Please " +
+                    " make sure this is an actual image file, not an HTML web " +
+                    "page or video.\n\nIf you believe this to be an error," +
+                    " email techops@ascotproject.com", null);
         }
       });
     }
