@@ -54,7 +54,7 @@ function initAscotPlugin($, tagSourceUrl) {
     }
   };
 
-  window.ascotUpvoteLook = function(upvoteButton, ascotId) {
+  var ascotUpvoteLook = function(upvoteButton, ascotId) {
     $.ajax({
       type: 'GET',
       url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
