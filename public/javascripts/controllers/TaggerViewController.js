@@ -197,14 +197,29 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   
   $scope.finishDraggingTag = function(id, tag) {
     $scope.idsToDraggingTag[id] = null;
+    
+    if ($scope.autosave[id]) {
+      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
+        function(data) {});
+    }
   };
 
   $scope.toggleDraggingTag = function(id, tag) {
     $scope.idsToDraggingTag[id] = ($scope.isDraggingTag(id) ? null : tag);
+    
+    if ($scope.isDraggingTag(id) == null && $scope.autosave[id]) {
+      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
+        function(data) {});
+    }
   };
 
   $scope.killDrag = function(id) {
     $scope.idsToDraggingTag[id] = null;
+    
+    if ($scope.autosave[id]) {
+      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
+        function(data) {});
+    }
   }
 
   $scope.isDraggingTag = function(id, t, f) {
