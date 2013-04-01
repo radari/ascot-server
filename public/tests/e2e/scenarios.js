@@ -215,14 +215,31 @@ describe('Ascot Project', function() {
     });
   });
   
-  /*describe('Tagger plugin', function() {
+  describe('Admin functionality', function() {
     beforeEach(function() {
-      browser().navigateTo('/samples/mini_tagger_demo.html');
+      browser().navigateTo('/login');
       sleep(2);
-    });
-    
-    it('should successfully upload an image', function() {
+      
+      element('#username').val('fakeadmin');
+      element('#password').val('abc123');
+      element('#signIn').click();
+      sleep(3);
       
     });
-  });*/
+    
+    it('should be able to navigate to /admin', function() {
+      browser().navigateTo('/admin');
+      sleep(3);
+      
+      expect(browser().window().href()).toContain('/admin');
+    });
+    
+    it('should be able to publish and unpublish', function() {
+      browser().navigateTo('/admin');
+      sleep(3);
+      
+      //expect(element('div#admin_element:nth-child(1)'))
+      //element('div#admin_element:nth-child(1)')
+    });
+  });
 });

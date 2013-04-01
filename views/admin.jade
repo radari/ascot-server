@@ -27,6 +27,7 @@ block content
                         ng-when-scrolled="loadNextPage();")
     div.all_looks_element(ng-repeat="column in columns")
       div(ng-repeat="look in column",
+          id="admin_element"
           ng-controller="AdminController",  
           ng-init="lookId=look._id ; isPublished=conditional(look.showOnCrossList, 'published','unpublished')",
           ng-click="togglePublished()",
