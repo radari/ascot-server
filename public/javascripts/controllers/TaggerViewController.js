@@ -103,6 +103,10 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
 
   // Add a tag
   $scope.addTag = function(id, pageX, pageY) {
+    if ($scope.isEdittingTag(id) || $scope.isDraggingTag(id)) {
+      return;
+    }
+
     var position = $scope.computePositionFromDisplay(id, pageX, pageY);
     if (position.x < 0) {
       position.x = 0;
@@ -194,6 +198,14 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   $scope.finishDraggingTag = function(id, tag) {
     $scope.idsToDraggingTag[id] = null;
   };
+
+  $scope.toggleDraggingTag = function(id, tag) {
+    $scope.idsToDraggingTag[id] = ($scope.isDraggingTag(id) ? null : tag);
+  };
+
+  $scope.killDrag = function(id) {
+    $scope.idsToDraggingTag[id] = null;
+  }
 
   $scope.isDraggingTag = function(id, t, f) {
     return $scope.idsToDraggingTag[id] != null ? (t || true) : (f || false);

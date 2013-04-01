@@ -9,31 +9,15 @@
  *
  */
 
-
-
-function initAscotPlugin($, tagSourceUrl) {
-  if (!window._gaq) {
-    // Insert Google Analytics if it doesn't already exist
-    window._gaq = [];
-    
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  }
-  
-  _gaq.push(function() {
-    _gaq.push(['ascot._setAccount', 'UA-36829509-1']);
-    _gaq.push(['ascot._trackEvent', 'Plugin', 'loaded', $(location).attr('href')]);
-  });
-
-  var getAscotHashParam = function(url) {
+function AscotPlugin() {
+  this.getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
       return null;
     } else {
       url = url.substring(url.lastIndexOf('#'));
     }
 
-    var regex = new RegExp('[#|&]' + 'ascot' + '=' + '([^&;]+?)(&|#|\\?|$)');
+    var regex = new RegExp('#[.*&]?' + 'ascot' + '=' + '([^&;]+?)(&|#|\\?|$)');
     var sp = regex.exec(url);
 
     if (sp == null) {
@@ -53,8 +37,30 @@ function initAscotPlugin($, tagSourceUrl) {
       return decodeURIComponent(val);
     }
   };
+};
 
-  window.ascotUpvoteLook = function(upvoteButton, ascotId) {
+function initAscotPlugin($, tagSourceUrl) {
+  if (!window._gaq) {
+    // Insert Google Analytics if it doesn't already exist
+    window._gaq = [];
+    
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  }
+  
+  _gaq.push(function() {
+    _gaq.push(['ascot._setAccount', 'UA-36829509-1']);
+    _gaq.push(['ascot._trackEvent', 'Plugin', 'loaded', $(location).attr('href')]);
+  });
+
+  var plugin = new AscotPlugin();
+
+  var getAscotHashParam = function(url) {
+    return plugin.getAscotHashParam(url);
+  };
+
+  var ascotUpvoteLook = function(upvoteButton, ascotId) {
     $.ajax({
       type: 'GET',
       url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
@@ -248,11 +254,6 @@ function initAscotPlugin($, tagSourceUrl) {
         event.preventDefault();
         overlay.toggle("slide", { direction: "left" }, 500, function(){});
       });
-
-     //  wrapper.hover(function(event) {
-       // event.preventDefault();
-      //  overlay.toggle("slow", function(){});
-      //});
               
       $.each(json.tags, function(i, tag) {
         var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");
@@ -376,8 +377,3 @@ function initAscotPlugin($, tagSourceUrl) {
     ascotify(0, images[0]);
   }
 };
-
-
-
-
-

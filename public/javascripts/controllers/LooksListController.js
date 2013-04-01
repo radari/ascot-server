@@ -8,7 +8,7 @@
  *
  */
  
-function LooksListController($scope, $http, $timeout, $dialog) {
+function LooksListController($scope, $http, $timeout) {
   $scope.looks = [];
   $scope.columns = [];
   $scope.numLoaded = 0;
@@ -23,7 +23,7 @@ function LooksListController($scope, $http, $timeout, $dialog) {
     template: '<iframe src="/look/513032623e92dee93b00002e/iframe" style="height: 800px; width: 800px;" />'
   };
 
-  $scope.randomLook = function() {
+  /*$scope.randomLook = function() {
     $http.get('/random', { headers : { accept : 'application/json' } }).
         success(function(look) {
           var width = Math.min(560, look.size.width);
@@ -31,7 +31,7 @@ function LooksListController($scope, $http, $timeout, $dialog) {
           $scope.opts.template = '<iframe src="/look/' + look._id + '/iframe" style="height: ' + height + 'px; width: ' + width + 'px;" />';
           $dialog.dialog($scope.opts).open();
         });
-  };
+  };*/
   
   $scope.$R = function(low, high) {
     var ret = [];
