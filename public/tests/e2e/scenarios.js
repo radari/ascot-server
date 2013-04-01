@@ -63,12 +63,12 @@ describe('Ascot Project', function() {
     
     it('should toggle heart when user clicks the upvote button', function() {
       element('.ascot_overlay_image_menu div:nth-child(2) img').click();
-      sleep(0.3);
+      sleep(0.6);
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').css('opacity')).toBe('1');
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').src()).toBe('http://localhost:3000/images/overlayOptions_heart_small_opaque.png');
       
       element('.ascot_overlay_image_menu div:nth-child(2) img').click();
-      sleep(0.3);
+      sleep(0.6);
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').css('opacity')).toBeLessThan(1);
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').src()).toBe('http://localhost:3000/images/overlayOptions_heart_small.png');
     });
@@ -218,28 +218,35 @@ describe('Ascot Project', function() {
   describe('Admin functionality', function() {
     beforeEach(function() {
       browser().navigateTo('/login');
-      sleep(2);
+      sleep(1);
       
       element('#username').val('fakeadmin');
       element('#password').val('abc123');
       element('#signIn').click();
-      sleep(3);
+      sleep(1.5);
       
     });
     
     it('should be able to navigate to /admin', function() {
       browser().navigateTo('/admin');
-      sleep(3);
+      sleep(1.5);
       
       expect(browser().window().href()).toContain('/admin');
     });
     
     it('should be able to publish and unpublish', function() {
       browser().navigateTo('/admin');
-      sleep(3);
+      sleep(1.5);
       
-      //expect(element('div#admin_element:nth-child(1)'))
-      //element('div#admin_element:nth-child(1)')
+      expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope unpublished');
+      
+      element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').click();
+      sleep(0.5);
+      expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope published');
+      
+      element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').click();
+      sleep(0.5);
+      expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope unpublished');
     });
   });
 });

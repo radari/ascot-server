@@ -9297,6 +9297,10 @@ jQuery.each( {scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function( me
   };
 });
 
+jQuery.fn['class'] = function(v) {
+  return this[0].className;
+};
+
 jQuery.fn['mouseover'] = function(v) {
   var ev = document.createEvent('Events');
   ev.initEvent('mouseover', true, false);
@@ -25650,7 +25654,7 @@ angular.scenario.dsl('select', function() {
 angular.scenario.dsl('element', function() {
   var KEY_VALUE_METHODS = ['attr', 'css', 'prop'];
   var VALUE_METHODS = [
-    'mouseover', 'mouseout', 'src', 'val', 'text', 'html', 'height', 'innerHeight', 'outerHeight', 'width',
+    'mouseover', 'mouseout', 'class', 'src', 'val', 'text', 'html', 'height', 'innerHeight', 'outerHeight', 'width',
     'innerWidth', 'outerWidth', 'position', 'scrollLeft', 'scrollTop', 'offset'
   ];
   var chain = {};
