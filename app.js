@@ -37,7 +37,7 @@ require('./public/common/basic_tools.js');
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
 
 var Mongoose = require('mongoose');
-var db = Mongoose.createConnection('localhost', 'ascot');
+var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot', pass : 'letMeGiveYouAHug' });
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
