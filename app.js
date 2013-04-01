@@ -114,6 +114,7 @@ app.get('/howto/websites', routes.websites);
 app.get('/howto/planB', routes.planB);
 app.get('/howto/guidelines', routes.guidelines);
 app.get('/disclosures', routes.disclosures);
+app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'));
