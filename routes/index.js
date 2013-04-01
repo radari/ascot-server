@@ -48,4 +48,8 @@ exports.guidelines = function(req, res) {
 
 exports.disclosures = function(req, res) {
   res.render('disclosures', {title: 'disclosures'});
-}
+};
+
+exports.taggerPlugin = function(req, res) {
+  res.render('help/embed_tagger', { title : 'Ascot :: About Tagger Plugin' });
+};

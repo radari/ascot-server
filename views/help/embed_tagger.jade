@@ -1,0 +1,68 @@
+-#
+-# embed_tagger.jade
+-#
+-# Created on: April 1, 2012
+-#     Author: Valeri Karpov
+-#
+-# View which describes how to use the embeddable tagger
+-#
+
+extends ../layout
+
+block content
+  h2 The Ascot Tagger Plugin
+  | So you want your users to be able to tag the image they upload for you?
+  | Then the Ascot Tagger Plugin is exactly what you're looking for. Using
+  | our tool, you can embed our tagger into your page without any outside
+  | Javascript dependencies. Check out a demo &nbsp;
+  a(href='/samples/mini_tagger_demo.html') here
+  br
+  br
+  | Please note that using the tagger plugin requires a basic level of
+  | Javascript knowledge. These instructions are of a slightly more
+  | technical nature than our other help documents, so if these instructions
+  | seem unclear, please email techops@ascotproject.com and we'll be happy
+  | to look at your web site and collaborate with you to integrate our Plugin.
+  br
+  hr
+  br
+  | To use the Tagger Plugin:
+  br
+  br
+  | 1. The Tagger Plugin operates entirely through an iframe. When your user
+  | has uploaded an image to your site, say to
+  | http://www.mysite.com/uploads/1.png for example, you should set your
+  | iframe's src attribute to ascotproject.com's /new/look/:user route with
+  | your user id and the image URL in the query parameters. In our example,
+  | we set the iframe src to:
+  br
+  | http://www.ascotproject.com/new/look/#{user ? user._id : '<your user id>'}?url=#{encodeURIComponent('http://www.mysite.com/uploads/1.png')}
+  br
+  br
+  | 2. Step 1 will tell Ascot to create a new look with the provided image URL.
+  | The iframe will then automatically be redirected to Ascot's 
+  | /embed/tagger/:look route, which will display our Tagger view optimized for
+  | iframes. While not strictly necessary, we recommend that you listen to the
+  | iframe's onLoad event so you can get Ascot's look ID from this URL.
+  br
+  br
+  | 3. A very important detail here is the size of the Tagger Plugin. In order
+  | to maximize your control over how the Tagger Plugin appears in your UI,
+  | the Tagger Plugin will resize itself to match the size of the iframe. Make
+  | sure you adjust the iframe size to be reasonable for the image in question.
+  br
+  br
+  | 4. That's it! The Tagger Plugin will automatically save every time the user
+  | adds, edits, deletes, or moves a tag on the image, so you don't have to worry
+  | about telling the Plugin to save. When your user is done tagging, simply
+  | hide or delete the iframe, and you're done!
+  br
+  | This look will now appear on your My Looks page &nbsp;
+  a(href="/home") here
+  | and you will be able to edit the tags on our site, should you want to do
+  | manual quality control.
+  br
+  br
+  | Bonus: We will also automatically convert your users buy links to Shopsense
+  | links if possible, so if you set your Shopsense partner id, all your 
+  | user's links will make clickthrough revenue for you =)
