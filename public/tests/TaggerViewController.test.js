@@ -200,13 +200,34 @@ describe('TaggerViewController', function() {
     expect(tag1.product.buyLink).toBe('http://www.google.com');
   });
 
-  /*it("should autosave on add, delete, and drag if enabled", function() {
+  it("should autosave on add, delete, and drag if enabled", function() {
     $httpBackend.expectGET('/tags.jsonp?id=1234').
         respond({ look : { tags : [], size : { height : 200, width: 200 } } });
 
     scope.loadLook('1234');
     $httpBackend.flush();
 
-    scope.
-  });*/
+    scope.enableAutosave('1234', true);
+
+    var tag1 = scope.addTag('1234', 25, 15);
+
+    $httpBackend.expectPUT('/tagger/1234').
+        respond({});
+
+    scope.finishEdittingTag('1234');
+    $httpBackend.flush();
+
+    scope.startDraggingTag('1234', tag1);
+    scope.updateDraggingTagPosition('1234', 36, 21);
+
+    $httpBackend.expectPUT('/tagger/1234').
+        respond({});
+    scope.finishDraggingTag('1234', tag1);
+    $httpBackend.flush();
+
+    $httpBackend.expectPUT('/tagger/1234').
+        respond({});
+    scope.deleteTag('1234', tag1);
+    $httpBackend.flush();
+  });
 });
