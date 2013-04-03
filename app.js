@@ -42,6 +42,9 @@ var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot'
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
 
+var PermissionsSchema = require('./models/Permissions.js').PermissionsSchema;
+var Permissions = db.model('permissions', PermissionsSchema);
+
 var UserSchema = require('./models/User.js').UserSchema;
 var User = db.model('users', UserSchema);
 
@@ -117,7 +120,7 @@ app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
 
-var mongoLookFactory = new MongoLookFactory(app.get('url'));
+var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
@@ -131,8 +134,8 @@ app.get('/tagger/:look', tagger.get('tagger', mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
-app.get('/keywords', look.keywords);
-app.get('/all', look.all);
+app.get('/keywords', look.keywords(Look));
+app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));
 
 // JSON queries
@@ -179,7 +182,7 @@ app.put('/user/settings',
 app.get('/admin',
   authenticate.ensureAuthenticated,
   administratorValidator,
-  admin.index);
+  admin.index(Look));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));

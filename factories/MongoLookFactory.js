@@ -8,16 +8,7 @@
  *
  */
 
-var Mongoose = require('mongoose');
-var db = Mongoose.createConnection('localhost', 'ascot');
-
-var LookSchema = require('../models/Look.js').LookSchema;
-var Look = db.model('looks', LookSchema);
-
-var PermissionsSchema = require('../models/Permissions.js').PermissionsSchema;
-var Permissions = db.model('permissions', PermissionsSchema);
-
-exports.MongoLookFactory = function(url) {
+exports.MongoLookFactory = function(url, Look, Permissions) {
   this.getRandom = function(callback) {
     rand = Math.random();
     Look.findOne({ random : { $near : [rand, 0] }, showOnCrossList : 1 }, function(error, look) {

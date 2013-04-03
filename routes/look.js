@@ -1,12 +1,4 @@
-
-var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 var fs = require('fs');
-
-var Mongoose = require('mongoose');
-var db = Mongoose.createConnection('localhost', 'ascot');
-
-var LookSchema = require('../models/Look.js').LookSchema;
-var Look = db.model('looks', LookSchema);
 
 var gm = require('gm');
 
@@ -395,42 +387,46 @@ exports.brand = function(Look) {
 /*
  * GET /keywords?v=<keywords>
  */
-exports.keywords = function(req, res) {
-  var p = req.query["p"] || 0;
-  var sortBy = req.query["sortBy"] || "";
-  
-  var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
-  for (var i = 0; i < keywords.length; ++i) {
-    keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
-  }
+exports.keywords = function(Look) {
+  return function(req, res) {
+    var p = req.query["p"] || 0;
+    var sortBy = req.query["sortBy"] || "";
+    
+    var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
+    for (var i = 0; i < keywords.length; ++i) {
+      keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
+    }
 
-  exports.looksList(
-      Look,
-      'looks_list',
-      { search : { $all : keywords }, showOnCrossList : 1 },
-      'Looks with Keywords : ' + req.query["v"],
-      p,
-      sortBy,
-      '/look',
-      res);
+    exports.looksList(
+        Look,
+        'looks_list',
+        { search : { $all : keywords }, showOnCrossList : 1 },
+        'Looks with Keywords : ' + req.query["v"],
+        p,
+        sortBy,
+        '/look',
+        res);
+  };
 };
 
 /*
  * GET /all?p=<page>
  */
-exports.all = function(req, res) {
-  var p = req.query["p"] || 0;
-  var sortBy = req.query["sortBy"] || "";
-  
-  exports.looksList(
-    Look,
-    'looks_list',
-    { showOnCrossList : 1 },
-    'All Looks',
-    p,
-    sortBy,
-    '/look',
-    res);
+exports.all = function(Look) {
+  return function(req, res) {
+    var p = req.query["p"] || 0;
+    var sortBy = req.query["sortBy"] || "";
+    
+    exports.looksList(
+      Look,
+      'looks_list',
+      { showOnCrossList : 1 },
+      'All Looks',
+      p,
+      sortBy,
+      '/look',
+      res);
+  };
 };
 
 /*
