@@ -70,6 +70,8 @@ passport.deserializeUser(strategy.deserializeUser);
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
+  // Default to production mode, since test mode gives additional functionality
+  app.set('mode', process.env.MODE || 'production');
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon(__dirname + '/public/images/twitterButton.png', {maxAge: 86400000}));
