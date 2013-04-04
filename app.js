@@ -186,6 +186,11 @@ app.get('/admin',
   administratorValidator,
   admin.index(Look));
 
+if (app.get('mode') == 'test') {
+  app.get('/delete/user/:name.json', user.delete(mongoUserFactory));
+  app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
+}
+
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));
+  console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url') + " in " + app.get('mode') + " mode.");
 });

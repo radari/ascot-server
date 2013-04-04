@@ -15,6 +15,9 @@ var fs = require('fs');
 
 var gm = require('gm');
 
+exports.makeAdmin = function(mongoUserFactory) {
+  //return function(req, res)
+};
 
 exports.index = function(Look) {
   return function(req, res) {

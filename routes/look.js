@@ -539,3 +539,24 @@ exports.upvote = function(mongoLookFactory) {
     });
   };
 };
+
+/*
+ * GET /delete/look/:id.json
+ */
+exports.delete = function(mongoLookFactory) {
+  return function(req, res) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+      if (error || !look) {
+        res.json({ error : error });
+      } else {
+        look.remove(function(error) {
+          if (error) {
+            res.json({ error : error });
+          } else {
+            res.json({ success : true });
+          }
+        });
+      }
+    });
+  };
+};
