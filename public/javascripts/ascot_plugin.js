@@ -308,8 +308,10 @@ function initAscotPlugin($, tagSourceUrl) {
         tagDescription.hide();
                 
         tagContainer.hover(function() {
+          tagContainer.css('z-index', 5);
           tagDescription.show(100, function(){});
         },function(){
+          tagContainer.css('z-index', 0);
           tagDescription.hide(100, function(){});
         }, 250);
       });  

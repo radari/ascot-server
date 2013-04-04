@@ -32,7 +32,7 @@
 }
 
 .ascot_overlay {
-  
+  z-index: 1000;
 }
 
 .ascot_overlay_look .ascot_overlay_look img {
