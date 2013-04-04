@@ -226,6 +226,7 @@ describe('Ascot Project', function() {
   });
   
   describe('Admin functionality', function() {
+
     beforeEach(function() {
       browser().navigateTo('/login');
       sleep(1);
@@ -234,7 +235,22 @@ describe('Ascot Project', function() {
       element('#password').val('abc123');
       element('#signIn').click();
       sleep(2);
-      
+    });
+
+    afterEach(function() {
+      browser().navigateTo('/logout');
+      sleep(1);
+    });
+
+    it('should register and make itself admin first', function() {
+      element('#username').val('fakeadmin');
+      element('#password').val('abc123');
+      element('#pickEmail').val('val@ascotproject.com');
+      element('#createAccount').click();  
+      sleep(2);
+
+      browser().navigateTo('/make/admin/fakeadmin.json');
+      sleep(2);
     });
     
     it('should be able to navigate to /admin', function() {
@@ -257,6 +273,11 @@ describe('Ascot Project', function() {
       element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').click();
       sleep(0.5);
       expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope unpublished');
+    });
+
+    it('should clean up after itself', function() {
+      browser().navigateTo('/delete/user/fakeadmin.json');
+      sleep(2);
     });
   });
 });

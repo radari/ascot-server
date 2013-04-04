@@ -189,6 +189,7 @@ app.get('/admin',
 if (app.get('mode') == 'test') {
   app.get('/delete/user/:name.json', user.delete(mongoUserFactory));
   app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
+  app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
 }
 
 http.createServer(app).listen(app.get('port'), function(){

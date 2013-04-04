@@ -15,8 +15,26 @@ var fs = require('fs');
 
 var gm = require('gm');
 
-exports.makeAdmin = function(mongoUserFactory) {
-  //return function(req, res)
+/*
+ * GET /make/admin/:name.json
+ */
+exports.makeAdmin = function(Administrator, mongoUserFactory) {
+  return function(req, res) {
+    mongoUserFactory.findByUsername(req.params.name, function(error, user) {
+      if (error || !user) {
+        res.json({ error : error });
+      } else {
+        var a = new Administrator({ user : user._id });
+        a.save(function(error, admin) {
+          if (error || !admin) {
+            res.json({ error : error });
+          } else {
+            res.json({ success : true });
+          }
+        });
+      }
+    });
+  };
 };
 
 exports.index = function(Look) {
