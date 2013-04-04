@@ -126,7 +126,7 @@ function initAscotPlugin($, tagSourceUrl) {
       var twitterUrl = "https://twitter.com/share"
       var twitterDataUrl = "http://www.ascotproject.com/look/" + json._id;
 
-      var iframeCode = '<iframe src="http://www.ascotproject.com/look/' + json._id + '/iframe" width="' + json.size.width + '" height="' + json.size.height + '" frameborder="0"></iframe>';
+      var iframeCode = '<iframe src="http://www.ascotproject.com/look/' + json._id + '/iframe" width="' + json.size.width + '" height="' + json.size.height + '" frameborder="0" scrolling="no"></iframe>';
 
       var facebookUrl = 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) + '&redirect_uri=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id);
       
