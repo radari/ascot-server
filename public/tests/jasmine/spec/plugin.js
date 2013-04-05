@@ -22,4 +22,18 @@ describe('Ascot plugin', function() {
 
     expect(plugin.htmlifyTags(look)).toBe("My title<br>Source: My Source<br><br>1. <a href='www.google.com'><b>Bonobos</b> Tiny Prancers</a>");
   });
+
+  it("should generate correct Tumblr share URL", function() {
+    var testLook = { _id : '1234', url : 'myurl' };
+    var fn = plugin.tumblrUrlGenerator(
+      function(look) {
+        expect(look._id).toBe('1234');
+        return look._id;
+      }, function(str) {
+        return "$" + str;
+      });
+
+    var ret = fn(testLook);
+    expect(ret).toBe("http://www.tumblr.com/share/photo?source=$myurl&clickthru=$http://www.ascotproject.com/look/1234&caption=$1234&tags=ascot");
+  });
 });

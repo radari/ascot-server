@@ -65,6 +65,18 @@ function AscotPlugin() {
       }
     });
   };
+
+  this.tumblrUrlGenerator = function(htmlifyTags, encodeURIComponent) {
+    return function(look) {
+      return  'http://www.tumblr.com/share/photo?' +
+              'source=' + encodeURIComponent(look.url) +
+              '&clickthru=' + encodeURIComponent('http://www.ascotproject.com/look/' + look._id) +
+              '&caption=' + encodeURIComponent(htmlifyTags(look)) +
+              '&tags=ascot';
+    };
+  };
+
+  this.getTumblrShareUrl = this.tumblrUrlGenerator(this.htmlifyTags, encodeURIComponent);
 };
 
 function initAscotPlugin($, tagSourceUrl) {
@@ -111,11 +123,7 @@ function initAscotPlugin($, tagSourceUrl) {
       
       _gaq.push(['ascot._trackEvent', 'lookLoaded', ascotId, $(location).attr('href')]);
 
-      var tumblrUrl = 'http://www.tumblr.com/share/photo?' +
-                      'source=' + encodeURIComponent(json.url) +
-                      '&clickthru=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) +
-                      '&caption=' + encodeURIComponent(plugin.htmlifyTags(json)) +
-                      '&tags=ascot';
+      var tumblrUrl = plugin.getTumblrShareUrl(json);
 
       var twitterUrl = "https://twitter.com/share"
       var twitterDataUrl = "http://www.ascotproject.com/look/" + json._id;
