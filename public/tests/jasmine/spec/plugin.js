@@ -36,4 +36,8 @@ describe('Ascot plugin', function() {
     var ret = fn(testLook);
     expect(ret).toBe("http://www.tumblr.com/share/photo?source=$myurl&clickthru=$http://www.ascotproject.com/look/1234&caption=$1234&tags=ascot");
   });
+
+  it("should generate correct Twitter share url", function() {
+    expect(plugin.getTwitterUrl('test')).toBe("https://twitter.com/share?url=test&via=AscotProject");
+  });
 });
