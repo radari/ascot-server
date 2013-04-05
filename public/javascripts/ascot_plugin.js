@@ -37,6 +37,20 @@ function AscotPlugin() {
       return decodeURIComponent(val);
     }
   };
+
+  this.htmlifyTags = function(look) {
+    var ret = look.title;
+    ret += (look.source.length > 0 ? "<br>Source: " + look.source : "");
+    ret += "<br><br>";
+    for (var i = 0; i < look.tags.length; ++i) {
+      var tag = look.tags[i];
+      ret += (i > 0 ? "<br>" : "") + (i + 1) + ". ";
+      ret += "<a href='" + tag.product.buyLink + "'>" + 
+             "<b>" + tag.product.brand + "</b> " + tag.product.name +
+             "</a>"; 
+    };
+    return ret;
+  };
 };
 
 function initAscotPlugin($, tagSourceUrl) {
@@ -84,20 +98,6 @@ function initAscotPlugin($, tagSourceUrl) {
     });
   };
   
-  var htmlifyTags = function(look) {
-    var ret = look.title;
-    ret += (look.source.length > 0 ? "\n<br>\nSource: " + look.source : "");
-    ret += "\n<br>\n<br>\n";
-    for (var i = 0; i < look.tags.length; ++i) {
-      var tag = look.tags[i];
-      ret += (i > 0 ? "\n<br>\n" : "");
-      ret += "<a href='" + tag.product.buyLink + "'>" + 
-             "<b>" + tag.product.brand + "</b> " + tag.product.name +
-             "</a>"; 
-    };
-    return ret;
-  };
-  
   var htmlifyTagsForPinterest = function(look) {
     var ret = look.title;
     ret += (look.source.length > 0 ? " / Source: " + look.source : "");
@@ -120,7 +120,7 @@ function initAscotPlugin($, tagSourceUrl) {
       var tumblrUrl = 'http://www.tumblr.com/share/photo?' +
                       'source=' + encodeURIComponent(json.url) +
                       '&clickthru=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) +
-                      '&caption=' + encodeURIComponent(htmlifyTags(json)) +
+                      '&caption=' + encodeURIComponent(plugin.htmlifyTags(json)) +
                       '&tags=ascot';
 
       var twitterUrl = "https://twitter.com/share"
