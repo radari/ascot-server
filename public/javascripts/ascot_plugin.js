@@ -81,6 +81,14 @@ function AscotPlugin() {
   this.getTwitterUrl = function(url) {
     return "https://twitter.com/share?url=" + encodeURIComponent(url) + "&via=AscotProject";
   };
+
+  this.getFacebookUrl = function(url) {
+    return 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent(url) + '&redirect_uri=' + encodeURIComponent(url);
+  };
+
+  this.getPinterestUrl = function(image, url) {
+    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent(url) + '&media=' + encodeURIComponent(image) + '&description=' + encodeURIComponent('From: ' + url);
+  };
 };
 
 function initAscotPlugin($, tagSourceUrl) {
@@ -133,9 +141,9 @@ function initAscotPlugin($, tagSourceUrl) {
 
       var iframeCode = '<iframe src="http://www.ascotproject.com/look/' + json._id + '/iframe" width="' + json.size.width + '" height="' + json.size.height + '" frameborder="0" scrolling="no"></iframe>';
 
-      var facebookUrl = 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) + '&redirect_uri=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id);
+      var facebookUrl = plugin.getFacebookUrl('http://www.ascotproject.com/look/' + json._id);
       
-      var pinterestUrl = '//pinterest.com/pin/create/button/?url=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) + '&media=' + encodeURIComponent(json.url) + '&description=' + encodeURIComponent('From: http://www.ascotproject.com/look/' + json._id);
+      var pinterestUrl = plugin.getPinterestUrl(json.url, 'http://www.ascotproject.com/look/' + json._id);
 
       var height = image.height();
       var width = image.width();

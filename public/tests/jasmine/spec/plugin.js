@@ -40,4 +40,12 @@ describe('Ascot plugin', function() {
   it("should generate correct Twitter share url", function() {
     expect(plugin.getTwitterUrl('test')).toBe("https://twitter.com/share?url=test&via=AscotProject");
   });
+
+  it("should generate correct Facebook share url", function() {
+    expect(plugin.getFacebookUrl('test')).toBe("https://www.facebook.com/dialog/send?app_id=169111373238111&link=test&redirect_uri=test");
+  });
+
+  it("should generate correct Pinterest share url", function() {
+    expect(plugin.getPinterestUrl('image', 'test')).toBe('//pinterest.com/pin/create/button/?url=test&media=image&description=From%3A%20test');
+  });
 });
