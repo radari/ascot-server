@@ -51,6 +51,20 @@ function AscotPlugin() {
     };
     return ret;
   };
+
+  this.jsonp = function(url, callback) {
+    $.ajax({
+      type: 'GET',
+      url: url,
+      async: true,
+      jsonpCallback: 'callback',
+      contentType: 'application/jsonp',
+      dataType: 'jsonp',
+      success : function(json) {
+        callback(json);
+      }
+    });
+  };
 };
 
 function initAscotPlugin($, tagSourceUrl) {
@@ -75,40 +89,20 @@ function initAscotPlugin($, tagSourceUrl) {
   };
 
   var ascotUpvoteLook = function(upvoteButton, ascotId) {
-    $.ajax({
-      type: 'GET',
-      url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
-      async: true,
-      jsonpCallback: 'callback',
-      contentType: 'application/jsonp',
-      dataType: 'jsonp',
-      success : function(json) {
-        if (json.add) {
-          upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
-          upvoteButton.css('cursor', 'pointer');
-          upvoteButton.css('opacity', '1');
-        } else if (json.remove) {
-          upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small.png');
-          upvoteButton.css('cursor', 'pointer');
-          upvoteButton.css('opacity', '0.6');
-        } else {
-          // Nothing to do here for now, just ignore
-        }
+    plugin.jsonp(tagSourceUrl + '/upvote/' + ascotId + '.jsonp', function(json) {
+      if (json.add) {
+        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
+        upvoteButton.css('cursor', 'pointer');
+        upvoteButton.css('opacity', '1');
+      } else if (json.remove) {
+        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small.png');
+        upvoteButton.css('cursor', 'pointer');
+        upvoteButton.css('opacity', '0.6');
+      } else {
+        // Nothing to do here for now, just ignore
       }
     });
   };
-  
-  var htmlifyTagsForPinterest = function(look) {
-    var ret = look.title;
-    ret += (look.source.length > 0 ? " / Source: " + look.source : "");
-    for (var i = 0; i < look.tags.length; ++i) {
-      var tag = look.tags[i];
-      ret += " / ";
-      ret += tag.product.brand + " " + tag.product.name + " " +
-             tag.product.buyLink; 
-    };
-    return ret;
-  }
   
   var makeOverlay = function(image, ascotId, url, json) {
     if (json && json.look && json.look.tags) {
@@ -347,27 +341,20 @@ function initAscotPlugin($, tagSourceUrl) {
     }
 
     if (ascotId != null) {
-      $.ajax({
-        type: 'GET',
-        url: tagSourceUrl + '/tags.jsonp?id='
-            + encodeURIComponent(ascotId),
-        async: true,
-        jsonpCallback: 'callback',
-        contentType: 'application/jsonp',
-        dataType: 'jsonp',
-        success: function (json) {
-          // Now that we know that our jsonp call is done, we can wait for our
-          // image to load to make our overlay, and then go to the next image in
-          // our 'queue'
-          image.imagesLoaded(function() {
-            makeOverlay(image, ascotId, url, json);
+      plugin.jsonp(
+          tagSourceUrl + '/tags.jsonp?id=' + encodeURIComponent(ascotId),
+          function (json) {
+            // Now that we know that our jsonp call is done, we can wait for our
+            // image to load to make our overlay, and then go to the next image in
+            // our 'queue'
+            image.imagesLoaded(function() {
+              makeOverlay(image, ascotId, url, json);
+            });
+
+            if (index + 1 < images.length) {
+              ascotify(index + 1, images[index + 1]);
+            }
           });
-            
-          if (index + 1 < images.length) {
-            ascotify(index + 1, images[index + 1]);
-          }
-        }
-      });
     } else {
       if (index + 1 < images.length) {
         ascotify(index + 1, images[index + 1]);
