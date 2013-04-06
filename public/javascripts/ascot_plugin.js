@@ -9,7 +9,7 @@
  *
  */
 
-function AscotPlugin() {
+function AscotPlugin($) {
   this.getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
       return null;
@@ -106,7 +106,7 @@ function initAscotPlugin($, tagSourceUrl) {
     _gaq.push(['ascot._trackEvent', 'Plugin', 'loaded', $(location).attr('href')]);
   });
 
-  var plugin = new AscotPlugin();
+  var plugin = new AscotPlugin($);
 
   var getAscotHashParam = function(url) {
     return plugin.getAscotHashParam(url);
