@@ -9,7 +9,7 @@
  *
  */
 
-function AscotPlugin() {
+function AscotPlugin(tagSourceUrl) {
   this.getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
       return null;
@@ -37,6 +37,17 @@ function AscotPlugin() {
       return decodeURIComponent(val);
     }
   };
+
+  this.getAscotIdFromParentHref = function(image) {
+    var href = image.parent().attr('href');
+    var alt = image.attr('alt');
+    if (href && href.toLowerCase().indexOf(tagSourceUrl) != -1) {
+      var searchString = tagSourceUrl; 
+      return href.toLowerCase().substr(
+          href.indexOf(searchString) + searchString.length, '50f8bae560ad830943000004'.length);
+    }
+    return null;
+  }
 
   this.htmlifyTags = function(look) {
     var ret = look.title;
@@ -133,10 +144,6 @@ function initAscotPlugin($, tagSourceUrl) {
         callback(json);
       }
     });
-  };
-
-  var getAscotHashParam = function(url) {
-    return plugin.getAscotHashParam(url);
   };
 
   var ascotUpvoteLook = function(upvoteButton, ascotId) {
@@ -347,21 +354,13 @@ function initAscotPlugin($, tagSourceUrl) {
     var lookId;
     var image = $(el);
       
-    var ascotId = getAscotHashParam(url);
+    var ascotId = plugin.getAscotHashParam(url);
 
     // This is really only useful for Tumblr and other places which insist on
     // only showing images stored on their servers. On our end we can just use
     // the #ascot notation, so just hardcode the ascotproject.com stuff for now
     if (ascotId == null && image.parent()) {
-      var href = image.parent().attr('href');
-      var alt = image.attr('alt');
-      if (href && href.toLowerCase().indexOf('ascotproject.com/look/') != -1) {
-        var searchString = 'ascotproject.com/look/'; 
-        ascotId =
-            href.toLowerCase().substr(
-                href.indexOf(searchString) + searchString.length,
-                '50f8bae560ad830943000004'.length);
-      }
+      ascotId = plugin.getAscotIdFromParentHref(image);
     }
 
     if (ascotId != null) {
