@@ -9,7 +9,7 @@
  *
  */
 
-function AscotPlugin($) {
+function AscotPlugin() {
   this.getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
       return null;
@@ -50,20 +50,6 @@ function AscotPlugin($) {
              "</a>"; 
     };
     return ret;
-  };
-
-  this.jsonp = function(url, callback) {
-    $.ajax({
-      type: 'GET',
-      url: url,
-      async: true,
-      jsonpCallback: 'callback',
-      contentType: 'application/jsonp',
-      dataType: 'jsonp',
-      success : function(json) {
-        callback(json);
-      }
-    });
   };
 
   this.tumblrUrlGenerator = function(htmlifyTags, encodeURIComponent) {
@@ -133,15 +119,28 @@ function initAscotPlugin($, tagSourceUrl) {
     _gaq.push(['ascot._trackEvent', 'Plugin', 'loaded', $(location).attr('href')]);
   });
 
-  var plugin = new AscotPlugin($);
+  var plugin = new AscotPlugin();
   var UI = new AscotPluginUI(tagSourceUrl);
+  var jsonp = function(url, callback) {
+    $.ajax({
+      type: 'GET',
+      url: url,
+      async: true,
+      jsonpCallback: 'callback',
+      contentType: 'application/jsonp',
+      dataType: 'jsonp',
+      success : function(json) {
+        callback(json);
+      }
+    });
+  };
 
   var getAscotHashParam = function(url) {
     return plugin.getAscotHashParam(url);
   };
 
   var ascotUpvoteLook = function(upvoteButton, ascotId) {
-    plugin.jsonp(tagSourceUrl + '/upvote/' + ascotId + '.jsonp', function(json) {
+    jsonp(tagSourceUrl + '/upvote/' + ascotId + '.jsonp', function(json) {
       if (json.add) {
         upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
         upvoteButton.css('cursor', 'pointer');
@@ -366,7 +365,7 @@ function initAscotPlugin($, tagSourceUrl) {
     }
 
     if (ascotId != null) {
-      plugin.jsonp(
+      jsonp(
           tagSourceUrl + '/tags.jsonp?id=' + encodeURIComponent(ascotId),
           function (json) {
             // Now that we know that our jsonp call is done, we can wait for our
