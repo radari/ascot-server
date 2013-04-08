@@ -117,6 +117,22 @@ function AscotPluginUI(tagSourceUrl) {
     tagDescription.appendTo(tagContainer);
     tagDescription.hide();
   };
+
+  this.handleUpvoteLook = function(jsonp, upvoteButton, ascotId) {
+    jsonp(tagSourceUrl + '/upvote/' + ascotId + '.jsonp', function(json) {
+      if (json.add) {
+        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
+        upvoteButton.css('cursor', 'pointer');
+        upvoteButton.css('opacity', '1');
+      } else if (json.remove) {
+        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small.png');
+        upvoteButton.css('cursor', 'pointer');
+        upvoteButton.css('opacity', '0.6');
+      } else {
+        // Nothing to do here for now, just ignore
+      }
+    });
+  };
 }
 
 function initAscotPlugin($, tagSourceUrl) {
@@ -151,19 +167,7 @@ function initAscotPlugin($, tagSourceUrl) {
   };
 
   var ascotUpvoteLook = function(upvoteButton, ascotId) {
-    jsonp(tagSourceUrl + '/upvote/' + ascotId + '.jsonp', function(json) {
-      if (json.add) {
-        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
-        upvoteButton.css('cursor', 'pointer');
-        upvoteButton.css('opacity', '1');
-      } else if (json.remove) {
-        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small.png');
-        upvoteButton.css('cursor', 'pointer');
-        upvoteButton.css('opacity', '0.6');
-      } else {
-        // Nothing to do here for now, just ignore
-      }
-    });
+    UI.handleUpvoteLook(jsonp, upvoteButton, ascotId);
   };
   
   var makeOverlay = function(image, ascotId, url, json) {
