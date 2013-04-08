@@ -79,6 +79,10 @@ function AscotPlugin(tagSourceUrl) {
     return "https://twitter.com/share?url=" + encodeURIComponent(url) + "&via=AscotProject";
   };
 
+  this.getIframeCode = function(look) {
+    return '<iframe src="http://www.ascotproject.com/look/' + look._id + '/iframe" width="' + look.size.width + '" height="' + look.size.height + '" frameborder="0" scrolling="no"></iframe>';
+  };
+
   this.getFacebookUrl = function(url) {
     return 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent(url) + '&redirect_uri=' + encodeURIComponent(url);
   };
@@ -173,7 +177,7 @@ function initAscotPlugin($, tagSourceUrl) {
 
       var twitterUrl = plugin.getTwitterUrl("http://www.ascotproject.com/look/" + json._id);
 
-      var iframeCode = '<iframe src="http://www.ascotproject.com/look/' + json._id + '/iframe" width="' + json.size.width + '" height="' + json.size.height + '" frameborder="0" scrolling="no"></iframe>';
+      var iframeCode = plugin.getIframeCode(json);
 
       var facebookUrl = plugin.getFacebookUrl('http://www.ascotproject.com/look/' + json._id);
       
