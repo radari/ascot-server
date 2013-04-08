@@ -11,3 +11,8 @@ extends looks_list_base
 
 block list_header
   include partials/_account_navigation.jade
+
+block list_element
+  a(ng-href="#{route}/{{look._id}}")
+    img(ng-src="{{look.url}}",
+        ng-style="{ height : computeHeight(look) }")

@@ -1,3 +1,11 @@
+#admin_element {
+  margin-top: 5px;
+  padding-bottom: 3px;
+}
+
+#admin_element a {
+  color : black;
+}
 
 .published{
   background-color: green;
