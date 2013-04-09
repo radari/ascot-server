@@ -67,6 +67,9 @@ passport.use(new LocalStrategy(strategy.localStrategy));
 passport.serializeUser(strategy.serializeUser);
 passport.deserializeUser(strategy.deserializeUser);
 
+// configure custom tools
+var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm);
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
@@ -191,45 +194,6 @@ if (app.get('mode') == 'test') {
   app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
   app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
 }
-
-/*var xz = 900;
-var xy = 510;
-var r = 15;
-
-var fn = function(file, xz, xy, r, n, cb) {
-  gm(file).
-      fill('#6B6B6B99').
-      drawCircle(xz + 1, xy + 1, xz, xy + r).
-      //fill('#FFFFFF66').
-      //drawCircle(xz, xy, xz, xy + r).
-      fill('#00000033').
-      stroke('#FFFFFF33').
-      strokeWidth(3).
-      drawCircle(xz, xy, xz, xy + r - 3).
-      stroke('#FFFFFF11').
-      strokeWidth(1).
-      font('Arial').
-      fill('#FFFFFF11').
-      fontSize(14).
-      drawText(xz - 4, xy + 5, n + '', 'NorthWest').
-      write('./public/images/ascotsample2.png', function(error) {
-    console.log("--> " + error);
-    cb();
-  });
-};
-
-var Stopwatch = require('./public/common/Stopwatch.js').Stopwatch;
-
-var s = new Stopwatch();
-s.start('TAG');
-fn("./public/images/ascotsample.png", xz, xy, r, 1, function() {
-  s.stop('TAG');
-  s.start('TAG');
-  fn("./public/images/ascotsample2.png", 1100, 780, 15, 2, function() {
-    s.stop('TAG');
-    console.log("--> " + s.average('TAG'));
-  });
-});*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url') + " in " + app.get('mode') + " mode.");
