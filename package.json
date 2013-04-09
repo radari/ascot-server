@@ -16,8 +16,9 @@
     "testacular" : "*",
     "nodeunit" : "*",
     "connect-flash" : "*",
-    "passport" :"*",
-    "passport-local" :"*",
-    "bcrypt-nodejs" :"*"
+    "passport" : "*",
+    "passport-local" : "*",
+    "bcrypt-nodejs" : "*",
+    "knox" : "*"
   }
 }

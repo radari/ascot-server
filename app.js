@@ -26,6 +26,7 @@ var express = require('express')
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
+  , knox = require('knox')
   , bcrypt = require('bcrypt-nodejs');
 
 
@@ -69,6 +70,15 @@ passport.deserializeUser(strategy.deserializeUser);
 
 // configure custom tools
 var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm);
+var uploadTarget = knox.createClient({
+  key : "AKIAJW2LJ5AG2WHBDYIA",
+  secret : "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",
+  bucket : 'ascot_uploads'
+});
+
+/*uploadTarget.putFile('./public/images/ascot_watermark.png', '/uploads/abcd.png', function(error, result) {
+  console.log("$$ " + error + " " + result);
+});*/
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
