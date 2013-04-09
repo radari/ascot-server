@@ -86,37 +86,25 @@ exports.testGetRandom = function(test) {
 exports.testHandleUpload = function(test) {
   var mockHandle = { path : '/test/bs' };
   
-  var newLookCalled = false;
-  var setHeightAndWidthCalled = false;
   var height = 200;
   var width = 250;
-  var mockLook = { '_id' : 'MYFAKEID' };
+  var mockLook = { 
+      '_id' : 'MYFAKEID',
+      save : function(callback) { callback(null, mockLook); },
+      size : {}
+  };
   var mockPermissions = { '_id' : 'BS123' };
   
   var mockMongoLookFactory = {
     newLook : function(user, callback) {
-      newLookCalled = true;
       callback(null, mockLook, mockPermissions);
-    },
-    setHeightAndWidth : function(id, h, w, callback) {
-      setHeightAndWidthCalled = true;
-      test.equal('MYFAKEID', id);
-      test.equal(height, h);
-      test.equal(width, w);
-      callback(null, mockLook);
     }
   };
   
   var mockFs = {
-    rename : function(source, target, callback) {
-      test.ok(newLookCalled);
-      test.equal(mockHandle.path, source);
-      test.equal(target, './public/images/uploads/MYFAKEID.png');
-      callback(null);
-    },
     unlink : function(path, callback) {
-      test.ok(setHeightAndWidthCalled);
-      callback({});
+      test.equal(path, mockHandle.path);
+      callback(null);
     } 
   };
   
@@ -128,6 +116,12 @@ exports.testHandleUpload = function(test) {
       }
     };
   };
+
+  var mockUploadHandler = function(path, target, callback) {
+    test.equal(path, mockHandle.path);
+    test.equal(target, 'MYFAKEID.png');
+    callback(null, 'http://bs/MYFAKEID');
+  };
   
   LookRoutes.handleUpload(
       null,
@@ -135,77 +129,14 @@ exports.testHandleUpload = function(test) {
       mockMongoLookFactory,
       mockFs,
       mockGm,
+      mockUploadHandler,
       function(error, look, permissions) {
         test.equal(null, error);
         test.equal(mockLook, look);
         test.equal(mockPermissions, permissions);
-        test.ok(newLookCalled);
-        test.ok(setHeightAndWidthCalled);
-        test.expect(13);
+        test.equal('http://bs/MYFAKEID', look.url);
+        test.expect(8);
         test.done();
-      });
-};
-
-exports.testUpload = function(test) {
-  var url = 'MYFAKEURL';
-  var height = 200;
-  var width = 250;
-
-  var mockLook = { '_id' : 'MYFAKEID' };
-  var mockPermissions = { '_id' : 'BS123' };
-  
-  var mockMongoLookFactory = {
-    newLookWithUrl : function(user, u, callback) {
-      test.equal(u, url);
-      callback(null, mockLook, mockPermissions);
-    },
-    setHeightAndWidth : function(id, h, w, callback) {
-      setHeightAndWidthCalled = true;
-      test.equal('MYFAKEID', id);
-      test.equal(height, h);
-      test.equal(width, w);
-      callback(null, mockLook);
-    }
-  };
-
-  var mockFs = {
-    rename : function(source, target, callback) {
-      callback(null);
-    }
-  };
-
-  var mockHttp = {
-    get : function(image, path, callback) {
-      test.equal(url, image);
-      test.equal(path.indexOf('./public/images/uploads/'), 0);
-      callback(null, { file : 'MYTESTPATH' });
-    }
-  };
-
-  var mockGm = function(path) {
-    test.equal(path, 'MYTESTPATH');
-    return {
-      size : function(callback) {
-        callback(null, { height : height, width : width });
-      }
-    };
-  };
-
-  var fn = LookRoutes.upload(mockMongoLookFactory, mockFs, mockGm, mockHttp);
-
-  fn({ body : { url : url }, cookies : {} },
-      { redirect :
-          function(url) {
-            test.equal('/tagger/MYFAKEID', url);
-            test.expect(11);
-            test.done();
-          },
-        cookie :
-          function(tag, data, params) {
-            test.equal('permissions', tag);
-            test.equal(1, data.length);
-            test.equal('BS123', data[0]);
-          }
       });
 };
 
