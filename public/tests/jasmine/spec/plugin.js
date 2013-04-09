@@ -66,7 +66,7 @@ describe('Ascot plugin', function() {
 
   describe("Ascot Plugin UI", function() {
     it('should handle upvote look properly', function() {
-      var UI = new AscotPluginUI('http://test');
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com');
 
       var ascotId = '1234';
       var mockJsonp = function(url, callback) {
@@ -97,6 +97,39 @@ describe('Ascot plugin', function() {
       expect(props['cursor']).toBe('pointer');
       expect(props['src']).toBe('http://test/images/overlayOptions_heart_small.png');
       expect(props['opacity']).toBe('0.6');
+    });
+
+    it("should add tag description properly", function() {
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com');
+
+      var MockTagDescription = function() {
+        this.props = {};
+        this.css = function(key, val) {
+          this.props[key] = val;
+        };
+        this.hide = function() {
+          this.props['display'] = 'none';
+        };
+        this.appendTo = function(container) {
+          this.container = container;
+        };
+        this.html = function(html) {
+          this.myHtml = html;
+        };
+      };
+      var tagDescription = new MockTagDescription();
+      var tagContainer = { me : true };
+      var tag = {
+        product : { brand : 'Bonobos', name : 'Test', buyLink : 'google' }
+      }
+
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 25, 25);
+      expect(tagDescription.props['left']).toBe('0px');
+      expect(tagDescription.props['top']).toBe('0px');
+      expect(tagDescription.container).toBe(tagContainer);
+      expect(tagDescription.myHtml).toContain("Bonobos");
+      expect(tagDescription.myHtml).toContain("Test");
+      expect(tagDescription.myHtml).toContain("http://mywebsite.com");
     });
   });
 });

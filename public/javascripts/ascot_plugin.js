@@ -92,16 +92,16 @@ function AscotPlugin(tagSourceUrl) {
   };
 };
 
-function AscotPluginUI(tagSourceUrl) {
-  this.constructTagDescription = function(height, width, tagContainer, tagDescription, tag, tagX, tagY, smallImage) {
+function AscotPluginUI(tagSourceUrl, myUrl) {
+  this.constructTagDescription = function(height, width, tagContainer, tagDescription, tag, tagX, tagY) {
     tagDescription.html(
         "<b>" +
         "<a id='ascot_overlay_link' target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" +
         tag.product.brand + "</b></a> " + tag.product.name +
         "<br/>" +
-        (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + $(location).attr('href') + "\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
+        (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
 
-    var offset = smallImage ? 0 : 10;
+    var offset = 0;
     if (tagX > width / 2.0) {
       tagDescription.css('right', offset + 'px');
     } else {
@@ -151,7 +151,7 @@ function initAscotPlugin($, tagSourceUrl) {
   });
 
   var plugin = new AscotPlugin();
-  var UI = new AscotPluginUI(tagSourceUrl);
+  var UI = new AscotPluginUI(tagSourceUrl, $(location).attr('href'));
   var jsonp = function(url, callback) {
     $.ajax({
       type: 'GET',
@@ -335,7 +335,7 @@ function initAscotPlugin($, tagSourceUrl) {
         }
                 
         var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
-        UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagX, tagY, smallImage);
+        UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagX, tagY);
         if (smallImage) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
         }
