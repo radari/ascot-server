@@ -69,6 +69,7 @@ passport.serializeUser(strategy.serializeUser);
 passport.deserializeUser(strategy.deserializeUser);
 
 // configure custom tools
+var mode = process.env.MODE || 'production';
 var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm);
 var uploadTarget = knox.createClient({
   key : "AKIAJW2LJ5AG2WHBDYIA",
@@ -76,15 +77,23 @@ var uploadTarget = knox.createClient({
   bucket : 'ascot_uploads'
 });
 
-/*uploadTarget.putFile('./public/images/ascot_watermark.png', '/uploads/abcd.png', function(error, result) {
-  console.log("$$ " + error + " " + result);
-});*/
+var uploadHandler = function(uploadTarget, mode) {
+  return function(imagePath, remoteName, callback) {
+    uploadTarget.putFile(imagePath, (mode == 'test' ? '/test/' : '/uploads/') + remoteName, { 'x-amz-acl': 'public-read' }, function(error, result) {
+      if (error || !result) {
+        callback("error - " + error, null);
+      } else {
+        callback(null, 'https://s3.amazonaws.com/ascot_uploads' + (mode == 'test' ? '/test/' : '/uploads/') + remoteName);
+      }
+    });
+  };
+}(uploadTarget, mode);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
   // Default to production mode, since test mode gives additional functionality
-  app.set('mode', process.env.MODE || 'production');
+  app.set('mode', mode);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon(__dirname + '/public/images/twitterButton.png', {maxAge: 86400000}));
@@ -159,7 +168,7 @@ app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
 
 // Upload
-app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet));
+app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet, uploadHandler));
 
 // Set tags for image
 app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense));

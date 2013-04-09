@@ -123,7 +123,7 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
   };
 }
 
-exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, callback) {
+exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, uploadHandler, callback) {
   var tmpPath = handle.path;
   // set where the file should actually exists - in this case it is in the "images" directory
   mongoLookFactory.newLook(user, function(error, look, permissions) {
@@ -137,26 +137,38 @@ exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, callback
         callback("The uploaded file does not appear to be an image", null, null);
       } else if (features.width > 700) {
         gm(tmpPath).resize(700, features.height * (700 / features.width)).write(targetPath, function(error) {
-          if (error) {
-            callback(error, null, null);
-          } else {
-            mongoLookFactory.setHeightAndWidth(look._id, features.height * (700 / features.width), 700, function(error, look) {
-              fs.unlink(tmpPath, function(error) {
-                // Don't care about error, probably means files already gone
-                callback(null, look, permissions);
+          uploadHandler(targetPath, look._id + '.png', function(error, result) {
+            if (error) {
+              callback(error, null, null);
+            } else {
+              look.url = result;
+              look.save(function(error, look) {
+                mongoLookFactory.setHeightAndWidth(look._id, features.height * (700 / features.width), 700, function(error, look) {
+                  fs.unlink(tmpPath, function(error) {
+                    fs.unlink(targetPath, function(error) {
+                      // Don't care about error, probably means files already gone
+                      callback(null, look, permissions);
+                    });
+                  });
+                });
               });
-            });
-          }
+            }
+          });
         });
       } else {
         fs.rename(tmpPath, targetPath, function(error) {
           if (error) {
             callback(error, null, null);
           } else {
-            mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
-              fs.unlink(tmpPath, function(error) {
-                // Don't care about error, probably means files already gone
-                callback(null, look, permissions);
+            uploadHandler(targetPath, look._id + '.png', function(error, result) {
+              look.url = result;
+              look.save(function(error, look) {
+                mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
+                  fs.unlink(tmpPath, function(error) {
+                    // Don't care about error, probably means files already gone
+                    callback(null, look, permissions);
+                  });
+                });
               });
             });
           }
@@ -205,13 +217,13 @@ exports.handleUrl = function(mongoLookFactory, fs, gm, http, user, url, callback
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory, fs, gm, http) {
+exports.upload = function(mongoLookFactory, fs, gm, http, uploadHandler) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      exports.handleUpload(req.user, req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
+      exports.handleUpload(req.user, req.files.files, mongoLookFactory, fs, gm, uploadHandler, function(error, look, permissions) {
         if (error) {
           res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
           console.log(JSON.stringify(error));
