@@ -99,6 +99,29 @@ describe('Ascot plugin', function() {
       expect(props['opacity']).toBe('0.6');
     });
 
+    it("should set up tag container properly", function() {
+      var mockOverlay = { me : true };
+      var mockTagContainer = new function() {
+        this.props = {};
+        this.css = function(key, val) {
+          this.props[key] = val;
+        },
+        this.appendTo = function(el) {
+          this.container = el;
+        };
+      }();
+
+      var defaultSize = { height : 100, width : 100 };
+      var actualSize = { height : 100, width : 100 };
+      var tag = { position : { x : 25, y : 25 } };
+
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com');
+      var ret = UI.constructTagContainer(mockOverlay, mockTagContainer, defaultSize, actualSize, tag);
+      expect(ret.x).toBe(25);
+      expect(ret.y).toBe(25);
+      expect(mockTagContainer.container).toBe(mockOverlay);
+    });
+
     it("should add tag description properly", function() {
       var UI = new AscotPluginUI('http://test', 'http://mywebsite.com');
 
@@ -123,7 +146,7 @@ describe('Ascot plugin', function() {
         product : { brand : 'Bonobos', name : 'Test', buyLink : 'google' }
       }
 
-      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 25, 25);
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 25, y : 25 });
       expect(tagDescription.props['left']).toBe('5px');
       expect(tagDescription.props['top']).toBe('5px');
       expect(tagDescription.container).toBe(tagContainer);
@@ -132,21 +155,20 @@ describe('Ascot plugin', function() {
       expect(tagDescription.myHtml).toContain("http://mywebsite.com");
 
       tagDescription = new MockTagDescription();
-      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 75, 25);
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 75, y : 25 });
       expect(tagDescription.props['right']).toBe('5px');
       expect(tagDescription.props['top']).toBe('5px');
 
       tagDescription = new MockTagDescription();
-      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 75, 75);
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 75, y : 75 });
       expect(tagDescription.props['right']).toBe('5px');
       expect(tagDescription.props['bottom']).toBe('5px');
 
       tagDescription = new MockTagDescription();
-      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 25, 25);
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 25, y : 75 });
       expect(tagDescription.props['left']).toBe('5px');
-      expect(tagDescription.props['top']).toBe('5px');
+      expect(tagDescription.props['bottom']).toBe('5px');
     });
-
     
   });
 });
