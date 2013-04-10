@@ -124,12 +124,29 @@ describe('Ascot plugin', function() {
       }
 
       UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 25, 25);
-      expect(tagDescription.props['left']).toBe('0px');
-      expect(tagDescription.props['top']).toBe('0px');
+      expect(tagDescription.props['left']).toBe('5px');
+      expect(tagDescription.props['top']).toBe('5px');
       expect(tagDescription.container).toBe(tagContainer);
       expect(tagDescription.myHtml).toContain("Bonobos");
       expect(tagDescription.myHtml).toContain("Test");
       expect(tagDescription.myHtml).toContain("http://mywebsite.com");
+
+      tagDescription = new MockTagDescription();
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 75, 25);
+      expect(tagDescription.props['right']).toBe('5px');
+      expect(tagDescription.props['top']).toBe('5px');
+
+      tagDescription = new MockTagDescription();
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 75, 75);
+      expect(tagDescription.props['right']).toBe('5px');
+      expect(tagDescription.props['bottom']).toBe('5px');
+
+      tagDescription = new MockTagDescription();
+      UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, 25, 25);
+      expect(tagDescription.props['left']).toBe('5px');
+      expect(tagDescription.props['top']).toBe('5px');
     });
+
+    
   });
 });

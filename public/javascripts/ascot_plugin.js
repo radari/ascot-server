@@ -101,7 +101,7 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
         "<br/>" +
         (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
 
-    var offset = 0;
+    var offset = 5;
     if (tagX > width / 2.0) {
       tagDescription.css('right', offset + 'px');
     } else {
