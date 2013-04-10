@@ -93,7 +93,26 @@ function AscotPlugin(tagSourceUrl) {
 };
 
 function AscotPluginUI(tagSourceUrl, myUrl) {
-  this.constructTagDescription = function(height, width, tagContainer, tagDescription, tag, tagX, tagY) {
+  this.constructTagContainer = function(overlay, tagContainer, defaultSize, actualSize, tag) {
+    var tagX;
+    var tagY;
+    if (actualSize.height == defaultSize.height && actualSize.width == defaultSize.width) {
+      // Image is default size - no need to scale tags
+      tagX = tag.position.x;
+      tagY = tag.position.y;
+    } else {
+      // Image resized by client. Scale tag positions
+      tagX = (tag.position.x / defaultSize.width) * actualSize.width;
+      tagY = (tag.position.y / defaultSize.height) * actualSize.height;
+    }
+    tagContainer.css("left", tagX);
+    tagContainer.css("top", tagY);
+    tagContainer.appendTo(overlay);
+
+    return { x : tagX, y : tagY };
+  };
+
+  this.constructTagDescription = function(height, width, tagContainer, tagDescription, tag, tagPosition) {
     tagDescription.html(
         "<b>" +
         "<a id='ascot_overlay_link' target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" +
@@ -102,13 +121,13 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
         (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
 
     var offset = 5;
-    if (tagX > width / 2.0) {
+    if (tagPosition.x > width / 2.0) {
       tagDescription.css('right', offset + 'px');
     } else {
       tagDescription.css('left', offset + 'px');
     }
                 
-    if (tagY > height / 2.0) {
+    if (tagPosition.y > height / 2.0) {
       tagDescription.css('bottom', offset + 'px');
     } else {
       tagDescription.css('top', offset + 'px');
@@ -312,20 +331,7 @@ function initAscotPlugin($, tagSourceUrl) {
               
       $.each(json.tags, function(i, tag) {
         var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");
-        var tagX;
-        var tagY;
-        if (height == json.size.height && width == json.size.width) {
-          // Image is default size - no need to scale tags
-          tagX = tag.position.x;
-          tagY = tag.position.y;
-        } else {
-          // Image resized by client. Scale tag positions
-          tagX = (tag.position.x / json.size.width) * width;
-          tagY = (tag.position.y / json.size.height) * height;
-        }
-        tagContainer.css("left", tagX);
-        tagContainer.css("top", tagY);
-        tagContainer.appendTo(overlay);
+        var tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : height, width : width }, tag);
                 
         var tagName =
             $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>");
@@ -335,7 +341,7 @@ function initAscotPlugin($, tagSourceUrl) {
         }
                 
         var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
-        UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagX, tagY);
+        UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagPosition);
         if (smallImage) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
         }
