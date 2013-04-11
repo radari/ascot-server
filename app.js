@@ -27,6 +27,7 @@ var express = require('express')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , knox = require('knox')
+  , temp = require('temp')
   , bcrypt = require('bcrypt-nodejs');
 
 
@@ -70,7 +71,6 @@ passport.deserializeUser(strategy.deserializeUser);
 
 // configure custom tools
 var mode = process.env.MODE || 'production';
-var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm);
 var uploadTarget = knox.createClient({
   key : "AKIAJW2LJ5AG2WHBDYIA",
   secret : "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",
@@ -88,6 +88,8 @@ var uploadHandler = function(uploadTarget, mode) {
     });
   };
 }(uploadTarget, mode);
+
+var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, uploadHandler);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);

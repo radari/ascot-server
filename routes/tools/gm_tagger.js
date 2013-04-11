@@ -8,7 +8,7 @@
  *
  */
 
-exports.gmTagger = function(gm) {
+exports.gmTagger = function(gm, temp, uploadHandler) {
   return function(imagePath, resultPath, look, callback) {
     var image = gm(imagePath);
     var r = 12;

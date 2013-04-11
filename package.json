@@ -19,6 +19,7 @@
     "passport" : "*",
     "passport-local" : "*",
     "bcrypt-nodejs" : "*",
-    "knox" : "*"
+    "knox" : "*",
+    "temp" : "*"
   }
 }
