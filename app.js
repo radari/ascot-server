@@ -89,7 +89,7 @@ var uploadHandler = function(uploadTarget, mode) {
   };
 }(uploadTarget, mode);
 
-var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, uploadHandler);
+var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, uploadHandler);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -147,6 +147,13 @@ app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
+
+/*mongoLookFactory.buildFromId('5161a59846341f8a46000004', function(error, look) {
+  console.log('qq');
+  gmTagger('./public/images/ascotsample.png', 'tagged_' + look._id + '.png', look, function(error, result) {
+    console.log('rt ' + error + " " + result);
+  });
+});*/
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));

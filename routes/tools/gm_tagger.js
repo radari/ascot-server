@@ -8,7 +8,7 @@
  *
  */
 
-exports.gmTagger = function(gm, temp, uploadHandler) {
+exports.gmTagger = function(gm, temp, fs, uploadHandler) {
   return function(imagePath, resultPath, look, callback) {
     var image = gm(imagePath);
     var r = 12;
@@ -30,12 +30,20 @@ exports.gmTagger = function(gm, temp, uploadHandler) {
           drawText(tag.position.x - 4, tag.position.y + 5, (i + 1) + '', 'NorthWest');
     }
 
-    image.write(resultPath, function(error) {
-      if (error) {
-        callback("error " + error, null);
-      } else {
-        callback(null, true);
-      }
+    temp.open('myprefix', function(error, info) {
+      image.write(info.path, function(error) {
+        if (error) {
+          callback("error " + error, null);
+        } else {
+          uploadHandler(info.path, resultPath, function(error, result) {
+            console.log("zz " + error + " " + result);
+            fs.unlink(info.path, function(e) {
+              console.log("%% " + error + " " + result);
+              callback(error, result);
+            });
+          });
+        }
+      });
     });
   };
 };
