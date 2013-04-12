@@ -95,6 +95,8 @@ var Goldfinger = require('./routes/tools/goldfinger.js').Goldfinger;
 var goldfinger = new Goldfinger(fs, gm, temp, uploadHandler);
 goldfinger.setMaxWidth(700);
 
+var download = require('./routes/tools/download.js').download(httpGet, temp);
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
@@ -174,7 +176,7 @@ app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
 
 // Upload
-app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, httpGet, gmTagger));
+app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
 app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense, gmTagger));

@@ -150,10 +150,8 @@ exports.handleUpload = function(user, tmpPath, mongoLookFactory, goldfinger, cal
   exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, goldfinger, callback);
 };
 
-exports.handleUrl = function(mongoLookFactory, goldfinger, http, user, url, callback) {
-  var random = Math.random().toString(36).substr(2);
-  var tmpPath = './public/images/uploads/' + random + '.png';
-  http.get(url, tmpPath, function(error, result) {
+exports.handleUrl = function(mongoLookFactory, goldfinger, download, user, url, callback) {
+  download(url, function(error, tmpPath) {
     if (error) {
       callback("Image " + url + " could not be found", null);
     } else {
@@ -165,7 +163,7 @@ exports.handleUrl = function(mongoLookFactory, goldfinger, http, user, url, call
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory, goldfinger, http, gmTagger) {
+exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
@@ -185,7 +183,7 @@ exports.upload = function(mongoLookFactory, goldfinger, http, gmTagger) {
       var ret = [];
       exports.handleUpload(req.user, req.files.files.path, mongoLookFactory, goldfinger, checkAndTaggerRedirect);
     } else if (req.body.url) {
-      exports.handleUrl(mongoLookFactory, goldfinger, http, req.user, req.body.url, checkAndTaggerRedirect);
+      exports.handleUrl(mongoLookFactory, goldfinger, download, req.user, req.body.url, checkAndTaggerRedirect);
     } else {
       res.render('error',
           { title : "Ascot :: Error",
