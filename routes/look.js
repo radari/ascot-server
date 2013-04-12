@@ -123,71 +123,41 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
   };
 };
 
-exports.handleUploadGeneric = function(user, path, mongoLookFactory, fs, gm, uploadHandler, callback) {
+exports.handleUploadGeneric = function(user, path, mongoLookFactory, goldfinger, callback) {
   mongoLookFactory.newLook(user, function(error, look, permissions) {
     if (error) {
       console.log(error);
     }
-    var targetPath = './public/images/uploads/' + look._id + '.png';
-    // move the file from the temporary location to the intended location
-    gm(path).size(function(error, features) {
-      if (!features) {
-        callback("The uploaded file does not appear to be an image", null, null);
-      } else if (features.width > 700) {
-        gm(path).resize(700, features.height * (700 / features.width)).write(targetPath, function(error) {
-          uploadHandler(targetPath, look._id + '.png', function(error, result) {
-            if (error) {
-              callback(error, null, null);
-            } else {
-              look.url = result;
-              look.size.height = features.height * (700 / features.width);
-              look.size.width = 700;
-              look.save(function(error, look) {
-                // Delete all files and put everything on s3
-                fs.unlink(path, function(error) {
-                  fs.unlink(targetPath, function(error) {
-                    // Don't care about error, probably means files already gone
-                    callback(null, look, permissions);
-                  });
-                });
-              });
-            }
-          });
-        });
+    
+    console.log("** T");
+    goldfinger.toS3(path, look._id + '.png', function(error, result, features) {
+      console.log("** L");
+      if (error || !result || !features) {
+        callback(error, null, null);
       } else {
-        uploadHandler(path, look._id + '.png', function(error, result) {
-          if (error || !result) {
-            callback("error - " + error, null, null);
-          } else {
-            look.url = result;
-            look.size.height = features.height;
-            look.size.width = features.width;
-            look.save(function(error, look) {
-              fs.unlink(path, function(error) {
-                // Don't care about error, probably means files already gone
-                callback(null, look, permissions);
-              });
-            });
-          }
+        look.url = result;
+        look.size.height = features.height * (700 / features.width);
+        look.size.width = 700;
+        look.save(function(error, look) {
+          callback(null, look, permissions);
         });
       }
     });
   });
 };
 
-exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, uploadHandler, callback) {
-  var tmpPath = handle.path;
-  exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, fs, gm, uploadHandler, callback);
+exports.handleUpload = function(user, tmpPath, mongoLookFactory, goldfinger, callback) {
+  exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, goldfinger, callback);
 };
 
-exports.handleUrl = function(mongoLookFactory, fs, gm, http, user, url, uploadHandler, callback) {
+exports.handleUrl = function(mongoLookFactory, goldfinger, http, user, url, callback) {
   var random = Math.random().toString(36).substr(2);
   var tmpPath = './public/images/uploads/' + random + '.png';
   http.get(url, tmpPath, function(error, result) {
     if (error) {
       callback("Image " + url + " could not be found", null);
     } else {
-      exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, fs, gm, uploadHandler, callback);
+      exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, goldfinger, callback);
     }
   });
 };
@@ -195,7 +165,7 @@ exports.handleUrl = function(mongoLookFactory, fs, gm, http, user, url, uploadHa
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory, fs, gm, http, uploadHandler) {
+exports.upload = function(mongoLookFactory, goldfinger, http) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
@@ -211,9 +181,9 @@ exports.upload = function(mongoLookFactory, fs, gm, http, uploadHandler) {
 
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      exports.handleUpload(req.user, req.files.files, mongoLookFactory, fs, gm, uploadHandler, checkAndTaggerRedirect);
+      exports.handleUpload(req.user, req.files.files.path, mongoLookFactory, goldfinger, checkAndTaggerRedirect);
     } else if (req.body.url) {
-      exports.handleUrl(mongoLookFactory, fs, gm, http, req.user, req.body.url, uploadHandler, checkAndTaggerRedirect);
+      exports.handleUrl(mongoLookFactory, goldfinger, http, req.user, req.body.url, checkAndTaggerRedirect);
     } else {
       res.render('error',
           { title : "Ascot :: Error",

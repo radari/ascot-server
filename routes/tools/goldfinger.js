@@ -9,7 +9,9 @@
  *
  */
 
-exports.Goldfinger = function(fs, gm, httpGet, temp, uploadHandler) {
+exports.Goldfinger = function(fs, gm, temp, uploadHandler) {
+  this.maxWidth = 700;
+
   this.setMaxWidth = function(width) {
     this.maxWidth = width;
   };
@@ -27,13 +29,11 @@ exports.Goldfinger = function(fs, gm, httpGet, temp, uploadHandler) {
     if (self.maxWidth) {
       gm(imagePath).size(function(error, features) {
         if (error || !features) {
-          callback("The provided file does not appear to be an image", null);
+          callback("The provided file does not appear to be an image", null, null);
         } else if (features.width > self.maxWidth) {
-          temp.open('myprefix', function(error, info) {
-            gm(imagePath).resize(700, features.height * (700 / features.width)).write(info.path, function(error) {
-              fs.unlink(imagePath, function(e) {
-                finish(info.path, features);
-              });
+          gm(imagePath).resize(700, features.height * (700 / features.width)).write(imagePath, function(error) {
+            fs.unlink(imagePath, function(e) {
+              finish(info.path, features);
             });
           });
         } else {
