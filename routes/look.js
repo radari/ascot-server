@@ -136,8 +136,8 @@ exports.handleUploadGeneric = function(user, path, mongoLookFactory, goldfinger,
         callback(error, null, null);
       } else {
         look.url = result;
-        look.size.height = features.height * (700 / features.width);
-        look.size.width = 700;
+        look.size.height = features.height;
+        look.size.width = features.width;
         look.save(function(error, look) {
           callback(null, look, permissions);
         });
@@ -165,7 +165,7 @@ exports.handleUrl = function(mongoLookFactory, goldfinger, http, user, url, call
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory, goldfinger, http) {
+exports.upload = function(mongoLookFactory, goldfinger, http, gmTagger) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
@@ -173,9 +173,11 @@ exports.upload = function(mongoLookFactory, goldfinger, http) {
       if (error || !look || !permissions) {
         res.render('error', { title : "Ascot :: Error", error : error });
       } else {
-        permissionsList.push(permissions._id);
-        res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
-        res.redirect('/tagger/' + look._id);
+        gmTagger(look, function(error, result) {
+          permissionsList.push(permissions._id);
+          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+          res.redirect('/tagger/' + look._id);
+        });
       }
     };
 

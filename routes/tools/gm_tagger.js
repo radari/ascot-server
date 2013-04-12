@@ -14,7 +14,9 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
       httpGet.get(look.url, info.path, function(error) {
         var image = gm(info.path);
         var r = 12;
+        console.log("--> " + look.title);
         for (var i = 0; i < look.tags.length; ++i) {
+          console.log("^^ " + JSON.stringify(look.tags[i]));
           var tag = look.tags[i];
           image = image.
               fill('#6B6B6B99').
@@ -32,19 +34,21 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
               drawText(tag.position.x - 4, tag.position.y + 5, (i + 1) + '', 'NorthWest');
         }
 
-        image.write(info.path, function(error) {
-          if (error) {
-            callback("error " + error, null);
-          } else {
-            uploadHandler(info.path, 'tagged_' + look._id + '.png', function(error, result) {
-              fs.unlink(info.path, function(e) {
-                look.taggedUrl = result || "";
-                look.save(function(error, look) {
-                  callback(error, result);
+        temp.open('prefix2', function(error, target) {
+          image.write(target.path, function(error) {
+            if (error) {
+              callback("error " + error, null);
+            } else {
+              uploadHandler(target.path, 'tagged_' + look._id + '.png', function(error, result) {
+                fs.unlink(info.path, function(e) {
+                  look.taggedUrl = result || "";
+                  look.save(function(error, look) {
+                    callback(error, result);
+                  });
                 });
               });
-            });
-          }
+            }
+          });
         });
       });
     });

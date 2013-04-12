@@ -152,13 +152,6 @@ app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 
-/*mongoLookFactory.buildFromId('5161a59846341f8a46000004', function(error, look) {
-  console.log('qq');
-  gmTagger(look, function(error, result) {
-    console.log('rt ' + error + " " + result);
-  });
-});*/
-
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
 app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
@@ -181,7 +174,7 @@ app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
 
 // Upload
-app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, httpGet));
+app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, httpGet, gmTagger));
 
 // Set tags for image
 app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense, gmTagger));
