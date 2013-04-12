@@ -89,7 +89,7 @@ var uploadHandler = function(uploadTarget, mode) {
   };
 }(uploadTarget, mode);
 
-var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, uploadHandler);
+var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, httpGet, uploadHandler);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -150,7 +150,7 @@ var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 
 /*mongoLookFactory.buildFromId('5161a59846341f8a46000004', function(error, look) {
   console.log('qq');
-  gmTagger('./public/images/ascotsample.png', 'tagged_' + look._id + '.png', look, function(error, result) {
+  gmTagger(look, function(error, result) {
     console.log('rt ' + error + " " + result);
   });
 });*/
