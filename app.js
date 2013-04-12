@@ -97,6 +97,8 @@ goldfinger.setMaxWidth(700);
 
 var download = require('./routes/tools/download.js').download(httpGet, temp);
 
+var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
@@ -151,10 +153,17 @@ app.get('/howto/guidelines', routes.guidelines);
 app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
-
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 
 // Looks and search dynamic displays
+app.get('/look/html/:id', function(req, res) {
+  mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+    imageMapTagger(look, function(error, result) {
+      console.log(error + " " + result);
+      res.send(result);
+    });
+  });
+});
 app.get('/look/:id', look.get(mongoLookFactory));
 app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
 app.put('/look/:id/published',

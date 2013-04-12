@@ -42,7 +42,7 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
               fs.unlink(info.path, function(e) {
                 look.taggedUrl = result || "";
                 look.save(function(error, look) {
-                  callback(error, result);
+                  callback(error, look);
                 });
               });
             });
