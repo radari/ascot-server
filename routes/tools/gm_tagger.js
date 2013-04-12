@@ -37,10 +37,11 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
             callback("error " + error, null);
           } else {
             uploadHandler(info.path, 'tagged_' + look._id + '.png', function(error, result) {
-              console.log("zz " + error + " " + result);
               fs.unlink(info.path, function(e) {
-                console.log("%% " + error + " " + result);
-                callback(error, result);
+                look.taggedUrl = result || "";
+                look.save(function(error, look) {
+                  callback(error, result);
+                });
               });
             });
           }

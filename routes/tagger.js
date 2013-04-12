@@ -39,7 +39,7 @@ exports.get = function(displayRoute, mongoLookFactory) {
 /*
  * PUT /tagger/:look
  */
-exports.put = function(mongoLookFactory, shopsense) {
+exports.put = function(mongoLookFactory, shopsense, gmTagger) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user,
@@ -111,9 +111,11 @@ exports.put = function(mongoLookFactory, shopsense) {
                                         { error : 'Failed to save tags',
                                           title : 'Ascot :: Error' });
                                   } else {
-                                    // Return nothing, client should handle this
-                                    // how it wants
-                                    res.json({});
+                                    gmTagger(look, function() {
+                                      // Return nothing, client should handle this
+                                      // how it wants
+                                      res.json({});
+                                    });
                                   }
                                 });
                                 return;

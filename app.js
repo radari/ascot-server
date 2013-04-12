@@ -180,7 +180,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet, uploadHandler));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense));
+app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense, gmTagger));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
