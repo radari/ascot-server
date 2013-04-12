@@ -46,7 +46,7 @@ exports.iframe = function(mongoLookFactory) {
 /*
  * GET /new/look/:user?url=<url>&title=<title>&source=<source>
  */
-exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, fs, gm, http) {
+exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, goldfinger, download) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
@@ -54,7 +54,7 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, fs, gm, ht
       if (error || !user) {
         res.render('error', { error : 'User ' + req.params.user + ' not found', title : 'Ascot :: Error' });
       } else {
-        exports.handleUrl(mongoLookFactory, fs, gm, http, user, req.query.url, function(error, look, permissions) {
+        exports.handleUrl(mongoLookFactory, goldfinger, download, user, req.query.url, function(error, look, permissions) {
           if (error || !look || !permissions) {
             res.render('error', { error : error, title : 'Ascot :: Error' });
           } else {
@@ -129,9 +129,7 @@ exports.handleUploadGeneric = function(user, path, mongoLookFactory, goldfinger,
       console.log(error);
     }
     
-    console.log("** T");
     goldfinger.toS3(path, look._id + '.png', function(error, result, features) {
-      console.log("** L");
       if (error || !result || !features) {
         callback(error, null, null);
       } else {
