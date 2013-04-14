@@ -90,6 +90,18 @@ function AscotPlugin(tagSourceUrl) {
   this.getPinterestUrl = function(image, url) {
     return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent(url) + '&media=' + encodeURIComponent(image) + '&description=' + encodeURIComponent('From: ' + url);
   };
+
+  this.getImageMap = function(look) {
+    var ret = "<img src='" + look.taggedUrl + "' usemap='#ascot" + look._id + "'>";
+    ret += "<map name='ascot" + look._id + "'>";
+    for (var i = 0; i < look.tags.length; ++i) {
+      if (look.tags[i].product.buyLink) {
+        ret += "<area shape='circle' coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",12' href='" + look.tags[i].product.buyLink + "' target='_blank'>";
+      }
+    }
+    ret += "</map>";
+    return ret;
+  };
 };
 
 function AscotPluginUI(tagSourceUrl, myUrl) {

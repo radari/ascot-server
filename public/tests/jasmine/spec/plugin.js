@@ -62,6 +62,23 @@ describe('Ascot plugin', function() {
       expect(plugin.getPinterestUrl('image', 'test')).
           toBe('//pinterest.com/pin/create/button/?url=test&media=image&description=From%3A%20test');
     });
+
+    it("should generate HTML version properly", function() {
+      var mockLook = { 
+          _id : '1234',
+          taggedUrl : 'http://test',
+          tags : [
+              { position : { x : 100, y : 100 },
+                product : { buyLink : 'http://buy' }
+              }]
+      };
+
+      expect(plugin.getImageMap(mockLook)).
+          toBe( "<img src='http://test' usemap='#ascot1234'>" +
+                "<map name='ascot1234'>" +
+                "<area shape='circle' coords='100,100,12' href='http://buy' target='_blank'>" +
+                "</map>");
+    });
   });
 
   describe("Ascot Plugin UI", function() {
