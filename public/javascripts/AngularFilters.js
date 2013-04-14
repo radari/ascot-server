@@ -20,6 +20,13 @@ angular.module('AngularFilters', []).
         return ret;
       }
     };
+  }).filter('checkEmpty', function() {
+    return function(input, def) {
+      if (!input || input.length == 0) {
+        return def;
+      }
+      return input;
+    };
   }).filter('concat', function() {
     return function(lhs, rhs) {
       return lhs + rhs;

@@ -35,7 +35,7 @@ describe('SettingsController', function() {
     scope.save(true);
     $httpBackend.flush();
     
-    expect(msg).toBe('Successfully saved');
+    expect(scope.showSaved).toBe(true);
     
     scope.save(false);
     expect(msg).toBe('There were errors in your settings. Please correct them');

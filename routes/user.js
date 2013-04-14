@@ -32,3 +32,24 @@ exports.saveSettings = function(User) {
     });
   };
 };
+
+/*
+ * GET /delete/user/:name.json
+ */
+exports.delete = function(mongoUserFactory) {
+  return function(req, res) {
+    mongoUserFactory.findByUsername(req.params.name, function(error, user) {
+      if (error || !user) {
+        res.json({ error : error });
+      } else {
+        user.remove(function(error) {
+          if (error) {
+            res.json({ error : error });
+          } else {
+            res.json({ success : true });
+          }
+        });
+      }
+    });
+  };
+};

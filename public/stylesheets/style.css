@@ -793,6 +793,7 @@ div.autocomplete {
 
 div.autocomplete div {
   width: 290px;
+  background-color: #FFFFFF;
   background-color: rgba(255,255,255,0.7);
   border-bottom: 1px solid rgba(0,0,0,0.3);
   cursor: pointer;
@@ -803,13 +804,15 @@ div.autocomplete div {
 }
 
 div.autocomplete div:hover {
+  background-color: #000000;
+  color: #FFFFFF;
   background-color:rgba(0,0,0,0.6);
-  color: rgba(255,255,255,1);
 }
 
 div.autocomplete div.selection {
+  background-color: #000000;
+  color: #FFFFFF;
   background-color:rgba(0,0,0,0.6);
-  color: rgba(255,255,255,1);
 }
 
 #save_button {

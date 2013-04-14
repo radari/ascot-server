@@ -1,12 +1,4 @@
-
-var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
 var fs = require('fs');
-
-var Mongoose = require('mongoose');
-var db = Mongoose.createConnection('localhost', 'ascot');
-
-var LookSchema = require('../models/Look.js').LookSchema;
-var Look = db.model('looks', LookSchema);
 
 var gm = require('gm');
 
@@ -54,7 +46,7 @@ exports.iframe = function(mongoLookFactory) {
 /*
  * GET /new/look/:user?url=<url>&title=<title>&source=<source>
  */
-exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, fs, gm, http) {
+exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, goldfinger, download) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
@@ -62,7 +54,7 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, fs, gm, ht
       if (error || !user) {
         res.render('error', { error : 'User ' + req.params.user + ' not found', title : 'Ascot :: Error' });
       } else {
-        exports.handleUrl(mongoLookFactory, fs, gm, http, user, req.query.url, function(error, look, permissions) {
+        exports.handleUrl(mongoLookFactory, goldfinger, download, user, req.query.url, function(error, look, permissions) {
           if (error || !look || !permissions) {
             res.render('error', { error : error, title : 'Ascot :: Error' });
           } else {
@@ -129,83 +121,39 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
       });
     }
   };
-}
+};
 
-exports.handleUpload = function(user, handle, mongoLookFactory, fs, gm, callback) {
-  var tmpPath = handle.path;
-  // set where the file should actually exists - in this case it is in the "images" directory
+exports.handleUploadGeneric = function(user, path, mongoLookFactory, goldfinger, callback) {
   mongoLookFactory.newLook(user, function(error, look, permissions) {
     if (error) {
       console.log(error);
     }
-    var targetPath = './public/images/uploads/' + look._id + '.png';
-    // move the file from the temporary location to the intended location
-    gm(tmpPath).size(function(error, features) {
-      if (!features) {
-        callback("The uploaded file does not appear to be an image", null, null);
-      } else if (features.width > 700) {
-        gm(tmpPath).resize(700, features.height * (700 / features.width)).write(targetPath, function(error) {
-          if (error) {
-            callback(error, null, null);
-          } else {
-            mongoLookFactory.setHeightAndWidth(look._id, features.height * (700 / features.width), 700, function(error, look) {
-              fs.unlink(tmpPath, function(error) {
-                // Don't care about error, probably means files already gone
-                callback(null, look, permissions);
-              });
-            });
-          }
-        });
+    
+    goldfinger.toS3(path, look._id + '.png', function(error, result, features) {
+      if (error || !result || !features) {
+        callback(error, null, null);
       } else {
-        fs.rename(tmpPath, targetPath, function(error) {
-          if (error) {
-            callback(error, null, null);
-          } else {
-            mongoLookFactory.setHeightAndWidth(look._id, features.height, features.width, function(error, look) {
-              fs.unlink(tmpPath, function(error) {
-                // Don't care about error, probably means files already gone
-                callback(null, look, permissions);
-              });
-            });
-          }
+        look.url = result;
+        look.size.height = features.height;
+        look.size.width = features.width;
+        look.save(function(error, look) {
+          callback(null, look, permissions);
         });
       }
     });
   });
 };
 
-exports.handleUrl = function(mongoLookFactory, fs, gm, http, user, url, callback) {
-  var random = Math.random().toString(36).substr(2);
-  var tmpPath = './public/images/uploads/' + random + '.png';
-  http.get(url, tmpPath, function(error, result) {
+exports.handleUpload = function(user, tmpPath, mongoLookFactory, goldfinger, callback) {
+  exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, goldfinger, callback);
+};
+
+exports.handleUrl = function(mongoLookFactory, goldfinger, download, user, url, callback) {
+  download(url, function(error, tmpPath) {
     if (error) {
       callback("Image " + url + " could not be found", null);
     } else {
-      gm(result.file).size(function(error, size) {
-        if (size) {
-          mongoLookFactory.newLookWithUrl(user, url, function(error, look, permissions) {
-            if (error) {
-              callback("Upload failed", null);
-            } else {
-              // Keep the image for tumblr uploading
-              fs.rename(tmpPath, './public/images/uploads/' + look._id + '.png', function(error) {
-                mongoLookFactory.setHeightAndWidth(look._id, size.height, size.width, function(error, look) {
-                  if (error || !look) {
-                    callback("Internal failure", null);
-                  } else {
-                    callback(null, look, permissions);
-                  }
-                });
-              });
-            }
-          });
-        } else {
-          callback( "URL " + url + " doesn't seem to be a valid image. Please " +
-                    " make sure this is an actual image file, not an HTML web " +
-                    "page or video.\n\nIf you believe this to be an error," +
-                    " email techops@ascotproject.com", null);
-        }
-      });
+      exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, goldfinger, callback);
     }
   });
 };
@@ -213,32 +161,27 @@ exports.handleUrl = function(mongoLookFactory, fs, gm, http, user, url, callback
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory, fs, gm, http) {
+exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
+    var checkAndTaggerRedirect = function(error, look, permissions) {
+      if (error || !look || !permissions) {
+        res.render('error', { title : "Ascot :: Error", error : error });
+      } else {
+        gmTagger(look, function(error, result) {
+          permissionsList.push(permissions._id);
+          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+          res.redirect('/tagger/' + look._id);
+        });
+      }
+    };
+
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      exports.handleUpload(req.user, req.files.files, mongoLookFactory, fs, gm, function(error, look, permissions) {
-        if (error) {
-          res.render('error', { title : "Ascot :: Error", error : "Upload failed" });
-          console.log(JSON.stringify(error));
-        } else {
-          permissionsList.push(permissions._id);
-          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
-          res.redirect('/tagger/' + look._id);
-        }
-      });
+      exports.handleUpload(req.user, req.files.files.path, mongoLookFactory, goldfinger, checkAndTaggerRedirect);
     } else if (req.body.url) {
-      exports.handleUrl(mongoLookFactory, fs, gm, http, req.user, req.body.url, function(error, look, permissions) {
-        if (error || !look || !permissions) {
-          res.render('error', { title : "Ascot :: Error", error : error });
-        } else {
-          permissionsList.push(permissions._id);
-          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
-          res.redirect('/tagger/' + look._id);
-        }
-      });
+      exports.handleUrl(mongoLookFactory, goldfinger, download, req.user, req.body.url, checkAndTaggerRedirect);
     } else {
       res.render('error',
           { title : "Ascot :: Error",
@@ -395,42 +338,46 @@ exports.brand = function(Look) {
 /*
  * GET /keywords?v=<keywords>
  */
-exports.keywords = function(req, res) {
-  var p = req.query["p"] || 0;
-  var sortBy = req.query["sortBy"] || "";
-  
-  var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
-  for (var i = 0; i < keywords.length; ++i) {
-    keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
-  }
+exports.keywords = function(Look) {
+  return function(req, res) {
+    var p = req.query["p"] || 0;
+    var sortBy = req.query["sortBy"] || "";
+    
+    var keywords = req.query["v"].match(/[a-zA-Z0-9_]+/g);
+    for (var i = 0; i < keywords.length; ++i) {
+      keywords[i] = new RegExp('^' + keywords[i].toLowerCase(), 'i');
+    }
 
-  exports.looksList(
-      Look,
-      'looks_list',
-      { search : { $all : keywords }, showOnCrossList : 1 },
-      'Looks with Keywords : ' + req.query["v"],
-      p,
-      sortBy,
-      '/look',
-      res);
+    exports.looksList(
+        Look,
+        'looks_list',
+        { search : { $all : keywords }, showOnCrossList : 1 },
+        'Looks with Keywords : ' + req.query["v"],
+        p,
+        sortBy,
+        '/look',
+        res);
+  };
 };
 
 /*
  * GET /all?p=<page>
  */
-exports.all = function(req, res) {
-  var p = req.query["p"] || 0;
-  var sortBy = req.query["sortBy"] || "";
-  
-  exports.looksList(
-    Look,
-    'looks_list',
-    { showOnCrossList : 1 },
-    'All Looks',
-    p,
-    sortBy,
-    '/look',
-    res);
+exports.all = function(Look) {
+  return function(req, res) {
+    var p = req.query["p"] || 0;
+    var sortBy = req.query["sortBy"] || "";
+    
+    exports.looksList(
+      Look,
+      'looks_list',
+      { showOnCrossList : 1 },
+      'All Looks',
+      p,
+      sortBy,
+      '/look',
+      res);
+  };
 };
 
 /*
@@ -539,6 +486,27 @@ exports.upvote = function(mongoLookFactory) {
             });
           }
         }
+      }
+    });
+  };
+};
+
+/*
+ * GET /delete/look/:id.json
+ */
+exports.delete = function(mongoLookFactory) {
+  return function(req, res) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+      if (error || !look) {
+        res.json({ error : error });
+      } else {
+        look.remove(function(error) {
+          if (error) {
+            res.json({ error : error });
+          } else {
+            res.json({ success : true });
+          }
+        });
       }
     });
   };

@@ -38,6 +38,8 @@ angular.module('AutocompleteModule', []).
             $http.get(this.urls[tag] + '?query=' + encodeURIComponent(text)).
                 success(function(data) {
                   self.results[tag] = data;
+                }).error(function(data, status) {
+                  alert('--> ' + data + " " + status);
                 });
           } else {
             this.results[tag] = [];

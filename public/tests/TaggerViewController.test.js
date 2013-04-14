@@ -72,19 +72,23 @@ describe('TaggerViewController', function() {
     // mouse click at 25, subtract x offset 10, add 25
     expect(scope.computeEditTagOverlayDisplayPosition('1234').left).toBe('40px');
     expect(scope.computeEditTagOverlayDisplayPosition('1234').top).toBe('35px');
+    scope.finishEdittingTag('1234');
 
     scope.addTag('1234', 120, 15);
     // add tag at absolute position 120, subtract 10 for offset
     expect(scope.computeEditTagOverlayDisplayPosition('1234').right).toBe('90px');
     expect(scope.computeEditTagOverlayDisplayPosition('1234').top).toBe('35px');
+    scope.finishEdittingTag('1234');
 
     scope.addTag('1234', 25, 120);
     expect(scope.computeEditTagOverlayDisplayPosition('1234').left).toBe('40px');
     expect(scope.computeEditTagOverlayDisplayPosition('1234').bottom).toBe('85px');
+    scope.finishEdittingTag('1234');
 
     scope.addTag('1234', 120, 120);
     expect(scope.computeEditTagOverlayDisplayPosition('1234').right).toBe('90px');
     expect(scope.computeEditTagOverlayDisplayPosition('1234').bottom).toBe('85px');
+    scope.finishEdittingTag('1234');
   });
 
   it('should delete tag successfully including updating indices', function() {
@@ -95,8 +99,11 @@ describe('TaggerViewController', function() {
     $httpBackend.flush();
 
     var tag1 = scope.addTag('1234', 25, 15);
+    scope.finishEdittingTag('1234');
     var tag2 = scope.addTag('1234', 50, 25);
+    scope.finishEdittingTag('1234');
     var tag3 = scope.addTag('1234', 75, 50);
+    scope.finishEdittingTag('1234');
     expect(scope.idsToLooks['1234'].tags.length).toBe(3);
     
     scope.deleteTag('1234', tag2);
@@ -191,5 +198,36 @@ describe('TaggerViewController', function() {
     tag1.product.buyLink = 'http://www.google.com';
     scope.finishEdittingTag('1234');
     expect(tag1.product.buyLink).toBe('http://www.google.com');
+  });
+
+  it("should autosave on add, delete, and drag if enabled", function() {
+    $httpBackend.expectGET('/tags.jsonp?id=1234').
+        respond({ look : { tags : [], size : { height : 200, width: 200 } } });
+
+    scope.loadLook('1234');
+    $httpBackend.flush();
+
+    scope.enableAutosave('1234', true);
+
+    var tag1 = scope.addTag('1234', 25, 15);
+
+    $httpBackend.expectPUT('/tagger/1234').
+        respond({});
+
+    scope.finishEdittingTag('1234');
+    $httpBackend.flush();
+
+    scope.startDraggingTag('1234', tag1);
+    scope.updateDraggingTagPosition('1234', 36, 21);
+
+    $httpBackend.expectPUT('/tagger/1234').
+        respond({});
+    scope.finishDraggingTag('1234', tag1);
+    $httpBackend.flush();
+
+    $httpBackend.expectPUT('/tagger/1234').
+        respond({});
+    scope.deleteTag('1234', tag1);
+    $httpBackend.flush();
   });
 });

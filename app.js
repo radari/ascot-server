@@ -26,6 +26,8 @@ var express = require('express')
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
+  , knox = require('knox')
+  , temp = require('temp')
   , bcrypt = require('bcrypt-nodejs');
 
 
@@ -41,6 +43,9 @@ var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot'
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
+
+var PermissionsSchema = require('./models/Permissions.js').PermissionsSchema;
+var Permissions = db.model('permissions', PermissionsSchema);
 
 var UserSchema = require('./models/User.js').UserSchema;
 var User = db.model('users', UserSchema);
@@ -64,9 +69,41 @@ passport.use(new LocalStrategy(strategy.localStrategy));
 passport.serializeUser(strategy.serializeUser);
 passport.deserializeUser(strategy.deserializeUser);
 
+// configure custom tools
+var mode = process.env.MODE || 'production';
+var uploadTarget = knox.createClient({
+  key : "AKIAJW2LJ5AG2WHBDYIA",
+  secret : "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",
+  bucket : 'ascot_uploads'
+});
+
+var uploadHandler = function(uploadTarget, mode) {
+  return function(imagePath, remoteName, callback) {
+    uploadTarget.putFile(imagePath, (mode == 'test' ? '/test/' : '/uploads/') + remoteName, { 'x-amz-acl': 'public-read' }, function(error, result) {
+      if (error || !result) {
+        callback("error - " + error, null);
+      } else {
+        callback(null, 'https://s3.amazonaws.com/ascot_uploads' + (mode == 'test' ? '/test/' : '/uploads/') + remoteName);
+      }
+    });
+  };
+}(uploadTarget, mode);
+
+var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, httpGet, uploadHandler);
+
+var Goldfinger = require('./routes/tools/goldfinger.js').Goldfinger;
+var goldfinger = new Goldfinger(fs, gm, temp, uploadHandler);
+goldfinger.setMaxWidth(700);
+
+var download = require('./routes/tools/download.js').download(httpGet, temp);
+
+var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('url', process.env.ASCOTURL || 'http://localhost:' + app.get('port'));
+  // Default to production mode, since test mode gives additional functionality
+  app.set('mode', mode);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon(__dirname + '/public/images/twitterButton.png', {maxAge: 86400000}));
@@ -116,10 +153,17 @@ app.get('/howto/guidelines', routes.guidelines);
 app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
-
-var mongoLookFactory = new MongoLookFactory(app.get('url'));
+var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 
 // Looks and search dynamic displays
+app.get('/look/html/:id', function(req, res) {
+  mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+    imageMapTagger(look, function(error, result) {
+      console.log(error + " " + result);
+      res.send(result);
+    });
+  });
+});
 app.get('/look/:id', look.get(mongoLookFactory));
 app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
 app.put('/look/:id/published',
@@ -131,8 +175,8 @@ app.get('/tagger/:look', tagger.get('tagger', mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
-app.get('/keywords', look.keywords);
-app.get('/all', look.all);
+app.get('/keywords', look.keywords(Look));
+app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));
 
 // JSON queries
@@ -141,16 +185,16 @@ app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
 
 // Upload
-app.post('/image-upload', look.upload(mongoLookFactory, fs, gm, httpGet));
+app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense));
+app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense, gmTagger));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
 app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
-app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory, fs, gm, httpGet));
+app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory, goldfinger, download));
 app.get('/embed/tagger/:look', tagger.get('mini_tagger', mongoLookFactory));
 
 // login
@@ -179,8 +223,14 @@ app.put('/user/settings',
 app.get('/admin',
   authenticate.ensureAuthenticated,
   administratorValidator,
-  admin.index);
+  admin.index(Look));
+
+if (app.get('mode') == 'test') {
+  app.get('/delete/user/:name.json', user.delete(mongoUserFactory));
+  app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
+  app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
+}
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url'));
+  console.log("Express server listening on port " + app.get('port') + " on url " + app.get('url') + " in " + app.get('mode') + " mode.");
 });

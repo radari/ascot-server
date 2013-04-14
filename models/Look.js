@@ -13,6 +13,7 @@ var Mongoose = require('mongoose');
 exports.LookSchema = new Mongoose.Schema({
   title : { type : String, default : "" },
   url : String, // URL of displayed image
+  taggedUrl : String, // URL of image with embedded tags
   random : [ // Array of length 2, (x,y) pair for use with $near
     { type : Number, default : Math.random() },
     { type : Number, default : 0 }

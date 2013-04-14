@@ -63,12 +63,12 @@ describe('Ascot Project', function() {
     
     it('should toggle heart when user clicks the upvote button', function() {
       element('.ascot_overlay_image_menu div:nth-child(2) img').click();
-      sleep(0.6);
+      sleep(1);
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').css('opacity')).toBe('1');
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').src()).toBe('http://localhost:3000/images/overlayOptions_heart_small_opaque.png');
       
       element('.ascot_overlay_image_menu div:nth-child(2) img').click();
-      sleep(0.6);
+      sleep(1);
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').css('opacity')).toBeLessThan(1);
       expect(element('.ascot_overlay_image_menu div:nth-child(2) img').src()).toBe('http://localhost:3000/images/overlayOptions_heart_small.png');
     });
@@ -83,7 +83,7 @@ describe('Ascot Project', function() {
       input('mainSearch').enter('bullshit');
       expect(repeater('.autocomplete div').count()).toBe(1);
       element('.autocomplete div').click();
-      sleep(3);
+      sleep(2);
       expect(browser().window().path()).toBe('/keywords');
       expect(browser().window().search()).toBe('?v=bullshit');
     });
@@ -91,7 +91,7 @@ describe('Ascot Project', function() {
     it('should be able to upload an image', function() {
       element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
       element('#submit').click();
-      sleep(5);
+      sleep(4);
       // Wait for 5 seconds for next page to load
       expect(browser().window().href()).toContain('/tagger/');
     });
@@ -99,7 +99,7 @@ describe('Ascot Project', function() {
     it('should be able to upload, tag, and view', function() {
       element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
       element('#submit').click();
-      sleep(5);
+      sleep(4);
 
       // Create a tag
       element('.uploadedImg').click();
@@ -127,7 +127,7 @@ describe('Ascot Project', function() {
 
       // Save look and wait for /look to load
       element('.save_button').click();
-      sleep(5);
+      sleep(2);
       expect(browser().window().href()).toContain('/look/');
 
       // Plugin should have loaded exactly 1 tag
@@ -143,6 +143,11 @@ describe('Ascot Project', function() {
       browser().navigateTo('/login');
       sleep(2);
     });
+
+    afterEach(function() {
+      browser().navigateTo('/logout');
+      sleep(1);
+    })
     
     it('should be able to register', function() {
       element('#username').val('vkarpov');
@@ -150,7 +155,7 @@ describe('Ascot Project', function() {
       element('#pickEmail').val('val@ascotproject.com');
       element('#createAccount').click();
       
-      sleep(3);
+      sleep(2);
       expect(browser().window().href()).toContain('/login');
     });
     
@@ -159,7 +164,7 @@ describe('Ascot Project', function() {
       element('#password').val('abc123');
       element('#signIn').click();
       
-      sleep(3);
+      sleep(2);
       expect(browser().window().href()).toContain('/home');
     });
     
@@ -168,19 +173,19 @@ describe('Ascot Project', function() {
       element('#password').val('abc123');
       element('#signIn').click();
       
-      sleep(3);
+      sleep(2);
       
       browser().navigateTo('/upload');
-      sleep(3);
+      sleep(2);
       
       element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
       element('#submit').click();
-      sleep(5);
+      sleep(4);
       // Wait for 5 seconds for next page to load
       expect(browser().window().href()).toContain('/tagger/');
       
       browser().navigateTo('/home');
-      sleep(3);
+      sleep(2);
       
       expect(repeater('.look_element').count()).toBe(1);
     });
@@ -189,10 +194,10 @@ describe('Ascot Project', function() {
       element('#username').val('vkarpov');
       element('#password').val('abc123');
       element('#signIn').click();
-      sleep(3);
+      sleep(2);
       
       browser().navigateTo('/settings');
-      sleep(3);
+      sleep(2);
       
       expect(input('data.affiliates.shopsense.enabled').val()).toBe('on');
       expect(input('data.affiliates.shopsense.key').val()).toBe('uid4336-13314844-31');
@@ -202,10 +207,10 @@ describe('Ascot Project', function() {
       sleep(2);
       
       browser().navigateTo('/');
-      sleep(3);
+      sleep(2);
       
       browser().navigateTo('/settings');
-      sleep(3);
+      sleep(2);
       
       expect(input('data.affiliates.shopsense.key').val()).toBe('1234');
       
@@ -213,9 +218,15 @@ describe('Ascot Project', function() {
       element('#settingsSave').click();
       sleep(2);
     });
+
+    it('should clean up after itself', function() {
+      browser().navigateTo('/delete/user/vkarpov.json');
+      sleep(2);
+    });
   });
   
   describe('Admin functionality', function() {
+
     beforeEach(function() {
       browser().navigateTo('/login');
       sleep(1);
@@ -223,13 +234,28 @@ describe('Ascot Project', function() {
       element('#username').val('fakeadmin');
       element('#password').val('abc123');
       element('#signIn').click();
-      sleep(1.5);
-      
+      sleep(2);
+    });
+
+    afterEach(function() {
+      browser().navigateTo('/logout');
+      sleep(1);
+    });
+
+    it('should register and make itself admin first', function() {
+      element('#username').val('fakeadmin');
+      element('#password').val('abc123');
+      element('#pickEmail').val('val@ascotproject.com');
+      element('#createAccount').click();  
+      sleep(2);
+
+      browser().navigateTo('/make/admin/fakeadmin.json');
+      sleep(2);
     });
     
     it('should be able to navigate to /admin', function() {
       browser().navigateTo('/admin');
-      sleep(1.5);
+      sleep(2);
       
       expect(browser().window().href()).toContain('/admin');
     });
@@ -247,6 +273,11 @@ describe('Ascot Project', function() {
       element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').click();
       sleep(0.5);
       expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope unpublished');
+    });
+
+    it('should clean up after itself', function() {
+      browser().navigateTo('/delete/user/fakeadmin.json');
+      sleep(2);
     });
   });
 });

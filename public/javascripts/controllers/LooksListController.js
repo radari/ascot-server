@@ -8,22 +8,23 @@
  *
  */
  
-function LooksListController($scope, $http, $timeout) {
+function LooksListController($scope, $http) {
   $scope.looks = [];
   $scope.columns = [];
+  $scope.columnHeights = [];
   $scope.numLoaded = 0;
   $scope.numPages = 0;
   $scope.currentPage = 0;
   $scope.nextPage = 0;
 
-  $scope.opts = {
+  /*$scope.opts = {
     backdrop: true,
     keyboard: true,
     backdropClick: true,
     template: '<iframe src="/look/513032623e92dee93b00002e/iframe" style="height: 800px; width: 800px;" />'
   };
 
-  /*$scope.randomLook = function() {
+  $scope.randomLook = function() {
     $http.get('/random', { headers : { accept : 'application/json' } }).
         success(function(look) {
           var width = Math.min(560, look.size.width);
@@ -48,23 +49,32 @@ function LooksListController($scope, $http, $timeout) {
   var addLooks = function(looks) {
     var row = 0;
     for (var i = 0; i < looks.length; ++i) {
-      $scope.columns[$scope.looks.length % $scope.numColumns].push(looks[i]);
+      var minHeightColumn = 0;
+      for (var j = 1; j < $scope.numColumns; ++j) {
+        if ($scope.columnHeights[j] < $scope.columnHeights[minHeightColumn]) {
+          minHeightColumn = j;
+        }
+      }
+      $scope.columns[minHeightColumn].push(looks[i]);
+      $scope.columnHeights[minHeightColumn] += $scope.computeHeight(looks[i]);
       $scope.looks.push(looks[i]);
     }
   };
   
-  $scope.computeHeight = function(look, width) {
-    return look.size.height * (width / look.size.width);
+  $scope.computeHeight = function(look) {
+    return look.size.height * ($scope.columnWidth / look.size.width);
   };
 
-  $scope.init = function(looks, numPages, currentPage, numColumns) {
+  $scope.init = function(looks, numPages, currentPage, numColumns, columnWidth) {
     $scope.numPages = numPages;
     $scope.currentPage = currentPage;
     $scope.nextPage = currentPage + 1;
     $scope.numColumns = numColumns;
+    $scope.columnWidth = columnWidth;
 
     for (var i = 0; i < numColumns; ++i) {
       $scope.columns.push([]);
+      $scope.columnHeights.push(0);
     }
     
     addLooks(looks);

@@ -1,5 +1,5 @@
 doctype 5
-html(ng-app='AscotModule')
+html(id="ng-app", ng-app='AscotModule')
   head
     title= title
 
@@ -17,6 +17,10 @@ html(ng-app='AscotModule')
     script(src='/vendor/javascripts/jquery.imagesloaded.js')
     script(src='/vendor/javascripts/jquery.hoverdelay.js')
     script(src='/javascripts/navMagic.js')
+
+    // JSON.parse and JSON.stringify for ancient browsers
+    // if lt IE 8
+      script(src="http://cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js")
 
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='icon', type='image/png', href='/images/favicon.ico')
@@ -42,8 +46,6 @@ html(ng-app='AscotModule')
     #wrapper(ng-controller='MainSearchBarController')
       a#logoWrapper(href="/")
         img#logo(src='/images/ascotLogo_redo.png', id:'logo')
-
-      
 
       ul#nav 
         li
@@ -125,4 +127,5 @@ html(ng-app='AscotModule')
         li
           a(href="https://www.facebook.com/ascotproject", target="_blank")
             img#facebook(src='/images/facebookButton.png', id:'fbButton')
-    
+  
+  script(src="/vendor/javascripts/retina.js")  

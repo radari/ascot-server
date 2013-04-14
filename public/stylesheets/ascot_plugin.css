@@ -11,7 +11,7 @@
 
 .ascot_overlay_look {
   position: relative;
-  margin: auto;
+  display: inline-block;
   float: none;
   text-align: left;
 }
@@ -32,7 +32,7 @@
 }
 
 .ascot_overlay {
-  
+  z-index: 1000;
 }
 
 .ascot_overlay_look .ascot_overlay_look img {
@@ -262,6 +262,7 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
   text-align: center;
   z-index:1;
+  behavior:url('/vendor/htc/PIE.htc');
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_name:hover {
@@ -278,6 +279,7 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   position: absolute;
   border:1px #323232 solid;
   color:#171717;
+  background-color: rgb(244, 244, 244);
   background-color: rgba(244,244,244,.8);
   width:200px;
   text-align:center;
@@ -295,6 +297,7 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_description a#ascot_overlay_buy_button {
+  background-color: rgb(218,126,104);
   background-color: rgba(218,126,104,0.8);
   padding: 2px;
   color: white;
@@ -355,12 +358,14 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   bottom: 0px;
   left: 10px;
   z-index:4;
+  behavior:url('/vendor/htc/PIE.htc');
 }
 
 .ascot_overlay_look .ascot_overlay .ascot_overlay_source_url {
   border:1px transparent solid;
   text-align: center;
   width:200px;
+  background-color: rgb(255, 255, 255);
   background-color:rgba(255,255,255,0.7);
   color:#323232;
   border-radius: 3px;
@@ -369,7 +374,7 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   position: absolute;
   bottom: -3px;
   z-index: 1;
-  left: 21px;
+  left: 11px;
   padding: 3px;
   overflow: hidden;
 }

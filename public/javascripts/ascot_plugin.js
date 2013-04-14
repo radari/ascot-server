@@ -9,7 +9,7 @@
  *
  */
 
-function AscotPlugin() {
+function AscotPlugin(tagSourceUrl) {
   this.getAscotHashParam = function(url) {
     if (url.lastIndexOf('#') == 0) {
       return null;
@@ -37,7 +37,134 @@ function AscotPlugin() {
       return decodeURIComponent(val);
     }
   };
+
+  this.getAscotIdFromParentHref = function(image) {
+    var href = image.parent().attr('href');
+    var alt = image.attr('alt');
+    if (href && href.toLowerCase().indexOf(tagSourceUrl) != -1) {
+      var searchString = tagSourceUrl; 
+      return href.toLowerCase().substr(
+          href.indexOf(searchString) + searchString.length, '50f8bae560ad830943000004'.length);
+    }
+    return null;
+  }
+
+  this.htmlifyTags = function(look) {
+    var ret = look.title;
+    ret += (look.source.length > 0 ? "<br>Source: " + look.source : "");
+    ret += "<br><br>";
+    for (var i = 0; i < look.tags.length; ++i) {
+      var tag = look.tags[i];
+      ret += (i > 0 ? "<br>" : "") + (i + 1) + ". ";
+      ret += "<a href='" + tag.product.buyLink + "'>" + 
+             "<b>" + tag.product.brand + "</b> " + tag.product.name +
+             "</a>"; 
+    };
+    return ret;
+  };
+
+  this.tumblrUrlGenerator = function(htmlifyTags, encodeURIComponent) {
+    return function(look) {
+      return  'http://www.tumblr.com/share/photo?' +
+              'source=' + encodeURIComponent(look.url) +
+              '&clickthru=' + encodeURIComponent('http://www.ascotproject.com/look/' + look._id) +
+              '&caption=' + encodeURIComponent(htmlifyTags(look)) +
+              '&tags=ascot';
+    };
+  };
+
+  this.getTumblrShareUrl = this.tumblrUrlGenerator(this.htmlifyTags, encodeURIComponent);
+
+  this.getTwitterUrl = function(url) {
+    return "https://twitter.com/share?url=" + encodeURIComponent(url) + "&via=AscotProject";
+  };
+
+  this.getIframeCode = function(look) {
+    return '<iframe src="http://www.ascotproject.com/look/' + look._id + '/iframe" width="' + look.size.width + '" height="' + look.size.height + '" frameborder="0" scrolling="no"></iframe>';
+  };
+
+  this.getFacebookUrl = function(url) {
+    return 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent(url) + '&redirect_uri=' + encodeURIComponent(url);
+  };
+
+  this.getPinterestUrl = function(image, url) {
+    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent(url) + '&media=' + encodeURIComponent(image) + '&description=' + encodeURIComponent('From: ' + url);
+  };
+
+  this.getImageMap = function(look) {
+    var ret = "<img src='" + look.taggedUrl + "' usemap='#ascot" + look._id + "'>";
+    ret += "<map name='ascot" + look._id + "'>";
+    for (var i = 0; i < look.tags.length; ++i) {
+      if (look.tags[i].product.buyLink) {
+        ret += "<area shape='circle' coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",12' href='" + look.tags[i].product.buyLink + "' target='_blank'>";
+      }
+    }
+    ret += "</map>";
+    return ret;
+  };
 };
+
+function AscotPluginUI(tagSourceUrl, myUrl) {
+  this.constructTagContainer = function(overlay, tagContainer, defaultSize, actualSize, tag) {
+    var tagX;
+    var tagY;
+    if (actualSize.height == defaultSize.height && actualSize.width == defaultSize.width) {
+      // Image is default size - no need to scale tags
+      tagX = tag.position.x;
+      tagY = tag.position.y;
+    } else {
+      // Image resized by client. Scale tag positions
+      tagX = (tag.position.x / defaultSize.width) * actualSize.width;
+      tagY = (tag.position.y / defaultSize.height) * actualSize.height;
+    }
+    tagContainer.css("left", tagX);
+    tagContainer.css("top", tagY);
+    tagContainer.appendTo(overlay);
+
+    return { x : tagX, y : tagY };
+  };
+
+  this.constructTagDescription = function(height, width, tagContainer, tagDescription, tag, tagPosition) {
+    tagDescription.html(
+        "<b>" +
+        "<a id='ascot_overlay_link' target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" +
+        tag.product.brand + "</b></a> " + tag.product.name +
+        "<br/>" +
+        (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
+
+    var offset = 5;
+    if (tagPosition.x > width / 2.0) {
+      tagDescription.css('right', offset + 'px');
+    } else {
+      tagDescription.css('left', offset + 'px');
+    }
+                
+    if (tagPosition.y > height / 2.0) {
+      tagDescription.css('bottom', offset + 'px');
+    } else {
+      tagDescription.css('top', offset + 'px');
+    }
+                
+    tagDescription.appendTo(tagContainer);
+    tagDescription.hide();
+  };
+
+  this.handleUpvoteLook = function(jsonp, upvoteButton, ascotId) {
+    jsonp(tagSourceUrl + '/upvote/' + ascotId + '.jsonp', function(json) {
+      if (json.add) {
+        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
+        upvoteButton.css('cursor', 'pointer');
+        upvoteButton.css('opacity', '1');
+      } else if (json.remove) {
+        upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small.png');
+        upvoteButton.css('cursor', 'pointer');
+        upvoteButton.css('opacity', '0.6');
+      } else {
+        // Nothing to do here for now, just ignore
+      }
+    });
+  };
+}
 
 function initAscotPlugin($, tagSourceUrl) {
   if (!window._gaq) {
@@ -55,60 +182,24 @@ function initAscotPlugin($, tagSourceUrl) {
   });
 
   var plugin = new AscotPlugin();
-
-  var getAscotHashParam = function(url) {
-    return plugin.getAscotHashParam(url);
-  };
-
-  var ascotUpvoteLook = function(upvoteButton, ascotId) {
+  var UI = new AscotPluginUI(tagSourceUrl, $(location).attr('href'));
+  var jsonp = function(url, callback) {
     $.ajax({
       type: 'GET',
-      url: tagSourceUrl + '/upvote/' + ascotId + '.jsonp',
+      url: url,
       async: true,
       jsonpCallback: 'callback',
       contentType: 'application/jsonp',
       dataType: 'jsonp',
       success : function(json) {
-        if (json.add) {
-          upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
-          upvoteButton.css('cursor', 'pointer');
-          upvoteButton.css('opacity', '1');
-        } else if (json.remove) {
-          upvoteButton.attr('src', tagSourceUrl + '/images/overlayOptions_heart_small.png');
-          upvoteButton.css('cursor', 'pointer');
-          upvoteButton.css('opacity', '0.6');
-        } else {
-          // Nothing to do here for now, just ignore
-        }
+        callback(json);
       }
     });
   };
-  
-  var htmlifyTags = function(look) {
-    var ret = look.title;
-    ret += (look.source.length > 0 ? "\n<br>\nSource: " + look.source : "");
-    ret += "\n<br>\n<br>\n";
-    for (var i = 0; i < look.tags.length; ++i) {
-      var tag = look.tags[i];
-      ret += (i > 0 ? "\n<br>\n" : "");
-      ret += "<a href='" + tag.product.buyLink + "'>" + 
-             "<b>" + tag.product.brand + "</b> " + tag.product.name +
-             "</a>"; 
-    };
-    return ret;
+
+  var ascotUpvoteLook = function(upvoteButton, ascotId) {
+    UI.handleUpvoteLook(jsonp, upvoteButton, ascotId);
   };
-  
-  var htmlifyTagsForPinterest = function(look) {
-    var ret = look.title;
-    ret += (look.source.length > 0 ? " / Source: " + look.source : "");
-    for (var i = 0; i < look.tags.length; ++i) {
-      var tag = look.tags[i];
-      ret += " / ";
-      ret += tag.product.brand + " " + tag.product.name + " " +
-             tag.product.buyLink; 
-    };
-    return ret;
-  }
   
   var makeOverlay = function(image, ascotId, url, json) {
     if (json && json.look && json.look.tags) {
@@ -117,20 +208,15 @@ function initAscotPlugin($, tagSourceUrl) {
       
       _gaq.push(['ascot._trackEvent', 'lookLoaded', ascotId, $(location).attr('href')]);
 
-      var tumblrUrl = 'http://www.tumblr.com/share/photo?' +
-                      'source=' + encodeURIComponent(json.url) +
-                      '&clickthru=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) +
-                      '&caption=' + encodeURIComponent(htmlifyTags(json)) +
-                      '&tags=ascot';
+      var tumblrUrl = plugin.getTumblrShareUrl(json);
 
-      var twitterUrl = "https://twitter.com/share"
-      var twitterDataUrl = "http://www.ascotproject.com/look/" + json._id;
+      var twitterUrl = plugin.getTwitterUrl("http://www.ascotproject.com/look/" + json._id);
 
-      var iframeCode = '<iframe src="http://www.ascotproject.com/look/' + json._id + '/iframe" width="' + json.size.width + '" height="' + json.size.height + '" frameborder="0"></iframe>';
+      var iframeCode = plugin.getIframeCode(json);
 
-      var facebookUrl = 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) + '&redirect_uri=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id);
+      var facebookUrl = plugin.getFacebookUrl('http://www.ascotproject.com/look/' + json._id);
       
-      var pinterestUrl = '//pinterest.com/pin/create/button/?url=' + encodeURIComponent('http://www.ascotproject.com/look/' + json._id) + '&media=' + encodeURIComponent(json.url) + '&description=' + encodeURIComponent('From: http://www.ascotproject.com/look/' + json._id);
+      var pinterestUrl = plugin.getPinterestUrl(json.url, 'http://www.ascotproject.com/look/' + json._id);
 
       var height = image.height();
       var width = image.width();
@@ -177,7 +263,7 @@ function initAscotPlugin($, tagSourceUrl) {
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div><ul id="ascot_overlay_share_list">' + 
           '<li id="ascot_overlay_share"><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'tumblr\', \'' + json._id + '\', \'' + $(location).attr('href') + '\'])" href="' + tumblrUrl + '"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="ascot_overlay_social_name">Tumblr</div></a></li>' + 
           '<br><li id="ascot_overlay_share" class="embedLink" style="cursor: pointer"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed.png"></div><div class="ascot_overlay_social_name">Embed</div></li>' + 
-          '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'twitter\', \'' + json._id + '\', \'' + $(location).attr('href') + '\'])" href="' + twitterUrl + '?url=' + encodeURIComponent(twitterDataUrl) + '&via=AscotProject"><li id="ascot_overlay_share"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></li></a>' +
+          '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'twitter\', \'' + json._id + '\', \'' + $(location).attr('href') + '\'])" href="' + twitterUrl + '"><li id="ascot_overlay_share"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></li></a>' +
           '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'facebook\', \'' + json._id + '\', \'' + $(location).attr('href') + '\'])" href="' + facebookUrl + '"><li id="ascot_overlay_share"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_facebook.png"></div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
           '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'pinterest\', \'' + json._id + '\', \'' + $(location).attr('href') + '\']);" href="' + pinterestUrl + '"><li id="ascot_overlay_share"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_pinterest.png"></div><div class="ascot_overlay_social_name">Pinterest</div></li></a>' +
           '</ul></div>');
@@ -257,20 +343,7 @@ function initAscotPlugin($, tagSourceUrl) {
               
       $.each(json.tags, function(i, tag) {
         var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");
-        var tagX;
-        var tagY;
-        if (height == json.size.height && width == json.size.width) {
-          // Image is default size - no need to scale tags
-          tagX = tag.position.x;
-          tagY = tag.position.y;
-        } else {
-          // Image resized by client. Scale tag positions
-          tagX = (tag.position.x / json.size.width) * width;
-          tagY = (tag.position.y / json.size.height) * height;
-        }
-        tagContainer.css("left", tagX);
-        tagContainer.css("top", tagY);
-        tagContainer.appendTo(overlay);
+        var tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : height, width : width }, tag);
                 
         var tagName =
             $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>");
@@ -280,36 +353,16 @@ function initAscotPlugin($, tagSourceUrl) {
         }
                 
         var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
-        tagDescription.html(
-            "<b>" +
-            "<a id='ascot_overlay_link' target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" +
-            tag.product.brand + "</b></a> " + tag.product.name +
-            "<br/>" +
-            (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + $(location).attr('href') + "\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
-            //(tag.product.price > 0 ? "$" + tag.product.price + "<br/>" : ""));
+        UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagPosition);
         if (smallImage) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
         }
-
-        var offset = smallImage ? 0 : 10;
-        if (tagX > width / 2.0) {
-          tagDescription.css('right', offset + 'px');
-        } else {
-          tagDescription.css('left', offset + 'px');
-        }
-                
-        if (tagY > height / 2.0) {
-          tagDescription.css('bottom', offset + 'px');
-        } else {
-          tagDescription.css('top', offset + 'px');
-        }
-                
-        tagDescription.appendTo(tagContainer);
-        tagDescription.hide();
                 
         tagContainer.hover(function() {
+          tagContainer.css('z-index', 5);
           tagDescription.show(100, function(){});
         },function(){
+          tagContainer.css('z-index', 0);
           tagDescription.hide(100, function(){});
         }, 250);
       });  
@@ -327,45 +380,30 @@ function initAscotPlugin($, tagSourceUrl) {
     var lookId;
     var image = $(el);
       
-    var ascotId = getAscotHashParam(url);
+    var ascotId = plugin.getAscotHashParam(url);
 
     // This is really only useful for Tumblr and other places which insist on
     // only showing images stored on their servers. On our end we can just use
     // the #ascot notation, so just hardcode the ascotproject.com stuff for now
     if (ascotId == null && image.parent()) {
-      var href = image.parent().attr('href');
-      var alt = image.attr('alt');
-      if (href && href.toLowerCase().indexOf('ascotproject.com/look/') != -1) {
-        var searchString = 'ascotproject.com/look/'; 
-        ascotId =
-            href.toLowerCase().substr(
-                href.indexOf(searchString) + searchString.length,
-                '50f8bae560ad830943000004'.length);
-      }
+      ascotId = plugin.getAscotIdFromParentHref(image);
     }
 
     if (ascotId != null) {
-      $.ajax({
-        type: 'GET',
-        url: tagSourceUrl + '/tags.jsonp?id='
-            + encodeURIComponent(ascotId),
-        async: true,
-        jsonpCallback: 'callback',
-        contentType: 'application/jsonp',
-        dataType: 'jsonp',
-        success: function (json) {
-          // Now that we know that our jsonp call is done, we can wait for our
-          // image to load to make our overlay, and then go to the next image in
-          // our 'queue'
-          image.imagesLoaded(function() {
-            makeOverlay(image, ascotId, url, json);
+      jsonp(
+          tagSourceUrl + '/tags.jsonp?id=' + encodeURIComponent(ascotId),
+          function (json) {
+            // Now that we know that our jsonp call is done, we can wait for our
+            // image to load to make our overlay, and then go to the next image in
+            // our 'queue'
+            image.imagesLoaded(function() {
+              makeOverlay(image, ascotId, url, json);
+            });
+
+            if (index + 1 < images.length) {
+              ascotify(index + 1, images[index + 1]);
+            }
           });
-            
-          if (index + 1 < images.length) {
-            ascotify(index + 1, images[index + 1]);
-          }
-        }
-      });
     } else {
       if (index + 1 < images.length) {
         ascotify(index + 1, images[index + 1]);

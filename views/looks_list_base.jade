@@ -33,13 +33,11 @@ block content
 
   div.all_looks_wrapper(style="text-align: center",
                         ng-controller="LooksListController",
-                        ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page}, 4)",
+                        ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page}, 4, 228)",
                         ng-when-scrolled="loadNextPage();")
     div.all_looks_element(ng-repeat="column in columns")
       div.look_element(ng-repeat="look in column")
-        a(ng-href="#{route}/{{look._id}}")
-          img(ng-src="{{look.url}}",
-              ng-style="{ height : computeHeight(look, 228) }")
+        block list_element
     div.clear
     div.list_header(ng-show="looks.length == 0")
       | No looks found
