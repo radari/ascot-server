@@ -84,8 +84,6 @@ exports.testGetRandom = function(test) {
 };
 
 exports.testHandleUpload = function(test) {
-  var mockHandle = { path : '/test/bs' };
-  
   var height = 200;
   var width = 250;
   var mockLook = { 
@@ -101,40 +99,26 @@ exports.testHandleUpload = function(test) {
     }
   };
   
-  var mockFs = {
-    unlink : function(path, callback) {
-      test.equal(path, mockHandle.path);
-      callback(null);
-    } 
-  };
-  
-  var mockGm = function(path) {
-    test.equal(path, mockHandle.path);
-    return {
-      size : function(callback) {
-        callback(null, { height : height, width : width });
-      }
-    };
-  };
-
-  var mockUploadHandler = function(path, target, callback) {
-    test.equal(path, mockHandle.path);
-    test.equal(target, 'MYFAKEID.png');
-    callback(null, 'http://bs/MYFAKEID');
-  };
+  var mockGoldfinger = {
+    toS3 : function(path, result, callback) {
+      test.equal('/test/bs', path);
+      test.equal('MYFAKEID.png', result);
+      callback(null, 'http://test', { height : height, width : width });
+    }
+  }
   
   LookRoutes.handleUpload(
       null,
-      mockHandle,
+      '/test/bs',
       mockMongoLookFactory,
-      mockFs,
-      mockGm,
-      mockUploadHandler,
+      mockGoldfinger,
       function(error, look, permissions) {
         test.equal(null, error);
         test.equal(mockLook, look);
         test.equal(mockPermissions, permissions);
-        test.equal('http://bs/MYFAKEID', look.url);
+        test.equal('http://test', look.url);
+        test.equal(height, mockLook.size.height);
+        test.equal(width, mockLook.size.width);
         test.expect(8);
         test.done();
       });
