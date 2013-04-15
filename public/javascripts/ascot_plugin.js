@@ -100,6 +100,19 @@ function AscotPlugin(tagSourceUrl) {
       }
     }
     ret += "</map>";
+    ret += "<br>";
+    for (var i = 0; i < look.tags.length; ++i) {
+      ret += (i + 1) + ". ";
+      if (look.tags[i].product.buyLink) {
+        ret += "<a href='" + look.tags[i].product.buyLink + "'>";
+      }
+      ret += "<b>" + look.tags[i].product.brand + "</b> ";
+      ret += look.tags[i].product.name;
+      if (look.tags[i].product.buyLink) {
+        ret += "</a>";
+      }
+      ret += "<br>";
+    }
     return ret;
   };
 };
@@ -259,6 +272,17 @@ function initAscotPlugin($, tagSourceUrl) {
       });
 
       menuWrapper.append(
+          '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 65px; height:150px"><div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
+          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
+          '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site or email</p>'+
+          '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'htmlClick\', \'' + json._id + '\', \'' + $(location).attr('href') + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' + plugin.getImageMap(json) + '</textarea></div>');
+      var htmlCodeDisplay = menuWrapper.children().last();
+      htmlCodeDisplay.hide();
+      htmlCodeDisplay.click(function(event) {
+        event.preventDefault();
+      });
+
+      menuWrapper.append(
           '<div class="ascot_overlay_share_menu"><div class="ascot_overlay_share_arrow">' + 
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div><ul id="ascot_overlay_share_list">' + 
           '<li id="ascot_overlay_share"><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'tumblr\', \'' + json._id + '\', \'' + $(location).attr('href') + '\'])" href="' + tumblrUrl + '"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTumblr.png"></div><div class="ascot_overlay_social_name">Tumblr</div></a></li>' + 
@@ -266,6 +290,7 @@ function initAscotPlugin($, tagSourceUrl) {
           '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'twitter\', \'' + json._id + '\', \'' + $(location).attr('href') + '\'])" href="' + twitterUrl + '"><li id="ascot_overlay_share"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTwitter.png"></div><div class="ascot_overlay_social_name">Twitter</div></li></a>' +
           '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'facebook\', \'' + json._id + '\', \'' + $(location).attr('href') + '\'])" href="' + facebookUrl + '"><li id="ascot_overlay_share"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_facebook.png"></div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
           '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'pinterest\', \'' + json._id + '\', \'' + $(location).attr('href') + '\']);" href="' + pinterestUrl + '"><li id="ascot_overlay_share"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_pinterest.png"></div><div class="ascot_overlay_social_name">Pinterest</div></li></a>' +
+          '<br><li id="ascot_overlay_share" class="embedLink" style="cursor: pointer"><div class="ascot_overlay_social_icon"><img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmail.png"></div><div class="ascot_overlay_social_name">Email</div></li>' + 
           '</ul></div>');
       var shareMenu = menuWrapper.children().last();
       shareMenu.hide();
@@ -273,6 +298,11 @@ function initAscotPlugin($, tagSourceUrl) {
       embedItem.click(function(event) {
         event.preventDefault();
         iframeDisplay.toggle();
+      });
+      var emailItem = shareMenu.children('ul').first().children('li.embedLink').last();
+      emailItem.click(function(event) {
+        event.preventDefault();
+        htmlCodeDisplay.toggle();
       });
 
       menuWrapper.append(
@@ -285,6 +315,7 @@ function initAscotPlugin($, tagSourceUrl) {
       shareButton.click(function(event) {
         event.preventDefault();
         iframeDisplay.hide();
+        htmlCodeDisplay.hide();
         shareMenu.fadeToggle();
       });
       var upvoteButton = imageMenu.children().last().children().first();
