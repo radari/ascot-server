@@ -156,14 +156,6 @@ app.get('/howto/taggerPlugin', routes.taggerPlugin);
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 
 // Looks and search dynamic displays
-app.get('/look/html/:id', function(req, res) {
-  mongoLookFactory.buildFromId(req.params.id, function(error, look) {
-    imageMapTagger(look, function(error, result) {
-      console.log(error + " " + result);
-      res.send(result);
-    });
-  });
-});
 app.get('/look/:id', look.get(mongoLookFactory));
 app.get('/look/:id/iframe', look.iframe(mongoLookFactory));
 app.put('/look/:id/published',

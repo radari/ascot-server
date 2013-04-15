@@ -94,7 +94,7 @@ exports.testHandleUpload = function(test) {
   var mockPermissions = { '_id' : 'BS123' };
   
   var mockMongoLookFactory = {
-    newLook : function(user, callback) {
+    newLook : function(user, permissionsList, callback) {
       callback(null, mockLook, mockPermissions);
     }
   };
@@ -109,6 +109,7 @@ exports.testHandleUpload = function(test) {
   
   LookRoutes.handleUpload(
       null,
+      [],
       '/test/bs',
       mockMongoLookFactory,
       mockGoldfinger,

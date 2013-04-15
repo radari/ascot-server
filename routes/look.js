@@ -54,7 +54,7 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, goldfinger
       if (error || !user) {
         res.render('error', { error : 'User ' + req.params.user + ' not found', title : 'Ascot :: Error' });
       } else {
-        exports.handleUrl(mongoLookFactory, goldfinger, download, user, req.query.url, function(error, look, permissions) {
+        exports.handleUrl(mongoLookFactory, goldfinger, download, user, req.query.url, permissionsList, function(error, look, permissions) {
           if (error || !look || !permissions) {
             res.render('error', { error : error, title : 'Ascot :: Error' });
           } else {
@@ -74,8 +74,10 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, goldfinger
                   });
                 }
               } else {
-                permissionsList.push(permissions._id);
-                res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+                if (!req.user) {
+                  permissionsList.push(permissions._id);
+                  res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+                }
                 res.redirect('/embed/tagger/' + look._id);
               }
             });
@@ -123,8 +125,8 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
   };
 };
 
-exports.handleUploadGeneric = function(user, path, mongoLookFactory, goldfinger, callback) {
-  mongoLookFactory.newLook(user, function(error, look, permissions) {
+exports.handleUploadGeneric = function(user, permissionsList, path, mongoLookFactory, goldfinger, callback) {
+  mongoLookFactory.newLook(user, permissionsList, function(error, look, permissions) {
     if (error) {
       console.log(error);
     }
@@ -144,16 +146,16 @@ exports.handleUploadGeneric = function(user, path, mongoLookFactory, goldfinger,
   });
 };
 
-exports.handleUpload = function(user, tmpPath, mongoLookFactory, goldfinger, callback) {
-  exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, goldfinger, callback);
+exports.handleUpload = function(user, permissionsList, tmpPath, mongoLookFactory, goldfinger, callback) {
+  exports.handleUploadGeneric(user, permissionsList, tmpPath, mongoLookFactory, goldfinger, callback);
 };
 
-exports.handleUrl = function(mongoLookFactory, goldfinger, download, user, url, callback) {
+exports.handleUrl = function(mongoLookFactory, goldfinger, download, user, url, permissionsList, callback) {
   download(url, function(error, tmpPath) {
     if (error) {
       callback("Image " + url + " could not be found", null);
     } else {
-      exports.handleUploadGeneric(user, tmpPath, mongoLookFactory, goldfinger, callback);
+      exports.handleUploadGeneric(user, permissionsList, tmpPath, mongoLookFactory, goldfinger, callback);
     }
   });
 };
@@ -170,8 +172,12 @@ exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
         res.render('error', { title : "Ascot :: Error", error : error });
       } else {
         gmTagger(look, function(error, result) {
-          permissionsList.push(permissions._id);
-          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+          if (!req.user) {
+            if (!permissions._id in permissionsList) {
+              permissionsList.push(permissions._id);
+              res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+            }
+          }
           res.redirect('/tagger/' + look._id);
         });
       }
@@ -179,9 +185,9 @@ exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
 
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      exports.handleUpload(req.user, req.files.files.path, mongoLookFactory, goldfinger, checkAndTaggerRedirect);
+      exports.handleUpload(req.user, permissionsList, req.files.files.path, mongoLookFactory, goldfinger, checkAndTaggerRedirect);
     } else if (req.body.url) {
-      exports.handleUrl(mongoLookFactory, goldfinger, download, req.user, req.body.url, checkAndTaggerRedirect);
+      exports.handleUrl(mongoLookFactory, goldfinger, download, req.user, req.body.url, permissionsList, checkAndTaggerRedirect);
     } else {
       res.render('error',
           { title : "Ascot :: Error",

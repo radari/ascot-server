@@ -45,7 +45,7 @@ exports.MongoLookFactory = function(url, Look, Permissions) {
     }
   };
 
-  this.newLook = function(user, callback) {
+  this.newLook = function(user, permissionsList, callback) {
     var look = new Look({ url : "", search : [], tags : [], random : [Math.random(), 0] });
     look.save(function(error, savedLook) {
       if (error || !savedLook) {
@@ -56,14 +56,32 @@ exports.MongoLookFactory = function(url, Look, Permissions) {
           if (error || !savedLookWithUrl) {
             callback(error, null);
           } else {
-            var permission = new Permissions({ images : [ savedLookWithUrl._id ] });
-            permission.save(function(error, perms) {
-              if (error || !perms) {
-                callback(error, null);
-              } else {
-                pushLookToUser(user, savedLookWithUrl, perms, callback);
-              }
-            });
+            if (permissionsList && permissionsList.length > 0) {
+              Permissions.findOne({ _id : permissionsList[0] }, function(error, permission) {
+                if (error || !permission) {
+                  console.log("ZZZZZ " + JSON.stringify(permissionsList));
+                  callback("error - permission " + permissionsList[0] + " not found.", null, null);
+                } else {
+                  permission.images.push(savedLookWithUrl._id);
+                  permission.save(function(error, perms) {
+                    if (error || !perms) {
+                      callback(error, null, null);
+                    } else {
+                      pushLookToUser(user, savedLookWithUrl, perms, callback);
+                    }
+                  });
+                }
+              });
+            } else {
+              var permission = new Permissions({ images : [ savedLookWithUrl._id ] });
+              permission.save(function(error, perms) {
+                if (error || !perms) {
+                  callback(error, null);
+                } else {
+                  pushLookToUser(user, savedLookWithUrl, perms, callback);
+                }
+              });
+            }
           }
         });
       }
