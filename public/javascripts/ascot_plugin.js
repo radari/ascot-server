@@ -42,7 +42,7 @@ function AscotPlugin(tagSourceUrl) {
     var href = image.parent().attr('href');
     var alt = image.attr('alt');
     if (href && href.toLowerCase().indexOf(tagSourceUrl) != -1) {
-      var searchString = tagSourceUrl; 
+      var searchString = tagSourceUrl + '/look/'; 
       return href.toLowerCase().substr(
           href.indexOf(searchString) + searchString.length, '50f8bae560ad830943000004'.length);
     }
@@ -194,7 +194,7 @@ function initAscotPlugin($, tagSourceUrl) {
     _gaq.push(['ascot._trackEvent', 'Plugin', 'loaded', $(location).attr('href')]);
   });
 
-  var plugin = new AscotPlugin();
+  var plugin = new AscotPlugin(tagSourceUrl);
   var UI = new AscotPluginUI(tagSourceUrl, $(location).attr('href'));
   var jsonp = function(url, callback) {
     $.ajax({
