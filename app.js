@@ -15,6 +15,7 @@ var express = require('express')
   , admin = require('./routes/admin.js')
   , user = require('./routes/user.js')
   , fb = require('facebook-js')
+  , safeStringify = require('json-stringify-safe')
 
   , affiliates = require('./routes/tools/affiliates.js')
 
@@ -227,7 +228,7 @@ if (app.get('mode') == 'test') {
     res.redirect(fb.getAuthorizeUrl({
       client_id: '169111373238111',
       redirect_uri: 'http://localhost:3000/fb/auth',
-      scope: 'publish_stream'
+      scope: 'publish_stream,user_photos,photo_upload'
     }));
   });
 
@@ -242,6 +243,16 @@ if (app.get('mode') == 'test') {
           console.log(access_token);
           res.redirect('/');
         });
+  });
+
+  app.get('/fb/upload/:id', function(req, res) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+      console.log(req.cookies.fbToken + " " + look.taggedUrl);
+      fb.apiCall('POST', '/me/photos', { access_token : req.cookies.fbToken, url : look.taggedUrl, message : 'Test' }, function(error, response, body) {
+        console.log(error + " " + response + " " + JSON.stringify(body));
+        res.redirect('/done/' + req.params.id);
+      });
+    });
   });
 }
 
