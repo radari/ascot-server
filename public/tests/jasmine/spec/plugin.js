@@ -69,7 +69,7 @@ describe('Ascot plugin', function() {
           taggedUrl : 'http://test',
           tags : [
               { position : { x : 100, y : 100 },
-                product : { buyLink : 'http://buy' }
+                product : { buyLink : 'http://buy', brand : 'Nike', name : 'Air Zoom 3' }
               }]
       };
 
@@ -77,7 +77,10 @@ describe('Ascot plugin', function() {
           toBe( "<img src='http://test' usemap='#ascot1234'>" +
                 "<map name='ascot1234'>" +
                 "<area shape='circle' coords='100,100,12' href='http://buy' target='_blank'>" +
-                "</map>");
+                "</map>" +
+                "<br>" +
+                "1. <a href='http://buy'><b>Nike</b> Air Zoom 3</a>" +
+                "<br>");
     });
   });
 
