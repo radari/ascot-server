@@ -14,6 +14,7 @@ var express = require('express')
   , authenticate = require('./routes/authenticate.js')
   , admin = require('./routes/admin.js')
   , user = require('./routes/user.js')
+  , fb = require('facebook-js')
 
   , affiliates = require('./routes/tools/affiliates.js')
 
@@ -221,6 +222,27 @@ if (app.get('mode') == 'test') {
   app.get('/delete/user/:name.json', user.delete(mongoUserFactory));
   app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
   app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
+
+  app.get('/fb/request', function(req, res) {
+    res.redirect(fb.getAuthorizeUrl({
+      client_id: '169111373238111',
+      redirect_uri: 'http://localhost:3000/fb/auth',
+      scope: 'publish_stream'
+    }));
+  });
+
+  app.get('/fb/auth', function(req, res) {
+    fb.getAccessToken(
+        '169111373238111',
+        '3ed7ae1a5ed36d4528898eb367f058ba',
+        req.param('code'),
+        'http://localhost:3000/fb/auth', 
+        function (error, access_token, refresh_token) {
+          res.cookie('fbToken', access_token);
+          console.log(access_token);
+          res.redirect('/');
+        });
+  });
 }
 
 http.createServer(app).listen(app.get('port'), function(){
