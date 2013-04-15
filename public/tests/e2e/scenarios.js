@@ -37,11 +37,11 @@ describe('Ascot Project', function() {
     it('should display share menu on share click', function() {
       element('.ascot_overlay_image_menu div:nth-child(1)').click();
       sleep(0.6);
-      expect(element('.ascot_overlay_share_menu:nth-child(2)').css('display')).toBe('block');
+      expect(element('.ascot_overlay_share_menu:nth-child(3)').css('display')).toBe('block');
       
       element('.ascot_overlay_image_menu div:nth-child(1)').click();
       sleep(0.6);
-      expect(element('.ascot_overlay_share_menu:nth-child(2)').css('display')).toBe('none');
+      expect(element('.ascot_overlay_share_menu:nth-child(3)').css('display')).toBe('none');
     });
     
     it('should display embed textarea when user clicks embed', function() {
@@ -150,7 +150,7 @@ describe('Ascot Project', function() {
     })
     
     it('should be able to register', function() {
-      element('#username').val('vkarpov');
+      element('#username').val('vkarpov12345');
       element('#password').val('abc123');
       element('#pickEmail').val('val@ascotproject.com');
       element('#createAccount').click();
@@ -160,7 +160,7 @@ describe('Ascot Project', function() {
     });
     
     it('should be able to log in successfully', function() {
-      element('#username').val('vkarpov');
+      element('#username').val('vkarpov12345');
       element('#password').val('abc123');
       element('#signIn').click();
       
@@ -169,7 +169,7 @@ describe('Ascot Project', function() {
     });
     
     it('should be able to see uploaded image in my looks page', function() {
-      element('#username').val('vkarpov');
+      element('#username').val('vkarpov12345');
       element('#password').val('abc123');
       element('#signIn').click();
       
@@ -191,7 +191,7 @@ describe('Ascot Project', function() {
     });
     
     it('should be able to change and save settings', function() {
-      element('#username').val('vkarpov');
+      element('#username').val('vkarpov12345');
       element('#password').val('abc123');
       element('#signIn').click();
       sleep(2);
@@ -220,7 +220,10 @@ describe('Ascot Project', function() {
     });
 
     it('should clean up after itself', function() {
-      browser().navigateTo('/delete/user/vkarpov.json');
+      browser().navigateTo('/logout');
+      sleep(2);
+      
+      browser().navigateTo('/delete/user/vkarpov12345.json');
       sleep(2);
     });
   });
@@ -276,6 +279,9 @@ describe('Ascot Project', function() {
     });
 
     it('should clean up after itself', function() {
+      browser().navigateTo('/logout');
+      sleep(2);
+
       browser().navigateTo('/delete/user/fakeadmin.json');
       sleep(2);
     });
