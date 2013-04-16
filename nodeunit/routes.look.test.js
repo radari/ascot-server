@@ -163,11 +163,13 @@ exports.testUpload = function(test) {
   { // res
     redirect : function(path) {
       test.equal('/tagger/MYFAKEID', path);
-      test.expect(5);
+      test.expect(7);
       test.done();
     },
     cookie : function(key, value) {
       test.equal('permissions', key);
+      test.equal(1, value.length);
+      test.equal('BS123', value[0]);
     }
   });
 
