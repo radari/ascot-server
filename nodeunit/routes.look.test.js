@@ -105,7 +105,7 @@ exports.testHandleUpload = function(test) {
       test.equal('MYFAKEID.png', result);
       callback(null, 'http://test', { height : height, width : width });
     }
-  }
+  };
   
   LookRoutes.handleUpload(
       null,
@@ -123,6 +123,54 @@ exports.testHandleUpload = function(test) {
         test.expect(8);
         test.done();
       });
+};
+
+exports.testUpload = function(test) {
+  var height = 200;
+  var width = 250;
+  var mockLook = { 
+      '_id' : 'MYFAKEID',
+      save : function(callback) { callback(null, mockLook); },
+      size : {}
+  };
+  var mockPermissions = { '_id' : 'BS123' };
+
+  var mockMongoLookFactory = {
+    newLook : function(user, permissionsList, callback) {
+      callback(null, mockLook, mockPermissions);
+    }
+  };
+  
+  var mockGoldfinger = {
+    toS3 : function(path, result, callback) {
+      test.equal('/test/bs', path);
+      test.equal('MYFAKEID.png', result);
+      callback(null, 'http://test', { height : height, width : width });
+    }
+  };
+
+  var mockGmTagger = function(look, callback) {
+    test.equal(true, true);
+    callback();
+  };
+
+  var fn = LookRoutes.upload(mockMongoLookFactory, mockGoldfinger, null, mockGmTagger);
+
+  fn({ //req
+    files : { files : { length : 1, path : '/test/bs' } },
+    cookies : {}
+  },
+  { // res
+    redirect : function(path) {
+      test.equal('/tagger/MYFAKEID', path);
+      test.expect(5);
+      test.done();
+    },
+    cookie : function(key, value) {
+      test.equal('permissions', key);
+    }
+  });
+
 };
 
 exports.testFilters = function(test) {
