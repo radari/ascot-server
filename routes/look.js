@@ -74,7 +74,9 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, goldfinger
                   });
                 }
               } else {
-                if (!req.user) {
+                if (permissions._id in permissionsList) {
+                  // pass through
+                } else {
                   permissionsList.push(permissions._id);
                   res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
                 }
@@ -172,11 +174,11 @@ exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
         res.render('error', { title : "Ascot :: Error", error : error });
       } else {
         gmTagger(look, function(error, result) {
-          if (!req.user) {
-            if (!permissions._id in permissionsList) {
-              permissionsList.push(permissions._id);
-              res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
-            }
+          if (permissions._id in permissionsList) {
+            // pass through
+          } else {
+            permissionsList.push(permissions._id);
+            res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
           }
           res.redirect('/tagger/' + look._id);
         });

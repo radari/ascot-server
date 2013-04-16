@@ -29,7 +29,7 @@ var express = require('express')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , knox = require('knox')
-  , temp = require('temp')
+  //, temp = require('temp')
   , bcrypt = require('bcrypt-nodejs');
 
 
@@ -73,6 +73,16 @@ passport.deserializeUser(strategy.deserializeUser);
 
 // configure custom tools
 var mode = process.env.MODE || 'production';
+var Temp = function() {
+  this.counter = 0;
+  this.baseDirectory = './public/images/uploads/';
+
+  this.open = function(prefix, callback) {
+    callback(null, this.baseDirectory + prefix + (++this.counter));
+  };
+};
+var temp = new Temp();
+
 var uploadTarget = knox.createClient({
   key : "AKIAJW2LJ5AG2WHBDYIA",
   secret : "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",

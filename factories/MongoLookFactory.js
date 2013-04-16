@@ -51,7 +51,7 @@ exports.MongoLookFactory = function(url, Look, Permissions) {
       if (error || !savedLook) {
         callback(error, null);
       } else {
-        look.url = url + '/images/uploads/' + look._id + '.png';
+        //look.url = url + '/images/uploads/' + look._id + '.png';
         look.save(function(error, savedLookWithUrl) {
           if (error || !savedLookWithUrl) {
             callback(error, null);
