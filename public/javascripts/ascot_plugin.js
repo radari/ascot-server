@@ -179,7 +179,7 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
   };
 }
 
-function initAscotPlugin($, tagSourceUrl) {
+function initAscotPlugin($, tagSourceUrl, stopwatch) {
   if (!window._gaq) {
     // Insert Google Analytics if it doesn't already exist
     window._gaq = [];
@@ -188,6 +188,19 @@ function initAscotPlugin($, tagSourceUrl) {
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   }
+
+  var profile = {
+    start : function(tag) {
+      if (stopwatch) {
+        stopwatch.start(tag);
+      }
+    },
+    stop : function(tag) {
+      if (stopwatch) {
+        stopwatch.stop(tag);
+      }
+    }
+  };
   
   _gaq.push(function() {
     _gaq.push(['ascot._setAccount', 'UA-36829509-1']);
@@ -421,28 +434,37 @@ function initAscotPlugin($, tagSourceUrl) {
     }
 
     if (ascotId != null) {
+      profile.start('CALLOUT');
       jsonp(
           tagSourceUrl + '/tags.jsonp?id=' + encodeURIComponent(ascotId),
           function (json) {
+            profile.stop('CALLOUT');
             // Now that we know that our jsonp call is done, we can wait for our
             // image to load to make our overlay, and then go to the next image in
             // our 'queue'
             image.imagesLoaded(function() {
+              profile.start('MAKEOVERLAY');
               makeOverlay(image, ascotId, url, json);
+              profile.stop('MAKEOVERLAY');
             });
 
             if (index + 1 < images.length) {
               ascotify(index + 1, images[index + 1]);
+            } else {
+              profile.stop('ALPHAOMEGA');
             }
           });
     } else {
       if (index + 1 < images.length) {
         ascotify(index + 1, images[index + 1]);
+      } else {
+        profile.stop('ALPHAOMEGA');
       }
     }
   };
 
   if (images.length > 0) {
+    profile.start('ALPHAOMEGA');
     ascotify(0, images[0]);
   }
 };

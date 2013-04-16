@@ -6,16 +6,34 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/vendor/javascripts/jquery.imagesloaded.js"></script>
     <script type="text/javascript" src="/vendor/javascripts/jquery.hoverdelay.js"></script>
+    <script type="text/javascript" src="/common/Stopwatch.js"></script>
     <link rel='stylesheet' href='/stylesheets/ascot_plugin.css'>
     <script type="text/javascript" src="/javascripts/ascot_plugin.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-        initAscotPlugin($, '');
+        var stopwatch = new exports.Stopwatch();
+        stopwatch.start('LOAD');
+        initAscotPlugin($, '', stopwatch);
+        stopwatch.stop('LOAD');
+        setTimeout(function() {
+          $('#ALPHAOMEGA').html(stopwatch.average('ALPHAOMEGA'));
+          $('#CALLOUT').html(stopwatch.average('CALLOUT'));
+          $('#MAKEOVERLAY').html(stopwatch.average('MAKEOVERLAY'));
+        }, 2000);
       });
     </script>
   </head>
 
   <body>
     <img src="http://www.ascotproject.com/images/uploads/50feb85905c3edaf0a000002.png#ascot=50feb85905c3edaf0a000002">
+    <br>
+    Profiler Results:
+    <br>
+    E2E:
+    <div id="ALPHAOMEGA"></div>
+    Callout:
+    <div id="CALLOUT"></div>
+    Overlay:
+    <div id="MAKEOVERLAY"></div>
   </body>
 </html>

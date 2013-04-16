@@ -29,7 +29,7 @@ exports.Stopwatch = function() {
   };
 
   this.average = function(tag) {
-    if (!tag in this.tagToTimes) {
+    if (!this.tagToTimes[tag]) {
       return -1;
     }
     var sum = 0;

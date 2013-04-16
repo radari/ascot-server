@@ -262,7 +262,7 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
   text-align: center;
   z-index:1;
-  behavior:url('http://www.ascotproject.com/vendor/htc/PIE.htc');
+  behavior:url('/vendor/htc/PIE.htc');
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_name:hover {
@@ -358,7 +358,7 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   bottom: 0px;
   left: 10px;
   z-index:4;
-  behavior:url('http://www.ascotproject.com/vendor/htc/PIE.htc');
+  behavior:url('/vendor/htc/PIE.htc');
 }
 
 .ascot_overlay_look .ascot_overlay .ascot_overlay_source_url {
