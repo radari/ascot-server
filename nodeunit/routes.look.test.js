@@ -172,7 +172,56 @@ exports.testUpload = function(test) {
       test.equal('BS123', value[0]);
     }
   });
+};
 
+exports.testUploadAuthed = function(test) {
+  var height = 200;
+  var width = 250;
+  var mockLook = { 
+      '_id' : 'MYFAKEID',
+      save : function(callback) { callback(null, mockLook); },
+      size : {}
+  };
+  var mockPermissions = { '_id' : 'BS123' };
+
+  var mockUser = {
+    '_id' : 'THELAW',
+  }
+
+  var mockMongoLookFactory = {
+    newLook : function(user, permissionsList, callback) {
+      test.equal(user, mockUser);
+      callback(null, mockLook, mockPermissions);
+    }
+  };
+  
+  var mockGoldfinger = {
+    toS3 : function(path, result, callback) {
+      test.equal('/test/bs', path);
+      test.equal('MYFAKEID.png', result);
+      callback(null, 'http://test', { height : height, width : width });
+    }
+  };
+
+  var mockGmTagger = function(look, callback) {
+    test.equal(true, true);
+    callback();
+  };
+
+  var fn = LookRoutes.upload(mockMongoLookFactory, mockGoldfinger, null, mockGmTagger);
+
+  fn({ //req
+    files : { files : { length : 1, path : '/test/bs' } },
+    cookies : {},
+    user : mockUser
+  },
+  { // res
+    redirect : function(path) {
+      test.equal('/tagger/MYFAKEID', path);
+      test.expect(5);
+      test.done();
+    }
+  });
 };
 
 exports.testFilters = function(test) {

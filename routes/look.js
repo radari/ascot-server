@@ -76,7 +76,7 @@ exports.newLookForUser = function(mongoLookFactory, mongoUserFactory, goldfinger
               } else {
                 if (permissions._id in permissionsList) {
                   // pass through
-                } else {
+                } else if (!req.user) {
                   permissionsList.push(permissions._id);
                   res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
                 }
@@ -176,7 +176,7 @@ exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
         gmTagger(look, function(error, result) {
           if (permissions._id in permissionsList) {
             // pass through
-          } else {
+          } else if (!req.user) {
             permissionsList.push(permissions._id);
             res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
           }
