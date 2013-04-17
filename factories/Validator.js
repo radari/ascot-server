@@ -8,16 +8,7 @@
  *
  */
 
-var Mongoose = require('mongoose');
-var db = Mongoose.createConnection('localhost', 'ascot');
-
-var LookSchema = require('../models/Look.js').LookSchema;
-var Look = db.model('looks', LookSchema);
-
-var PermissionsSchema = require('../models/Permissions.js').PermissionsSchema;
-var Permissions = db.model('permissions', PermissionsSchema);
-
-exports.Validator = function() {
+exports.Validator = function(Permissions) {
   this.canEditTags = function(user, keys, lookId, callback) {
     if (user && user.looks && user.looks.indexOf(lookId) != -1) {
       callback(null, true);

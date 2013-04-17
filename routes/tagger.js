@@ -9,14 +9,11 @@
  */
 
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
-
-var Validator = require('../factories/Validator.js').Validator;
-var validator = new Validator();
  
 /*
  * GET /tagger/:look
  */
-exports.get = function(displayRoute, mongoLookFactory) {
+exports.get = function(displayRoute, validator, mongoLookFactory) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
@@ -39,7 +36,7 @@ exports.get = function(displayRoute, mongoLookFactory) {
 /*
  * PUT /tagger/:look
  */
-exports.put = function(mongoLookFactory, shopsense, gmTagger) {
+exports.put = function(validator, mongoLookFactory, shopsense, gmTagger) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user,

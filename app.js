@@ -61,6 +61,9 @@ var Administrator = db.model('administrators', AdministratorSchema);
 var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFactory;
 var mongoUserFactory = new MongoUserFactory(User, Password, bcrypt);
 
+var Validator = require('./factories/Validator.js').Validator;
+var validator = new Validator(Permissions);
+
 var administratorValidator = authenticate.administratorValidator(Administrator);
 
 var shopsense = affiliates.shopsense(httpGet);
@@ -78,7 +81,7 @@ var Temp = function() {
   this.baseDirectory = './public/images/uploads/';
 
   this.open = function(prefix, callback) {
-    callback(null, this.baseDirectory + prefix + (++this.counter));
+    callback(null, { path : this.baseDirectory + prefix + (++this.counter) });
   };
 };
 var temp = new Temp();
@@ -91,6 +94,7 @@ var uploadTarget = knox.createClient({
 
 var uploadHandler = function(uploadTarget, mode) {
   return function(imagePath, remoteName, callback) {
+    console.log("$$ " + imagePath);
     uploadTarget.putFile(imagePath, (mode == 'test' ? '/test/' : '/uploads/') + remoteName, { 'x-amz-acl': 'public-read' }, function(error, result) {
       if (error || !result) {
         callback("error - " + error, null);
@@ -175,7 +179,7 @@ app.put('/look/:id/published',
     administratorValidator,
     look.updatePublishedStatus(mongoLookFactory));
 
-app.get('/tagger/:look', tagger.get('tagger', mongoLookFactory));
+app.get('/tagger/:look', tagger.get('tagger', validator, mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
@@ -192,7 +196,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(mongoLookFactory, shopsense, gmTagger));
+app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(

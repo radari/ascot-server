@@ -18,6 +18,7 @@ exports.Goldfinger = function(fs, gm, temp, uploadHandler) {
 
   this.toS3 = function(imagePath, resultName, callback) {
     var finish = function(path, features) {
+      console.log("@@@ " + path);
       uploadHandler(path, resultName, function(error, result) {
         fs.unlink(path, function(e) {
           callback(error, result, features);
@@ -33,11 +34,10 @@ exports.Goldfinger = function(fs, gm, temp, uploadHandler) {
           callback("The provided file does not appear to be an image", null, null);
         } else if (features.width > self.maxWidth) {
           gm(imagePath).resize(700, features.height * (700 / features.width)).write(imagePath, function(error) {
-            fs.unlink(imagePath, function(e) {
-              finish(imagePath, { height : features.height * (700 / features.width), width: 700 });
-            });
+            finish(imagePath, { height : features.height * (700 / features.width), width: 700 });
           });
         } else {
+          console.log("^^^ " + imagePath);
           finish(imagePath, { height : features.height, width : features.width });
         }
       });
