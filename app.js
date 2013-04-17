@@ -239,8 +239,8 @@ if (app.get('mode') == 'test') {
   app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
   app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
 
-  app.get('/fb/authorize', facebook.authorize(fb, 'http://localhost:3000'));
-  app.get('/fb/access', facebook.access(fb, 'http://localhost:3000'));
+  app.get('/fb/authorize', facebook.authorize(fb, app.get('url')));
+  app.get('/fb/access', facebook.access(fb, app.get('url')));
   app.get('/fb/upload/:look', facebook.upload(fb, mongoLookFactory, app.get('url')));
 
   app.post('/fb/upload/:look', facebook.postUpload(fb, mongoLookFactory, app.get('url')));
