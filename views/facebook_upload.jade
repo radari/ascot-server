@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  form(method="POST", action="/fb/upload/#{look._id}")
+    | Enter Facebook Upload Message:
+    br
+    textarea(name="message")
+      | #{defaultMessage}
+    br
+    img(src="#{look.taggedUrl}")
+    input(type="submit")

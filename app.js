@@ -15,6 +15,7 @@ var express = require('express')
   , admin = require('./routes/admin.js')
   , user = require('./routes/user.js')
   , fb = require('facebook-js')
+  , facebook = require('./routes/facebook.js')
   , safeStringify = require('json-stringify-safe')
 
   , affiliates = require('./routes/tools/affiliates.js')
@@ -238,36 +239,11 @@ if (app.get('mode') == 'test') {
   app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
   app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
 
-  app.get('/fb/request', function(req, res) {
-    res.redirect(fb.getAuthorizeUrl({
-      client_id: '169111373238111',
-      redirect_uri: 'http://localhost:3000/fb/auth',
-      scope: 'publish_stream,user_photos,photo_upload'
-    }));
-  });
+  app.get('/fb/authorize', facebook.authorize(fb, 'http://localhost:3000'));
+  app.get('/fb/access', facebook.access(fb, 'http://localhost:3000'));
+  app.get('/fb/upload/:look', facebook.upload(fb, mongoLookFactory, app.get('url')));
 
-  app.get('/fb/auth', function(req, res) {
-    fb.getAccessToken(
-        '169111373238111',
-        '3ed7ae1a5ed36d4528898eb367f058ba',
-        req.param('code'),
-        'http://localhost:3000/fb/auth', 
-        function (error, access_token, refresh_token) {
-          res.cookie('fbToken', access_token);
-          console.log(access_token);
-          res.redirect('/');
-        });
-  });
-
-  app.get('/fb/upload/:id', function(req, res) {
-    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
-      console.log(req.cookies.fbToken + " " + look.taggedUrl);
-      fb.apiCall('POST', '/me/photos', { access_token : req.cookies.fbToken, url : look.taggedUrl, message : 'Test' }, function(error, response, body) {
-        console.log(error + " " + response + " " + JSON.stringify(body));
-        res.redirect('/done/' + req.params.id);
-      });
-    });
-  });
+  app.post('/fb/upload/:look', facebook.postUpload(fb, mongoLookFactory, app.get('url')));
 }
 
 http.createServer(app).listen(app.get('port'), function(){
