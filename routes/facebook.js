@@ -36,13 +36,33 @@ exports.access = function(fb, url) {
       req.param('code'),
       url + '/fb/access', 
       function (error, access_token, refresh_token) {
-        req.cookies.fbToken = access_token;
-        res.cookie('fbToken', access_token);
-        console.log(access_token);
-        res.redirect(req.query.redirect || '/');
+        if (error || !access_token) {
+          res.redirect('/fb/authorize' +
+              (req.query.redirect ? '?redirect=' + encodeURIComponent(req.query.redirect) : ''));
+        } else {
+          res.cookie('fbToken', access_token);
+          console.log(access_token);
+          res.redirect(req.query.redirect || '/');
+        }
       });
   };
 };
+
+exports.checkAccessToken = function(fb) {
+  return function(req, res, next) {
+    if (req.cookies.fbToken) {
+      fb.apiCall('GET', '/me', { access_token : req.cookies.fbToken}, function(error, response, body) {
+        if (error || body.error) {
+          res.redirect('/fb/authorize?redirect=' + req.originalUrl);
+        } else {
+          next();
+        }
+      });
+    } else {
+      res.redirect('/fb/authorize?redirect=' + req.originalUrl);
+    }
+  };
+}
 
 /*
  * GET /fb/upload/:look
