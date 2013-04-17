@@ -30,7 +30,7 @@ var express = require('express')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , knox = require('knox')
-  //, temp = require('temp')
+  , Bitly = require('bitly')
   , bcrypt = require('bcrypt-nodejs');
 
 
@@ -115,6 +115,8 @@ goldfinger.setMaxWidth(700);
 var download = require('./routes/tools/download.js').download(httpGet, temp);
 
 var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
+
+var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -241,7 +243,7 @@ if (app.get('mode') == 'test') {
 
   app.get('/fb/authorize', facebook.authorize(fb, app.get('url')));
   app.get('/fb/access', facebook.access(fb, app.get('url')));
-  app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, app.get('url')));
+  app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, bitly, app.get('url')));
 
   app.post('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.postUpload(fb, mongoLookFactory, app.get('url')));
 }

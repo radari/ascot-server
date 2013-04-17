@@ -20,7 +20,7 @@
     "passport-local" : "*",
     "bcrypt-nodejs" : "*",
     "knox" : "*",
-    "temp" : "*",
+    "bitly" : "*",
     "facebook-js" : "*",
     "json-stringify-safe" : "*"
   }
