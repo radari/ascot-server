@@ -73,8 +73,12 @@ exports.upload = function(fb, mongoLookFactory, url) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', error : error || "Look not found" });
       } else {
-        console.log(JSON.stringify(look));
-        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : 'AIDS' });
+        var msg = '';
+        for (var i = 0; i < look.tags.length; ++i) {
+          msg += (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name + '\n';
+        }
+
+        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg });
       }
     });
   };
