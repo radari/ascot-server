@@ -76,7 +76,7 @@ describe('Ascot plugin', function() {
       expect(plugin.getImageMap(mockLook)).
           toBe( "<img src='http://test' usemap='#ascot1234'>" +
                 "<map name='ascot1234'>" +
-                "<area shape='circle' coords='100,100,12' href='http://buy' title='Nike Air Zoom 3' alt='Nike Air Zoom 3' target='_blank'>" +
+                "<area shape='circle' coords='100,100,15' href='http://buy' title='Nike Air Zoom 3' alt='Nike Air Zoom 3' target='_blank'>" +
                 "</map>" +
                 "<br>" +
                 "1. <a href='http://buy' target='_blank'><b>Nike</b> Air Zoom 3</a>" +

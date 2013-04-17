@@ -98,7 +98,7 @@ function AscotPlugin(tagSourceUrl) {
       var url = look.tags[i].product.buyLink || (tagSourceUrl + '/look/' + look._id);
       var longName = look.tags[i].product.brand + ' ' + look.tags[i].product.name;
       ret +=  "<area shape='circle'" +
-              " coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",12'" +
+              " coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",15'" +
               " href='" + url + "'" +
               " title='" + longName + "'" +
               " alt='" + longName + "'" +
