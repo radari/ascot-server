@@ -95,16 +95,21 @@ function AscotPlugin(tagSourceUrl) {
     var ret = "<img src='" + look.taggedUrl + "' usemap='#ascot" + look._id + "'>";
     ret += "<map name='ascot" + look._id + "'>";
     for (var i = 0; i < look.tags.length; ++i) {
-      if (look.tags[i].product.buyLink) {
-        ret += "<area shape='circle' coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",12' href='" + look.tags[i].product.buyLink + "' target='_blank'>";
-      }
+      var url = look.tags[i].product.buyLink || (tagSourceUrl + '/look/' + look._id);
+      var longName = look.tags[i].product.brand + ' ' + look.tags[i].product.name;
+      ret +=  "<area shape='circle'" +
+              " coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",12'" +
+              " href='" + url + "'" +
+              " title='" + longName + "'" +
+              " alt='" + longName + "'" +
+              " target='_blank'>";
     }
     ret += "</map>";
     ret += "<br>";
     for (var i = 0; i < look.tags.length; ++i) {
       ret += (i + 1) + ". ";
       if (look.tags[i].product.buyLink) {
-        ret += "<a href='" + look.tags[i].product.buyLink + "'>";
+        ret += "<a href='" + look.tags[i].product.buyLink + "' target='_blank'>";
       }
       ret += "<b>" + look.tags[i].product.brand + "</b> ";
       ret += look.tags[i].product.name;
@@ -285,7 +290,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
       });
 
       menuWrapper.append(
-          '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 65px; height:150px"><div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
+          '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 65px; height:170px"><div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
           '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site or email</p>'+
           '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'htmlClick\', \'' + json._id + '\', \'' + $(location).attr('href') + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' + plugin.getImageMap(json) + '</textarea></div>');
