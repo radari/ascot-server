@@ -20,7 +20,7 @@ exports.authorize = function(fb, url) {
     res.redirect(fb.getAuthorizeUrl({
       client_id: '169111373238111',
       redirect_uri: redirect,
-      scope: 'publish_stream,user_photos,photo_upload'
+      scope: 'publish_stream'
     }));
   };
 };
@@ -72,58 +72,22 @@ exports.checkAccessToken = function(fb) {
 /*
  * GET /fb/upload/:look
  */
-exports.upload = function(fb, mongoLookFactory, bitly, url) {
+exports.upload = function(fb, mongoLookFactory, url) {
   return function(req, res) {
-    console.log('1');
     mongoLookFactory.buildFromId(req.params.look, function(error, look) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', error : error || "Look not found" });
       } else {
-        console.log('2');
-        //var msg = '';
-        var numMinified = 0;
-
-        var finish = function() {
-          console.log('4');
-          var msg = '';
-          for (var i = 0; i < look.tags.length; ++i) {
-            msg += (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
-            if (look.tags[i].product.buyLink) {
-              msg += ' ' + look.tags[i].product.buyLink + '\n';
-            } else {
-              msg += '\n';
-            }
-          }
-          res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg });
-        }
-
+        var msg = '';
         for (var i = 0; i < look.tags.length; ++i) {
-          if (look.tags[i].product.buyLink) {
-            (function(tag, length) {
-              console.log('333');
-              bitly.shorten(tag.product.buyLink, function(error, response) {
-                console.log(JSON.stringify(response));
-                ++numMinified;
-                if (response) {
-                  // Minify but don't save
-                  console.log(JSON.stringify(response));
-                  tag.product.buyLink = response.data.url;
-                }
-                if (numMinified == length) {
-                  finish();
-                }
-              });
-            })(look.tags[i], look.tags.length);
+          msg += (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
+          if (look.tags[i].product.buyLinkMinified) {
+            msg += ' ' + look.tags[i].product.buyLinkMinified + '\n';
           } else {
-            ++numMinified;
-            if (numMinified == look.tags.length) {
-              finish();
-            }
+            msg += '\n';
           }
         }
-        if (look.tags.length == 0) {
-          finish();
-        }
+        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg });
       }
     });
   };

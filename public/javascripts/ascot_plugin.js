@@ -87,8 +87,17 @@ function AscotPlugin(tagSourceUrl) {
     return 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent(url) + '&redirect_uri=' + encodeURIComponent(url);
   };
 
-  this.getPinterestUrl = function(image, url) {
-    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent(url) + '&media=' + encodeURIComponent(image) + '&description=' + encodeURIComponent('From: ' + url);
+  this.getPinterestUrl = function(look) {
+    var descr = (look.title);
+    for (var i = 0; i < look.tags.length; ++i) {
+      descr += ' / ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
+      if (look.tags[i].product.buyLinkMinified) {
+        descr += ' ' + look.tags[i].product.buyLinkMinified;
+      }
+    }
+    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent('http://www.ascotproject.com/look/' + look._id) +
+        '&media=' + encodeURIComponent(look.taggedUrl) +
+        '&description=' + encodeURIComponent(descr);
   };
 
   this.getImageMap = function(look) {
@@ -247,7 +256,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
 
       var facebookUrl = plugin.getFacebookUrl('http://www.ascotproject.com/look/' + json._id);
       
-      var pinterestUrl = plugin.getPinterestUrl(json.url, 'http://www.ascotproject.com/look/' + json._id);
+      var pinterestUrl = plugin.getPinterestUrl(json);
 
       var height = image.height();
       var width = image.width();
