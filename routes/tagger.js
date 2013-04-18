@@ -36,7 +36,7 @@ exports.get = function(displayRoute, validator, mongoLookFactory) {
 /*
  * PUT /tagger/:look
  */
-exports.put = function(validator, mongoLookFactory, shopsense, gmTagger) {
+exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, bitly) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user,
@@ -99,25 +99,28 @@ exports.put = function(validator, mongoLookFactory, shopsense, gmTagger) {
                                 look.tags[index].product.buyLink = url;
                               }
                               
-                              ++shopsenseLinkCount;
-                              if (shopsenseLinkCount >= look.tags.length) {
-                                look.save(function(error, savedLook) {
-                                  if (error || !savedLook) {
-                                    console.log(error);
-                                    res.render('error',
-                                        { error : 'Failed to save tags',
-                                          title : 'Ascot :: Error' });
-                                  } else {
-                                    gmTagger(look, function() {
-                                      // Return nothing, client should handle this
-                                      // how it wants
-                                      res.json({});
-                                    });
-                                  }
-                                });
-                                return;
-                              }
-                    
+                              bitly.shorten(look.tags[index].product.buyLink, function(error, response) {
+                                look.tags[index].product.buyLinkMinified = response.data.url;
+                                ++shopsenseLinkCount;
+
+                                if (shopsenseLinkCount >= look.tags.length) {
+                                  look.save(function(error, savedLook) {
+                                    if (error || !savedLook) {
+                                      console.log(error);
+                                      res.render('error',
+                                          { error : 'Failed to save tags',
+                                            title : 'Ascot :: Error' });
+                                    } else {
+                                      gmTagger(look, function() {
+                                        // Return nothing, client should handle this
+                                        // how it wants
+                                        res.json({});
+                                      });
+                                    }
+                                  });
+                                  return;
+                                }
+                              });
                   });
                   
                   if (index + 1 < look.tags.length) {

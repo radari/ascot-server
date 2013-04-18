@@ -35,8 +35,7 @@ exports.LookSchema = new Mongoose.Schema({
         name : String,
         brand : String,
         buyLink : String,
-        price : Number, // Optional
-        search : [String] // Product search tags
+        buyLinkMinified : String
       }
     }
   ]
