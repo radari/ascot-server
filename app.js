@@ -243,7 +243,7 @@ if (app.get('mode') == 'test') {
 
   app.get('/fb/authorize', facebook.authorize(fb, app.get('url')));
   app.get('/fb/access', facebook.access(fb, app.get('url')));
-  app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, bitly, app.get('url')));
+  app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, app.get('url')));
 
   app.post('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.postUpload(fb, mongoLookFactory, app.get('url')));
 }
