@@ -30,12 +30,17 @@ exports.authorize = function(fb, url) {
  */
 exports.access = function(fb, url) {
   return function(req, res) {
+    var redirect = url + '/fb/access';
+    if (req.query.redirect) {
+      redirect += '?redirect=' + encodeURIComponent(req.query.redirect);
+    }
     fb.getAccessToken(
       '169111373238111',
       '3ed7ae1a5ed36d4528898eb367f058ba',
       req.param('code'),
-      url + '/fb/access', 
+      redirect, 
       function (error, access_token, refresh_token) {
+        console.log("## " + JSON.stringify(error) + " " + access_token + " " + refresh_token);
         if (error || !access_token) {
           res.redirect('/fb/authorize' +
               (req.query.redirect ? '?redirect=' + encodeURIComponent(req.query.redirect) : ''));
@@ -69,14 +74,17 @@ exports.checkAccessToken = function(fb) {
  */
 exports.upload = function(fb, mongoLookFactory, bitly, url) {
   return function(req, res) {
+    console.log('1');
     mongoLookFactory.buildFromId(req.params.look, function(error, look) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', error : error || "Look not found" });
       } else {
+        console.log('2');
         //var msg = '';
         var numMinified = 0;
 
         var finish = function() {
+          console.log('4');
           var msg = '';
           for (var i = 0; i < look.tags.length; ++i) {
             msg += (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
@@ -92,7 +100,9 @@ exports.upload = function(fb, mongoLookFactory, bitly, url) {
         for (var i = 0; i < look.tags.length; ++i) {
           if (look.tags[i].product.buyLink) {
             (function(tag, length) {
+              console.log('333');
               bitly.shorten(tag.product.buyLink, function(error, response) {
+                console.log(JSON.stringify(response));
                 ++numMinified;
                 if (response) {
                   // Minify but don't save
@@ -110,6 +120,9 @@ exports.upload = function(fb, mongoLookFactory, bitly, url) {
               finish();
             }
           }
+        }
+        if (look.tags.length == 0) {
+          finish();
         }
       }
     });
