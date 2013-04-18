@@ -26,6 +26,7 @@ var express = require('express')
   , fs = require('fs')
   , gm = require('gm')
   , flash = require('connect-flash')
+  , Shortener = require('./routes/tools/shortener.js').shortener
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
@@ -43,6 +44,9 @@ var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFacto
 
 var Mongoose = require('mongoose');
 var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot', pass : 'letMeGiveYouAHug' });
+
+var ShortendSchema = require('./models/Shortened.js').ShortenedSchema;
+var Shortened = db.model('shortend', ShortendSchema);
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
@@ -173,6 +177,10 @@ app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
+var shortener = Shortener(Shortened, 'http://ascotproject.com');
+shortener.shorten('http://www.google.com', function(error, result) {
+  console.log(error + " " + result);
+});
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
