@@ -957,3 +957,68 @@ width:250px;
 .settings_text {
   font-size: 12pt;
 }
+
+
+/*---------------------------FB UPLOAD STYLES-----------------------------------------------------------*/
+#facebookUpload {
+  background-color:#637bad;
+  color:white;
+  font-weight:bold;
+  position:relative;
+}
+
+.facebookPostWrapper {
+  border:1px #ccc solid;
+  width:270px;
+  padding-bottom:0px;
+  float:left; 
+  
+}
+
+.facebookPostWrapper img {
+  margin:4px;
+  max-width:262px;
+}
+
+.facebookPostWrapper textarea {
+  width:264px;
+  height:60px;
+  border-top:1px #dddddd solid;
+  border-bottom:1px transparent solid;
+  border-right:1px transparent solid;
+  border-left:1px transparent solid;
+  font-family:"helvetica neue", helvetica, arial, sans-serif;
+  font-size:12px;
+  margin-bottom:0px;
+}
+
+.facebookPostOptions {
+  float:left;
+  margin-left:10px;
+}
+
+.spacer {
+  width:100%;
+  position: relative;
+  top:800px;
+  margin-bottom:800px;
+}
+
+.facebookPreviewWrapper {
+  border:1px blue solid;
+  padding:0px;
+  position:absolute;
+  top:500px;
+  float:left;
+}
+
+.fbUploadImg {
+  position:relative;
+  right:0;
+  float:left;
+}
+
+.fbPreviewText {
+  border:1px green solid;
+  float:left;
+}

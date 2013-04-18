@@ -4,8 +4,24 @@ block content
   form(method="POST", action="/fb/upload/#{look._id}")
     | Enter Facebook Upload Message:
     br
-    textarea(name="message")
-      | #{defaultMessage}
-    br
-    img(src="#{look.taggedUrl}")
-    input(type="submit")
+    div.facebookPostWrapper
+      img.fbUploadImg(src="#{look.taggedUrl}")
+      br
+      textarea(name="message", placeholder="Say something about this photo...")
+        | #{defaultMessage}
+      br
+    div.facebookPostOptions
+      form
+        legend Photo Options
+        input(type="radio", name="type_filter", value="1") 
+        | Image+Tags
+        br
+        input(type="radio", name="type_filter", value="0") 
+        | Only Image
+    input(type="submit", value="Post Photo")#facebookUpload
+
+    div.facebookPreviewWrapper
+      img.fbUploadImg(src="#{look.taggedUrl}")
+      div.fbPreviewText
+        p 1. Dope Link bit.ly
+    div.spacer
