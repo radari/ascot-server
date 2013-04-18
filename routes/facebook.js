@@ -20,7 +20,7 @@ exports.authorize = function(fb, url) {
     res.redirect(fb.getAuthorizeUrl({
       client_id: '169111373238111',
       redirect_uri: redirect,
-      scope: 'publish_stream,user_photos,photo_upload'
+      scope: 'publish_stream'
     }));
   };
 };
@@ -78,22 +78,16 @@ exports.upload = function(fb, mongoLookFactory, url) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', error : error || "Look not found" });
       } else {
-        var numMinified = 0;
-
-        var finish = function() {
-          var msg = '';
-          for (var i = 0; i < look.tags.length; ++i) {
-            msg += (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
-            if (look.tags[i].product.buyLinkMinified) {
-              msg += ' ' + look.tags[i].product.buyLinkMinified + '\n';
-            } else {
-              msg += '\n';
-            }
+        var msg = '';
+        for (var i = 0; i < look.tags.length; ++i) {
+          msg += (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
+          if (look.tags[i].product.buyLinkMinified) {
+            msg += ' ' + look.tags[i].product.buyLinkMinified + '\n';
+          } else {
+            msg += '\n';
           }
-          res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg });
         }
-
-        finish();
+        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg });
       }
     });
   };
