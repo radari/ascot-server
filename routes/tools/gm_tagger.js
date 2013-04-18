@@ -16,7 +16,6 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
         var r = 12;
         console.log("--> " + look.title);
         for (var i = 0; i < look.tags.length; ++i) {
-          console.log("^^ " + JSON.stringify(look.tags[i]));
           var tag = look.tags[i];
           image = image.
               fill('#6B6B6B99').

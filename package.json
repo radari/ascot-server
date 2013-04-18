@@ -22,6 +22,7 @@
     "knox" : "*",
     "bitly" : "*",
     "facebook-js" : "*",
-    "json-stringify-safe" : "*"
+    "json-stringify-safe" : "*",
+    "sleep" : "*"
   }
 }

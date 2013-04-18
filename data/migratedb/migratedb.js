@@ -1,7 +1,8 @@
 var httpGet = require('http-get')
   , path = require('path')
   , fs = require('fs')
-  , temp = require('temp')
+  //, temp = require('temp')
+  , Bitly = require('bitly')
   , knox = require('knox')
   , gm = require('gm');
 
@@ -10,6 +11,19 @@ var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot'
 
 var LookSchema = require('../../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
+
+var Sleep = require('sleep');
+
+var Temp = function() {
+  this.counter = 0;
+  this.baseDirectory = './public/images/uploads/';
+
+  this.open = function(prefix, callback) {
+    callback(null, { path : this.baseDirectory + prefix + (++this.counter) });
+  };
+};
+var temp = new Temp();
+var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
 
 var uploadTarget = knox.createClient({
   key : "AKIAJW2LJ5AG2WHBDYIA",
@@ -41,13 +55,37 @@ Look.find({}, function(error, looks) {
   console.log("--> " + looks.length);
   for (var i = 0; i < looks.length; ++i) {
     console.log(i + "/" + looks.length);
-    console.log(JSON.stringify(looks[i]));
+    //console.log(JSON.stringify(looks[i]));
     if (!looks[i].taggedUrl) {
       console.log("Creating tags!");
-      gmTagger(looks[i], function(error, result) {
-        console.log(error + " " + result);
-      });
+      (function(look) {
+        gmTagger(look, function(error, result) {
+          console.log(error + " " + result);
+          console.log(look._id);
+        });
+      })(looks[i]);
     }
+
+    var fn = function(look, index) {
+      if (index == look.tags.length) {
+        look.save(function(error, look) {
+          console.log("Done minifying tags!");
+        });
+      } else {
+        if (look.tags[index].product.buyLink && !look.tags[index].product.buyLinkMinified) {
+          bitly.shorten(look.tags[index].product.buyLink, function(error, response) {
+            console.log(JSON.stringify(response));
+            console.log("## minifying " + look.tags[index].product.buyLink + " into " + response.data.url);
+            look.tags[index].product.buyLinkMinified = response.data.url;
+            Sleep.sleep(1);
+            fn(look, index + 1);
+          });
+        } else {
+          fn(look, index + 1);
+        }
+      }
+    };
+    fn(looks[i], 0);
   }
 });
 
