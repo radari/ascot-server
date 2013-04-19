@@ -254,7 +254,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
 
       var iframeCode = plugin.getIframeCode(json);
 
-      var facebookUrl = plugin.getFacebookUrl('http://www.ascotproject.com/look/' + json._id);
+      var facebookUrl = plugin.getFacebookUrl(json);
       
       var pinterestUrl = plugin.getPinterestUrl(json);
 
