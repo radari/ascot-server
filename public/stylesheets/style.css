@@ -965,14 +965,17 @@ width:250px;
   color:white;
   font-weight:bold;
   position:relative;
-}
+  border:1px #29447e solid;
+ }
 
 .facebookPostWrapper {
   border:1px #ccc solid;
   width:270px;
   padding-bottom:0px;
-  float:left; 
-  
+  position:relative; 
+  margin:auto;
+  left:0;
+  right:0; 
 }
 
 .facebookPostWrapper img {
@@ -998,10 +1001,7 @@ width:250px;
 }
 
 .spacer {
-  width:100%;
-  position: relative;
-  top:800px;
-  margin-bottom:800px;
+
 }
 
 .facebookPreviewWrapper {
@@ -1010,12 +1010,21 @@ width:250px;
   position:absolute;
   top:500px;
   float:left;
+  display:none;
 }
 
 .fbUploadImg {
   position:relative;
   right:0;
   float:left;
+}
+
+.facebookPostOptions {
+  display:none;
+}
+
+#fbform {
+text-align:center;
 }
 
 .fbPreviewText {

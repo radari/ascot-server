@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  form(method="POST", action="/fb/upload/#{look._id}")
-    | Enter Facebook Upload Message:
+  form(method="POST", action="/fb/upload/#{look._id}")#fbform
+    h2 Upload Look to Facebook
     br
     div.facebookPostWrapper
       img.fbUploadImg(src="#{look.taggedUrl}")
@@ -10,6 +10,7 @@ block content
       textarea(name="message", placeholder="Say something about this photo...")
         | #{defaultMessage}
       br
+    input(type="submit", value="Post Photo")#facebookUpload
     div.facebookPostOptions
       form
         legend Photo Options
@@ -18,7 +19,7 @@ block content
         br
         input(type="radio", name="type_filter", value="0") 
         | Only Image
-    input(type="submit", value="Post Photo")#facebookUpload
+   
 
     div.facebookPreviewWrapper
       img.fbUploadImg(src="#{look.taggedUrl}")
