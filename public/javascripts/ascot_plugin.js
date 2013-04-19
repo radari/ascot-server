@@ -90,12 +90,12 @@ function AscotPlugin(tagSourceUrl) {
   this.getPinterestUrl = function(look) {
     var descr = (look.title);
     for (var i = 0; i < look.tags.length; ++i) {
-      descr += ' / ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
+      descr += ' / ' + (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
       if (look.tags[i].product.buyLinkMinified) {
         descr += ' ' + look.tags[i].product.buyLinkMinified;
       }
     }
-    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent('http://www.ascotproject.com/look/' + look._id) +
+    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent(tagSourceUrl + '/look/' + look._id) +
         '&media=' + encodeURIComponent(look.taggedUrl) +
         '&description=' + encodeURIComponent(descr);
   };

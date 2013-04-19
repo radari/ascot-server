@@ -59,8 +59,17 @@ describe('Ascot plugin', function() {
     });
 
     it("should generate correct Pinterest share url", function() {
-      expect(plugin.getPinterestUrl('image', 'test')).
-          toBe('//pinterest.com/pin/create/button/?url=test&media=image&description=From%3A%20test');
+      expect(plugin.getPinterestUrl(
+          { _id : '1234',
+            taggedUrl : 'myTaggedImage',
+            title : 'Title',
+            tags : [
+              { product : { brand : 'Nike', name : 'AirZoom3', buyLinkMinified : 'minified' }}
+            ]
+          })).
+          toBe( '//pinterest.com/pin/create/button/?url=' + encodeURIComponent('http://test/look/1234') +
+                '&media=myTaggedImage' +
+                '&description=' + encodeURIComponent('Title / 1. Nike AirZoom3 minified'));
     });
 
     it("should generate HTML version properly", function() {
