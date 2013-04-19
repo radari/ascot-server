@@ -14,7 +14,6 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
       httpGet.get(look.url, info.path, function(error) {
         var image = gm(info.path);
         var r = 12;
-        console.log("--> " + look.title);
         for (var i = 0; i < look.tags.length; ++i) {
           var tag = look.tags[i];
           image = image.
