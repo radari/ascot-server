@@ -36,6 +36,15 @@ exports.shortener = function(Shortened, myUrl) {
       };
 
       fn();
+    },
+    longify : function(key, callback) {
+      Shortened.findOne({ key : key }, function(error, shortened) {
+        if (error || !shortened) {
+          callback("error - " + error, null);
+        } else {
+          callback(null, shortened.url);
+        }
+      });
     }
   };
 };

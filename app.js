@@ -31,7 +31,7 @@ var express = require('express')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , knox = require('knox')
-  , Bitly = require('bitly')
+  //, Bitly = require('bitly')
   , bcrypt = require('bcrypt-nodejs');
 
 
@@ -120,7 +120,7 @@ var download = require('./routes/tools/download.js').download(httpGet, temp);
 
 var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
 
-var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
+//var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -207,7 +207,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, bitly));
+app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, shortener));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
@@ -215,6 +215,15 @@ app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory, goldfinger, download));
 app.get('/embed/tagger/:look', tagger.get('mini_tagger', mongoLookFactory));
+app.get('/l/:key', function(req, res) {
+  shortener.longify(req.params.key, function(error, url) {
+    if (error || !url) {
+      res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
+    } else {
+      res.redirect(url);
+    }
+  })
+});
 
 // login
 app.get('/login',

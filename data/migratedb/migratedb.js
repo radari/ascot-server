@@ -2,6 +2,7 @@ var httpGet = require('http-get')
   , path = require('path')
   , fs = require('fs')
   //, temp = require('temp')
+  , Shortener = require('../../routes/tools/shortener.js').shortener
   , Bitly = require('bitly')
   , knox = require('knox')
   , gm = require('gm');
@@ -11,6 +12,9 @@ var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot'
 
 var LookSchema = require('../../models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
+
+var ShortendSchema = require('../../models/Shortened.js').ShortenedSchema;
+var Shortened = db.model('shortend', ShortendSchema);
 
 var Sleep = require('sleep');
 
@@ -23,7 +27,9 @@ var Temp = function() {
   };
 };
 var temp = new Temp();
-var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
+//var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
+
+var shortener = Shortener(Shortened, 'http://ascotproject.com');
 
 var uploadTarget = knox.createClient({
   key : "AKIAJW2LJ5AG2WHBDYIA",
@@ -56,7 +62,7 @@ Look.find({}, function(error, looks) {
   for (var i = 0; i < looks.length; ++i) {
     console.log(i + "/" + looks.length);
     //console.log(JSON.stringify(looks[i]));
-    if (!looks[i].taggedUrl) {
+    /*if (!looks[i].taggedUrl) {
       console.log("Creating tags!");
       (function(look) {
         gmTagger(look, function(error, result) {
@@ -64,7 +70,7 @@ Look.find({}, function(error, looks) {
           console.log(look._id);
         });
       })(looks[i]);
-    }
+    }*/
 
     var fn = function(look, index) {
       if (index == look.tags.length) {
@@ -72,17 +78,17 @@ Look.find({}, function(error, looks) {
           console.log("Done minifying tags!");
         });
       } else {
-        if (look.tags[index].product.buyLink && !look.tags[index].product.buyLinkMinified) {
-          bitly.shorten(look.tags[index].product.buyLink, function(error, response) {
+        //if (look.tags[index].product.buyLink && !look.tags[index].product.buyLinkMinified) {
+          shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
             console.log(JSON.stringify(response));
-            console.log("## minifying " + look.tags[index].product.buyLink + " into " + response.data.url);
-            look.tags[index].product.buyLinkMinified = response.data.url;
+            console.log("## minifying " + look.tags[index].product.buyLink + " into " + response);
+            look.tags[index].product.buyLinkMinified = response;
             Sleep.sleep(1);
             fn(look, index + 1);
           });
-        } else {
-          fn(look, index + 1);
-        }
+        //} else {
+        //  fn(look, index + 1);
+        //}
       }
     };
     fn(looks[i], 0);
