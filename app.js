@@ -245,21 +245,24 @@ app.put('/user/settings',
     authenticate.ensureAuthenticated,
     user.saveSettings(User));
 
+// Facebook functionality
+app.get('/fb/authorize', facebook.authorize(fb, app.get('url')));
+app.get('/fb/access', facebook.access(fb, app.get('url')));
+app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, app.get('url')));
+
+app.post('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.postUpload(fb, mongoLookFactory, app.get('url')));
+
+// Admin
 app.get('/admin',
   authenticate.ensureAuthenticated,
   administratorValidator,
   admin.index(Look));
 
+// Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {
   app.get('/delete/user/:name.json', user.delete(mongoUserFactory));
   app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
   app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
-
-  app.get('/fb/authorize', facebook.authorize(fb, app.get('url')));
-  app.get('/fb/access', facebook.access(fb, app.get('url')));
-  app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, app.get('url')));
-
-  app.post('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.postUpload(fb, mongoLookFactory, app.get('url')));
 }
 
 http.createServer(app).listen(app.get('port'), function(){

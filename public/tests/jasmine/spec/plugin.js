@@ -54,8 +54,8 @@ describe('Ascot plugin', function() {
     });
 
     it("should generate correct Facebook share url", function() {
-      expect(plugin.getFacebookUrl('test')).
-          toBe("https://www.facebook.com/dialog/send?app_id=169111373238111&link=test&redirect_uri=test");
+      expect(plugin.getFacebookUrl({ _id : '1234' })).
+          toBe("http://test/fb/upload/1234");
     });
 
     it("should generate correct Pinterest share url", function() {

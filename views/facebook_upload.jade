@@ -11,6 +11,9 @@ block content
         | #{defaultMessage}
       br
     input(type="submit", value="Post Photo")#facebookUpload
+    - if (flash)
+      div(style="font-size: 16pt")
+        | #{flash}
     div.facebookPostOptions
       form
         legend Photo Options

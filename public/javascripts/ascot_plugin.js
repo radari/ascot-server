@@ -83,8 +83,8 @@ function AscotPlugin(tagSourceUrl) {
     return '<iframe src="http://www.ascotproject.com/look/' + look._id + '/iframe" width="' + look.size.width + '" height="' + look.size.height + '" frameborder="0" scrolling="no"></iframe>';
   };
 
-  this.getFacebookUrl = function(url) {
-    return 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent(url) + '&redirect_uri=' + encodeURIComponent(url);
+  this.getFacebookUrl = function(look) {
+    return tagSourceUrl + '/fb/upload/' + look._id;
   };
 
   this.getPinterestUrl = function(look) {

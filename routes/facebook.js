@@ -87,7 +87,7 @@ exports.upload = function(fb, mongoLookFactory, url) {
             msg += '\n';
           }
         }
-        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg });
+        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg, flash : req.flash('/fb/upload/' + look._id) });
       }
     });
   };
