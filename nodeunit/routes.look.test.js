@@ -1,7 +1,7 @@
 /*
  *  routes.look.test.js
  *
- *  Created on: January 29, 2012
+ *  Created on: January 29, 2013
  *      Author: Valeri Karpov
  *
  *  Nodeunit-based test cases for /routes/look.js

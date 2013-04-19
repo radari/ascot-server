@@ -177,10 +177,7 @@ app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
-var shortener = Shortener(Shortened, 'http://ascotproject.com');
-shortener.shorten('http://www.google.com', function(error, result) {
-  console.log(error + " " + result);
-});
+var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));

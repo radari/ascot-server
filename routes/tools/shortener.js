@@ -8,8 +8,8 @@
  *
  */
 
-exports.shortener = function(Shortened, myUrl) {
-  var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
+exports.shortener = function(Shortened, myUrl, random) {
+  this.chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
 
   return {
     shorten : function(url, callback) {
@@ -17,7 +17,7 @@ exports.shortener = function(Shortened, myUrl) {
       var fn = function() {
         key = '';
         for (var i = 0; i < 5; ++i) {
-          key += chars.charAt(Math.floor(Math.random() * chars.length));
+          key += chars.charAt(Math.floor(random() * chars.length));
         }
         Shortened.findOne({ key : key }, function(error, shortened) {
           if (error || !shortened) {
