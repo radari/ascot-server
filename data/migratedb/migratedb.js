@@ -29,7 +29,7 @@ var Temp = function() {
 var temp = new Temp();
 //var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
 
-var shortener = Shortener(Shortened, 'http://ascotproject.com');
+var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
 
 var uploadTarget = knox.createClient({
   key : "AKIAJW2LJ5AG2WHBDYIA",
