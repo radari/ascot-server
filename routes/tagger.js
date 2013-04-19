@@ -36,7 +36,7 @@ exports.get = function(displayRoute, validator, mongoLookFactory) {
 /*
  * PUT /tagger/:look
  */
-exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, bitly) {
+exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shortener) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user,
@@ -99,8 +99,8 @@ exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, bitly) 
                                 look.tags[index].product.buyLink = url;
                               }
                               
-                              bitly.shorten(look.tags[index].product.buyLink, function(error, response) {
-                                look.tags[index].product.buyLinkMinified = response.data.url;
+                              shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
+                                look.tags[index].product.buyLinkMinified = response;
                                 ++shopsenseLinkCount;
 
                                 if (shopsenseLinkCount >= look.tags.length) {

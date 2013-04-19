@@ -13,7 +13,7 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
     temp.open('myprefix', function(error, info) {
       httpGet.get(look.url, info.path, function(error) {
         var image = gm(info.path);
-        var r = 12;
+        var r = 9;
         for (var i = 0; i < look.tags.length; ++i) {
           var tag = look.tags[i];
           image = image.
