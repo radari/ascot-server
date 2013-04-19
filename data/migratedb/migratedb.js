@@ -62,7 +62,7 @@ Look.find({}, function(error, looks) {
   for (var i = 0; i < looks.length; ++i) {
     console.log(i + "/" + looks.length);
     //console.log(JSON.stringify(looks[i]));
-    /*if (!looks[i].taggedUrl) {
+    if (!looks[i].taggedUrl) {
       console.log("Creating tags!");
       (function(look) {
         gmTagger(look, function(error, result) {
@@ -70,7 +70,7 @@ Look.find({}, function(error, looks) {
           console.log(look._id);
         });
       })(looks[i]);
-    }*/
+    }
 
     var fn = function(look, index) {
       if (index == look.tags.length) {
@@ -78,17 +78,13 @@ Look.find({}, function(error, looks) {
           console.log("Done minifying tags!");
         });
       } else {
-        //if (look.tags[index].product.buyLink && !look.tags[index].product.buyLinkMinified) {
-          shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
-            console.log(JSON.stringify(response));
-            console.log("## minifying " + look.tags[index].product.buyLink + " into " + response);
-            look.tags[index].product.buyLinkMinified = response;
-            Sleep.sleep(1);
-            fn(look, index + 1);
-          });
-        //} else {
-        //  fn(look, index + 1);
-        //}
+        shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
+          console.log(JSON.stringify(response));
+          console.log("## minifying " + look.tags[index].product.buyLink + " into " + response);
+          look.tags[index].product.buyLinkMinified = response;
+          Sleep.sleep(1);
+          fn(look, index + 1);
+        });
       }
     };
     fn(looks[i], 0);
