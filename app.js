@@ -150,6 +150,8 @@ app.configure(function(){
     res.locals.query = req.query;
     // Expose user
     res.locals.user = req.user;
+    // Expose URL relative to root with params
+    res.locals.originalUrl = req.originalUrl;
     next();
   });
   

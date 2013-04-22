@@ -37,7 +37,11 @@ exports.createUser = function(mongoUserFactory) {
 };
 
 exports.onSuccessfulLogin = function(req, res) {
-  res.redirect('/home');
+  if (req.query.redirect) {
+    res.redirect(req.query.redirect);
+  } else {
+    res.redirect('/home');
+  }
 };
 
 exports.strategyFactory = function(mongoUserFactory) {
@@ -66,7 +70,7 @@ exports.ensureAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   } else {
-    res.redirect('/login');
+    res.redirect('/login?redirect=' + encodeURIComponent(req.originalUrl));
   }
 };
 
