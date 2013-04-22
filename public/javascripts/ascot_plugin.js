@@ -193,7 +193,7 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
   };
 }
 
-function initAscotPlugin($, tagSourceUrl, stopwatch) {
+function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
   if (!window._gaq) {
     // Insert Google Analytics if it doesn't already exist
     window._gaq = [];
@@ -429,6 +429,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
    
   // List of all images
   var images = $('img').get();
+  var numLoaded = 0;
 
   var ascotify = function(index, el) {
     // This function is recursively called when ajax/jsonp call out to
@@ -460,6 +461,13 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
               profile.start('MAKEOVERLAY');
               makeOverlay(image, ascotId, url, json);
               profile.stop('MAKEOVERLAY');
+              if (++numLoaded >= images.length) {
+                if (usePIE && window.PIE) {
+                  $('.ascot_overlay_tag_name').each(function() {
+                    window.PIE.attach(this);
+                  });
+                }
+              }
             });
 
             if (index + 1 < images.length) {
