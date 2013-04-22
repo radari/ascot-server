@@ -26,4 +26,4 @@ block list_element
         ng-style="{ height : computeHeight(look) }")
     br
     a(ng-href="/look/{{look._id}}")
-      {{look.title | checkEmpty:'untitled'}}
+      | {{look.title | checkEmpty:'untitled'}} ({{look.tags.length}} tags)
