@@ -14,7 +14,7 @@ prepend head
   link(rel='stylesheet', href='/stylesheets/admin_panel.css')
 
 block list_header 
-  | #{listTitle}
+  include partials/_admin_navigation.jade
 
 block list_element
   div(id="admin_element"

@@ -4,10 +4,16 @@ prepend head
   link(rel='stylesheet', href='/stylesheets/admin_panel.css')
 
 block content
+  include ../partials/_admin_navigation.jade
+
   - each user in users
     div.user
-      | #{user.username} (#{user.settings.email}) [#{user.looks.length} looks]
+      b #{user.username}
+      | &nbsp;(#{user.settings.email}) [#{user.looks.length} looks]
       - for (var i = 0; i < user.looks.length; ++i)
         div.user_look
-          | #{i + 1}. &nbsp;
-          a(href="/look/#{user.looks[i]._id}", target="_blank") #{user.looks[i].title} &nbsp;&nbsp;&nbsp;&nbsp; (#{user.looks[i]._id})
+          a(href="/look/#{user.looks[i]._id}", target="_blank")
+            div(style="float: left") #{i + 1}. &nbsp;
+            div(style="width: 300px; float: left; margin-right: 10px") #{user.looks[i].title || "No Title"}
+            div(style="float: right") (#{user.looks[i]._id})
+            div(style="clear: both")

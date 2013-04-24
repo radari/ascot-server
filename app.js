@@ -258,6 +258,13 @@ app.post('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.postUpload(
 app.get('/admin',
   authenticate.ensureAuthenticated,
   administratorValidator,
+  function(req, res) {
+    res.redirect('/admin/index');
+  });
+
+app.get('/admin/index',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
   admin.index(Look));
 
 app.get('/admin/users',
