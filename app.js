@@ -260,6 +260,11 @@ app.get('/admin',
   administratorValidator,
   admin.index(Look));
 
+app.get('/admin/users',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  admin.users(User));
+
 // Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {
   app.get('/delete/user/:name.json', user.delete(mongoUserFactory));

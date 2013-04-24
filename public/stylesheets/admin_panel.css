@@ -14,3 +14,13 @@
 .unpublished{
   background-color: red;
 }
+
+.user {
+  padding: 2px;
+  margin: 5px;
+  font-family: sans-serif;
+}
+
+.user_look {
+  margin-left: 10px;
+}

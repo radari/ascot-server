@@ -1,0 +1,13 @@
+extends ../layout
+
+prepend head
+  link(rel='stylesheet', href='/stylesheets/admin_panel.css')
+
+block content
+  - each user in users
+    div.user
+      | #{user.username} (#{user.settings.email}) [#{user.looks.length} looks]
+      - for (var i = 0; i < user.looks.length; ++i)
+        div.user_look
+          | #{i + 1}. &nbsp;
+          a(href="/look/#{user.looks[i]._id}", target="_blank") #{user.looks[i].title} &nbsp;&nbsp;&nbsp;&nbsp; (#{user.looks[i]._id})
