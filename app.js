@@ -224,7 +224,8 @@ app.get('/l/:key', function(req, res) {
     if (error || !url) {
       res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
     } else {
-      res.redirect(url);
+      //res.redirect(url);
+      res.render('l', { url : url });
     }
   })
 });
