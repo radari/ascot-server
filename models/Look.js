@@ -35,7 +35,8 @@ exports.LookSchema = new Mongoose.Schema({
         name : String,
         brand : String,
         buyLink : String,
-        buyLinkMinified : String
+        buyLinkMinified : String,
+        buyLinkReadable : String
       }
     }
   ]
