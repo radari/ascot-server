@@ -121,6 +121,11 @@ var download = require('./routes/tools/download.js').download(httpGet, temp);
 var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
 
 //var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
+var fbConfig = {
+  id : (mode == 'test' ? '548575418528005' : '169111373238111'),
+  secret : (mode == 'test' ? '254e38966e2513ed7019b25a4af195d1' : '3ed7ae1a5ed36d4528898eb367f058ba')
+};
+fb.config = fbConfig;
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
