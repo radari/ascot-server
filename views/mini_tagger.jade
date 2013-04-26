@@ -29,7 +29,21 @@ html(ng-app='AscotModule')
       // Quick hack to make it so cursor doesn't change to 'text' in
       // Chrome when dragging a tag
       $(document).ready(function() {
-        document.onselectstart = function() { return false; };
+        var enabled = true;
+        window.enableSelect = function() {
+          enabled = true;
+        };
+        window.disableSelect = function() {
+          enabled = false;
+        };
+        
+        $('.magicdiv').mousedown(function(e) {
+          if (!enabled) {
+            e.preventDefault();
+          }
+        });
+        
+        window.disableSelect();
 
         $('.look').css('width', ($(window).width()) + 'px');
         $('.look').css('height', ($(window).height()) + 'px');

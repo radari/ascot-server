@@ -1,11 +1,12 @@
 
 describe('TaggerViewController', function() {
-  var scope, v, $httpBackend, url, confirm;
+  var scope, v, $httpBackend, url, confirm, selectable = false;
 
   beforeEach(inject(function($injector, $rootScope, $controller) {
     $httpBackend = $injector.get('$httpBackend');
     scope = $rootScope.$new();
     url = "";
+    selectable = false;
 
     v = $controller(TaggerViewController,
         { $scope : scope,
@@ -31,6 +32,12 @@ describe('TaggerViewController', function() {
           $window : {
             confirm : function(msg) {
               confirm = msg;
+            },
+            enableSelect : function() {
+              selectable = true;
+            },
+            disableSelect : function() {
+              selectable = false;
             }
           }
         });
@@ -124,10 +131,12 @@ describe('TaggerViewController', function() {
     scope.startEdittingTag('1234', tag1);
     expect(scope.idsToEditTag['1234']).toBe(tag1);
     expect(scope.isEdittingTag('1234')).toBe(true);
+    expect(selectable).toBe(true);
     
     scope.finishEdittingTag('1234');
     expect(scope.idsToEditTag['1234']).toBe(null);
     expect(scope.isEdittingTag('1234')).toBe(false);
+    expect(selectable).toBe(false);
   });
   
   it('should handle drag and drop correctly', function() {
@@ -138,7 +147,11 @@ describe('TaggerViewController', function() {
     $httpBackend.flush();
     var tag1 = scope.addTag('1234', 25, 15);
     scope.startDraggingTag('1234', tag1);
+    expect(selectable).toBe(false);
+    
     scope.updateDraggingTagPosition('1234', 36, 21);
+    expect(selectable).toBe(false);
+    
     scope.finishDraggingTag('1234', tag1);
     expect(tag1.position.x).toBe(26);
     expect(tag1.position.y).toBe(16);

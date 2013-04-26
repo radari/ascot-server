@@ -2,7 +2,7 @@ div.look-container
   div#look
     div.magicdiv( style="position: relative",
                   ng-style="{ 'cursor' : isDraggingTag(look, 'move', '') }")
-      img(src="#{look.url}",
+      img#tagMe(src="#{look.url}",
           class="uploadedImg",
           ascot_id="#{look._id}",
           adjust_ascot_wrapper="1",
