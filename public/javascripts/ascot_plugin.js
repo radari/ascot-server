@@ -104,7 +104,9 @@ function AscotPlugin(tagSourceUrl) {
     var ret = "<img src='" + look.taggedUrl + "' usemap='#ascot" + look._id + "'>";
     ret += "<map name='ascot" + look._id + "'>";
     for (var i = 0; i < look.tags.length; ++i) {
-      var url = look.tags[i].product.buyLink || (tagSourceUrl + '/look/' + look._id);
+      var url =
+          (look.tags[i].product.buyLinkReadable || look.tags[i].product.buyLink) ||
+          (tagSourceUrl + '/look/' + look._id);
       var longName = look.tags[i].product.brand + ' ' + look.tags[i].product.name;
       ret +=  "<area shape='circle'" +
               " coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",15'" +
@@ -118,7 +120,9 @@ function AscotPlugin(tagSourceUrl) {
     for (var i = 0; i < look.tags.length; ++i) {
       ret += (i + 1) + ". ";
       if (look.tags[i].product.buyLink) {
-        ret += "<a href='" + look.tags[i].product.buyLink + "' target='_blank'>";
+        ret +=  "<a href='" +
+                (look.tags[i].product.buyLinkReadable || look.tags[i].product.buyLink) +
+                "' target='_blank'>";
       }
       ret += "<b>" + look.tags[i].product.brand + "</b> ";
       ret += look.tags[i].product.name;

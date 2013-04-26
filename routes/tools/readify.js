@@ -11,24 +11,35 @@
  */
 
 exports.readify = function(Readable, myUrl) {
-  return function(product, url, callback) {
-    var s = product.brand + ' ' + product.name;
-    var sp = s.split(/\s+/);
-    var ret = "";
-    for (var i = 0; i < sp.length; ++i) {
-      ret += (i > 0 ? '-' : '') +
-          sp[i].charAt(0).toUpperCase() + sp[i].substr(1).toLowerCase();
-    }
+  return {
+    readify : function(product, url, callback) {
+      var s = product.brand + ' ' + product.name;
+      var sp = s.split(/\s+/);
+      var ret = "";
+      for (var i = 0; i < sp.length; ++i) {
+        ret += (i > 0 ? '-' : '') +
+            sp[i].charAt(0).toUpperCase() + sp[i].substr(1).toLowerCase();
+      }
 
-    Readable.find({ readable : ret }, function(error, readables) {
-      var r = new Readable({ readable : ret, number : readables.length + 1, url : url });
-      r.save(function(error, r) {
-        if (error || !r) {
+      Readable.find({ readable : ret }, function(error, readables) {
+        var r = new Readable({ readable : ret, number : readables.length + 1, url : url });
+        r.save(function(error, r) {
+          if (error || !r) {
+            callback("error - " + error, null);
+          } else {
+            callback(null, myUrl + '/p/' + r.readable + '/' + r.number);
+          }
+        });
+      });
+    },
+    longify : function(readable, number, callback) {
+      Readable.findOne({ readable : readable, number : number }, function(error, readable) {
+        if (error || !readable) {
           callback("error - " + error, null);
         } else {
-          callback(null, myUrl + '/p/' + r.readable + '/' + r.number);
+          callback(null, readable.url);
         }
       });
-    });
-  };
+    }
+  }
 };

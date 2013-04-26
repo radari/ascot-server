@@ -49,7 +49,7 @@ exports.get = function(displayRoute, validator, mongoLookFactory) {
 /*
  * PUT /tagger/:look
  */
-exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shortener) {
+exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shortener, readify) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user,
@@ -115,27 +115,29 @@ exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shorten
                               
                               shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
                                 look.tags[index].product.buyLinkMinified = response;
-                                ++shopsenseLinkCount;
-
-                                if (shopsenseLinkCount >= look.tags.length) {
-                                  look.save(function(error, savedLook) {
-                                    if (error || !savedLook) {
-                                      console.log(error);
-                                      res.render('error',
-                                          { error : 'Failed to save tags',
-                                            title : 'Ascot :: Error' });
-                                    } else {
-                                      gmTagger(look, function() {
-                                        // Return nothing, client should handle this
-                                        // how it wants
-                                        addLookToUser(req.user, look, function(error, user) {
-                                          res.json({});
+                                readify.readify(look.tags[index].product, look.tags[index].product.buyLink, function(error, readableUrl) {
+                                  look.tags[index].product.buyLinkReadable = readableUrl;
+                                  ++shopsenseLinkCount;
+                                  if (shopsenseLinkCount >= look.tags.length) {
+                                    look.save(function(error, savedLook) {
+                                      if (error || !savedLook) {
+                                        console.log(error);
+                                        res.render('error',
+                                            { error : 'Failed to save tags',
+                                              title : 'Ascot :: Error' });
+                                      } else {
+                                        gmTagger(look, function() {
+                                          // Return nothing, client should handle this
+                                          // how it wants
+                                          addLookToUser(req.user, look, function(error, user) {
+                                            res.json({});
+                                          });
                                         });
-                                      });
-                                    }
-                                  });
-                                  return;
-                                }
+                                      }
+                                    });
+                                    return;
+                                  }
+                                });
                               });
                   });
                   

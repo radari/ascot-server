@@ -3,6 +3,7 @@ var httpGet = require('http-get')
   , fs = require('fs')
   //, temp = require('temp')
   , Shortener = require('../../routes/tools/shortener.js').shortener
+  , Readify = require('../../routes/tools/readify.js').readify
   , Bitly = require('bitly')
   , knox = require('knox')
   , gm = require('gm');
@@ -15,6 +16,9 @@ var Look = db.model('looks', LookSchema);
 
 var ShortendSchema = require('../../models/Shortened.js').ShortenedSchema;
 var Shortened = db.model('shortend', ShortendSchema);
+
+var ReadableSchema = require('../../models/Readable.js').ReadableSchema;
+var Readable = db.model('readable', ReadableSchema);
 
 var Sleep = require('sleep');
 
@@ -30,6 +34,7 @@ var temp = new Temp();
 //var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
 
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
+var readify = Readify(Readable, 'http://www.ascotproject.com');
 
 var uploadTarget = knox.createClient({
   key : "AKIAJW2LJ5AG2WHBDYIA",
@@ -75,14 +80,16 @@ Look.find({}, function(error, looks) {
     var fn = function(look, index) {
       if (index == look.tags.length) {
         look.save(function(error, look) {
-          console.log("Done minifying tags!");
+          console.log("Done readifying tags!");
         });
       } else {
-        shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
+        //shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
+        readify.readify(look.tags[index].product, look.tags[index].product.buyLink, function(error, response) {
           console.log(JSON.stringify(response));
           console.log("## minifying " + look.tags[index].product.buyLink + " into " + response);
-          look.tags[index].product.buyLinkMinified = response;
-          Sleep.sleep(1);
+          //look.tags[index].product.buyLinkMinified = response;
+          look.tags[index].product.buyLinkReadable = response;
+          Sleep.sleep(0.4);
           fn(look, index + 1);
         });
       }

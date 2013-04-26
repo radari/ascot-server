@@ -27,6 +27,7 @@ var express = require('express')
   , gm = require('gm')
   , flash = require('connect-flash')
   , Shortener = require('./routes/tools/shortener.js').shortener
+  , Readify = require('./routes/tools/readify.js').readify
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
@@ -46,6 +47,9 @@ var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot'
 
 var ShortendSchema = require('./models/Shortened.js').ShortenedSchema;
 var Shortened = db.model('shortend', ShortendSchema);
+
+var ReadableSchema = require('./models/Readable.js').ReadableSchema;
+var Readable = db.model('readable', ReadableSchema);
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
@@ -117,8 +121,6 @@ goldfinger.setMaxWidth(700);
 
 var download = require('./routes/tools/download.js').download(httpGet, temp);
 
-var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
-
 var fbConfig = {
   id : (mode == 'test' ? '548575418528005' : '169111373238111'),
   secret : (mode == 'test' ? '254e38966e2513ed7019b25a4af195d1' : '3ed7ae1a5ed36d4528898eb367f058ba')
@@ -185,6 +187,7 @@ app.get('/howto/taggerPlugin', routes.taggerPlugin);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
+var readify = Readify(Readable, app.get('url'));
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
@@ -211,7 +214,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, shortener));
+app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, shortener, readify));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
@@ -224,10 +227,18 @@ app.get('/l/:key', function(req, res) {
     if (error || !url) {
       res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
     } else {
-      //res.redirect(url);
       res.render('l', { url : url });
     }
   })
+});
+app.get('/p/:readable/:number', function(req, res) {
+  readify.longify(req.params.readable, req.params.number, function(error, url) {
+    if (error || !url) {
+      res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
+    } else {
+      res.redirect(url);
+    }
+  });
 });
 
 // login
