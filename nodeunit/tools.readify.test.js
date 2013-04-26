@@ -40,9 +40,33 @@ exports.testOutput = function(test) {
 
   var readify = Readify(Readable, 'http://test');
 
-  readify(mockProduct, mockUrl, function(error, result) {
+  readify.readify(mockProduct, mockUrl, function(error, result) {
     test.equal('http://test/p/Nike-Air-Zoom-3/3', result);
     test.expect(5);
+    test.done();
+  });
+};
+
+exports.testLongify = function(test) {
+  var mockReadable = {
+    readable : 'test',
+    number : 1,
+    url : 'http://www.ascotproject.com'
+  };
+
+  var Readable = {
+    findOne : function(query, callback) {
+      test.equal(query.readable, mockReadable.readable);
+      test.equal(query.number, mockReadable.number);
+      callback(null, mockReadable);
+    }
+  };
+
+  var readify = Readify(Readable, 'http://test');
+
+  readify.longify(mockReadable.readable, mockReadable.number, function(error, response) {
+    test.equal(response, mockReadable.url);
+    test.expect(3);
     test.done();
   });
 };
