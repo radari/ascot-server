@@ -110,6 +110,7 @@ exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shorten
                             function(error, url) {
                               if (!error && url) {
                                 look.tags[index].product.buyLink = url;
+                                look.tags[index].product.hasAffiliateLink = true;
                               }
                               
                               shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
