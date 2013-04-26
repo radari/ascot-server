@@ -10,7 +10,7 @@ head
   link(rel='stylesheet', href='/stylesheets/ascot_look.css')
   script(type='text/javascript')
     $(document).ready(function() {
-      initAscotPlugin(jQuery, '');
+      initAscotPlugin(jQuery, '#{rootUrl}');
       $('#wrapper').css('width', ($(window).width()) + 'px');
       $('#wrapper').css('height', ($(window).height()) + 'px');
       $('#ascotImage').css('width', ($(window).width()) + 'px');
