@@ -9,7 +9,18 @@
  */
 
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
- 
+
+var addLookToUser = function(user, look, callback) {
+  if (user && user.looks && user.looks.indexOf(look._id) == -1) {
+    user.looks.push(look._id);
+    user.save(function(error, user) {
+      callback(null, user);
+    });
+  } else {
+    callback(null, user);
+  }
+};
+
 /*
  * GET /tagger/:look
  */
@@ -24,7 +35,9 @@ exports.get = function(displayRoute, validator, mongoLookFactory) {
             if (error || !look) {
               res.render('error', { error : 'Internal failure', title : 'Error' });
             } else {
-              res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
+              addLookToUser(req.user, look, function(error, user) {
+                res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
+              });
             }
           });
         }
@@ -114,7 +127,9 @@ exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shorten
                                       gmTagger(look, function() {
                                         // Return nothing, client should handle this
                                         // how it wants
-                                        res.json({});
+                                        addLookToUser(req.user, look, function(error, user) {
+                                          res.json({});
+                                        });
                                       });
                                     }
                                   });
