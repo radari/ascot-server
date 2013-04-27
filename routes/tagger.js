@@ -26,23 +26,21 @@ var addLookToUser = function(user, look, callback) {
  */
 exports.get = function(displayRoute, validator, mongoLookFactory) {
   return function(req, res) {
-    if (req.params.look) {
-      validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
-        if (error || !permission) {
-          res.render('error', { error : 'Access Denied', title : 'Error' });
-        } else {
-          mongoLookFactory.buildFromId(req.params.look, function(error, look) {
-            if (error || !look) {
-              res.render('error', { error : 'Internal failure', title : 'Error' });
-            } else {
-              addLookToUser(req.user, look, function(error, user) {
-                res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
-              });
-            }
-          });
-        }
-      });
-    }
+    validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
+      if (error || !permission) {
+        res.render('error', { error : 'Access Denied', title : 'Error' });
+      } else {
+        mongoLookFactory.buildFromId(req.params.look, function(error, look) {
+          if (error || !look) {
+            res.render('error', { error : 'Internal failure', title : 'Error' });
+          } else {
+            addLookToUser(req.user, look, function(error, user) {
+              res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
+            });
+          }
+        });
+      }
+    });
   };
 };
 
