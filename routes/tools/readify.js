@@ -13,6 +13,10 @@
 exports.readify = function(Readable, myUrl) {
   return {
     readify : function(product, url, callback) {
+      if (!url || url.length == 0) {
+        return callback(null, url);
+      }
+
       var s = product.brand + ' ' + product.name;
       var sp = s.split(/\s+/);
       var ret = "";

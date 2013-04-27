@@ -15,9 +15,9 @@ exports.ProductLinkGenerator = function(shortener, readify, shopsense) {
     var checkShopsense = function(index, done) {
       if (!look.tags[index].product.buyLink) {
         done();
-      } else if (!user || (user && user.settings.affiliates.shopsense.enabled) {
-        var shopsenseKey = req.user ?
-            req.user.settings.affiliates.shopsense.key :
+      } else if (!user || (user && user.settings.affiliates.shopsense.enabled)) {
+        var shopsenseKey = user ?
+            user.settings.affiliates.shopsense.key :
             'uid4336-13314844-31';
 
         shopsense(shopsenseKey, look.tags[index].product.buyLink, function(error, url) {
