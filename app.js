@@ -175,6 +175,7 @@ app.get('/howto/planB', routes.planB);
 app.get('/howto/guidelines', routes.guidelines);
 app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
+app.get('/customize', routes.customize);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
@@ -239,6 +240,7 @@ app.post('/register', authenticate.createUser(mongoUserFactory));
 // Authenticated displays for users
 app.get('/home', authenticate.ensureAuthenticated, look.myLooks(Look));
 app.get('/settings', authenticate.ensureAuthenticated, user.settings);
+
 
 // Authenticated functionality for users
 app.put('/user/settings',
