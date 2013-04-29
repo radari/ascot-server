@@ -83,19 +83,19 @@ function AscotPlugin(tagSourceUrl) {
     return '<iframe src="http://www.ascotproject.com/look/' + look._id + '/iframe" width="' + look.size.width + '" height="' + look.size.height + '" frameborder="0" scrolling="no"></iframe>';
   };
 
-  this.getFacebookUrl = function(url) {
-    return 'https://www.facebook.com/dialog/send?app_id=169111373238111&link=' + encodeURIComponent(url) + '&redirect_uri=' + encodeURIComponent(url);
+  this.getFacebookUrl = function(look) {
+    return tagSourceUrl + '/fb/upload/' + look._id;
   };
 
   this.getPinterestUrl = function(look) {
     var descr = (look.title);
     for (var i = 0; i < look.tags.length; ++i) {
-      descr += ' / ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
+      descr += ' / ' + (i + 1) + '. ' + look.tags[i].product.brand + ' ' + look.tags[i].product.name;
       if (look.tags[i].product.buyLinkMinified) {
         descr += ' ' + look.tags[i].product.buyLinkMinified;
       }
     }
-    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent('http://www.ascotproject.com/look/' + look._id) +
+    return '//pinterest.com/pin/create/button/?url=' + encodeURIComponent(tagSourceUrl + '/look/' + look._id) +
         '&media=' + encodeURIComponent(look.taggedUrl) +
         '&description=' + encodeURIComponent(descr);
   };
@@ -104,7 +104,9 @@ function AscotPlugin(tagSourceUrl) {
     var ret = "<img src='" + look.taggedUrl + "' usemap='#ascot" + look._id + "'>";
     ret += "<map name='ascot" + look._id + "'>";
     for (var i = 0; i < look.tags.length; ++i) {
-      var url = look.tags[i].product.buyLink || (tagSourceUrl + '/look/' + look._id);
+      var url =
+          (look.tags[i].product.buyLinkReadable || look.tags[i].product.buyLink) ||
+          (tagSourceUrl + '/look/' + look._id);
       var longName = look.tags[i].product.brand + ' ' + look.tags[i].product.name;
       ret +=  "<area shape='circle'" +
               " coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",15'" +
@@ -118,7 +120,9 @@ function AscotPlugin(tagSourceUrl) {
     for (var i = 0; i < look.tags.length; ++i) {
       ret += (i + 1) + ". ";
       if (look.tags[i].product.buyLink) {
-        ret += "<a href='" + look.tags[i].product.buyLink + "' target='_blank'>";
+        ret +=  "<a href='" +
+                (look.tags[i].product.buyLinkReadable || look.tags[i].product.buyLink) +
+                "' target='_blank'>";
       }
       ret += "<b>" + look.tags[i].product.brand + "</b> ";
       ret += look.tags[i].product.name;
@@ -193,7 +197,7 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
   };
 }
 
-function initAscotPlugin($, tagSourceUrl, stopwatch) {
+function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
   if (!window._gaq) {
     // Insert Google Analytics if it doesn't already exist
     window._gaq = [];
@@ -254,7 +258,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
 
       var iframeCode = plugin.getIframeCode(json);
 
-      var facebookUrl = plugin.getFacebookUrl('http://www.ascotproject.com/look/' + json._id);
+      var facebookUrl = plugin.getFacebookUrl(json);
       
       var pinterestUrl = plugin.getPinterestUrl(json);
 
@@ -429,6 +433,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
    
   // List of all images
   var images = $('img').get();
+  var numLoaded = 0;
 
   var ascotify = function(index, el) {
     // This function is recursively called when ajax/jsonp call out to
@@ -460,6 +465,13 @@ function initAscotPlugin($, tagSourceUrl, stopwatch) {
               profile.start('MAKEOVERLAY');
               makeOverlay(image, ascotId, url, json);
               profile.stop('MAKEOVERLAY');
+              if (++numLoaded >= images.length) {
+                if (usePIE && window.PIE) {
+                  $('.ascot_overlay_tag_name').each(function() {
+                    window.PIE.attach(this);
+                  });
+                }
+              }
             });
 
             if (index + 1 < images.length) {

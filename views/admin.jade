@@ -14,7 +14,7 @@ prepend head
   link(rel='stylesheet', href='/stylesheets/admin_panel.css')
 
 block list_header 
-  | #{listTitle}
+  include partials/_admin_navigation.jade
 
 block list_element
   div(id="admin_element"
@@ -23,7 +23,7 @@ block list_element
       ng-click="togglePublished()",
       ng-class="isPublished")
     img(ng-src="{{look.url}}",
-        ng-style="{ height : computeHeight(look) }")
+        ng-style="{ height : computeHeight(look), 'background-color' : '#A3A3A3' }")
     br
     a(ng-href="/look/{{look._id}}")
-      {{look.title | checkEmpty:'untitled'}}
+      | {{look.title | checkEmpty:'untitled'}} ({{look.tags.length}} tags)

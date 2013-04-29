@@ -999,6 +999,7 @@ width:250px;
   font-weight:bold;
   position:relative;
   border:1px #29447e solid;
+  cursor: pointer;
  }
 
 .facebookPostWrapper {

@@ -9,34 +9,45 @@
  */
 
 var MongoLookFactory = require('../factories/MongoLookFactory.js').MongoLookFactory;
- 
+
+var addLookToUser = function(user, look, callback) {
+  if (user && user.looks && user.looks.indexOf(look._id) == -1) {
+    user.looks.push(look._id);
+    user.save(function(error, user) {
+      callback(null, user);
+    });
+  } else {
+    callback(null, user);
+  }
+};
+
 /*
  * GET /tagger/:look
  */
 exports.get = function(displayRoute, validator, mongoLookFactory) {
   return function(req, res) {
-    if (req.params.look) {
-      validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
-        if (error || !permission) {
-          res.render('error', { error : 'Access Denied', title : 'Error' });
-        } else {
-          mongoLookFactory.buildFromId(req.params.look, function(error, look) {
-            if (error || !look) {
-              res.render('error', { error : 'Internal failure', title : 'Error' });
-            } else {
+    validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
+      if (error || !permission) {
+        res.render('error', { error : 'Access Denied', title : 'Error' });
+      } else {
+        mongoLookFactory.buildFromId(req.params.look, function(error, look) {
+          if (error || !look) {
+            res.render('error', { error : 'Internal failure', title : 'Error' });
+          } else {
+            addLookToUser(req.user, look, function(error, user) {
               res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
-            }
-          });
-        }
-      });
-    }
+            });
+          }
+        });
+      }
+    });
   };
 };
 
 /*
  * PUT /tagger/:look
  */
-exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, bitly) {
+exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shortener, readify) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user,
@@ -97,29 +108,34 @@ exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, bitly) 
                             function(error, url) {
                               if (!error && url) {
                                 look.tags[index].product.buyLink = url;
+                                look.tags[index].product.hasAffiliateLink = true;
                               }
                               
-                              bitly.shorten(look.tags[index].product.buyLink, function(error, response) {
-                                look.tags[index].product.buyLinkMinified = response.data.url;
-                                ++shopsenseLinkCount;
-
-                                if (shopsenseLinkCount >= look.tags.length) {
-                                  look.save(function(error, savedLook) {
-                                    if (error || !savedLook) {
-                                      console.log(error);
-                                      res.render('error',
-                                          { error : 'Failed to save tags',
-                                            title : 'Ascot :: Error' });
-                                    } else {
-                                      gmTagger(look, function() {
-                                        // Return nothing, client should handle this
-                                        // how it wants
-                                        res.json({});
-                                      });
-                                    }
-                                  });
-                                  return;
-                                }
+                              shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
+                                look.tags[index].product.buyLinkMinified = response;
+                                readify.readify(look.tags[index].product, look.tags[index].product.buyLink, function(error, readableUrl) {
+                                  look.tags[index].product.buyLinkReadable = readableUrl;
+                                  ++shopsenseLinkCount;
+                                  if (shopsenseLinkCount >= look.tags.length) {
+                                    look.save(function(error, savedLook) {
+                                      if (error || !savedLook) {
+                                        console.log(error);
+                                        res.render('error',
+                                            { error : 'Failed to save tags',
+                                              title : 'Ascot :: Error' });
+                                      } else {
+                                        gmTagger(look, function() {
+                                          // Return nothing, client should handle this
+                                          // how it wants
+                                          addLookToUser(req.user, look, function(error, user) {
+                                            res.json({});
+                                          });
+                                        });
+                                      }
+                                    });
+                                    return;
+                                  }
+                                });
                               });
                   });
                   

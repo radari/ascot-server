@@ -81,3 +81,11 @@ exports.index = function(Look) {
     });
   };
 };
+
+exports.users = function(User) {
+  return function(req, res) {
+    User.find({}).populate('looks').exec(function(error, users) {
+      res.render('admin/users', { users : users, title : 'Admin Users' });
+    });
+  };
+};

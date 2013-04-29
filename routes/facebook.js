@@ -18,7 +18,7 @@ exports.authorize = function(fb, url) {
       redirect += '?redirect=' + encodeURIComponent(req.query.redirect);
     }
     res.redirect(fb.getAuthorizeUrl({
-      client_id: '169111373238111',
+      client_id: fb.config.id,
       redirect_uri: redirect,
       scope: 'publish_stream'
     }));
@@ -35,8 +35,8 @@ exports.access = function(fb, url) {
       redirect += '?redirect=' + encodeURIComponent(req.query.redirect);
     }
     fb.getAccessToken(
-      '169111373238111',
-      '3ed7ae1a5ed36d4528898eb367f058ba',
+      fb.config.id,
+      fb.config.secret,
       req.param('code'),
       redirect, 
       function (error, access_token, refresh_token) {
@@ -87,7 +87,7 @@ exports.upload = function(fb, mongoLookFactory, url) {
             msg += '\n';
           }
         }
-        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg });
+        res.render('facebook_upload', { title : 'Facebook Upload', look : look, defaultMessage : msg, flash : req.flash('/fb/upload/' + look._id) });
       }
     });
   };

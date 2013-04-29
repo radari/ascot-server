@@ -27,11 +27,11 @@ var express = require('express')
   , gm = require('gm')
   , flash = require('connect-flash')
   , Shortener = require('./routes/tools/shortener.js').shortener
+  , Readify = require('./routes/tools/readify.js').readify
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , knox = require('knox')
-  //, Bitly = require('bitly')
   , bcrypt = require('bcrypt-nodejs');
 
 
@@ -47,6 +47,9 @@ var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot'
 
 var ShortendSchema = require('./models/Shortened.js').ShortenedSchema;
 var Shortened = db.model('shortend', ShortendSchema);
+
+var ReadableSchema = require('./models/Readable.js').ReadableSchema;
+var Readable = db.model('readable', ReadableSchema);
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
@@ -118,9 +121,11 @@ goldfinger.setMaxWidth(700);
 
 var download = require('./routes/tools/download.js').download(httpGet, temp);
 
-var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
-
-//var bitly = new Bitly('ascotproject', 'R_3bb230d429aa1875ec863961ad1541bd');
+var fbConfig = {
+  id : (mode == 'test' ? '548575418528005' : '169111373238111'),
+  secret : (mode == 'test' ? '254e38966e2513ed7019b25a4af195d1' : '3ed7ae1a5ed36d4528898eb367f058ba')
+};
+fb.config = fbConfig;
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -150,6 +155,10 @@ app.configure(function(){
     res.locals.query = req.query;
     // Expose user
     res.locals.user = req.user;
+    // Expose URL relative to root with params
+    res.locals.originalUrl = req.originalUrl;
+    // Expose the current url
+    res.locals.rootUrl = app.get('url');
     next();
   });
   
@@ -179,6 +188,7 @@ app.get('/customize', routes.customize);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
+var readify = Readify(Readable, app.get('url'));
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
@@ -205,7 +215,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, shortener));
+app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, shortener, readify));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
@@ -218,9 +228,18 @@ app.get('/l/:key', function(req, res) {
     if (error || !url) {
       res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
     } else {
-      res.redirect(url);
+      res.render('l', { url : url });
     }
   })
+});
+app.get('/p/:readable/:number', function(req, res) {
+  readify.longify(req.params.readable, req.params.number, function(error, url) {
+    if (error || !url) {
+      res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
+    } else {
+      res.redirect(url);
+    }
+  });
 });
 
 // login
@@ -247,21 +266,36 @@ app.put('/user/settings',
     authenticate.ensureAuthenticated,
     user.saveSettings(User));
 
+// Facebook functionality
+app.get('/fb/authorize', facebook.authorize(fb, app.get('url')));
+app.get('/fb/access', facebook.access(fb, app.get('url')));
+app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, app.get('url')));
+
+app.post('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.postUpload(fb, mongoLookFactory, app.get('url')));
+
+// Admin
 app.get('/admin',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  function(req, res) {
+    res.redirect('/admin/index');
+  });
+
+app.get('/admin/index',
   authenticate.ensureAuthenticated,
   administratorValidator,
   admin.index(Look));
 
+app.get('/admin/users',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  admin.users(User));
+
+// Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {
   app.get('/delete/user/:name.json', user.delete(mongoUserFactory));
   app.get('/delete/look/:id.json', look.delete(mongoLookFactory));
   app.get('/make/admin/:name.json', admin.makeAdmin(Administrator, mongoUserFactory));
-
-  app.get('/fb/authorize', facebook.authorize(fb, app.get('url')));
-  app.get('/fb/access', facebook.access(fb, app.get('url')));
-  app.get('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.upload(fb, mongoLookFactory, app.get('url')));
-
-  app.post('/fb/upload/:look', facebook.checkAccessToken(fb), facebook.postUpload(fb, mongoLookFactory, app.get('url')));
 }
 
 http.createServer(app).listen(app.get('port'), function(){

@@ -141,6 +141,10 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   // Start editting a tag
   $scope.startEdittingTag = function(id, tag) {
     $scope.idsToEditTag[id] = tag;
+    
+    if ($window && $window.enableSelect) {
+      $window.enableSelect();
+    }
   };
 
   // Check if we're in editting state
@@ -159,6 +163,10 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
       if ($scope.autosave[id]) {
         $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
           function(data) {});
+      }
+      
+      if ($window && $window.disableSelect) {
+        $window.disableSelect();
       }
 
       $scope.idsToEditTag[id] = null;
@@ -192,6 +200,7 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   };
 
   $scope.startDraggingTag = function(id, tag) {
+    $scope.finishEdittingTag(id, tag);
     $scope.idsToDraggingTag[id] = tag;
   };
   
@@ -205,11 +214,10 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   };
 
   $scope.toggleDraggingTag = function(id, tag) {
-    $scope.idsToDraggingTag[id] = ($scope.isDraggingTag(id) ? null : tag);
-    
-    if ($scope.isDraggingTag(id) == null && $scope.autosave[id]) {
-      $http.put('/tagger/' + id, $scope.idsToLooks[id]).success(
-        function(data) {});
+    if ($scope.isDraggingTag(id)) {
+      $scope.finishDraggingTag(id, tag);
+    } else {
+      $scope.startDraggingTag(id, tag);
     }
   };
 
