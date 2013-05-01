@@ -97,8 +97,12 @@ exports.put = function(validator, mongoLookFactory, gmTagger, productLinkGenerat
                 if (error || !look) {
                   res.json({ error : error });
                 } else {
-                  // Return nothing. Client should handle this how it wants
-                  res.json({ success : true });
+                  gmTagger(look, function() {
+                    addLookToUser(req.user, look, function() {
+                      // Return nothing. Client should handle this how it wants
+                      res.json({ success : true });
+                    });
+                  });
                 }
               });
             }
