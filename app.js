@@ -293,6 +293,11 @@ app.get('/admin/users',
   administratorValidator,
   admin.users(User));
 
+app.delete('/admin/look/:id',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  admin.deleteLook(Look, User));
+
 // Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {
   app.get('/delete/user/:name.json', user.delete(mongoUserFactory));
