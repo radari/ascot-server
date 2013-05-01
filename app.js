@@ -28,6 +28,8 @@ var express = require('express')
   , flash = require('connect-flash')
   , Shortener = require('./routes/tools/shortener.js').shortener
   , Readify = require('./routes/tools/readify.js').readify
+  , ProductLinkGenerator =
+      require('./routes/tools/product_link_generator.js').ProductLinkGenerator
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
@@ -189,6 +191,7 @@ app.get('/customize', routes.customize);
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
 var readify = Readify(Readable, app.get('url'));
+var productLinkGenerator = ProductLinkGenerator(shortener, readify, shopsense);
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
@@ -215,7 +218,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, shortener, readify));
+app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, gmTagger, productLinkGenerator));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
@@ -259,7 +262,6 @@ app.post('/register', authenticate.createUser(mongoUserFactory));
 // Authenticated displays for users
 app.get('/home', authenticate.ensureAuthenticated, look.myLooks(Look));
 app.get('/settings', authenticate.ensureAuthenticated, user.settings);
-
 
 // Authenticated functionality for users
 app.put('/user/settings',
