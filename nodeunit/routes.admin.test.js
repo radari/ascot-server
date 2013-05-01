@@ -93,3 +93,49 @@ exports.testDelete = function(test) {
     }
   });
 };
+
+exports.testDeleteEmpty = function(test) {
+  var mockLook = {
+    _id : 'testLook',
+    remove : function(callback) {
+      test.equal('A', 'A');
+      callback();
+    }
+  };
+
+  var mockMongoLookFactory = {
+    buildFromId : function(id, callback) {
+      test.equal(id, mockLook._id);
+      callback(null, mockLook);
+    }
+  };
+
+  var User = {
+    find : function(query, callback) {
+      test.equal('A', 'A');
+      callback(null, []);
+    }
+  };
+
+  var Permissions = {
+    find : function(query, callback) {
+      test.equal('A', 'A');
+      callback(null, []);
+    }
+  };
+
+  var fn = AdminRoutes.deleteLook(mockMongoLookFactory, User, Permissions);
+
+  fn({
+    // req
+    params : {
+      id : mockLook._id
+    }
+  }, {
+    // res
+    json : function(result) {
+      test.expect(4);
+      test.done();
+    }
+  });
+};

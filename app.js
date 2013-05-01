@@ -296,7 +296,7 @@ app.get('/admin/users',
 app.delete('/admin/look/:id',
   authenticate.ensureAuthenticated,
   administratorValidator,
-  admin.deleteLook(Look, User));
+  admin.deleteLook(mongoLookFactory, Look, User));
 
 // Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {

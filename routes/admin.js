@@ -116,6 +116,12 @@ exports.deleteLook = function(mongoLookFactory, User, Permissions) {
           }
         });
       };
+      if (users.length == 0) {
+        usersDone = true;
+        if (permissionsDone && usersDone) {
+          finish();
+        }
+      }
     });
     Permissions.find({ looks : req.params.id }, function(error, permissions) {
       var permissionsCount = 0;
@@ -129,6 +135,12 @@ exports.deleteLook = function(mongoLookFactory, User, Permissions) {
             }
           }
         });
+      }
+      if (permissions.length == 0) {
+        permissionsDone = true;
+        if (permissionsDone && usersDone) {
+          finish();
+        }
       }
     });
   }
