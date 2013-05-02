@@ -4,38 +4,40 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
 
-  , tags = require('./routes/tags.js')
-  , look = require('./routes/look.js')
-  , tagger = require('./routes/tagger.js')
-  , upload = require('./routes/upload.js')
-  , product = require('./routes/product.js')
-  , authenticate = require('./routes/authenticate.js')
-  , admin = require('./routes/admin.js')
-  , user = require('./routes/user.js')
+  // External libraries (npm / node specific)
+  , bcrypt = require('bcrypt-nodejs')
+  , flash = require('connect-flash')
   , fb = require('facebook-js')
-  , facebook = require('./routes/facebook.js')
-  , safeStringify = require('json-stringify-safe')
-
-  , affiliates = require('./routes/tools/affiliates.js')
-
-  , http = require('http')
-  , httpGet = require('http-get')
-  , path = require('path')
   , fs = require('fs')
   , gm = require('gm')
-  , flash = require('connect-flash')
-  , Shortener = require('./routes/tools/shortener.js').shortener
-  , Readify = require('./routes/tools/readify.js').readify
-  , ProductLinkGenerator =
-      require('./routes/tools/product_link_generator.js').ProductLinkGenerator
-  , UploadHandler = require('./routes/tools/upload_handler.js').UploadHandler
-  
+  , http = require('http')
+  , httpGet = require('http-get')
+  , safeStringify = require('json-stringify-safe')
+  , knox = require('knox')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
-  , knox = require('knox')
-  , bcrypt = require('bcrypt-nodejs');
+  , path = require('path')
+
+  // Routes
+  , routes = require('./routes')
+  , admin = require('./routes/admin.js')
+  , authenticate = require('./routes/authenticate.js')
+  , facebook = require('./routes/facebook.js')
+  , look = require('./routes/look.js')
+  , product = require('./routes/product.js')
+  , tagger = require('./routes/tagger.js')
+  , tags = require('./routes/tags.js')
+  , upload = require('./routes/upload.js')
+  , user = require('./routes/user.js')
+  
+  // Our tools
+  , affiliates = require('./routes/tools/affiliates.js')
+  , ProductLinkGenerator =
+      require('./routes/tools/product_link_generator.js').ProductLinkGenerator
+  , Readify = require('./routes/tools/readify.js').readify
+  , Shortener = require('./routes/tools/shortener.js').shortener
+  , UploadHandler = require('./routes/tools/upload_handler.js').UploadHandler;
 
 
 var app = express();
@@ -136,7 +138,6 @@ app.configure(function(){
   app.use(passport.initialize());
   app.use(passport.session());
   
-
   // For req.flash
   app.use(flash());
   
