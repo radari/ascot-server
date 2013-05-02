@@ -30,6 +30,7 @@ var express = require('express')
   , Readify = require('./routes/tools/readify.js').readify
   , ProductLinkGenerator =
       require('./routes/tools/product_link_generator.js').ProductLinkGenerator
+  , UploadHandler = require('./routes/tools/upload_handler.js').UploadHandler
   
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
@@ -102,18 +103,7 @@ var uploadTarget = knox.createClient({
   bucket : 'ascot_uploads'
 });
 
-var uploadHandler = function(uploadTarget, mode) {
-  return function(imagePath, remoteName, callback) {
-    console.log("$$ " + imagePath);
-    uploadTarget.putFile(imagePath, (mode == 'test' ? '/test/' : '/uploads/') + remoteName, { 'x-amz-acl': 'public-read' }, function(error, result) {
-      if (error || !result) {
-        callback("error - " + error, null);
-      } else {
-        callback(null, 'https://s3.amazonaws.com/ascot_uploads' + (mode == 'test' ? '/test/' : '/uploads/') + remoteName);
-      }
-    });
-  };
-}(uploadTarget, mode);
+var uploadHandler = UploadHandler(uploadTarget, mode);
 
 var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, httpGet, uploadHandler);
 
