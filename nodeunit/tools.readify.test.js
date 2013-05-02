@@ -13,7 +13,7 @@ var Readify = require('../routes/tools/readify.js').readify;
 exports.testOutput = function(test) {
   var mockProduct = {
     brand : 'Nike',
-    name : 'AIR ZOOM 3'
+    name : '"AIR ZOOM 3"'
   };
 
   var mockResult = 'Nike-Air-Zoom-3';

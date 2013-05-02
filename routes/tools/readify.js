@@ -21,9 +21,14 @@ exports.readify = function(Readable, myUrl) {
       var sp = s.split(/\s+/);
       var ret = "";
       for (var i = 0; i < sp.length; ++i) {
+        sp[i] = encodeURIComponent(sp[i]);
+        sp[i] = sp[i].replace(/%[0-9A-F][0-9A-F]/gi, '');
+
         ret += (i > 0 ? '-' : '') +
             sp[i].charAt(0).toUpperCase() + sp[i].substr(1).toLowerCase();
       }
+
+
 
       Readable.find({ readable : ret }, function(error, readables) {
         var r = new Readable({ readable : ret, number : readables.length + 1, url : url });

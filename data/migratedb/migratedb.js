@@ -86,7 +86,7 @@ Look.find({}, function(error, looks) {
         //shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
         readify.readify(look.tags[index].product, look.tags[index].product.buyLink, function(error, response) {
           console.log(JSON.stringify(response));
-          console.log("## minifying " + look.tags[index].product.buyLink + " into " + response);
+          console.log("## readifying " + look.tags[index].product.buyLink + " into " + response);
           //look.tags[index].product.buyLinkMinified = response;
           look.tags[index].product.buyLinkReadable = response;
           Sleep.sleep(0.4);
