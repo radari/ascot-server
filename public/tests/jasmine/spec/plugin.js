@@ -17,6 +17,8 @@ describe('Ascot plugin', function() {
           toEqual({ ascot : '1234', test : 'abc' });
       expect(plugin.parseHashParams('http://www.google.com/?abcd=12#ascot=1234&test=12345')).
           toEqual({ ascot : '1234', test : '12345' });
+      expect(plugin.parseHashParams('http://www.google.com/?abcd=12#/ascot=1234&test=abcdef')).
+          toEqual({ ascot : '1234', test : 'abcdef' });
     });
 
     it("should get URL hash param properly", function() {

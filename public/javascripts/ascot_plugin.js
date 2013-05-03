@@ -24,7 +24,11 @@ function AscotPlugin(tagSourceUrl) {
       if (spp[1].charAt(spp[1].length - 1) == '&' || spp[1].charAt(spp[1].length - 1) == '#' || spp[1].charAt(spp[1].length - 1) == '?') {
         spp[1] = spp[1].substr(0, spp[1].length - 1);
       }
-      ret[spp[0].substr(1)] = spp[1];
+      spp[0] = spp[0].substr(1);
+      if (spp[0].charAt(0) == '/') {
+        spp[0] = spp[0].substr(1);
+      }
+      ret[spp[0]] = spp[1];
     }
 
     return ret;
@@ -247,6 +251,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
 
   var plugin = new AscotPlugin(tagSourceUrl);
   var UI = new AscotPluginUI(tagSourceUrl, $(location).attr('href'));
+  var hashParams = plugin.parseHashParams($(location).attr('href'));
   var jsonp = function(url, callback) {
     $.ajax({
       type: 'GET',
@@ -438,6 +443,12 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
         UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagPosition);
         if (smallImage) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
+        }
+
+        if (hashParams.ascotPopout &&
+            hashParams.ascotPopout.indexOf(ascotId) != -1 &&
+            hashParams.ascotPopout.indexOf('_' + (tag.index)) != -1) {
+          tagDescription.show();
         }
                 
         tagContainer.hover(function() {
