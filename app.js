@@ -44,6 +44,12 @@ var app = express();
 
 require('./public/common/basic_tools.js');
 
+// Enable NodeFly
+require('nodefly').profile(
+    '1b7f28c2eb217d46fdd4372ab12cae2e',
+    'Ascot Project'
+);
+
 // Set up Mongoose / MongoDB interfaces
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
 
