@@ -10,8 +10,28 @@
  */
 
 function AscotPlugin(tagSourceUrl) {
+  this.parseHashParams = function(url) {
+    if (url.indexOf('#') < 0) {
+      return {};
+    }
+    var ret = {};
+    url = url.substring(url.indexOf('#'));
+    var regex = new RegExp('[#&][^&;=]+' + '=' + '[^&#?;]+', 'g');
+    var sp = url.match(regex);
+
+    for (var i = 0; i < sp.length; ++i) {
+      var spp = sp[i].split('=');
+      if (spp[1].charAt(spp[1].length - 1) == '&' || spp[1].charAt(spp[1].length - 1) == '#' || spp[1].charAt(spp[1].length - 1) == '?') {
+        spp[1] = spp[1].substr(0, spp[1].length - 1);
+      }
+      ret[spp[0].substr(1)] = spp[1];
+    }
+
+    return ret;
+  };
+
   this.getAscotHashParam = function(url) {
-    if (url.lastIndexOf('#') == 0) {
+    if (url.lastIndexOf('#') < 0) {
       return null;
     } else {
       url = url.substring(url.lastIndexOf('#'));
