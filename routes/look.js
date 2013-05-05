@@ -135,7 +135,10 @@ exports.handleUploadGeneric = function(user, permissionsList, path, mongoLookFac
     
     goldfinger.toS3(path, look._id + '.png', function(error, result, features) {
       if (error || !result || !features) {
-        callback(error, null, null);
+        // Invalid image
+        look.remove(function() {
+          callback(error, null, null);
+        });
       } else {
         look.url = result;
         look.size.height = features.height;

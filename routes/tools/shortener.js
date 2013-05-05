@@ -13,6 +13,10 @@ exports.shortener = function(Shortened, myUrl, random) {
 
   return {
     shorten : function(url, callback) {
+      if (!url || url.length == 0) {
+        return callback(null, url);
+      }
+      
       var key = '';
       var fn = function() {
         key = '';

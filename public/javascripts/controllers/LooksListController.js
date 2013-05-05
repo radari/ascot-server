@@ -62,7 +62,8 @@ function LooksListController($scope, $http) {
   };
   
   $scope.computeHeight = function(look) {
-    return look.size.height * ($scope.columnWidth / look.size.width);
+    return look.size.height && look.size.width ?
+        look.size.height * ($scope.columnWidth / look.size.width) : 0;
   };
 
   $scope.init = function(looks, numPages, currentPage, numColumns, columnWidth) {

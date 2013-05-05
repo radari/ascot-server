@@ -4,39 +4,51 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
 
-  , tags = require('./routes/tags.js')
-  , look = require('./routes/look.js')
-  , tagger = require('./routes/tagger.js')
-  , upload = require('./routes/upload.js')
-  , product = require('./routes/product.js')
-  , authenticate = require('./routes/authenticate.js')
-  , admin = require('./routes/admin.js')
-  , user = require('./routes/user.js')
+  // External libraries (npm / node specific)
+  , bcrypt = require('bcrypt-nodejs')
+  , flash = require('connect-flash')
   , fb = require('facebook-js')
-  , facebook = require('./routes/facebook.js')
-  , safeStringify = require('json-stringify-safe')
-
-  , affiliates = require('./routes/tools/affiliates.js')
-
-  , http = require('http')
-  , httpGet = require('http-get')
-  , path = require('path')
   , fs = require('fs')
   , gm = require('gm')
-  , flash = require('connect-flash')
-  , Shortener = require('./routes/tools/shortener.js').shortener
-  
+  , http = require('http')
+  , httpGet = require('http-get')
+  , safeStringify = require('json-stringify-safe')
+  , knox = require('knox')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
-  , knox = require('knox')
-  , bcrypt = require('bcrypt-nodejs');
+  , path = require('path')
+
+  // Routes
+  , routes = require('./routes')
+  , admin = require('./routes/admin.js')
+  , authenticate = require('./routes/authenticate.js')
+  , facebook = require('./routes/facebook.js')
+  , look = require('./routes/look.js')
+  , product = require('./routes/product.js')
+  , tagger = require('./routes/tagger.js')
+  , tags = require('./routes/tags.js')
+  , upload = require('./routes/upload.js')
+  , user = require('./routes/user.js')
+  
+  // Our tools
+  , affiliates = require('./routes/tools/affiliates.js')
+  , ProductLinkGenerator =
+      require('./routes/tools/product_link_generator.js').ProductLinkGenerator
+  , Readify = require('./routes/tools/readify.js').readify
+  , Shortener = require('./routes/tools/shortener.js').shortener
+  , UploadHandler = require('./routes/tools/upload_handler.js').UploadHandler;
 
 
 var app = express();
 
 require('./public/common/basic_tools.js');
+
+// Enable NodeFly
+require('nodefly').profile(
+    '1b7f28c2eb217d46fdd4372ab12cae2e',
+    'Ascot Project'
+);
 
 // Set up Mongoose / MongoDB interfaces
 var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFactory;
@@ -46,6 +58,9 @@ var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot'
 
 var ShortendSchema = require('./models/Shortened.js').ShortenedSchema;
 var Shortened = db.model('shortend', ShortendSchema);
+
+var ReadableSchema = require('./models/Readable.js').ReadableSchema;
+var Readable = db.model('readable', ReadableSchema);
 
 var LookSchema = require('./models/Look.js').LookSchema;
 var Look = db.model('looks', LookSchema);
@@ -96,18 +111,7 @@ var uploadTarget = knox.createClient({
   bucket : 'ascot_uploads'
 });
 
-var uploadHandler = function(uploadTarget, mode) {
-  return function(imagePath, remoteName, callback) {
-    console.log("$$ " + imagePath);
-    uploadTarget.putFile(imagePath, (mode == 'test' ? '/test/' : '/uploads/') + remoteName, { 'x-amz-acl': 'public-read' }, function(error, result) {
-      if (error || !result) {
-        callback("error - " + error, null);
-      } else {
-        callback(null, 'https://s3.amazonaws.com/ascot_uploads' + (mode == 'test' ? '/test/' : '/uploads/') + remoteName);
-      }
-    });
-  };
-}(uploadTarget, mode);
+var uploadHandler = UploadHandler(uploadTarget, mode);
 
 var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, httpGet, uploadHandler);
 
@@ -116,8 +120,6 @@ var goldfinger = new Goldfinger(fs, gm, temp, uploadHandler);
 goldfinger.setMaxWidth(700);
 
 var download = require('./routes/tools/download.js').download(httpGet, temp);
-
-var imageMapTagger = require('./routes/tools/image_map_tagger.js').imageMapTagger(gmTagger);
 
 var fbConfig = {
   id : (mode == 'test' ? '548575418528005' : '169111373238111'),
@@ -142,7 +144,6 @@ app.configure(function(){
   app.use(passport.initialize());
   app.use(passport.session());
   
-
   // For req.flash
   app.use(flash());
   
@@ -182,9 +183,12 @@ app.get('/howto/planB', routes.planB);
 app.get('/howto/guidelines', routes.guidelines);
 app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
+app.get('/customize', routes.customize);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
+var readify = Readify(Readable, app.get('url'));
+var productLinkGenerator = ProductLinkGenerator(shortener, readify, shopsense);
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
@@ -211,7 +215,7 @@ app.get('/names.json', product.names(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, shopsense, gmTagger, shortener));
+app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, gmTagger, productLinkGenerator));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
@@ -224,10 +228,18 @@ app.get('/l/:key', function(req, res) {
     if (error || !url) {
       res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
     } else {
-      //res.redirect(url);
       res.render('l', { url : url });
     }
   })
+});
+app.get('/p/:readable/:number', function(req, res) {
+  readify.longify(req.params.readable, req.params.number, function(error, url) {
+    if (error || !url) {
+      res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
+    } else {
+      res.redirect(url);
+    }
+  });
 });
 
 // login
@@ -277,6 +289,11 @@ app.get('/admin/users',
   authenticate.ensureAuthenticated,
   administratorValidator,
   admin.users(User));
+
+app.delete('/admin/look/:id',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  admin.deleteLook(mongoLookFactory, Look, User));
 
 // Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {

@@ -10,8 +10,32 @@
  */
 
 function AscotPlugin(tagSourceUrl) {
+  this.parseHashParams = function(url) {
+    if (url.indexOf('#') < 0) {
+      return {};
+    }
+    var ret = {};
+    url = url.substring(url.indexOf('#'));
+    var regex = new RegExp('[#&][^&;=]+' + '=' + '[^&#?;]+', 'g');
+    var sp = url.match(regex);
+
+    for (var i = 0; i < sp.length; ++i) {
+      var spp = sp[i].split('=');
+      if (spp[1].charAt(spp[1].length - 1) == '&' || spp[1].charAt(spp[1].length - 1) == '#' || spp[1].charAt(spp[1].length - 1) == '?') {
+        spp[1] = spp[1].substr(0, spp[1].length - 1);
+      }
+      spp[0] = spp[0].substr(1);
+      if (spp[0].charAt(0) == '/') {
+        spp[0] = spp[0].substr(1);
+      }
+      ret[spp[0]] = spp[1];
+    }
+
+    return ret;
+  };
+
   this.getAscotHashParam = function(url) {
-    if (url.lastIndexOf('#') == 0) {
+    if (url.lastIndexOf('#') < 0) {
       return null;
     } else {
       url = url.substring(url.lastIndexOf('#'));
@@ -104,7 +128,9 @@ function AscotPlugin(tagSourceUrl) {
     var ret = "<img src='" + look.taggedUrl + "' usemap='#ascot" + look._id + "'>";
     ret += "<map name='ascot" + look._id + "'>";
     for (var i = 0; i < look.tags.length; ++i) {
-      var url = look.tags[i].product.buyLink || (tagSourceUrl + '/look/' + look._id);
+      var url =
+          (look.tags[i].product.buyLinkReadable || look.tags[i].product.buyLink) ||
+          (tagSourceUrl + '/look/' + look._id);
       var longName = look.tags[i].product.brand + ' ' + look.tags[i].product.name;
       ret +=  "<area shape='circle'" +
               " coords='" + look.tags[i].position.x + "," + look.tags[i].position.y + ",15'" +
@@ -118,7 +144,9 @@ function AscotPlugin(tagSourceUrl) {
     for (var i = 0; i < look.tags.length; ++i) {
       ret += (i + 1) + ". ";
       if (look.tags[i].product.buyLink) {
-        ret += "<a href='" + look.tags[i].product.buyLink + "' target='_blank'>";
+        ret +=  "<a href='" +
+                (look.tags[i].product.buyLinkReadable || look.tags[i].product.buyLink) +
+                "' target='_blank'>";
       }
       ret += "<b>" + look.tags[i].product.brand + "</b> ";
       ret += look.tags[i].product.name;
@@ -157,7 +185,7 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
         "<a id='ascot_overlay_link' target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand) + "'>" +
         tag.product.brand + "</b></a> " + tag.product.name +
         "<br/>" +
-        (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href=" + tag.product.buyLink + ">"+"Buy"+"</a><br/>" : ""));
+        (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href='" + tag.product.buyLink + "'>"+"Buy"+"</a><br/>" : ""));
 
     var offset = 5;
     if (tagPosition.x > width / 2.0) {
@@ -223,6 +251,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
 
   var plugin = new AscotPlugin(tagSourceUrl);
   var UI = new AscotPluginUI(tagSourceUrl, $(location).attr('href'));
+  var hashParams = plugin.parseHashParams($(location).attr('href'));
   var jsonp = function(url, callback) {
     $.ajax({
       type: 'GET',
@@ -414,6 +443,12 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
         UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagPosition);
         if (smallImage) {
           tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
+        }
+
+        if (hashParams.ascotPopout &&
+            hashParams.ascotPopout.indexOf(ascotId) != -1 &&
+            hashParams.ascotPopout.indexOf('_' + (tag.index)) != -1) {
+          tagDescription.show();
         }
                 
         tagContainer.hover(function() {

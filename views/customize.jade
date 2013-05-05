@@ -1,0 +1,47 @@
+-#
+-# settings.jade
+-#
+-# Created on: March 20, 2013
+-#     Author: Valeri Karpov
+-#
+-# View to modify users settings, mostly changing their affiliate
+-# link settings for now
+-#
+
+extends layout
+
+prepend head
+  script(src="/javascripts/controllers/SettingsController.js")
+
+block content
+  br
+  br
+  .exampleIframe 
+    iframe#customizeExample(src='http://www.ascotproject.com/look/5167e5e546341f8a46000019/iframe', width='471', height='600', frameborder= '0', scrolling="no")
+  .customizeToolbar 
+    h2 Customize Your Overlay
+    form.toolbar 
+      h3 Tag Style
+      input(type="checkbox", value="numbered") 
+      | Numbered
+      br
+      input(type="checkbox", value="bordered") 
+      | Bordered
+      br
+      br
+      h3 Tag Color
+      input(type="checkbox") 
+      | Black
+      br
+      input(type="checkbox") 
+      | White
+      h3 Animation
+      input(type="checkbox") 
+      | Toggle Button - Hide/Show Tags With Button
+      br
+      input(type="checkbox") 
+      | Hover - Tags Appear On Hover
+  .spacer 
+       
+     
+        

@@ -53,3 +53,7 @@ exports.disclosures = function(req, res) {
 exports.taggerPlugin = function(req, res) {
   res.render('help/embed_tagger', { title : 'Ascot :: About Tagger Plugin' });
 };
+
+exports.customize = function(req, res) {
+  res.render('customize', { title : 'Ascot :: Customize Overlay' });
+};

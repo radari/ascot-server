@@ -23,6 +23,7 @@
     "bitly" : "*",
     "facebook-js" : "*",
     "json-stringify-safe" : "*",
-    "sleep" : "*"
+    "sleep" : "*",
+    "nodefly" : "stable"
   }
 }

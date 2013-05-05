@@ -11,10 +11,6 @@
 var authenticate = require('./authenticate.js');
 var createLookImageSizer = require('../public/common/LookImageSizer').createLookImageSizer;
 
-var fs = require('fs');
-
-var gm = require('gm');
-
 /*
  * GET /make/admin/:name.json
  */
@@ -88,4 +84,64 @@ exports.users = function(User) {
       res.render('admin/users', { users : users, title : 'Admin Users' });
     });
   };
+};
+
+/**
+  * DELETE /admin/look/:id
+  */
+exports.deleteLook = function(mongoLookFactory, User, Permissions) {
+  return function(req, res) {
+    var usersDone = false;
+    var permissionsDone = false;
+
+    var finish = function() {
+      mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+        look.remove(function(error) {
+          res.json({ success : true });
+        });
+      });
+    };
+
+    User.find({ $or : [{ looks : req.params.id }, { favorites : req.params.id }] }, function(error, users) {
+      var usersCount = 0;
+      for (var i = 0; i < users.length; ++i) {
+        users[i].looks.remove(req.params.id);
+        users[i].favorites.remove(req.params.id);
+        users[i].save(function() {
+          if (++usersCount >= users.length) {
+            usersDone = true;
+            if (permissionsDone && usersDone) {
+              finish();
+            }
+          }
+        });
+      };
+      if (users.length == 0) {
+        usersDone = true;
+        if (permissionsDone && usersDone) {
+          finish();
+        }
+      }
+    });
+    Permissions.find({ looks : req.params.id }, function(error, permissions) {
+      var permissionsCount = 0;
+      for (var i = 0; i < permissions.length; ++i) {
+        permissions[i].images.remove(req.params.id);
+        permissions[i].save(function() {
+          if (++permissionsCount >= permissions.length) {
+            permissionsDone = true;
+            if (permissionsDone && usersDone) {
+              finish();
+            }
+          }
+        });
+      }
+      if (permissions.length == 0) {
+        permissionsDone = true;
+        if (permissionsDone && usersDone) {
+          finish();
+        }
+      }
+    });
+  }
 };

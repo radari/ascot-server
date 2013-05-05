@@ -28,4 +28,15 @@ describe('LooksListController', function() {
     expect(scope.numColumns).toBe(1);
     expect(scope.columnWidth).toBe(10);
   });
+
+  it('should handle looks with 0 size properly', function() {
+    scope.init(
+      [ { size : { height : 10, width : 10 } },
+        { size : { height : 0, width : 0 } },
+        { size : { height : 10, width : 10 } }], 1, 0, 2, 10);
+
+    expect(scope.looks.length).toBe(3);
+    expect(scope.columns[0].length).toBe(1);
+    expect(scope.columns[1].length).toBe(2);
+  });
 });

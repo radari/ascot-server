@@ -6,6 +6,21 @@ describe('Ascot plugin', function() {
       plugin = new AscotPlugin('http://test');
     });
 
+    it("should parse hash parameters properly", function() {
+      expect(plugin.parseHashParams('http://www.google.com/#ascot=1234')).
+          toEqual({ ascot : '1234' });
+      expect(plugin.parseHashParams('http://www.google.com/?abcd=12&ascot=1234')).
+          toEqual({});
+      expect(plugin.parseHashParams('http://www.google.com/?abcd=12#ascot=1234')).
+          toEqual({ ascot : '1234' });
+      expect(plugin.parseHashParams('http://www.google.com/?abcd=12#ascot=1234#test=abc')).
+          toEqual({ ascot : '1234', test : 'abc' });
+      expect(plugin.parseHashParams('http://www.google.com/?abcd=12#ascot=1234&test=12345')).
+          toEqual({ ascot : '1234', test : '12345' });
+      expect(plugin.parseHashParams('http://www.google.com/?abcd=12#/ascot=1234&test=abcdef')).
+          toEqual({ ascot : '1234', test : 'abcdef' });
+    });
+
     it("should get URL hash param properly", function() {
       expect(plugin.getAscotHashParam('http://www.google.com/#ascot=1234')).
           toEqual('1234');

@@ -26,30 +26,28 @@ var addLookToUser = function(user, look, callback) {
  */
 exports.get = function(displayRoute, validator, mongoLookFactory) {
   return function(req, res) {
-    if (req.params.look) {
-      validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
-        if (error || !permission) {
-          res.render('error', { error : 'Access Denied', title : 'Error' });
-        } else {
-          mongoLookFactory.buildFromId(req.params.look, function(error, look) {
-            if (error || !look) {
-              res.render('error', { error : 'Internal failure', title : 'Error' });
-            } else {
-              addLookToUser(req.user, look, function(error, user) {
-                res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
-              });
-            }
-          });
-        }
-      });
-    }
+    validator.canEditTags(req.user, req.cookies.permissions || [], req.params.look, function(error, permission) {
+      if (error || !permission) {
+        res.render('error', { error : 'Access Denied', title : 'Error' });
+      } else {
+        mongoLookFactory.buildFromId(req.params.look, function(error, look) {
+          if (error || !look) {
+            res.render('error', { error : 'Internal failure', title : 'Error' });
+          } else {
+            addLookToUser(req.user, look, function(error, user) {
+              res.render(displayRoute, { title: "Ascot :: Image Tagger", look : look });
+            });
+          }
+        });
+      }
+    });
   };
 };
 
 /*
  * PUT /tagger/:look
  */
-exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shortener) {
+exports.put = function(validator, mongoLookFactory, gmTagger, productLinkGenerator) {
   return function(req, res) {
     if (req.params.look) {
       validator.canEditTags(req.user,
@@ -95,59 +93,18 @@ exports.put = function(validator, mongoLookFactory, shopsense, gmTagger, shorten
               }
               look.search = search_tags;
               
-              if ((req.user && req.user.settings.affiliates.shopsense.enabled)
-                  || !req.user) {
-                var shopsenseLinkCount = 0;
-                var shopsenseKey =
-                    req.user ?
-                        req.user.settings.affiliates.shopsense.key :
-                        'uid4336-13314844-31';
-                var shopsenseLinkify = function(index) {
-                  console.log('Checking tag ' + index);
-                  
-                  shopsense(shopsenseKey,
-                            look.tags[index].product.buyLink,
-                            function(error, url) {
-                              if (!error && url) {
-                                look.tags[index].product.buyLink = url;
-                                look.tags[index].product.hasAffiliateLink = true;
-                              }
-                              
-                              shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
-                                look.tags[index].product.buyLinkMinified = response;
-                                ++shopsenseLinkCount;
-
-                                if (shopsenseLinkCount >= look.tags.length) {
-                                  look.save(function(error, savedLook) {
-                                    if (error || !savedLook) {
-                                      console.log(error);
-                                      res.render('error',
-                                          { error : 'Failed to save tags',
-                                            title : 'Ascot :: Error' });
-                                    } else {
-                                      gmTagger(look, function() {
-                                        // Return nothing, client should handle this
-                                        // how it wants
-                                        addLookToUser(req.user, look, function(error, user) {
-                                          res.json({});
-                                        });
-                                      });
-                                    }
-                                  });
-                                  return;
-                                }
-                              });
+              productLinkGenerator(req.user, look, function(error, look) {
+                if (error || !look) {
+                  res.json({ error : error });
+                } else {
+                  gmTagger(look, function() {
+                    addLookToUser(req.user, look, function() {
+                      // Return nothing. Client should handle this how it wants
+                      res.json({ success : true });
+                    });
                   });
-                  
-                  if (index + 1 < look.tags.length) {
-                    shopsenseLinkify(index + 1);
-                  }
-                };
-                
-                if (look.tags.length > 0) {
-                  shopsenseLinkify(0);
                 }
-              }
+              });
             }
           });
         }
