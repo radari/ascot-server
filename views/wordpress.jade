@@ -1,0 +1,62 @@
+extends layout
+
+prepend head
+  script(src='/javascripts/ascot_plugin.js')
+  link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
+  script(type='text/javascript')
+    $(document).ready(function() {
+      initAscotPlugin(jQuery, '#{rootUrl}');
+    });
+
+block content
+  h2 Ascot Plugin for Wordpress
+  | Using the Ascot Javascript plugin, you can display your images with Ascot's
+  | tag overlay directly in your self-hosted Wordpress site. Note that these instructions
+  | won't work for sites on Wordpress.com. To see it in action, check out &nbsp;
+  a(href="http://nehauberoi.com/rainbootsforwomen/") http://nehauberoi.com/rainbootsforwomen/
+  | &nbsp;
+  br
+  hr
+  br
+  | 1. Log in to your Wordpress admin panel and go to Appearance -> Editor
+  br
+  img(src="/images/wordpress_1.png", style="margin: 10px;")
+  br
+  br
+  | 2. Open your blog's 'footer.php' file
+  br
+  img(src="/images/wordpress_2.png", style="margin: 10px")
+  br
+  br
+  | 3. Copy/paste the following line of code into the file, just before the </body> line
+  br
+  textarea(style="width:300px; height: 65px; margin: 10px; resize:none;", readonly)
+    | <script type="text/javascript" src="http://www.ascotproject.com/javascripts/ascot_plugin_launcher.js"></script>
+  br
+  br
+  img(src="/images/wordpress_3.png", style="margin: 10px")
+  br
+  br
+  | 4. Congratulations, you're done! Now, for any image you want to display the Ascot overlay on,
+  | append the #ascot parameter to the end of the url. You can find the #ascot parameter that you
+  | should use at the bottom of the look page.
+  br
+  br
+  | For example, the HTML code we would use to display 
+  a(href="http://ascotproject.com/look/50feb85905c3edaf0a000002") this look 
+  | is
+  br
+  textarea(style="width:300px; height: 65px; margin: 10px; resize:none;", readonly)
+    | <img src="http://www.ascotproject.com/images/uploads/50feb85905c3edaf0a000002.png#ascot=50feb85905c3edaf0a000002">
+  br
+  | and we get:
+  br
+  img(src="http://www.ascotproject.com/images/uploads/50feb85905c3edaf0a000002.png#ascot=50feb85905c3edaf0a000002")
+  br
+  br
+  | Extra Information for Geeks:
+  br
+  | Experienced web developers will notice that we use a "hash fragment" in the image URL, the "#ascot=50feb85905c3edaf0a000002".
+  | A hash fragment is a portion of a URL that is not processed by the server, which means that we can add whatever we want after
+  | the '#' without affecting the image that is displayed. This lets us use the hash fragment to indicate to the Ascot Plugin what
+  | tags it should display over this image.

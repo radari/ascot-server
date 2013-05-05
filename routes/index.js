@@ -22,6 +22,14 @@ exports.tumblr = function(req, res) {
   res.render('tumblr', { title : 'Ascot :: Tumblr Help' });
 };
 
+/*
+ * GET /howto/wordpress
+ */
+exports.wordpress = function(req, res) {
+  res.render('wordpress', { title : 'Ascot :: Wordpress Help' });
+};
+
+
 exports.howto = function(req, res) {
   res.render('howto', { title : 'Ascot : How To' });
 };
