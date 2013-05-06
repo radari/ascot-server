@@ -295,8 +295,12 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
             
       image.wrap('<div class="ascot_overlay_look" />');
       var wrapper = image.parent();
-      wrapper.css('width', image.width() + 'px');
-      wrapper.css('height', image.height() + 'px');
+      var wrapperWidth = image.width() + (2 * parseInt(image.css('borderWidth')));
+      var wrapperHeight = image.height() + (2 * parseInt(image.css('borderWidth')));
+      var overlayDeltaX = parseInt(image.css('borderWidth'));
+      var overlayDeltaY = parseInt(image.css('borderWidth'));
+      wrapper.css('width', wrapperWidth + 'px');
+      wrapper.css('height', wrapperHeight + 'px');
 
       image.css('position', 'absolute');
       image.css('top', '0px');
@@ -313,6 +317,8 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
       var overlay = wrapper.children().last();
       overlay.css('width', image.width() + 'px');
       overlay.css('height', image.height() + 'px');
+      overlay.css('left', overlayDeltaX + 'px');
+      overlay.css('top', overlayDeltaY + 'px');
       overlay.append('<div class="ascot_overlay_menu_wrapper"></div>');
       var menuWrapper = overlay.children().last();
               
@@ -328,7 +334,7 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
       });
 
       menuWrapper.append(
-          '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 65px; height:170px"><div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
+          '<div class="ascot_overlay_share_menu" style="right: 162px; width: 152px; top: 65px; height:170px"><div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
           '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site or email</p>'+
           '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'htmlClick\', \'' + json._id + '\', \'' + $(location).attr('href') + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' + plugin.getImageMap(json) + '</textarea></div>');
