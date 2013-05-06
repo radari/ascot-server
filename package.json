@@ -24,6 +24,8 @@
     "facebook-js" : "*",
     "json-stringify-safe" : "*",
     "sleep" : "*",
+    "connect-assetmanager" : "*",
+    "connect-assetmanager-handlers" : "*",
     "nodefly" : "stable"
   }
 }
