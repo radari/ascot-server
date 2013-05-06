@@ -103,9 +103,12 @@ var assets = assetManager({
     dataType : 'css',
     files : [
       'style.css',
+      'admin_panel.css',
       'ascot_look.css',
       'ascot_plugin.css',
-      'jquery-ui-1.9.2.css'
+      'jquery-ui-1.9.2.css',
+      'taggerPut.css',
+      'taggerPutOverride.css'
     ],
     postManipulate : {
       '^' : [
