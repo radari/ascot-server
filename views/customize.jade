@@ -12,35 +12,42 @@ extends layout
 
 prepend head
   script(src="/javascripts/controllers/SettingsController.js")
+  script(src="/javascripts/controllers/customOverlayController.js")
 
 block content
   br
   br
-  .exampleIframe 
-    iframe#customizeExample(src='http://www.ascotproject.com/look/5167e5e546341f8a46000019/iframe', width='471', height='600', frameborder= '0', scrolling="no")
-  .customizeToolbar 
-    h2 Customize Your Overlay
-    form.toolbar 
-      h3 Tag Style
-      input(type="checkbox", value="numbered") 
-      | Numbered
-      br
-      input(type="checkbox", value="bordered") 
-      | Bordered
-      br
-      br
-      h3 Tag Color
-      input(type="checkbox") 
-      | Black
-      br
-      input(type="checkbox") 
-      | White
-      h3 Animation
-      input(type="checkbox") 
-      | Toggle Button - Hide/Show Tags With Button
-      br
-      input(type="checkbox") 
-      | Hover - Tags Appear On Hover
+  div(ng-controller="customOverlayController")
+    .customPreview 
+      img#customizeExample(src='http://cdn.dappered.com/wp-content/uploads/2011/12/AE-Dalton-both-colors.jpg#ascot=50feacaa2292ce4f07000002', width='480', height='411', frameborder= '0', scrolling="no")
+      .exampleTag(ng-class="myVar") 1
+      .exampleTag 2
+
+    .customizeToolbar 
+      h2 Customize Your Overlay
+      form.toolbar 
+        h3 Tag Style
+        div(ng-repeat="option in options")
+          input(type="checkbox", ng-model="option.isChecked", ng-click="checkIfChecked()") 
+          | {{option.name}}
+        br
+        input(type="button", value="set", ng-click="myVar='preview'" )
+        br
+        input(type="checkbox", value="bordered", ng-checked="myVar=''", ng-model="sender", ng-click="myVar='preview'") 
+        | Bordered
+        br
+        h3 Tag Color
+        input(type="checkbox") 
+        | Black
+        br
+        input(type="checkbox") 
+        | White
+        h3 Animation
+        input(type="checkbox") 
+        | Toggle Button - Hide/Show Tags With Button
+        br
+        input(type="checkbox") 
+        | Hover - Tags Appear On Hover
   .spacer 
        
      

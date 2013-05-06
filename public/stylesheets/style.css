@@ -95,7 +95,7 @@ body {
   margin-left:0;
   margin-right:0;
   margin-top:0;
-  font-weight:bold;
+  font-weight:normal;
   font-family:georgia;
   text-shadow:0px -1px 0px rgba(000,000,000,0);
 }
@@ -123,7 +123,7 @@ iframe {
   margin:auto;
   left:0;
   right:0;
-    display: block;
+  display: block;
 }
 
 #wrapper {
@@ -1067,4 +1067,44 @@ text-align:center;
 .fbPreviewText {
   border:1px green solid;
   float:left;
+}
+
+/*---------------------------------CUSTOMIZE TAGGER VIEW----------------------------------------------------*/
+
+.exampleTag {
+  position:absolute;
+  background: #171717;
+  color:#fff;
+  border: 3px solid #fff;
+  padding: 2px;
+  padding-top: 0px;
+  border-radius: 15px;
+  -moz-border-radius:15px;
+  -webkit-border-radius:15px;
+  width:15px;
+  height:15px;
+  opacity:0.8;
+  font-size:13px;
+  font-family: "helvetica neue", helvetica, arial, sans-seriff;
+  font-weight:800;
+  box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -webkit-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  text-align: center;
+  z-index:1;
+}
+
+.exampleTag:nth-child(3) {
+  left:20%;
+  top:50%;
+}
+
+.exampleTag:nth-child(2) {
+  left:10%;
+  top:30%;
+}
+
+.bordered {
+  border:none;
 }

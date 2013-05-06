@@ -76,6 +76,7 @@
   background-color: #323232;
   background-color: rgba(50,50,50,0.6);
   border: 1px solid rgba(255, 255, 255, 0.7);
+  margin-right:0px;
 }
 
 .ascot_overlay_look .ascot_overlay_image_menu:hover {
@@ -330,6 +331,7 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   text-align: center;
   z-index:1;
 }
+
 
 .ascot_overlay_look .ascot_overlay .ascot_overlay_source_tag {
   position: absolute;
