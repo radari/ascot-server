@@ -797,12 +797,13 @@ font-size:14px;
   width: 228px;
   margin: 5px;
   float: left;
+  text-align: center;
 }
 
 .all_looks_element img {
   margin-top: 5px;
   margin-bottom: 5px;
-  width: 228px;
+  width: 226px;
 }
 
 .looks {
