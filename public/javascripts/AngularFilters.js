@@ -51,4 +51,12 @@ angular.module('AngularFilters', []).
       };
       return ret;
     };
+  }).filter('roundDown', function() {
+    return function(num) {
+      return Math.floor(num);
+    };
+  }).filter('roundUp', function() {
+    return function(num) {
+      return Math.ceil(num);
+    }
   });

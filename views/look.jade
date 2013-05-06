@@ -56,6 +56,6 @@ block content
           div
             | Copy the below code into your blog or website
             textarea.iframe_code(readonly)
-              | <iframe width='{{look.size.width}}' height='{{look.size.height}}' src="http://www.ascotproject.com/look/{{look._id}}/iframe" frameborder='0'></iframe>
+              | <iframe width='{{look.size.width | roundDown}}' height='{{look.size.height | roundDown}}' src="http://www.ascotproject.com/look/{{look._id}}/iframe" frameborder='0'></iframe>
 
         div(style="clear:both")
