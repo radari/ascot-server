@@ -98,13 +98,14 @@ passport.deserializeUser(strategy.deserializeUser);
 // Configure asset manager
 var assets = assetManager({
   css : {
-    route : /\/stylesheets\/[^\.]+.css/,
+    route : /\/stylesheets\/[^\/]+.css/,
     path : './public/stylesheets/',
     dataType : 'css',
     files : [
       'style.css',
       'ascot_look.css',
-      'ascot_plugin.css'
+      'ascot_plugin.css',
+      'jquery-ui-1.9.2.css'
     ],
     postManipulate : {
       '^' : [
