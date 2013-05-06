@@ -30,12 +30,6 @@ block content
         div(ng-repeat="option in options")
           input(type="checkbox", ng-model="option.isChecked", ng-click="checkIfChecked()") 
           | {{option.name}}
-        br
-        input(type="button", value="set", ng-click="myVar='preview'" )
-        br
-        input(type="checkbox", value="bordered", ng-checked="myVar=''", ng-model="sender", ng-click="myVar='preview'") 
-        | Bordered
-        br
         h3 Tag Color
         input(type="checkbox") 
         | Black

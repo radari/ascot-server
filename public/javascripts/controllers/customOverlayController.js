@@ -16,6 +16,12 @@ $scope.options=[{
 		else if ($scope.options[0].isChecked==false) {
 			$('.exampleTag').removeClass("bordered");
 		}
+		else if ($scope.options[1].isChecked==true) {
+			$('.exampleTag').css( "color", "white" );
+		}
+		else if ($scope.options[1].isChecked==false) { 
+			$('.exampleTag').css( "color", "#171717" );
+		}
 		else {
 			}
 	}
