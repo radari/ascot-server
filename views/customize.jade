@@ -11,8 +11,11 @@
 extends layout
 
 prepend head
+  link(rel='stylesheet', href='/stylesheets/jquery.minicolors.css')
+  script(src="/javascripts/services/jquery.minicolors.js")
   script(src="/javascripts/controllers/SettingsController.js")
   script(src="/javascripts/controllers/customOverlayController.js")
+
 
 block content
   br
@@ -27,15 +30,14 @@ block content
       h2 Customize Your Overlay
       form.toolbar 
         h3 Tag Style
-        div(ng-repeat="option in options")
-          input(type="checkbox", ng-model="option.isChecked", ng-click="checkIfChecked()") 
-          | {{option.name}}
+        div(ng-repeat="tagStyleOption in tagStyleOptions")
+          input(type="checkbox", ng-model="tagStyleOption.isChecked", ng-click="checkIfChecked()") 
+          | {{tagStyleOption.name}}
         h3 Tag Color
-        input(type="checkbox") 
-        | Black
+        input.minicolors(type="text", value="#171717") 
+        button(type="submit", ng-click="changeColor()", name="Update") Update
         br
-        input(type="checkbox") 
-        | White
+        {{color}}
         h3 Animation
         input(type="checkbox") 
         | Toggle Button - Hide/Show Tags With Button

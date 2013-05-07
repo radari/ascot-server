@@ -1109,3 +1109,7 @@ text-align:center;
 .bordered {
   border:none;
 }
+
+.numbered {
+  color:#171717;
+}
