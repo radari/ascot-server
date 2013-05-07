@@ -17,16 +17,17 @@ head
       $('#ascotImage').css('height', ($(window).height()) + 'px');
     });
 
-  meta( property="og:title",
-        content="#{look.title.length > 0 ? look.title + ' - Ascot Project' : 'Ascot Project'}")
-  meta( property="og:url",
-        content="http://www.ascotproject.com/look/#{look._id}")
-  meta( property="og:image",
-        content="#{look.url}")
-  meta( property="og:description",
-        content="Ascot is an image-tagging tool that lets you embed data into pictures.")
-  meta( property="og:site_name",
-        content="Ascot Project")
+  block opengraph
+    meta( property="og:title",
+          content="#{look.title.length > 0 ? look.title + ' - Ascot Project' : 'Ascot Project'}")
+    meta( property="og:url",
+          content="http://www.ascotproject.com/look/#{look._id}")
+    meta( property="og:image",
+          content="#{look.url}")
+    meta( property="og:description",
+          content="Ascot is an image-tagging tool that lets you embed data into pictures.")
+    meta( property="og:site_name",
+          content="Ascot Project")
 
 body(style="margin: 0px; padding: 0px;")
   div#wrapper(style="margin: 0px; padding: 0px;")

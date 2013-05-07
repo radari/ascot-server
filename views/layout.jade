@@ -38,6 +38,12 @@ html(id="ng-app", ng-app='AscotModule')
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
+      
+    block opengraph
+      meta(property="og:title", content="The Ascot Project")
+      meta(property="og:description", content="Ascot is an image-tagging tool for tagging products in pictures. Tag brand name, item name, and even links to the items in the pictures. When people share that image, that information goes with it.")
+      meta(property="og:image", content="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/c1.0.178.178/s160x160/537588_419750791449305_1931826249_a.png")
+      meta(property="og:url", content="http://ascotproject.com")
 
   body
 
