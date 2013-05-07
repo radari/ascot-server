@@ -34,6 +34,10 @@ block content
           input(type="checkbox", ng-model="tagStyleOption.isChecked", ng-click="checkIfChecked()") 
           | {{tagStyleOption.name}}
         h3 Tag Color
+        | Background Color
+        input.minicolors(type="text", value="#171717")
+        br
+        | Number Color
         input.minicolors(type="text", value="#171717") 
         button(type="submit", ng-click="changeColor()", name="Update") Update
         br

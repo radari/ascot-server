@@ -1074,7 +1074,7 @@ text-align:center;
 
 .exampleTag {
   position:absolute;
-  background: #171717;
+  background:rgba(23,23,23,.8);
   color:#fff;
   border: 3px solid #fff;
   padding: 2px;
@@ -1084,7 +1084,6 @@ text-align:center;
   -webkit-border-radius:15px;
   width:15px;
   height:15px;
-  opacity:0.8;
   font-size:13px;
   font-family: "helvetica neue", helvetica, arial, sans-seriff;
   font-weight:800;
