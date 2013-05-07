@@ -32,3 +32,25 @@ exports.shopsense = function(httpGet) {
     });
   };
 };
+
+exports.linkshare = function(httpGet, url) {
+  var hostToMerchantId = {
+    'orlebarbrown.com' : '37373',
+    'www.orlebarbrown.com' : '37373'
+  }
+
+  return function(token, link, callback) {
+    var parsedUrl = url.parse(link);
+    //console.log('*** ' + parsedUrl.host);
+    if (parsedUrl.host in hostToMerchantId) {
+      var request = 'http://getdeeplink.linksynergy.com/createcustomlink.shtml?' +
+          'token=' + encodeURIComponent(token) +
+          '&mid=' + encodeURIComponent(hostToMerchantId[parsedUrl.host]) +
+          '&murl=' + encodeURIComponent(link);
+      console.log(request);
+      httpGet.get(request, function(error, result) {
+        console.log(error + " " + JSON.stringify(result));
+      });
+    }
+  };
+};
