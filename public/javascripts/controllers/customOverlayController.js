@@ -7,12 +7,23 @@ function customOverlayController($scope) {
 				name:'Numbered',
 				isChecked:'false'
 			}]
+		//strikethrough toggle 
+		$(".borderToggle").toggle( function() {
+			$(this).css("text-decoration", "line-through");
+			$(this).css("opacity","0.5")
+			$('.exampleTag').addClass("bordered");
+		}, function() {
+			$(this).css("text-decoration", "none");
+			$(this).css("opacity","1.0")
+			$('.exampleTag').removeClass("bordered");
+		});
+		//show sub menu
 
 		$scope.checkIfCheckedBordered= function () {
 			alert('this is being called');
 		}
 		$('INPUT.minicolors').minicolors({opacity:true});
-		
+		$('.slider').slider();
 
 		$scope.changeColor= function() {
 			var colorChosen= $('INPUT.minicolors').minicolors('rgbaString')
@@ -21,7 +32,7 @@ function customOverlayController($scope) {
 
 		$scope.checkIfChecked= function() {
 			if ($scope.tagStyleOptions[0].isChecked==true) {
-				$('.exampleTag').addClass("bordered");
+				
 			}
 			else if ($scope.tagStyleOptions[0].isChecked==false) {
 				$('.exampleTag').removeClass("bordered");

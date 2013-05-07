@@ -68,42 +68,7 @@ body {
   border:5px solid rgb(194, 192, 192);
 }
 
-#customizeExample {
-   border-radius:5px;
-  border:5px solid rgb(194, 192, 192);
-  position:relative;
-  float:left;
-}
 
-.customizeToolbar {
-  float:right;
-  width:350px;
-  text-align: center;
-}
-
-.customizeToolbar form {
-  text-align:left;
-  border:1px #323232 solid;
-  padding:0;
-  border-radius:5px;
-}
-
-.customizeToolbar h3 {
-  background-color:#323232;
-  color:white;
-  text-align: center;
-  margin-left:0;
-  margin-right:0;
-  margin-top:0;
-  font-weight:normal;
-  font-family:georgia;
-  text-shadow:0px -1px 0px rgba(000,000,000,0);
-}
-.spacer {
-  position: relative;
-  width:100%;
-  margin-bottom:600px;
-}
 #aboutText {
   position:relative;
   left:5px;
@@ -1067,7 +1032,60 @@ text-align:center;
 }
 
 /*---------------------------------CUSTOMIZE TAGGER VIEW----------------------------------------------------*/
+.customizeWrapper {
+  
+}
 
+
+#customizeExample {
+   border-radius:5px;
+  border:5px solid rgb(194, 192, 192);
+  position:relative;
+}
+
+.customizeToolbar {
+  width:480px;
+  text-align: center;
+  position:absolute;
+  top:162px;
+  left:10px;
+  background-color:#323232;
+  color:#fff;
+    -moz-box-shadow: 0px -1px 3px #000000;
+    -webkit-box-shadow: 0px 2px 3px #000000;
+    box-shadow:0px 2px 3px #000000;
+  opacity:0.9;
+}
+
+.customizeTitle {
+  background-color:rgb(181, 79, 55);
+}
+
+.customizeTitle h3 {
+  font-weight:600;
+}
+
+.customizeToolbar form {
+  text-align:left;
+  padding:0;
+  border-radius:5px;
+}
+
+.customizeToolbar h3 {
+  text-align: center;
+  margin-left:0;
+  margin-right:0;
+  margin-top:0px;
+  margin-bottom:3px;
+  font-weight:normal;
+  font-family:georgia;
+  text-shadow:0px -1px 0px rgba(000,000,000,0);
+}
+.spacer {
+  position: relative;
+  width:100%;
+  margin-bottom:600px;
+}
 .exampleTag {
   position:absolute;
   background:rgba(23,23,23,.8);
@@ -1104,10 +1122,64 @@ text-align:center;
 .bordered {
   border:none;
 }
-<<<<<<< HEAD
 
 .numbered {
   color:#171717;
 }
-=======
->>>>>>> 00e124b51e9031b2e9ecbba187cb62eaa083bf1a
+
+.customizeToolbar ul {
+  display:inline;
+}
+
+.customizeToolbar li {
+  width:33%;
+  float:left;
+  list-style:none;
+}
+
+
+
+.animationOptions, .colorOptions {
+width:33%;
+position: absolute;
+background-color:#323232;
+top:45px;
+}
+
+.animationOptions {
+  left:67%;
+}
+
+.colorOptions {
+position:absolute;
+width:33%;
+left:34%;
+text-align:center;
+}
+
+.borderOptions {
+  position:absolute;
+  color:white;
+  width:33%;
+  background-color:#323232;
+  text-align:center;
+}
+
+.borderToggle {
+  text-align:center;
+  left:1%;
+}
+
+.borderToggle:hover {
+  cursor:pointer;
+}
+
+.karat {
+  font-size:8px;
+  padding-bottom:6px;
+}
+
+.slider {
+  width:60%;
+  margin:auto;
+}

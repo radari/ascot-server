@@ -20,34 +20,47 @@ prepend head
 block content
   br
   br
-  div(ng-controller="customOverlayController")
+  div.customizeWrapper(ng-controller="customOverlayController")
     .customPreview 
       img#customizeExample(src='http://cdn.dappered.com/wp-content/uploads/2011/12/AE-Dalton-both-colors.jpg#ascot=50feacaa2292ce4f07000002', width='480', height='411', frameborder= '0', scrolling="no")
       .exampleTag(ng-class="myVar") 1
       .exampleTag 2
 
+
     .customizeToolbar 
-      h2 Customize Your Overlay
-      form.toolbar 
-        h3 Tag Style
-        div(ng-repeat="tagStyleOption in tagStyleOptions")
-          input(type="checkbox", ng-model="tagStyleOption.isChecked", ng-click="checkIfChecked()") 
-          | {{tagStyleOption.name}}
-        h3 Tag Color
-        | Background Color
-        input.minicolors(type="text", value="#171717")
-        br
-        | Number Color
-        input.minicolors(type="text", value="#171717") 
-        button(type="submit", ng-click="changeColor()", name="Update") Update
-        br
-        {{color}}
-        h3 Animation
-        input(type="checkbox") 
-        | Toggle Button - Hide/Show Tags With Button
-        br
-        input(type="checkbox") 
-        | Hover - Tags Appear On Hover
+      form.toolbar
+        h3.customizeTitle  Customize
+        ul 
+          li 
+            h3 Border 
+              span.karat &#9660;
+          li 
+            h3 Colors
+              span.karat &nbsp; &#9660;
+          li 
+            h3 Animation
+              span.karat &nbsp; &#9660;
+          div.animationOptions
+            input(type="checkbox") 
+            | Toggle
+            br
+            input(type="checkbox") 
+            | Hover 
+          div.colorOptions
+              div#backgroundColor
+                p Background
+                input.minicolors(type="text", value="#171717")
+              div#numberColor 
+                p Number
+                input.minicolors(type="text", value="#171717") 
+              button(type="submit", ng-click="changeColor()", name="Update") Update
+          div.borderOptions
+            br
+            p.borderToggle Bordered
+            br
+            div.slider 
+            p 1px
+
   .spacer 
        
      
