@@ -731,11 +731,7 @@ font-size:14px;
 }
 
 .uploadedImg{
-  border:3px black solid;
-  border:5px #c2c0c0 solid;
-  border-radius:10px;
-  -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
-  box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+  border-radius:6px;
 }
 
 #homeWrapper {
@@ -1108,7 +1104,10 @@ text-align:center;
 .bordered {
   border:none;
 }
+<<<<<<< HEAD
 
 .numbered {
   color:#171717;
 }
+=======
+>>>>>>> 00e124b51e9031b2e9ecbba187cb62eaa083bf1a
