@@ -20,6 +20,7 @@ var express = require('express')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , path = require('path')
+  , url = require('url')
 
   // Routes
   , routes = require('./routes')
@@ -263,6 +264,11 @@ app.get('/p/:readable/:number', function(req, res) {
     }
   });
 });
+
+/*var linkshare = affiliates.linkshare(httpGet, url);
+linkshare('b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6', 'http://www.orlebarbrown.com/setter/sky/', function(error, result) {
+
+});*/
 
 // login
 app.get('/login',
