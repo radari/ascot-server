@@ -37,7 +37,7 @@ block content
           h3 Animation
             span.karat &nbsp; &#9660;
         div.animationOptions
-          input(type="checkbox") 
+          input(type="checkbox", checked) 
           | Toggle
           br
           input(type="checkbox") 
@@ -48,14 +48,14 @@ block content
               input.minicolors(type="text", value="#171717")
             div#numberColor 
               p Number
-              input.minicolors(type="text", value="#171717") 
+              input.minicolors2(type="text", value="#ffffff") 
             button(type="submit", ng-click="changeColor()", name="Update") Update
         div.borderOptions
           br
           p.borderToggle Bordered
           br
           div.slider 
-          p 1px
+          p.sliderValue 2px
     
 
   .spacer 
