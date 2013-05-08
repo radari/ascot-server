@@ -294,11 +294,20 @@ function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
       var smallScaleFactor = 0.75;
             
       image.wrap('<div class="ascot_overlay_look" />');
+      
+      var parseIntSafe = function(st) {
+        var ret = parseInt(st, 10);
+        if (isNaN(ret)) {
+          return 0;
+        }
+        return ret;
+      };
+      
       var wrapper = image.parent();
-      var wrapperWidth = image.width() + (2 * parseInt(image.css('borderWidth')));
-      var wrapperHeight = image.height() + (2 * parseInt(image.css('borderWidth')));
-      var overlayDeltaX = parseInt(image.css('borderWidth'));
-      var overlayDeltaY = parseInt(image.css('borderWidth'));
+      var wrapperWidth = image.width() + parseIntSafe(image.css('borderLeftWidth')) + parseIntSafe(image.css('borderRightWidth'));
+      var wrapperHeight = image.height() + parseIntSafe(image.css('borderTopWidth')) + parseIntSafe(image.css('borderBottomWidth'));
+      var overlayDeltaX = parseIntSafe(image.css('borderLeftWidth'));
+      var overlayDeltaY = parseIntSafe(image.css('borderTopWidth'));
       wrapper.css('width', wrapperWidth + 'px');
       wrapper.css('height', wrapperHeight + 'px');
 
