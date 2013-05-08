@@ -1033,28 +1033,65 @@ text-align:center;
 
 /*---------------------------------CUSTOMIZE TAGGER VIEW----------------------------------------------------*/
 .customizeWrapper {
-  
+  position:relative;
+  width:500px;
+  height:421px;
 }
 
 
 #customizeExample {
-   border-radius:5px;
+  border-radius:5px;
   border:5px solid rgb(194, 192, 192);
-  position:relative;
+  z-index:1;
+  position:absolute;
+}
+
+.exampleTag {
+  position:absolute;
+  background:rgba(23,23,23,.8);
+  color:#fff;
+  border: 3px solid #fff;
+  padding: 2px;
+  padding-top: 0px;
+  border-radius: 15px;
+  -moz-border-radius:15px;
+  -webkit-border-radius:15px;
+  width:15px;
+  height:15px;
+  font-size:13px;
+  font-family: "helvetica neue", helvetica, arial, sans-seriff;
+  font-weight:800;
+  box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -webkit-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
+  text-align: center;
+  z-index:5;
+}
+
+.exampleTag:nth-child(3) {
+  left:60%;
+  top:50%;
+}
+
+.exampleTag:nth-child(2) {
+  left:10%;
+  top:30%;
 }
 
 .customizeToolbar {
   width:480px;
   text-align: center;
-  position:absolute;
-  top:162px;
-  left:10px;
   background-color:#323232;
   color:#fff;
     -moz-box-shadow: 0px -1px 3px #000000;
     -webkit-box-shadow: 0px 2px 3px #000000;
     box-shadow:0px 2px 3px #000000;
   opacity:0.9;
+  z-index:100;
+  position: absolute;
+  left:5px;
+  top:5px;
 }
 
 .customizeTitle {
@@ -1086,38 +1123,7 @@ text-align:center;
   width:100%;
   margin-bottom:600px;
 }
-.exampleTag {
-  position:absolute;
-  background:rgba(23,23,23,.8);
-  color:#fff;
-  border: 3px solid #fff;
-  padding: 2px;
-  padding-top: 0px;
-  border-radius: 15px;
-  -moz-border-radius:15px;
-  -webkit-border-radius:15px;
-  width:15px;
-  height:15px;
-  font-size:13px;
-  font-family: "helvetica neue", helvetica, arial, sans-seriff;
-  font-weight:800;
-  box-shadow: 1px 1px 1px 1px #6B6B6B;
-  -webkit-box-shadow: 1px 1px 1px 1px #6B6B6B;
-  -moz-box-shadow: 1px 1px 1px 1px #6B6B6B;
-  -o-box-shadow: 1px 1px 1px 1px #6B6B6B;
-  text-align: center;
-  z-index:1;
-}
 
-.exampleTag:nth-child(3) {
-  left:20%;
-  top:50%;
-}
-
-.exampleTag:nth-child(2) {
-  left:10%;
-  top:30%;
-}
 
 .bordered {
   border:none;
@@ -1129,6 +1135,7 @@ text-align:center;
 
 .customizeToolbar ul {
   display:inline;
+  padding:0;
 }
 
 .customizeToolbar li {
@@ -1137,32 +1144,32 @@ text-align:center;
   list-style:none;
 }
 
-
-
-.animationOptions, .colorOptions {
-width:33%;
+.animationOptions, .colorOptions, .borderOptions {
+width:34%;
 position: absolute;
 background-color:#323232;
 top:45px;
 }
 
 .animationOptions {
-  left:67%;
+  left:66%;
+  top:44px;
+  display:none;
 }
 
 .colorOptions {
-position:absolute;
-width:33%;
-left:34%;
-text-align:center;
+  left:33%;
+  text-align:center;
+  top:44px; 
+  display:none;
 }
 
 .borderOptions {
-  position:absolute;
   color:white;
-  width:33%;
   background-color:#323232;
   text-align:center;
+  top:44px;
+  display:none;
 }
 
 .borderToggle {

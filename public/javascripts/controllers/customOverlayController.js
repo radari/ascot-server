@@ -18,6 +18,30 @@ function customOverlayController($scope) {
 			$('.exampleTag').removeClass("bordered");
 		});
 		//show sub menu
+		$(".customizeToolbar li:nth-child(1)").hover(function() {
+			$(".borderOptions").fadeIn(100);
+		})
+
+		$('.borderOptions').mouseleave(function() {
+			$(this).fadeOut(100);
+		})
+
+		$(".customizeToolbar li:nth-child(2)").hover(function() {
+			$(".colorOptions").fadeIn(100);
+		})
+
+		$('.colorOptions').mouseleave(function() {
+			$(this).fadeOut(100);
+		})
+
+
+		$(".customizeToolbar li:nth-child(3)").hover(function() {
+			$('.animationOptions').fadeIn(100);
+		})
+
+		$('.animationOptions').mouseleave(function() {
+			$(this).fadeOut(100);
+		})
 
 		$scope.checkIfCheckedBordered= function () {
 			alert('this is being called');
