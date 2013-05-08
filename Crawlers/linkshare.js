@@ -5,7 +5,7 @@ var fs = require('fs');
 var httpGet = require('http-get');
 var url = require('url');
 
-fs.readFile('./routes/tools/linkshare1.html', function(error, data) {
+fs.readFile(process.env.RETAILERS_FILE, function(error, data) {
   var s = data.toString();
   var $ = cheerio.load(s);
   //console.log($('td.td_merchant').html());
@@ -21,16 +21,19 @@ fs.readFile('./routes/tools/linkshare1.html', function(error, data) {
         //console.log(response.buffer);
         //console.log(response.buffer.toString().indexOf('hurley.com'));
         var $ = cheerio.load(response.buffer.toString());
-        var u = url.parse($('div#results h3 a').first().attr('href'));
-        var host = u.host;
-        var host2 = "";
-        if (host.indexOf('www.') == 0) {
-          host2 = host.substr('www.'.length);
-        } else {
-          host2 = 'www.' + host;
+        var x = $('div#results h3 a').first().attr('href');
+        if (x) {
+          var u = url.parse(x);
+          var host = u.host;
+          var host2 = "";
+          if (host.indexOf('www.') == 0) {
+            host2 = host.substr('www.'.length);
+          } else {
+            host2 = 'www.' + host;
+          }
+          console.log(brand + ', ' + mid + ', ' + host);
+          console.log(brand + ', ' + mid + ', ' + host2);
         }
-        console.log(brand + ', ' + mid + ', ' + host);
-        console.log(brand + ', ' + mid + ', ' + host2);
       });
     });
   });
