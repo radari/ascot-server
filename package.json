@@ -26,6 +26,8 @@
     "sleep" : "*",
     "connect-assetmanager" : "*",
     "connect-assetmanager-handlers" : "*",
-    "nodefly" : "stable"
+    "nodefly" : "stable",
+    "cheerio" : "*",
+    "request" : "*"
   }
 }
