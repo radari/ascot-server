@@ -109,7 +109,8 @@ var assets = assetManager({
       '^' : [
         assetHandler.yuiCssOptimize
       ]
-    }
+    },
+    stale : false
   }
 });
 
