@@ -37,11 +37,19 @@ exports.shopsense = function(httpGet) {
   };
 };
 
-exports.linkshare = function(httpGet, url) {
-  var hostToMerchantId = {
-    'orlebarbrown.com' : '37373',
-    'www.orlebarbrown.com' : '37373'
-  }
+exports.linkshare = function(httpGet, url, fs, file) {
+  var hostToMerchantId = {};
+
+  fs.readFile(file, function(error, data) {
+    var sp = data.toString().split('\n');
+    for (var i = 0; i < sp.length; ++i) {
+      var line = sp[i].split(',');
+      if (line.length < 3) {
+        continue;
+      }
+      hostToMerchantId[line[2].trim()] = line[1].trim();
+    }
+  });
 
   return function(token, link, callback) {
     var parsedUrl = url.parse(link);

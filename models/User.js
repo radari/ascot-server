@@ -23,6 +23,10 @@ exports.UserSchema = new Mongoose.Schema({
         enabled : { type : Boolean, default : true },
         // Shopsense key. By default Ascot Project's
         key : { type : String, default : "uid4336-13314844-31" }
+      },
+      linkshare : {
+        enabled : { type : Boolean, default : true },
+        key : { type : String, default : "b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6" }
       }
     }
   },

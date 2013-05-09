@@ -266,8 +266,8 @@ app.get('/p/:readable/:number', function(req, res) {
   });
 });
 
-/*var linkshare = affiliates.linkshare(httpGet, url);
-linkshare('b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6', 'http://www.orlebarbrown.com/setter/sky/', function(error, result) {
+var linkshare = affiliates.linkshare(httpGet, url, fs, './routes/data/linkshare_retailers.csv');
+/*linkshare('b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6', 'http://www.orlebarbrown.com/setter/sky/', function(error, result) {
 
 });*/
 
