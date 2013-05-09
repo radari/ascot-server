@@ -8,9 +8,29 @@
  *
  */
 
-exports.ProductLinkGenerator = function(shortener, readify, shopsense) {
+exports.ProductLinkGenerator = function(shortener, readify, shopsense, linkshare) {
   return function(user, look, callback) {
     var doneTagsCount = 0;
+
+    var checkLinkshare = function(index, done) {
+      if (!look.tags[index].product.buyLink) {
+        done();
+      } else if (!user || (user && user.settings.affiliates.linkshare.enabled)) {
+        var linkshareKey = user ?
+            user.settings.affiliates.linkshare.key :
+            'b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6';
+
+        linkshare(linkshareKey, look.tags[index].product.buyLink, function(error, url) {
+          if (!error && url) {
+            look.tags[index].product.buyLink = url;
+            look.tags[index].product.hasAffiliateLink = true;
+          }
+          done();
+        });
+      } else {
+        done();
+      }
+    };
 
     var checkShopsense = function(index, done) {
       if (!look.tags[index].product.buyLink) {
@@ -34,21 +54,23 @@ exports.ProductLinkGenerator = function(shortener, readify, shopsense) {
 
     var linkify = function(index) {
       checkShopsense(index, function() {
-        shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
-          look.tags[index].product.buyLinkMinified = response;
-          readify.readify(look.tags[index].product, look.tags[index].product.buyLink, function(error, readableUrl) {
-            look.tags[index].product.buyLinkReadable = readableUrl;
-            ++doneTagsCount;
+        checkLinkshare(index, function() {
+          shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
+            look.tags[index].product.buyLinkMinified = response;
+            readify.readify(look.tags[index].product, look.tags[index].product.buyLink, function(error, readableUrl) {
+              look.tags[index].product.buyLinkReadable = readableUrl;
+              ++doneTagsCount;
 
-            if (doneTagsCount >= look.tags.length) {
-              look.save(function(error, look) {
-                if (error || !look) {
-                  callback("error - " + error, null);
-                } else {
-                  callback(null, look);
-                }
-              });
-            }
+              if (doneTagsCount >= look.tags.length) {
+                look.save(function(error, look) {
+                  if (error || !look) {
+                    callback("error - " + error, null);
+                  } else {
+                    callback(null, look);
+                  }
+                });
+              }
+            });
           });
         });
       });

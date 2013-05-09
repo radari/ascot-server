@@ -31,6 +31,16 @@ block content
           br
           br
         div
+          | Automatically convert tagger links to Rakuten Linkshare affiliate links if possible?
+          input(type="checkbox", ng-model="data.affiliates.linkshare.enabled")
+        br
+        div(ng-show="data.affiliates.linkshare.enabled")
+          | What is your Linkshare web services token?
+          br
+          input(type="text", ng-model="data.affiliates.linkshare.key")
+          br
+          br
+        div
           input#settingsSave(type="submit", value="Save")
         div(style="height: 30px")
           div(ng-fade="showSaved", style="font-weight: bold")

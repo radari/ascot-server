@@ -61,7 +61,11 @@ exports.linkshare = function(httpGet, url, fs, file) {
           '&murl=' + encodeURIComponent(link);
       console.log(request);
       httpGet.get(request, function(error, result) {
-        console.log(error + " " + JSON.stringify(result));
+        if (error || !result) {
+          callback({ error : 'Fail' }, null);
+        } else {
+          callback(null, result.buffer);
+        }
       });
     }
   };

@@ -212,7 +212,8 @@ app.get('/customize', routes.customize);
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
 var readify = Readify(Readable, app.get('url'));
-var productLinkGenerator = ProductLinkGenerator(shortener, readify, shopsense);
+var linkshare = affiliates.linkshare(httpGet, url, fs, './routes/data/linkshare_retailers.csv');
+var productLinkGenerator = ProductLinkGenerator(shortener, readify, shopsense, linkshare);
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
@@ -266,7 +267,7 @@ app.get('/p/:readable/:number', function(req, res) {
   });
 });
 
-var linkshare = affiliates.linkshare(httpGet, url, fs, './routes/data/linkshare_retailers.csv');
+
 /*linkshare('b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6', 'http://www.orlebarbrown.com/setter/sky/', function(error, result) {
 
 });*/
