@@ -30,6 +30,7 @@ exports.UserSchema = new Mongoose.Schema({
       }
     }
   },
+  defaultViewConfig : [ViewConfigSchema],
   // List of looks this user has permission to tag
   looks : [{ type : Mongoose.Schema.ObjectId, ref : 'looks' }],
   // User's favorites

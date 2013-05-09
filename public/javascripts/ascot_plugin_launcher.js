@@ -108,7 +108,7 @@
             loadAscotPlugin(url, function() {
               var isPrimitive = localJQuery.browser.msie && localJQuery.browser.version < 9 && isRemote;
 
-              initAscotPlugin(localJQuery, url, null, isPrimitive);
+              initAscotPlugin(localJQuery, url, null, null, isPrimitive);
             });
           });
         });

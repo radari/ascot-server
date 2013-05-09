@@ -221,7 +221,7 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
   };
 }
 
-function initAscotPlugin($, tagSourceUrl, stopwatch, usePIE) {
+function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   if (!window._gaq) {
     // Insert Google Analytics if it doesn't already exist
     window._gaq = [];

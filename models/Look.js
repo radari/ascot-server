@@ -10,6 +10,8 @@
 
 var Mongoose = require('mongoose');
 
+var ViewConfigSchema = require('./ViewConfig.js').ViewConfigSchema;
+
 exports.LookSchema = new Mongoose.Schema({
   title : { type : String, default : "" },
   url : String, // URL of displayed image
@@ -27,6 +29,7 @@ exports.LookSchema = new Mongoose.Schema({
   showOnCrossList : { type : Number, default : 0 }, // Display on looks_list
   numUpVotes : { type : Number, default : 0 },
   numViews : { type : Number, default : 0 },
+  viewConfig : [ViewConfigSchema],
   tags : [
     {
       position : { x : Number, y : Number },
