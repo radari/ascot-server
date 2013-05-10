@@ -187,7 +187,7 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
         "<br/>" +
         (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href='" + tag.product.buyLink + "'>"+"Buy"+"</a><br/>" : ""));
 
-    var offset = 5;
+    var offset = 8;
     if (tagPosition.x > width / 2.0) {
       tagDescription.css('right', offset + 'px');
     } else {
@@ -236,6 +236,13 @@ function AscotPluginViewConfig(config) {
       return false;
     }
     return this.config.behavior.displayTagsOnInit == "SHOW_ON_MOUSEOVER";
+  };
+
+  this.scaleFactor = function() {
+    if (!config || !config.display) {
+      return 1;
+    }
+    return config.display.tagSizeModifier || 1;
   };
 }
 
@@ -314,9 +321,6 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
 
       var height = image.height();
       var width = image.width();
-              
-      var smallImage = height < 300 && width < 300;
-      var smallScaleFactor = 0.75;
             
       image.wrap('<div class="ascot_overlay_look" />');
       
@@ -343,10 +347,6 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       if (viewConfig.shouldShowAnimateButton()) {
         wrapper.append('<div class="ascot_overlay_animate_button"></div>');
         var animateButton = wrapper.children().last();
-        if (smallImage) {
-          animateButton.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
-          animateButton.css('margin', '0px');
-        }
         animateButton.click(function(event) {
           event.preventDefault();
           overlay.toggle("slide", { direction: "left" }, 500, function(){});
@@ -436,10 +436,8 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         event.preventDefault();
         ascotUpvoteLook(upvoteButton, ascotId);
       });
-      
-      if (smallImage) {
-        menuWrapper.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
-      }
+
+      imageMenu.css('transform', 'scale(' + viewConfig.scaleFactor() + ',' + viewConfig.scaleFactor() + ')');
 
       if (data.hasUpvotedCookie) {
         $(upvoteButton).attr('src', tagSourceUrl + '/images/overlayOptions_heart_small_opaque.png');
@@ -464,14 +462,8 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         }
         var sourceTag = overlay.children().last();
         var sourceUrl = sourceTag.children().last();
-                
-        if (smallImage) {
-          sourceTag.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
-                  
-          sourceUrl.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
 
-          sourceUrl.css('left', '-5px');
-        }
+        sourceTag.css('transform', 'scale(' + viewConfig.scaleFactor() + ',' + viewConfig.scaleFactor() + ')');
 
         sourceTag.hover(function() {
           sourceUrl.show(100, function(){});
@@ -487,21 +479,17 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         var tagName =
             $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>");
         tagName.appendTo(tagContainer);
-        if (smallImage) {
-          tagName.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
-        }
                 
         var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
         UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagPosition);
-        if (smallImage) {
-          tagDescription.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
-        }
 
         if (hashParams.ascotPopout &&
             hashParams.ascotPopout.indexOf(ascotId) != -1 &&
             hashParams.ascotPopout.indexOf('_' + (tag.index)) != -1) {
           tagDescription.show();
         }
+
+        tagContainer.css('transform', 'scale(' + viewConfig.scaleFactor() + ',' + viewConfig.scaleFactor() + ')');
                 
         tagContainer.hover(function() {
           tagContainer.css('z-index', 5);
