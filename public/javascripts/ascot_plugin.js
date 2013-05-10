@@ -160,7 +160,7 @@ function AscotPlugin(tagSourceUrl) {
 };
 
 function AscotPluginUI(tagSourceUrl, myUrl) {
-  this.constructTagContainer = function(overlay, tagContainer, defaultSize, actualSize, tag) {
+  this.constructTagContainer = function(overlay, tagContainer, defaultSize, actualSize, tag, corners) {
     var tagX;
     var tagY;
     if (actualSize.height == defaultSize.height && actualSize.width == defaultSize.width) {
@@ -178,6 +178,22 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
     if (tagX + 20 >= actualSize.width) {
       tagX = actualSize.width - 20;
     }
+
+    if (corners) {
+      if (tagX <= 40 && tagY <= 40) {
+        corners.upperLeft = true;
+      }
+      if (tagX + 40 >= actualSize.width && tagY <= 40) {
+        corners.upperRight = true;
+      }
+      if (tagX + 40 >= actualSize.width && tagY + 40 >= actualSize.height) {
+        corners.bottomRight = true;
+      }
+      if (tagX <= 40 && tagY + 40 >= actualSize.height) {
+        corners.bottomLeft = true;
+      }
+    }
+
     tagContainer.css("left", tagX);
     tagContainer.css("top", tagY);
     tagContainer.appendTo(overlay);
@@ -487,11 +503,17 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
           sourceUrl.hide(100, function(){});
         }, 250);
       }
-              
+      
+      var corners = { upperLeft : false, upperRight : false, bottomRight : false, bottomLeft : false };
       $.each(json.tags, function(i, tag) {
         var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");
-        var tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : height, width : width }, tag);
-                
+        var tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : height, width : width }, tag, corners);
+
+        if (corners.bottomLeft) {
+          sourceTag.css('top', '0px');
+          sourceTag.css('bottom', '');
+        }
+
         var tagName =
             $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>");
         tagName.appendTo(tagContainer);
