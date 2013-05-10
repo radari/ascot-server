@@ -363,10 +363,10 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
 
       if (viewConfig.shouldShowTagsOnMouseover()) {
         overlay.hide();
-        image.mouseenter(function(event) {
+        wrapper.mouseenter(function(event) {
           overlay.show();
         });
-        overlay.mouseleave(function(event) {
+        wrapper.mouseleave(function(event) {
           overlay.hide();
         });
       }
