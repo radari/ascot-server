@@ -225,10 +225,16 @@ function AscotPluginViewConfig(config) {
   this.config = config;
 
   this.shouldShowAnimateButton = function() {
+    if (!config || !config.behavior) {
+      return true;
+    }
     return this.config.behavior.displayTagsOnInit == "SHOW";
   };
 
   this.shouldShowTagsOnMouseover = function() {
+    if (!config || !config.behavior) {
+      return false;
+    }
     return this.config.behavior.displayTagsOnInit == "SHOW_ON_MOUSEOVER";
   };
 }
@@ -509,16 +515,21 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   };
    
   // List of all images
+  var ascotQueue = [];
+  var done = [];
   var images = $('img').get();
   var numLoaded = 0;
 
-  var ascotify = function(index, el) {
+  var ascotify = function() {
     // This function is recursively called when ajax/jsonp call out to
     // ascotproject.com is done - this lets us queue up requests and avoid
     // issues with browser simultaneous request limits
-    var url = $(el).attr('src').toLowerCase();
+    if (ascotQueue.length == 0) {
+      return;
+    }
+    var url = ascotQueue[0].attr('src').toLowerCase();
     var lookId;
-    var image = $(el);
+    var image = ascotQueue[0];
       
     var ascotId = plugin.getAscotHashParam(url);
 
@@ -551,23 +562,28 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
               }
             });
 
-            if (index + 1 < images.length) {
-              ascotify(index + 1, images[index + 1]);
-            } else {
-              profile.stop('ALPHAOMEGA');
-            }
+            ascotQueue.shift();
+            done.push(image);
+            ascotify();
           });
     } else {
-      if (index + 1 < images.length) {
-        ascotify(index + 1, images[index + 1]);
-      } else {
-        profile.stop('ALPHAOMEGA');
-      }
+      ascotQueue.shift();
+      ascotify();
     }
   };
 
-  if (images.length > 0) {
-    profile.start('ALPHAOMEGA');
-    ascotify(0, images[0]);
+  window.ascotPluginEnqueue = function(image) {
+    if (image in ascotQueue || image in done) {
+      return;
+    }
+    ascotQueue.push(image);
+
+    if (ascotQueue.length == 1) {
+      ascotify();
+    }
+  };
+
+  for (var i = 0; i < images.length; ++i) {
+    window.ascotPluginEnqueue($(images[i]));
   }
 };

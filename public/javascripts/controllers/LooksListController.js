@@ -8,7 +8,7 @@
  *
  */
  
-function LooksListController($scope, $http) {
+function LooksListController($scope, $http, $window) {
   $scope.looks = [];
   $scope.columns = [];
   $scope.columnHeights = [];
@@ -16,6 +16,7 @@ function LooksListController($scope, $http) {
   $scope.numPages = 0;
   $scope.currentPage = 0;
   $scope.nextPage = 0;
+  $scope.$window = $window;
 
   /*$scope.opts = {
     backdrop: true,

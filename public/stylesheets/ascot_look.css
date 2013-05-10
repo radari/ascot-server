@@ -4,6 +4,8 @@
   /*must be same size as overlay margin*/
   border: 5px #C2C0C0  solid;
   max-width:700px;
+  -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
 
 
   /*border-radius:10px;

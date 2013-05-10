@@ -13,6 +13,13 @@ prepend head
   
   script(src="/javascripts/controllers/LooksListController.js")
 
+  script(src='/javascripts/ascot_plugin.js')
+  link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
+  script(type='text/javascript')
+    $(document).ready(function() {
+      initAscotPlugin(jQuery, '#{rootUrl}', { behavior : { displayTagsOnInit : "SHOW_ON_MOUSEOVER" } });
+    });
+
 block content
   block list_header
 
