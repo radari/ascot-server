@@ -13,7 +13,7 @@ exports.ProductLinkGenerator = function(shortener, readify, shopsense, linkshare
     var doneTagsCount = 0;
 
     var checkLinkshare = function(index, done) {
-      if (!look.tags[index].product.buyLink) {
+      if (!look.tags[index].product.buyLink || look.tags[index].product.hasAffiliateLink) {
         done();
       } else if (!user || (user && user.settings.affiliates.linkshare.enabled)) {
         var linkshareKey = user ?
