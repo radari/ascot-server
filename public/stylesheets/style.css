@@ -57,30 +57,89 @@ body {
 }
 
 .benefitImg {
-
-  
   overflow:none;  
   position:relative;
   left:30px;
 }
+
+.aboutHead {
+  color:#b54f37;
+  border:1px transparent solid;
+  margin:0;
+}
+
 #aboutExample {
   border-radius:5px;
   border:5px solid rgb(194, 192, 192);
 }
 
+.leadingText, #ascotForAll, #ascotTeam {
+  border-bottom:1px rgba(123,121,121,0.2) solid;
+  padding-bottom:8px;
+}
 
-#aboutText {
+
+h1.aboutHead {
+  border-bottom: 2px #7b7979 solid;
+}
+
+h2.aboutHead {
+  margin-bottom:0px;
+  margin-top:8px;
+}
+
+
+#aboutColumnLeft {
+  position:relative;
+  left:0px;
+  width:475px;
+  border-left:1px rgba(123,121,121,0.2) solid;
+  border-right:1px rgba(123,121,121,0.2) solid;
+  float:left;
+  padding-left:8px;
+  padding-right:8px;
+}
+
+#aboutColumnRight {
   position:relative;
   left:5px;
-}
-#aboutText p{
-  width:950px;
+  width:460px;
+  border-right:1px rgba(123,121,121,0.2) solid;
+  float:right;
 }
 
-#aboutText h2{
-   border-bottom:1px #7B7979 solid;
-   margin-bottom:5px;
-   width:950px;
+
+#valueProps ul {
+  list-style:none;
+  width:20%;
+  display:inline;
+  left:0;
+  right:0;
+  padding:0;
+}
+
+#valueProps {
+  width:40%;
+  position:relative;
+  margin:auto;
+
+}
+
+#valueProps li {
+  margin-top:4px;
+  opacity:0.5;
+  display:inline;
+  margin-right:4px;
+}
+
+#valueProps li.selected {
+  opacity:1;
+  border-bottom:2px #b54f37 solid;
+}
+
+.triangle {
+  color:#b54f37;
+  font-size:10px;
 }
 
 iframe {

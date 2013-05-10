@@ -1,33 +1,34 @@
 extends layout
 
 block content
- #aboutText
-  h2 About Ascot
-  p 
-    | We got tired of looking at beautiful pictures of awesome outfits all over the internet and having no clue where to get the clothes. 
-    | We love fashion sites and use them for inspiration but we thought the online fashion community could do a better job of keeping track of products in pictures. 
-    | Ascot makes it easy to tag products in pictures and keep the information as the picture gets shared. Here is an example
+  h1.aboutHead About Ascot
   br
-  .exampleIframe 
-    iframe#aboutExample(src='http://ascotproject.com/look/5123cbd51a59844303000024/iframe', width='513', height='636', frameborder= '0')
-    img(src='/images/onboardAbout.png', id='onboardAbout')
-  br
-  p
-    | Picture this: you write a fashion blog, and are just about to post a picture of yourself wearing a really
-    | fly outfit.  You want to give your readers information on the clothes you're wearing so that they can appreciate
-    | how stylish you must be to put together an ensemble like that… and maybe buy those clothes themselves. Instead 
-    | of going through and typing out all of this information by hand, you can just use Ascot to quickly and easily
-    | tag the clothes directly onto the picture. 
-  br
-  p 
-    | Even cooler, if one of your readers shares the picture on social networks, forums, or other blogs, the
-    | Ascot layer will come with it. That means that all of the people who find it will be able to see
-    | exactly the same useful information on the clothes.  And the best part?  Ascot shows everyone that the
-    | image came from your blog, so anyone who sees the picture (anywhere on the internet) will know that it came
-    | from you. And that you're awesome. And that they should go to your blog.
-  p 
-    | So what are you waiting for? 
-    b Start using Ascot today! 
-  h2.aboutHead Team
-  p 
-    | Our team has been working on startups together since graduating college (some from Princeton, some from Virginia Tech), and our most recent venture was funded through the TigerLabs incubator program.
+  #aboutColumnLeft
+    p.leadingText 
+      | Ascot is an image-tagging widget for labeling products in pictures. When the images get shared, the product information goes with it. 
+      | No matter where your audience encounters your image, they will know what is in the image, where it came from, and where they can buy the products.    
+      h2.aboutHead Ascot Basics
+    h3 Meet the Ascot Overlay
+    
+    br
+    .exampleIframe 
+      iframe#aboutExample(src='http://ascotproject.com/look/5123cbd51a59844303000024/iframe', width='410.4', height='508.8', frameborder= '0')
+    br
+  #aboutColumnRight
+    #ascotForAll
+      h2.aboutHead Ascot For All
+      h3 Ascot images and tags can be shared across the web. Click to learn about how Ascot behaves on different platforms. 
+      br
+      #valueProps
+        .propsMenu
+          ul
+            li.selected Brands 
+            li Bloggers
+            li Advertisers
+      br
+      p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam malesuada cursus. Nulla justo sem, interdum ut auctor et, dictum eu nisl. Ut adipiscing, nunc sit amet rhoncus varius, dolor augue ultrices purus, eu volutpat odio neque a nibh. Ut nec magna nec sapien feugiat rutrum ac eu dolor. Curabitur sodales blandit velit, a egestas ipsum luctus vitae. Mauris dapibus, velit a feugiat fringilla, arcu sapien tincidunt nunc, non vestibulum risus risus et enim. Nam nec dui metus, sed commodo dui.
+
+    #ascotTeam
+      h2.aboutHead Team
+      h3 Creating a better world through dressing. 
+  .spacer 
