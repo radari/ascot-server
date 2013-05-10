@@ -221,6 +221,18 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
   };
 }
 
+function AscotPluginViewConfig(config) {
+  this.config = config;
+
+  this.shouldShowAnimateButton = function() {
+    return this.config.behavior.displayTagsOnInit == "SHOW";
+  };
+
+  this.shouldShowTagsOnMouseover = function() {
+    return this.config.behavior.displayTagsOnInit == "SHOW_ON_MOUSEOVER";
+  };
+}
+
 function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   if (!window._gaq) {
     // Insert Google Analytics if it doesn't already exist
@@ -274,6 +286,13 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
     if (json && json.look && json.look.tags) {
       var data = json;
       json = json.look;
+
+      var myViewConfig = config ||
+          json.viewConfig[0] ||
+          { behavior : { displayTagsOnInit : "SHOW" },
+            display : { borderWidth : 2, backgroundColor : "#171717" }
+          };
+      var viewConfig = new AscotPluginViewConfig(myViewConfig);
       
       _gaq.push(['ascot._trackEvent', 'lookLoaded', ascotId, $(location).attr('href')]);
 
@@ -314,12 +333,18 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       image.css('position', 'absolute');
       image.css('top', '0px');
       image.css('left', '0px');
-              
-      wrapper.append('<div class="ascot_overlay_animate_button"></div>');
-      var animateButton = wrapper.children().last();
-      if (smallImage) {
-        animateButton.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
-        animateButton.css('margin', '0px');
+      
+      if (viewConfig.shouldShowAnimateButton()) {
+        wrapper.append('<div class="ascot_overlay_animate_button"></div>');
+        var animateButton = wrapper.children().last();
+        if (smallImage) {
+          animateButton.css('transform', 'scale(' + smallScaleFactor + ',' + smallScaleFactor + ')');
+          animateButton.css('margin', '0px');
+        }
+        animateButton.click(function(event) {
+          event.preventDefault();
+          overlay.toggle("slide", { direction: "left" }, 500, function(){});
+        });
       }
               
       wrapper.append('<div class="ascot_overlay"></div>');
@@ -329,6 +354,17 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       overlay.css('left', overlayDeltaX + 'px');
       overlay.css('top', overlayDeltaY + 'px');
       overlay.append('<div class="ascot_overlay_menu_wrapper"></div>');
+
+      if (viewConfig.shouldShowTagsOnMouseover()) {
+        overlay.hide();
+        image.mouseenter(function(event) {
+          overlay.show();
+        });
+        overlay.mouseleave(function(event) {
+          overlay.hide();
+        });
+      }
+
       var menuWrapper = overlay.children().last();
               
       menuWrapper.append(
@@ -437,11 +473,6 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
           sourceUrl.hide(100, function(){});
         }, 250);
       }
-              
-      animateButton.click(function(event) {
-        event.preventDefault();
-        overlay.toggle("slide", { direction: "left" }, 500, function(){});
-      });
               
       $.each(json.tags, function(i, tag) {
         var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");

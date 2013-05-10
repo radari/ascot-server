@@ -10,6 +10,8 @@
 
 var Mongoose = require('mongoose');
 
+var ViewConfigSchema = require('./ViewConfig.js').ViewConfigSchema;
+
 exports.UserSchema = new Mongoose.Schema({
   username : { type : String, index : { unique : true }, validate : /.+/ },
   // Configurable settings
