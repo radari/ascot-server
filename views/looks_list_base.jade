@@ -17,7 +17,7 @@ prepend head
   link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
   script(type='text/javascript')
     $(document).ready(function() {
-      initAscotPlugin(jQuery, '#{rootUrl}', { behavior : { displayTagsOnInit : "SHOW_ON_MOUSEOVER" } });
+      initAscotPlugin(jQuery, '#{rootUrl}', { behavior : { displayTagsOnInit : "SHOW_ON_MOUSEOVER" }, display : { tagSizeModifier : 0.85 } });
     });
 
 block content
