@@ -172,6 +172,12 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
       tagX = (tag.position.x / defaultSize.width) * actualSize.width;
       tagY = (tag.position.y / defaultSize.height) * actualSize.height;
     }
+    if (tagY + 20 >= actualSize.height) {
+      tagY = actualSize.height - 20;
+    }
+    if (tagX + 20 >= actualSize.width) {
+      tagX = actualSize.width - 20;
+    }
     tagContainer.css("left", tagX);
     tagContainer.css("top", tagY);
     tagContainer.appendTo(overlay);
@@ -333,12 +339,22 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       };
       
       var wrapper = image.parent();
+      var marginLeft = parseIntSafe(image.css('marginLeft'));
+      var marginRight = parseIntSafe(image.css('marginRight'));
+      var marginTop = parseIntSafe(image.css('marginTop'));
+      var marginBottom = parseIntSafe(image.css('marginBottom'));
+      image.css('margin', '0px');
+
       var wrapperWidth = image.width() + parseIntSafe(image.css('borderLeftWidth')) + parseIntSafe(image.css('borderRightWidth'));
       var wrapperHeight = image.height() + parseIntSafe(image.css('borderTopWidth')) + parseIntSafe(image.css('borderBottomWidth'));
       var overlayDeltaX = parseIntSafe(image.css('borderLeftWidth'));
       var overlayDeltaY = parseIntSafe(image.css('borderTopWidth'));
       wrapper.css('width', wrapperWidth + 'px');
       wrapper.css('height', wrapperHeight + 'px');
+      wrapper.css('marginLeft', marginLeft + 'px');
+      wrapper.css('marginRight', marginRight + 'px');
+      wrapper.css('marginTop', marginTop + 'px');
+      wrapper.css('marginBottom', marginBottom + 'px');
 
       image.css('position', 'absolute');
       image.css('top', '0px');
