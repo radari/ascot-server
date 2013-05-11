@@ -51,6 +51,13 @@ exports.testWalkthrough = function(test) {
     callback(null, url.length > 0 ? mockShopsenseUrl : '');
   };
 
+  var linkshareCount = 0;
+  var mockLinkshare = function(key, url, callback) {
+    test.equal(key, 'b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6');
+    test.equal(url, mockLook.tags[linkshareCount++].product.buyLink);
+    callback({ error : true }, null);
+  };
+
   var generator = ProductLinkGenerator(mockShortener, mockReadify, mockShopsense);
 
   generator(null, mockLook, function(error, look) {
