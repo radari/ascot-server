@@ -79,6 +79,7 @@ body {
 }
 
 
+
 h1.aboutHead {
   border-bottom: 2px #7b7979 solid;
 }
@@ -130,6 +131,7 @@ h2.aboutHead {
   opacity:0.5;
   display:inline;
   margin-right:4px;
+  cursor:pointer;
 }
 
 #valueProps li.selected {
@@ -137,6 +139,9 @@ h2.aboutHead {
   border-bottom:2px #b54f37 solid;
 }
 
+.selected{
+  border-bottom:2px blue solid;
+}
 .triangle {
   color:#b54f37;
   font-size:10px;

@@ -1,5 +1,8 @@
 extends layout
 
+prepend head 
+ script(src="/javascripts/newAboutPage.js")
+
 block content
   h1.aboutHead About Ascot
   br
@@ -22,13 +25,14 @@ block content
       #valueProps
         .propsMenu
           ul
-            li.selected Brands 
-            li Bloggers
-            li Advertisers
+            li.selected  Brands 
+            li  Bloggers
+            li  Advertisers
       br
-      p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam malesuada cursus. Nulla justo sem, interdum ut auctor et, dictum eu nisl. Ut adipiscing, nunc sit amet rhoncus varius, dolor augue ultrices purus, eu volutpat odio neque a nibh. Ut nec magna nec sapien feugiat rutrum ac eu dolor. Curabitur sodales blandit velit, a egestas ipsum luctus vitae. Mauris dapibus, velit a feugiat fringilla, arcu sapien tincidunt nunc, non vestibulum risus risus et enim. Nam nec dui metus, sed commodo dui.
-
+      p.brands Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam malesuada cursus. Nulla justo sem, interdum ut auctor et, dictum eu nisl. Ut adipiscing, nunc sit amet rhoncus varius, dolor augue ultrices purus, eu volutpat odio neque a nibh. Ut nec magna nec sapien feugiat rutrum ac eu dolor. Curabitur sodales blandit velit, a egestas ipsum luctus vitae. Mauris dapibus, velit a feugiat fringilla, arcu sapien tincidunt nunc, non vestibulum risus risus et enim. Nam nec dui metus, sed commodo dui.
+      p.bloggers Bloggers
+      p.advertisers Advertisers
+    
     #ascotTeam
-      h2.aboutHead Team
-      h3 Creating a better world through dressing. 
+      h2.aboutHead Team 
   .spacer 
