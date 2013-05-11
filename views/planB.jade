@@ -1,28 +1,42 @@
 extends layout
 
 block content
-	div#fails
-		h2.underline When Other Sites Don't Play Nice 
-		|Our goal here at Ascot to make fashion discovery and sharing easier. We want every picture of clothing to be tagged using Ascot for everyone's benefit. Truth be told, it's going to take a while to get the word out. As of now, not every site can display the Ascot plugin in all it's glory. We tried to build ascot with these cases in mind so that the plugin degrades easily. Here are some examples of what happens in certain scenarios: 
-		br
-		br
-		h3 Tumblr 
-		p If an Ascot-generated tumblr post is on a tumblr that doesn't have the Ascot plugin installed (via a reblog), the links to all of the tagged items are displayed below the images in the post. For a tutorial on how to install the Ascot plugin in your tumblr, go 
-			a(href="#") here. 
-		br
-		h3 Facebook
-		p Facebook doesn't support custom javascript or embedding of iframes into its site. Therefore, the Ascot tag overlay will not show up on Facebook. However, an Ascot-generated post will contain links to the tagged items in the body of the post and a link to the image on Ascot. 
-		br
-		h3 Wordpress.com
-		p If you have a Wordpress hosted blog, you are not allowed to use custom javascript or iframes. Embedding an Ascot post using our embed code will not work. We are currently working on a wordpress plugin that will work in the future. Sorry for the temporary inconveience. 
-			strong Note: this does not apply to self-hosted wordpress blogs.
-		br
-		h3 No Javascript
-		p Ascot depends on Javascript. In fact, the modern internet depends on Javascript. If you have it turned off, please turn it on. 
-		br
-		h3 Other Issues
-		p If you have a case of wonky Ascot compatability that we didn't cover, please let us know and we'll do what we can with your particular situation. Email 
-			a.contact(href="mailto:team@ascotproject.com") team@ascotproject.com 
-			| with the subject "issues" and we'll get back to you shortly. 
+  div#fails
+    h2.underline When Other Sites Don't Play Nice 
+    | Our goal here at Ascot to make fashion discovery and sharing easier. We want every picture of clothing to be tagged using Ascot for everyone's benefit. Truth be told, it's going to take a while to get the word out. As of now, not every site can display the Ascot plugin in all it's glory. We tried to build ascot with these cases in mind so that the plugin degrades easily. Here are some examples of what happens in certain scenarios: 
+    br
+    br
+    h3 Tumblr 
+    | If an Ascot-generated tumblr post is on a tumblr that doesn't have the Ascot plugin installed (via a reblog), the links to all of the tagged items are displayed below the images in the post. For a tutorial on how to install the Ascot plugin in your tumblr, go 
+    a(href="/howto/tumblr") here.
+    br
+    br
+    h3 Facebook
+    p You can share looks onto your Facebook page by clicking on the Facebook icon in the look's share menu. The image won't have a dynamic overlay unfortunately, but your tags will be embedded into the post. Your post will look something like this:
+    br
+    a(href='/images/fbsample.png')
+      img(src='/images/fbsample.png')
+    br
+    br
+    br
+    h3 Pinterest
+    p Similar to Facebook, you can pin a look to Pinterest. We offer several useful features, including our own URL shortening service, for making it easier to link back to your site from Pinterest.
+    br
+    a(href='/images/pinterestsample.png')
+      img(src='/images/pinterestsample.png')
+    br
+    br
+    br
+    h3 Wordpress.com
+    p If you have a Wordpress hosted blog, you are not allowed to use custom javascript or iframes. Embedding an Ascot post using our embed code will not work. We are currently working on a wordpress plugin that will work in the future. Sorry for the temporary inconveience. 
+      strong Note: this does not apply to self-hosted wordpress blogs.
+    br
+    h3 No Javascript
+    p Ascot depends on Javascript. In fact, the modern internet depends on Javascript. If you have it turned off, please turn it on. 
+    br
+    h3 Other Issues
+    p If you have a case of wonky Ascot compatability that we didn't cover, please let us know and we'll do what we can with your particular situation. Email 
+      a.contact(href="mailto:team@ascotproject.com") team@ascotproject.com 
+      | with the subject "issues" and we'll get back to you shortly. 
 
 
