@@ -1,7 +1,7 @@
 /**
  *  Autocomplete.js
  *
- *  Created on: February 4, 2012
+ *  Created on: February 4, 2013
  *      Author: Valeri Karpov
  *
  *  Service for handling basic autocompletes

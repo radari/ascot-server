@@ -59,3 +59,33 @@ exports.names = function(Look) {
       });
   };
 };
+
+/*
+ * GET /links.json?brand=<brand>&name=<name>
+ */
+exports.links = function(Look) {
+  return function(req, res) {
+    if (!req.query.brand || !req.query.name) {
+      res.json([]);
+      return;
+    }
+
+    Look.find({ 'tags.product.brand' : req.query.brand, 'tags.product.name' : req.query.name }, function(error, looks) {
+      var ret = [];
+      var MAX = 7;
+      for (var i = 0; i < looks.length; ++i) {
+        for (var j = 0; j < looks[i].tags.length; ++j) {
+          if (looks[i].tags[j].product.brand == req.query.brand && looks[i].tags[j].product.name == req.query.name) {
+            ret.push(looks[i].tags[j].product.buyLink);
+          }
+
+          if (ret.length >= MAX) {
+            break;
+          }
+        }
+      }
+
+      res.json(ret);
+    });
+  };
+};

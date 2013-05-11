@@ -235,6 +235,7 @@ app.get('/favorites', look.favorites(Look));
 app.get('/filters.json', look.filters(Look));
 app.get('/brands.json', product.brands(Look));
 app.get('/names.json', product.names(Look));
+app.get('/links.json', product.links(Look));
 
 // Upload
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
