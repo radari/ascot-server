@@ -125,6 +125,7 @@ h2.aboutHead {
   float:left;
   padding-left:8px;
   padding-right:8px;
+  padding-bottom:14px;
   margin-bottom:-80px;
 }
 
@@ -152,6 +153,7 @@ h2.aboutHead {
   width:53%;
   position:relative;
   margin:auto;
+  margin-bottom:0;
 }
 
 #valueProps li {
