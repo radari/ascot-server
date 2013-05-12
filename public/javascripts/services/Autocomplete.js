@@ -12,35 +12,26 @@ angular.module('AutocompleteModule', []).
     factory('$autocomplete', ['$rootScope', '$http', function($scope, $http) {
       var $autocomplete = function() {
         var self = this;
-      	this.texts = {};
         this.urls = {};
         this.results = {};
         this.show = {};
         this.selection = {};
 
         this.setUrl = function(tag, url) {
-          this.texts[tag] = "";
           this.urls[tag] = url;
           this.results[tag] = [];
           this.show[tag] = true;
           this.selection[tag] = 0;
         };
 
-        this.updateResults = function(tag, text) {
-          if (text.length < 1) {
-            this.results[tag] = [];
-            return;
-          }
-          this.texts[tag] = text;
+        this.updateResults = function(tag, params) {
           this.show[tag] = true;
           this.selection[tag] = 0;
           if (this.urls[tag]) {
-            $http.get(this.urls[tag] + '?query=' + encodeURIComponent(text)).
+            $http.get(this.urls[tag], { params : params }).
                 success(function(data) {
                   self.results[tag] = data;
-                }).error(function(data, status) {
-                  alert('--> ' + data + " " + status);
-                });
+                }).error(function(data, status) {});
           } else {
             this.results[tag] = [];
           }
