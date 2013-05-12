@@ -26,7 +26,7 @@ div.look-container
         input.tagger_input( type="text",
                             id="brandInput",
                             placeholder="Brand (e.g. Bonobos)",
-                            ng-change="autocomplete.updateResults('BRAND', idsToEditTag[look].product.brand)"
+                            ng-change="autocomplete.updateResults('BRAND', { query : idsToEditTag[look].product.brand })"
                             ng-model="idsToEditTag[look].product.brand",
                             ng-directional="true",
                             ng-focus="autocomplete.show('BRAND')",
@@ -44,7 +44,7 @@ div.look-container
         input.tagger_input( type="text",
                             id="nameInput",
                             placeholder="Name (e.g. Jet Blues - Boot Cut)",
-                            ng-change="autocomplete.updateResults('NAME', idsToEditTag[look].product.name)",
+                            ng-change="autocomplete.updateResults('NAME', { query : idsToEditTag[look].product.name })",
                             ng-model="idsToEditTag[look].product.name",
                             ng-focus="autocomplete.show('NAME')",
                             ng-blur="autocomplete.hide('NAME')",
@@ -60,9 +60,22 @@ div.look-container
                 ng-click="idsToEditTag[look].product.name = suggestion; autocomplete.hide('NAME')")
               span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.name")
         input.tagger_input( type="text",
-                            id="buyLinkInput"
-                            placeholder="URL (e.g. http://www.bonobos.com/navy-boot-cut-pants-for-men-jet-blues)"
-                            ng-model="idsToEditTag[look].product.buyLink")
+                            id="buyLinkInput",
+                            placeholder="URL (e.g. http://www.bonobos.com/navy-boot-cut-pants-for-men-jet-blues)",
+                            ng-focus="autocomplete.updateResults('BUYLINK', { brand : idsToEditTag[look].product.brand, name : idsToEditTag[look].product.name });"
+                            ng-blur="autocomplete.hide('BUYLINK');"
+                            ng-model="idsToEditTag[look].product.buyLink",
+                            ng-directional="true",
+                            ng-key-up="autocomplete.prevSelection('BUYLINK');",
+                            ng-key-down="autocomplete.nextSelection('BUYLINK');",
+                            ng-key-return="idsToEditTag[look].product.buyLink = autocomplete.getSelected('BUYLINK'); autocomplete.hide('BUYLINK');")
+        div(style="position: relative")
+          div.tagger_autocomplete(ng-show="autocomplete.show['BUYLINK']")
+            div(ng-repeat="suggestion in autocomplete.results['BUYLINK']",
+                ng-class="autocomplete.checkSelection('BUYLINK', $index)",
+                ng-mouseover="autocomplete.selection['BUYLINK'] = $index;",
+                ng-click="idsToEditTag[look].product.buyLink = suggestion; autocomplete.hide('BUYLINK')")
+              span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.buyLink")
         br
         input.save_button(type="submit",
                           id="deleteTagButton",

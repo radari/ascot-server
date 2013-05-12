@@ -19,6 +19,7 @@ function TaggerViewController($scope, $http, $imagePosition, $redirect, $autocom
   $scope.autocomplete = $autocomplete;
   $scope.autocomplete.setUrl('BRAND', '/brands.json');
   $scope.autocomplete.setUrl('NAME', '/names.json');
+  $scope.autocomplete.setUrl('BUYLINK', '/links.json');
 
   // Initial load of look
   $scope.loadLook = function(id) {
