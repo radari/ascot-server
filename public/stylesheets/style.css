@@ -80,7 +80,7 @@ li{
 }
 
 #ascotForAll {
-  height:435px;
+  height:430px;
 }
 
 .brands, .bloggers, .advertisers h3 {
@@ -125,6 +125,7 @@ h2.aboutHead {
   float:left;
   padding-left:8px;
   padding-right:8px;
+  margin-bottom:-80px;
 }
 
 #aboutColumnRight {
@@ -133,6 +134,7 @@ h2.aboutHead {
   width:460px;
   border-right:1px rgba(123,121,121,0.2) solid;
   float:right;
+  margin-bottom:-80px;
 }
 
 
@@ -220,6 +222,8 @@ iframe {
   padding-bottom: 80px;
   padding-left:5px;
   padding-right:5px;
+  overflow:hidden;
+  clear:both;
 
 }
 
@@ -448,6 +452,9 @@ h1, h2 {
   float:left;
 }
 
+#social ul {
+  border:1px orange solid;
+}
 
 
 #social li{
