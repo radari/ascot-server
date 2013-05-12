@@ -83,18 +83,31 @@ li{
   height:450px;
 }
 
+.brands, .bloggers, .advertisers h3 {
+
+
+}
+
+#ascotForAll img {
+  width:400px;
+  height:200px;
+  position:relative;
+  margin:auto;
+  left:20px;
+  right:0;
+  border:2px solid rgb(194, 192, 192);
+  margin-bottom:5px;
+}
+
+
+
 .leadingText, #ascotForAll, #ascotTeam {
   border-bottom:1px rgba(123,121,121,0.2) solid;
   padding-bottom:8px;
 }
 
-#ascotTeam {
-  border:1px orange solid;
-  clear:both;
-  overflow:hidden;
-}
 h1.aboutHead {
-  border-bottom: 2px #7b7979 solid;
+  border-bottom: 1px #7B7979 solid;
 }
 
 h2.aboutHead {
@@ -133,10 +146,9 @@ h2.aboutHead {
 }
 
 #valueProps {
-  width:40%;
+  width:43%;
   position:relative;
   margin:auto;
-
 }
 
 #valueProps li {
@@ -149,16 +161,23 @@ h2.aboutHead {
 
 #valueProps li.selected {
   opacity:1;
-  border-bottom:2px #b54f37 solid;
+  border-bottom:1px #b54f37 solid;
 }
 
 .selected{
   border-bottom:2px blue solid;
 }
+
+#ascotTeam {
+  clear:both;
+  overflow:hidden;
+  border-bottom:none;
+}
+
 #ascotTeam ul {
-  border:1px green solid;
   padding:0; 
   overflow:hidden;
+  padding-bottom:55px;
 }
 
 #ascotTeam li {
@@ -168,7 +187,6 @@ float:left;
 }
 
 .teamMember {
-border:1px blue solid;
 height:130px;
 width:105px;
 display:inline;
@@ -631,7 +649,7 @@ h1, h2 {
     0px 1px 0px rgba(255,255,255,0.3);
 
 
-background: #ffffff; /* Old browsers */
+background: #ffffff; /* Old vowsers */
 background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
 background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
