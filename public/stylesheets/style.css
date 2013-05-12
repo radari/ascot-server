@@ -80,7 +80,7 @@ li{
 }
 
 #ascotForAll {
-  height:450px;
+  height:435px;
 }
 
 .brands, .bloggers, .advertisers h3 {
@@ -138,15 +138,16 @@ h2.aboutHead {
 
 #valueProps ul {
   list-style:none;
-  width:20%;
+  width:40%;
   display:inline;
   left:0;
   right:0;
   padding:0;
+  font-size:16px;
 }
 
 #valueProps {
-  width:43%;
+  width:53%;
   position:relative;
   margin:auto;
 }
@@ -161,7 +162,8 @@ h2.aboutHead {
 
 #valueProps li.selected {
   opacity:1;
-  border-bottom:1px #b54f37 solid;
+  border-bottom:2px transparent solid;
+   color:#b54f37;
 }
 
 .selected{
