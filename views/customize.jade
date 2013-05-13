@@ -11,24 +11,35 @@ extends layout
 
 prepend head
   link(rel='stylesheet', href='/stylesheets/jquery.minicolors.css')
+  script(src="/javascripts/controllers/CustomOverlayController.js")
   script(src="/javascripts/services/jquery.minicolors.js")
-  script(src="/javascripts/controllers/SettingsController.js")
-  script(src="/javascripts/controllers/customOverlayController.js")
+  script(src='/javascripts/ascot_plugin.js')
+  link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
+  script(type='text/javascript')
+    $(document).ready(function() {
+      initAscotPlugin(jQuery, '#{rootUrl}');
+
+      $('li#borderOptions').hover(function() {
+          $('div.borderOptions').fadeIn(100);
+        }, function() {
+          $('div.borderOptions').fadeOut(100);
+        }, 250);
+
+    });
 
 
 block content
-  br
-  br
-  div.customizeWrapper(ng-controller="customOverlayController")
-    img#customizeExample(src='http://cdn.dappered.com/wp-content/uploads/2011/12/AE-Dalton-both-colors.jpg#ascot=50feacaa2292ce4f07000002', width='480', height='411')
-    .exampleTag(ng-class="myVar") 1
-    .exampleTag 2
+  div.customizeWrapper(ng-controller="CustomOverlayController", ng-init="init(#{JSON.stringify(look)});")
+    img#customizeSample(ng-src="{{look.url}}#ascot={{look._id}}")
     .customizeToolbar 
-      h3.customizeTitle  Customize
+      h3.customizeTitle(style="padding: 5px") Customize
       ul 
-        li 
+        li#borderOptions
           h3 Border 
             span.karat &#9660;
+          div.borderOptions
+            p.borderToggle Border Width:
+            input(type="number", min="0", max="5", ng-model="look.viewConfig[0].display.borderWidth", ng-change="updatePlugin()")
         li 
           h3 Colors
             span.karat &nbsp; &#9660;
@@ -49,14 +60,4 @@ block content
               p Number
               input.minicolors2(type="text", value="#ffffff") 
             button(type="submit", ng-click="changeColor()", name="Update") Update
-        div.borderOptions
-          p.borderToggle Bordered
-          br
-          div.slider 
-          p.sliderValue 2px
-    
-
-  .spacer 
-       
-     
         

@@ -522,3 +522,21 @@ exports.delete = function(mongoLookFactory) {
     });
   };
 };
+
+/*
+ * GET /customize/:id
+ */
+exports.customize = function(mongoLookFactory, ViewConfig) {
+  return function(req, res) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+      if (!look.viewConfig) {
+        look.viewConfig = [];
+      }
+      if (look.viewConfig.length == 0) {
+        look.viewConfig.push(new ViewConfig({}));
+      }
+      console.log(JSON.stringify(look.viewConfig));
+      res.render('customize', { title : 'Ascot :: Customize Overlay', look : look });
+    });
+  };
+};
