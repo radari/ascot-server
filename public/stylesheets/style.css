@@ -80,11 +80,10 @@ li{
 }
 
 #ascotForAll {
-  height:430px;
+  height:440px;
 }
 
-.brands, .bloggers, .advertisers h3 {
-
+.brands img, .bloggers img, .advertisers img {
 
 }
 
@@ -96,7 +95,7 @@ li{
   left:20px;
   right:0;
   border:2px solid rgb(194, 192, 192);
-  margin-bottom:5px;
+  margin-bottom:10px;
 }
 
 
@@ -140,7 +139,7 @@ h2.aboutHead {
   border-right:1px rgba(123,121,121,0.2) solid;
   float:right;
   margin-bottom:-80px;
-  margin-right:5px;
+  margin-right:5px; 
 }
 
 
