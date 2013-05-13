@@ -25,6 +25,12 @@ prepend head
           $('div.borderOptions').fadeOut(100);
         }, 250);
 
+      $('li#animationOptions').hover(function() {
+        $('div.animationOptions').fadeIn(100);
+      }, function() {
+        $('div.animationOptions').fadeOut(100);
+      }, 250);
+
     });
 
 
@@ -43,15 +49,14 @@ block content
         li 
           h3 Colors
             span.karat &nbsp; &#9660;
-        li 
+        li#animationOptions
           h3 Animation
             span.karat &nbsp; &#9660;
-        div.animationOptions
-          input(type="checkbox", checked) 
-          | Toggle
-          br
-          input(type="checkbox") 
-          | Hover 
+          div.animationOptions
+            input(type="radio", ng-model="look.viewConfig[0].behavior.displayTagsOnInit", value="SHOW", ng-change="updatePlugin()")
+            | Display overlay by default
+            input(type="radio", ng-model="look.viewConfig[0].behavior.displayTagsOnInit", value="SHOW_ON_MOUSEOVER", ng-change="updatePlugin()")
+            | Display overlay only on mouseover
         div.colorOptions
             div#backgroundColor
               p Background
