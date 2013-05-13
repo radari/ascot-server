@@ -232,6 +232,11 @@ exports.filters = function(Look) {
   return function(req, res) {
     var ret = [];
     
+    if (!req.query["query"]) {
+      res.json([]);
+      return;
+    }
+    
     ret.push({ v : req.query["query"], type : 'Keyword' });
     
     Look.distinct('tags.product.brand').

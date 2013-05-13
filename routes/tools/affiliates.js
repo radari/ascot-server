@@ -67,6 +67,8 @@ exports.linkshare = function(httpGet, url, fs, file) {
           callback(null, result.buffer);
         }
       });
+    } else {
+      callback({ error : 'Not there' }, null);
     }
   };
 };

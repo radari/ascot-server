@@ -14,7 +14,7 @@ function MainSearchBarController($scope, $autocomplete, $redirect) {
   $autocomplete.setUrl('MAIN', '/filters.json');
 
   $scope.updateResults = function() {
-    $autocomplete.updateResults('MAIN', $scope.mainSearch);
+    $autocomplete.updateResults('MAIN', { query : $scope.mainSearch });
   };
   
   $scope.filterToString = function(filter) {
