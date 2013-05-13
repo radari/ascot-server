@@ -266,6 +266,16 @@ function AscotPluginViewConfig(config) {
     }
     return config.display.tagSizeModifier || 1;
   };
+
+  this.getBorderWidth = function() {
+    if (!config || !config.display) {
+      return 3;
+    }
+    if (config.display.borderWidth == 0) {
+      return 0;
+    }
+    return config.display.borderWidth || 3;
+  };
 }
 
 function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
@@ -325,7 +335,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       var myViewConfig = config ||
           json.viewConfig[0] ||
           { behavior : { displayTagsOnInit : "SHOW" },
-            display : { borderWidth : 2, backgroundColor : "#171717" }
+            display : { borderWidth : 3, backgroundColor : "#171717" }
           };
       var viewConfig = new AscotPluginViewConfig(myViewConfig);
       
@@ -517,6 +527,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         var tagName =
             $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>");
         tagName.appendTo(tagContainer);
+        tagName.css('borderWidth', viewConfig.getBorderWidth());
                 
         var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
         UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagPosition);
@@ -545,6 +556,22 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   var done = [];
   var images = $('img').get();
   var numLoaded = 0;
+
+  window.ascotPluginKillOverlay = function(image) {
+    if ($(image.parent()).hasClass('ascot_overlay_look')) {
+      $(image.parent()).children('.ascot_overlay').remove();
+      $(image).css('position', 'relative');
+      $(image).css('marginTop', $(image.parent()).css('marginTop'));
+      $(image).css('marginBottom', $(image.parent()).css('marginBottom'));
+      $(image).css('marginLeft', $(image.parent()).css('marginLeft'));
+      $(image).css('marginRight', $(image.parent()).css('marginRight'));
+      $(image).unwrap();
+    }
+  };
+
+  window.ascotPluginMakeOverlay = function(image, ascotId, url, json) {
+    makeOverlay(image, ascotId, url, json);
+  };
 
   var ascotify = function() {
     // This function is recursively called when ajax/jsonp call out to

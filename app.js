@@ -59,6 +59,9 @@ var MongoLookFactory = require('./factories/MongoLookFactory.js').MongoLookFacto
 var Mongoose = require('mongoose');
 var db = Mongoose.createConnection('localhost', 'ascot', 27017, { user : 'ascot', pass : 'letMeGiveYouAHug' });
 
+var ViewConfigSchema = require('./models/ViewConfig.js').ViewConfigSchema;
+var ViewConfig = db.model('viewconfigs', ViewConfigSchema);
+
 var ShortendSchema = require('./models/Shortened.js').ShortenedSchema;
 var Shortened = db.model('shortend', ShortendSchema);
 
@@ -207,7 +210,6 @@ app.get('/howto/planB', routes.planB);
 app.get('/howto/guidelines', routes.guidelines);
 app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
-app.get('/customize', routes.customize);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });
@@ -222,6 +224,7 @@ app.put('/look/:id/published',
     authenticate.ensureAuthenticated,
     administratorValidator,
     look.updatePublishedStatus(mongoLookFactory));
+app.get('/customize/:id', look.customize(mongoLookFactory, ViewConfig));
 
 app.get('/tagger/:look', tagger.get('tagger', validator, mongoLookFactory));
 app.get('/upload', upload.get);
