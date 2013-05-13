@@ -31,6 +31,12 @@ prepend head
         $('div.animationOptions').fadeOut(100);
       }, 250);
 
+      $('li#colorOptions').hover(function() {
+        $('div.colorOptions').fadeIn(100);
+      }, function() {
+        $('div.colorOptions').fadeOut(100);
+      }, 250);
+
     });
 
 
@@ -46,9 +52,17 @@ block content
           div.borderOptions
             p.borderToggle Border Width:
             input(type="number", min="0", max="5", ng-model="look.viewConfig[0].display.borderWidth", ng-change="updatePlugin()")
-        li 
+        li#colorOptions
           h3 Colors
             span.karat &nbsp; &#9660;
+          div.colorOptions
+            div#backgroundColor
+              p Background
+              input.minicolors(type="text", value="#171717")
+            div#numberColor 
+              p Number
+              input.minicolors2(type="text", value="#ffffff") 
+            button(type="submit", ng-click="changeColor()", name="Update") Update
         li#animationOptions
           h3 Animation
             span.karat &nbsp; &#9660;
@@ -57,12 +71,3 @@ block content
             | Display overlay by default
             input(type="radio", ng-model="look.viewConfig[0].behavior.displayTagsOnInit", value="SHOW_ON_MOUSEOVER", ng-change="updatePlugin()")
             | Display overlay only on mouseover
-        div.colorOptions
-            div#backgroundColor
-              p Background
-              input.minicolors(type="text", value="#171717")
-            div#numberColor 
-              p Number
-              input.minicolors2(type="text", value="#ffffff") 
-            button(type="submit", ng-click="changeColor()", name="Update") Update
-        
