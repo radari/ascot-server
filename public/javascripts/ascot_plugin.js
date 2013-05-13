@@ -506,6 +506,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         var sourceUrl = sourceTag.children().last();
 
         sourceTag.css('transform', 'scale(' + viewConfig.scaleFactor() + ',' + viewConfig.scaleFactor() + ')');
+        sourceTag.css('borderWidth', viewConfig.getBorderWidth());
 
         sourceTag.hover(function() {
           sourceUrl.show(100, function(){});
