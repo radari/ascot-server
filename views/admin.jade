@@ -26,7 +26,7 @@ block list_element
         onload="ascotPluginEnqueue($(this))",
         ng-style="{ height : computeHeight(look), 'background-color' : '#A3A3A3' }")
     br
-    div(ng-click="togglePublished()", style="cursor: pointer")
+    div.publish(ng-click="togglePublished()", style="cursor: pointer")
       | Toggle Published
     a(ng-href="/look/{{look._id}}")
       | {{look.title | checkEmpty:'untitled'}} ({{look.tags.length}} tags)

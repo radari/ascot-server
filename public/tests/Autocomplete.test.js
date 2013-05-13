@@ -23,7 +23,7 @@ describe('Services', function() {
       autocomplete.setUrl('TAG', '/test/autocomplete');
       $httpBackend.expectGET('/test/autocomplete?query=abc').
           respond(['abcd', 'abcdefg']);
-      autocomplete.updateResults('TAG', 'abc');
+      autocomplete.updateResults('TAG', { query : 'abc' });
       $httpBackend.flush();
       expect(autocomplete.results['TAG'].length).toBe(2);
       expect(autocomplete.results['TAG'][0]).toBe('abcd');

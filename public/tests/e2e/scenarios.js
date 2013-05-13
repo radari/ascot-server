@@ -269,11 +269,11 @@ describe('Ascot Project', function() {
       
       expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope unpublished');
       
-      element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1) img#userImage').click();
+      element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1) div.publish').click();
       sleep(0.5);
       expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope published');
       
-      element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1) img#userImage').click();
+      element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1) div.publish').click();
       sleep(0.5);
       expect(element('div.all_looks_element:nth-child(1) div#admin_element:nth-child(1)').class()).toBe('ng-scope unpublished');
     });
