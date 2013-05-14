@@ -50,40 +50,39 @@ html(id="ng-app", ng-app='AscotModule')
    
 
     #wrapper(ng-controller='MainSearchBarController')
-      a#logoWrapper(href="/")
-        img#logo(src='/images/ascotLogo_ai.png', id:'logo')
+      div#wrapperTop
+        a#logoWrapper(href="/")
+          img#logo(src='/images/ascotLogo_ai.png', id:'logo')
 
-      ul#nav 
-        li
-          a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
-            h3 Start Tagging
-            p Paste an image link or upload an image to start tagging.
-        li#howToNav
-          a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
-            h3 How To
-            p Learn how to use the ascot plugin.
-        li
-          a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}")
-            h3 Looks
-            p See images that have already been tagged.  
-        li
-          - if (user)
-            a(href='/home', id='nonCurrentPage')
-              h3 Account
-              p Manage your account. 
-          - else
-            a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}")
-              h3 Login
-              p Login to your ascot account to see your tagged images.
-        li
-          - if (user)
-            a(href='/logout', id='nonCurrentPage')
-              h3 Logout
-              p Log out from #{user.username}
-          - else
+        ul#nav 
+          li
+            a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
+              h3 Start Tagging
+              p Paste an image link or upload an image to start tagging.
+          li#howToNav
+            a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
+              h3 How To
+              p Learn how to use the ascot plugin.
+          li
+            a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}")
+              h3 Looks
+              p See images that have already been tagged.  
+          li
+            - if (user)
+              a(href='/home', id='nonCurrentPage')
+                h3 Account
+                p Manage your account. 
+            - else
+              a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}")
+                h3 Login
+                p Login to your ascot account to see your tagged images.
+          li
+            - if (user)
+              a(href='/logout', id='nonCurrentPage')
+                h3 Logout
+                p Log out from #{user.username}
+            - else
             
-        
-      br
       img#bottomStripe(src='/images/bottomStripe_long.png', id:'stripe')
 
       br 
