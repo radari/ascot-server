@@ -21,16 +21,6 @@ exports.testGet = function(test) {
     _id : 'testLook'
   };
 
-  var mockValidator = {
-    canEditTags : function(user, permissions, look, callback) {
-      test.equal(user, mockUser);
-      test.equal(permissions.length, 1);
-      test.equal(permissions[0], mockPermissions);
-      test.equal(look, mockLook._id);
-      callback(null, mockPermissions);
-    }
-  };
-
   var mockMongoLookFactory = {
     buildFromId : function(id, callback) {
       test.equal(id, mockLook._id);
@@ -38,7 +28,7 @@ exports.testGet = function(test) {
     }
   };
 
-  var fn = TaggerRoutes.get(displayRoute, mockValidator, mockMongoLookFactory);
+  var fn = TaggerRoutes.get(displayRoute, mockMongoLookFactory);
 
   fn({
     // req
@@ -53,7 +43,7 @@ exports.testGet = function(test) {
     render : function(view, params) {
       test.equal(view, displayRoute);
       test.equal(params.look, mockLook);
-      test.expect(7);
+      test.expect(3);
       test.done();
     }
   });
@@ -66,16 +56,6 @@ exports.testPutRoute = function(test) {
 
   var mockLook = {
     _id : 'testLook'
-  };
-
-  var mockValidator = {
-    canEditTags : function(user, permissions, look, callback) {
-      test.equal(user, mockUser);
-      test.equal(permissions.length, 1);
-      test.equal(permissions[0], mockPermissions);
-      test.equal(look, mockLook._id);
-      callback(null, mockPermissions);
-    }
   };
 
   var mockMongoLookFactory = {
@@ -96,7 +76,7 @@ exports.testPutRoute = function(test) {
     callback(null, look);
   };
 
-  var fn = TaggerRoutes.put(mockValidator, mockMongoLookFactory, mockGmTagger, mockProductLinkGenerator);
+  var fn = TaggerRoutes.put(mockMongoLookFactory, mockGmTagger, mockProductLinkGenerator);
 
   fn({
     // req
@@ -116,7 +96,7 @@ exports.testPutRoute = function(test) {
       test.equal(object.success, true);
       test.equal(9, mockLook.search.length);
       test.deepEqual(["check", "out", "my", "fresh", "kicks", "nike", "air", "zoom", "3"], mockLook.search);
-      test.expect(11);
+      test.expect(7);
       test.done();
     }
   });
