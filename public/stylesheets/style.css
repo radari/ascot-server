@@ -309,9 +309,9 @@ a:visited {
 #nav {
   padding:0;
   top:28px;
-  width:440px;
+  width:530px;
   position:absolute;
-  left:470px;
+  left:430px;
   margin-bottom:10px;
   right:0;
   overflow:auto;
@@ -412,7 +412,7 @@ h1, h2 {
 
 
 #nav li{
-  width:105px;
+  width:100px;
   float:left;
   margin:0;
   padding:0;
