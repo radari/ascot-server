@@ -9,6 +9,8 @@ describe('Ascot plugin', function() {
     it("should parse hash parameters properly", function() {
       expect(plugin.parseHashParams('http://www.google.com/#ascot=1234')).
           toEqual({ ascot : '1234' });
+      expect(plugin.parseHashParams('http://www.google.com/abcd/#ascot')).
+          toEqual({ });
       expect(plugin.parseHashParams('http://www.google.com/?abcd=12&ascot=1234')).
           toEqual({});
       expect(plugin.parseHashParams('http://www.google.com/?abcd=12#ascot=1234')).
@@ -191,8 +193,8 @@ describe('Ascot plugin', function() {
       }
 
       UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 25, y : 25 });
-      expect(tagDescription.props['left']).toBe('5px');
-      expect(tagDescription.props['top']).toBe('5px');
+      expect(tagDescription.props['left']).toBe('8px');
+      expect(tagDescription.props['top']).toBe('8px');
       expect(tagDescription.container).toBe(tagContainer);
       expect(tagDescription.myHtml).toContain("Bonobos");
       expect(tagDescription.myHtml).toContain("Test");
@@ -200,18 +202,18 @@ describe('Ascot plugin', function() {
 
       tagDescription = new MockTagDescription();
       UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 75, y : 25 });
-      expect(tagDescription.props['right']).toBe('5px');
-      expect(tagDescription.props['top']).toBe('5px');
+      expect(tagDescription.props['right']).toBe('8px');
+      expect(tagDescription.props['top']).toBe('8px');
 
       tagDescription = new MockTagDescription();
       UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 75, y : 75 });
-      expect(tagDescription.props['right']).toBe('5px');
-      expect(tagDescription.props['bottom']).toBe('5px');
+      expect(tagDescription.props['right']).toBe('8px');
+      expect(tagDescription.props['bottom']).toBe('8px');
 
       tagDescription = new MockTagDescription();
       UI.constructTagDescription(100, 100, tagContainer, tagDescription, tag, { x : 25, y : 75 });
-      expect(tagDescription.props['left']).toBe('5px');
-      expect(tagDescription.props['bottom']).toBe('5px');
+      expect(tagDescription.props['left']).toBe('8px');
+      expect(tagDescription.props['bottom']).toBe('8px');
     });
     
   });

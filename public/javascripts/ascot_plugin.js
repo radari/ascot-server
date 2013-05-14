@@ -18,17 +18,24 @@ function AscotPlugin(tagSourceUrl) {
     url = url.substring(url.indexOf('#'));
     var regex = new RegExp('[#&][^&;=]+' + '=' + '[^&#?;]+', 'g');
     var sp = url.match(regex);
+    if (!sp) {
+      return {};
+    }
 
     for (var i = 0; i < sp.length; ++i) {
       var spp = sp[i].split('=');
-      if (spp[1].charAt(spp[1].length - 1) == '&' || spp[1].charAt(spp[1].length - 1) == '#' || spp[1].charAt(spp[1].length - 1) == '?') {
-        spp[1] = spp[1].substr(0, spp[1].length - 1);
-      }
-      spp[0] = spp[0].substr(1);
-      if (spp[0].charAt(0) == '/') {
+      if (spp.length == 2) {
+        if (spp[1].charAt(spp[1].length - 1) == '&' || spp[1].charAt(spp[1].length - 1) == '#' || spp[1].charAt(spp[1].length - 1) == '?') {
+          spp[1] = spp[1].substr(0, spp[1].length - 1);
+        }
         spp[0] = spp[0].substr(1);
+        if (spp[0].charAt(0) == '/') {
+          spp[0] = spp[0].substr(1);
+        }
+        ret[spp[0]] = spp[1];
+      } else {
+        ret[spp[0]] = '';
       }
-      ret[spp[0]] = spp[1];
     }
 
     return ret;
