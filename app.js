@@ -90,6 +90,7 @@ var Validator = require('./factories/Validator.js').Validator;
 var validator = new Validator(Permissions);
 
 var administratorValidator = authenticate.administratorValidator(Administrator);
+var taggerPermissionValidator = tagger.taggerPermissionValidator(validator);
 
 var shopsense = affiliates.shopsense(httpGet);
 
@@ -226,7 +227,9 @@ app.put('/look/:id/published',
     look.updatePublishedStatus(mongoLookFactory));
 app.get('/customize/:id', look.customize(mongoLookFactory, ViewConfig));
 
-app.get('/tagger/:look', tagger.get('tagger', validator, mongoLookFactory));
+app.get('/tagger/:look',
+    taggerPermissionValidator,
+    tagger.get('tagger', mongoLookFactory));
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
@@ -244,7 +247,9 @@ app.get('/links.json', product.links(Look));
 app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
 
 // Set tags for image
-app.put('/tagger/:look', tagger.put(validator, mongoLookFactory, gmTagger, productLinkGenerator));
+app.put('/tagger/:look',
+    taggerPermissionValidator,
+    tagger.put(mongoLookFactory, gmTagger, productLinkGenerator));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
