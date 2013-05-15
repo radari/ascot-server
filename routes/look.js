@@ -529,11 +529,11 @@ exports.delete = function(mongoLookFactory) {
 };
 
 /*
- * GET /customize/:id
+ * GET /customize/:look
  */
 exports.customize = function(mongoLookFactory, ViewConfig) {
   return function(req, res) {
-    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+    mongoLookFactory.buildFromId(req.params.look, function(error, look) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', look : look });
       } else {
@@ -550,11 +550,11 @@ exports.customize = function(mongoLookFactory, ViewConfig) {
 };
 
 /*
- * PUT /customize/:id
+ * PUT /customize/:look
  */
 exports.setViewConfig = function(mongoLookFactory, ViewConfig) {
   return function(req, res) {
-    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+    mongoLookFactory.buildFromId(req.params.look, function(error, look) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', look : look });
       } else {
