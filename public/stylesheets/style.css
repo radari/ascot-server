@@ -899,6 +899,9 @@ font-size:14px;
   margin-top: 5px;
   margin-bottom: 5px;
   width: 226px;
+  -webkit-box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 3px 3px 3px 0px rgba(0, 0, 0, 0.5);
+  border-radius: 0px;
 }
 
 .looks {
