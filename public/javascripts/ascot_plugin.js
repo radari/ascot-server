@@ -521,6 +521,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
 
         sourceTag.css('transform', 'scale(' + viewConfig.scaleFactor() + ',' + viewConfig.scaleFactor() + ')');
         sourceTag.css('borderWidth', viewConfig.getBorderWidth());
+        sourceTag.css('backgroundColor', viewConfig.getBackgroundColor());
 
         sourceTag.hover(function() {
           sourceUrl.show(100, function(){});
