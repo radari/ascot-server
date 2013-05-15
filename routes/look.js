@@ -537,7 +537,6 @@ exports.customize = function(mongoLookFactory, ViewConfig) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', look : look });
       } else {
-        console.log(JSON.stringify(look.viewConfig));
         if (!look.viewConfig) {
           look.viewConfig = [];
         }
@@ -559,7 +558,6 @@ exports.setViewConfig = function(mongoLookFactory, ViewConfig) {
       if (error || !look) {
         res.render('error', { title : 'Ascot :: Error', look : look });
       } else {
-        console.log(JSON.stringify(req.body));
         if (!look.viewConfig) {
           look.viewConfig = [];
         }
@@ -568,12 +566,10 @@ exports.setViewConfig = function(mongoLookFactory, ViewConfig) {
         }
         look.viewConfig[0].behavior = req.body.behavior;
         look.viewConfig[0].display = req.body.display;
-        console.log(JSON.stringify(look.viewConfig[0]));
         look.save(function(error, look) {
           if (error || !look) {
             res.json({ error : error });
           } else {
-            console.log("S " + JSON.stringify(look.viewConfig));
             res.json({ success : true });
           }
         });
