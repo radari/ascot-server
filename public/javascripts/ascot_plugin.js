@@ -283,6 +283,13 @@ function AscotPluginViewConfig(config) {
     }
     return config.display.borderWidth || 3;
   };
+
+  this.getBackgroundColor = function() {
+    if (!config || !config.display) {
+      return "#171717";
+    }
+    return config.display.backgroundColor;
+  }
 }
 
 function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
@@ -536,6 +543,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
             $("<div class='ascot_overlay_tag_name'>" + tag.index + "</div>");
         tagName.appendTo(tagContainer);
         tagName.css('borderWidth', viewConfig.getBorderWidth());
+        tagName.css('backgroundColor', viewConfig.getBackgroundColor());
                 
         var tagDescription = $("<div class='ascot_overlay_tag_description'></div>");
         UI.constructTagDescription(height, width, tagContainer, tagDescription, tag, tagPosition);

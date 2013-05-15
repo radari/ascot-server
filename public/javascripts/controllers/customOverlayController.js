@@ -3,11 +3,18 @@ function CustomOverlayController($scope, $http, $window) {
 
   $scope.init = function(look) {
     $scope.look = look;
+
+    $('input.minicolors').minicolors({ opacity : false, defaultValue : $scope.look.viewConfig[0].display.backgroundColor });
   };
 
   $scope.updatePlugin = function() {
     $window.ascotPluginKillOverlay($('#customizeSample'));
     $window.ascotPluginMakeOverlay($('#customizeSample'), $scope.look._id, $scope.look.url, { hasUpvotedCookie : false, look : $scope.look });
+  };
+
+  $scope.updateColor = function() {
+    $scope.look.viewConfig[0].display.backgroundColor = $('input.minicolors').val();
+    $scope.updatePlugin();
   };
 
   $scope.save = function() {

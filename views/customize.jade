@@ -37,6 +37,8 @@ prepend head
         $('div.colorOptions').fadeOut(100);
       }, 250);
 
+      $('input.minicolors').minicolors({ opacity : true });
+      $('input.minicolors2').minicolors({ opacity : true });
     });
 
 
@@ -58,11 +60,8 @@ block content
           div.colorOptions
             div#backgroundColor
               p Background
-              input.minicolors(type="text", value="#171717")
-            div#numberColor 
-              p Number
-              input.minicolors2(type="text", value="#ffffff") 
-            button(type="submit", ng-click="changeColor()", name="Update") Update
+              input.minicolors(type="text")
+            button(type="submit", ng-click="updateColor()", name="Update") Update
         li#animationOptions
           h3 Animation
             span.karat &nbsp; &#9660;
