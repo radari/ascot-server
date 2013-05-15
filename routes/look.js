@@ -534,14 +534,50 @@ exports.delete = function(mongoLookFactory) {
 exports.customize = function(mongoLookFactory, ViewConfig) {
   return function(req, res) {
     mongoLookFactory.buildFromId(req.params.id, function(error, look) {
-      if (!look.viewConfig) {
-        look.viewConfig = [];
+      if (error || !look) {
+        res.render('error', { title : 'Ascot :: Error', look : look });
+      } else {
+        console.log(JSON.stringify(look.viewConfig));
+        if (!look.viewConfig) {
+          look.viewConfig = [];
+        }
+        if (look.viewConfig.length == 0) {
+          look.viewConfig.push(new ViewConfig({}));
+        }
+        res.render('customize', { title : 'Ascot :: Customize Overlay', look : look });
       }
-      if (look.viewConfig.length == 0) {
-        look.viewConfig.push(new ViewConfig({}));
+    });
+  };
+};
+
+/*
+ * PUT /customize/:id
+ */
+exports.setViewConfig = function(mongoLookFactory, ViewConfig) {
+  return function(req, res) {
+    mongoLookFactory.buildFromId(req.params.id, function(error, look) {
+      if (error || !look) {
+        res.render('error', { title : 'Ascot :: Error', look : look });
+      } else {
+        console.log(JSON.stringify(req.body));
+        if (!look.viewConfig) {
+          look.viewConfig = [];
+        }
+        if (look.viewConfig.length == 0) {
+          look.viewConfig.push(new ViewConfig({}));
+        }
+        look.viewConfig[0].behavior = req.body.behavior;
+        look.viewConfig[0].display = req.body.display;
+        console.log(JSON.stringify(look.viewConfig[0]));
+        look.save(function(error, look) {
+          if (error || !look) {
+            res.json({ error : error });
+          } else {
+            console.log("S " + JSON.stringify(look.viewConfig));
+            res.json({ success : true });
+          }
+        });
       }
-      console.log(JSON.stringify(look.viewConfig));
-      res.render('customize', { title : 'Ascot :: Customize Overlay', look : look });
     });
   };
 };

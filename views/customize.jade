@@ -71,3 +71,5 @@ block content
             | Display overlay by default
             input(type="radio", ng-model="look.viewConfig[0].behavior.displayTagsOnInit", value="SHOW_ON_MOUSEOVER", ng-change="updatePlugin()")
             | Display overlay only on mouseover
+        li#save
+          h3(style="cursor: pointer", ng-click="save()") Save

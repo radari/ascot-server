@@ -21,7 +21,6 @@ exports.settings = function(req, res) {
 
 exports.saveSettings = function(User) {
   return function(req, res) {
-    console.log('TTTTT');
     req.user.settings = req.body;
     req.user.save(function(error, user) {
       if (error || !user) {

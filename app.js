@@ -250,6 +250,7 @@ app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gm
 app.put('/tagger/:look',
     taggerPermissionValidator,
     tagger.put(mongoLookFactory, gmTagger, productLinkGenerator));
+app.put('/customize/:id', look.setViewConfig(mongoLookFactory, ViewConfig));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(

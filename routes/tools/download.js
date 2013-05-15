@@ -12,11 +12,9 @@
 exports.download = function(httpGet, temp) {
   return function(url, callback) {
     temp.open('prefix', function(error, info) {
-      console.log("!@ " + info.path);
       if (error || !info) {
         callback("error - " + error, null);
       } else {
-        console.log("--> " + info.path);
         httpGet.get(url, info.path, function(error, result) {
           if (error || !result) {
             callback("error - " + error, null);
