@@ -552,6 +552,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         if (hashParams.ascotPopout &&
             hashParams.ascotPopout.indexOf(ascotId) != -1 &&
             hashParams.ascotPopout.indexOf('_' + (tag.index)) != -1) {
+          tagContainer.css('z-index', 5);
           tagDescription.show();
         }
 
