@@ -120,47 +120,54 @@ exports.updatePublishedStatus = function(mongoLookFactory) {
             } else {
               res.json({'id':look._id, 'success': 'true', 'published': look.showOnCrossList });
             }
-          });  
+          });
         }
       });
     }
   };
 };
 
-exports.handleUploadGeneric = function(user, permissionsList, path, mongoLookFactory, goldfinger, callback) {
+exports.handleUploadGeneric = function(user, permissionsList, path, mongoLookFactory, thumbnail, goldfinger, callback) {
   mongoLookFactory.newLook(user, permissionsList, function(error, look, permissions) {
     if (error) {
       console.log(error);
     }
     
-    goldfinger.toS3(path, look._id + '.png', function(error, result, features) {
-      if (error || !result || !features) {
-        // Invalid image
+    thumbnail(path, function(error, thumb) {
+      if (error || !thumb) {
         look.remove(function() {
           callback(error, null, null);
         });
       } else {
-        look.url = result;
-        look.size.height = features.height;
-        look.size.width = features.width;
-        look.save(function(error, look) {
-          callback(null, look, permissions);
+        goldfinger.toS3(path, look._id + '.png', function(error, result, features) {
+          if (error || !result || !features) {
+            // Invalid image
+            look.remove(function() {
+              callback(error, null, null);
+            });
+          } else {
+            look.url = result;
+            look.size.height = features.height;
+            look.size.width = features.width;
+            goldfinger.toS3(thumb, 'thumb_' + look._id + '.png', function(error, result, features) {
+              look.thumbnail = result;
+              look.save(function(error, look) {
+                callback(null, look, permissions);
+              });
+            });
+          }
         });
       }
     });
   });
 };
 
-exports.handleUpload = function(user, permissionsList, tmpPath, mongoLookFactory, goldfinger, callback) {
-  exports.handleUploadGeneric(user, permissionsList, tmpPath, mongoLookFactory, goldfinger, callback);
-};
-
-exports.handleUrl = function(mongoLookFactory, goldfinger, download, user, url, permissionsList, callback) {
+exports.handleUrl = function(mongoLookFactory, thumbnail, goldfinger, download, user, url, permissionsList, callback) {
   download(url, function(error, tmpPath) {
     if (error) {
       callback("Image " + url + " could not be found", null);
     } else {
-      exports.handleUploadGeneric(user, permissionsList, tmpPath, mongoLookFactory, goldfinger, callback);
+      exports.handleUploadGeneric(user, permissionsList, tmpPath, mongoLookFactory, thumbnail, goldfinger, callback);
     }
   });
 };
@@ -168,7 +175,7 @@ exports.handleUrl = function(mongoLookFactory, goldfinger, download, user, url, 
 /*
  * POST /image-upload
  */
-exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
+exports.upload = function(mongoLookFactory, goldfinger, thumbnail, download, gmTagger) {
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
@@ -190,9 +197,9 @@ exports.upload = function(mongoLookFactory, goldfinger, download, gmTagger) {
 
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      exports.handleUpload(req.user, permissionsList, req.files.files.path, mongoLookFactory, goldfinger, checkAndTaggerRedirect);
+      exports.handleUploadGeneric(req.user, permissionsList, req.files.files.path, mongoLookFactory, thumbnail, goldfinger, checkAndTaggerRedirect);
     } else if (req.body.url) {
-      exports.handleUrl(mongoLookFactory, goldfinger, download, req.user, req.body.url, permissionsList, checkAndTaggerRedirect);
+      exports.handleUrl(mongoLookFactory, thumbnail, goldfinger, download, req.user, req.body.url, permissionsList, checkAndTaggerRedirect);
     } else {
       res.render('error',
           { title : "Ascot :: Error",

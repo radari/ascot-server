@@ -40,6 +40,7 @@ var express = require('express')
       require('./routes/tools/product_link_generator.js').ProductLinkGenerator
   , Readify = require('./routes/tools/readify.js').readify
   , Shortener = require('./routes/tools/shortener.js').shortener
+  , Thumbnail = require('./routes/tools/thumbnail.js').thumbnail
   , UploadHandler = require('./routes/tools/upload_handler.js').UploadHandler;
 
 
@@ -217,6 +218,7 @@ var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { ret
 var readify = Readify(Readable, app.get('url'));
 var linkshare = affiliates.linkshare(httpGet, url, fs, './routes/data/linkshare_retailers.csv');
 var productLinkGenerator = ProductLinkGenerator(shortener, readify, shopsense, linkshare);
+var thumbnail = Thumbnail(gm, temp);
 
 // Looks and search dynamic displays
 app.get('/look/:id', look.get(mongoLookFactory));
@@ -246,7 +248,7 @@ app.get('/names.json', product.names(Look));
 app.get('/links.json', product.links(Look));
 
 // Upload
-app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, download, gmTagger));
+app.post('/image-upload', look.upload(mongoLookFactory, goldfinger, thumbnail, download, gmTagger));
 
 // Set tags for image
 app.put('/tagger/:look',
