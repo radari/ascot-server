@@ -1,0 +1,36 @@
+html {
+	font-family:arial;
+}
+p {
+	font-size:11px;
+	color:#a6a6a6;
+}
+
+.disclaimer {
+	border-bottom:1px #a6a6a6 solid;
+	overflow:hidden;
+}
+
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
+#wrapper {
+	width:600px;
+}
+
+.emailHeading {
+	font-family:georgia, helvetica;
+}
+
+.emailHeading h1, h3 {
+	font-weight:400;
+	color:black;
+}
+
+.emailHeading img {
+
+}
