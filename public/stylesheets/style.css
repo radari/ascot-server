@@ -1232,6 +1232,11 @@ text-align:center;
   font-family:georgia;
   text-shadow:0px -1px 0px rgba(000,000,000,0);
 }
+
+.customizeToolbar h3 a {
+  color: white;
+}
+
 .spacer {
   position: relative;
   width:100%;

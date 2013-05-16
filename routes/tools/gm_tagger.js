@@ -16,13 +16,15 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
         var r = 9;
         for (var i = 0; i < look.tags.length; ++i) {
           var tag = look.tags[i];
+          var color = (look.viewConfig && look.viewConfig.length > 0) ? look.viewConfig[0].display.backgroundColor : '#171717';
+          var borderWidth = (look.viewConfig && look.viewConfig.length > 0) ? look.viewConfig[0].display.borderWidth : 3;
           image = image.
               fill('#6B6B6B99').
               stroke('#6B6B6B99').
               drawCircle(tag.position.x + 1, tag.position.y + 1, tag.position.x, tag.position.y + r + 3).
-              fill('#00000033').
+              fill(color + '33').
               stroke('#FFFFFF33').
-              strokeWidth(3).
+              strokeWidth(borderWidth).
               drawCircle(tag.position.x, tag.position.y, tag.position.x, tag.position.y + r).
               stroke('#FFFFFF11').
               strokeWidth(1).

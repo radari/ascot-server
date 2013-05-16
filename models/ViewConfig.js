@@ -19,6 +19,6 @@ exports.ViewConfigSchema = new Mongoose.Schema({
   display : {
     tagSizeModifier : { type : Number, min : 0.25, max : 2, default : 1 },
     borderWidth : { type : Number, min : 0, max : 5, default : 3 },
-    backgroundColor : { type : String, default : "#171717" }
+    backgroundColor : { type : String, default : "#171717", match : /#[0-9A-F]{6}/i }
   }
 });

@@ -254,7 +254,7 @@ app.put('/tagger/:look',
     tagger.put(mongoLookFactory, gmTagger, productLinkGenerator));
 app.put('/customize/:look',
     taggerPermissionValidator,
-    look.setViewConfig(mongoLookFactory, ViewConfig));
+    look.setViewConfig(mongoLookFactory, ViewConfig, gmTagger));
 
 // Calls meant for external (i.e. not on ascotproject.com) use
 // JSONP is only possible through GET, so need to use GET =(
@@ -280,11 +280,6 @@ app.get('/p/:readable/:number', function(req, res) {
     }
   });
 });
-
-
-/*linkshare('b59b94c0621af2ba72ddc0b24e16dfa805c0b8056df90e2de5622c6713698ba6', 'http://www.orlebarbrown.com/setter/sky/', function(error, result) {
-
-});*/
 
 // login
 app.get('/login',

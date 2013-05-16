@@ -552,7 +552,7 @@ exports.customize = function(mongoLookFactory, ViewConfig) {
 /*
  * PUT /customize/:look
  */
-exports.setViewConfig = function(mongoLookFactory, ViewConfig) {
+exports.setViewConfig = function(mongoLookFactory, ViewConfig, gmTagger) {
   return function(req, res) {
     mongoLookFactory.buildFromId(req.params.look, function(error, look) {
       if (error || !look) {
@@ -570,7 +570,9 @@ exports.setViewConfig = function(mongoLookFactory, ViewConfig) {
           if (error || !look) {
             res.json({ error : error });
           } else {
-            res.json({ success : true });
+            gmTagger(look, function(error, look) {
+              res.json({ success : true });
+            });
           }
         });
       }
