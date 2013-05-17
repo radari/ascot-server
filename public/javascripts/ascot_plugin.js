@@ -293,6 +293,8 @@ function AscotPluginViewConfig(config) {
 }
 
 function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
+  var lookCache = {};
+
   if (!window._gaq) {
     // Insert Google Analytics if it doesn't already exist
     window._gaq = [];
@@ -612,31 +614,39 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
     }
 
     if (ascotId != null) {
-      profile.start('CALLOUT');
-      jsonp(
-          tagSourceUrl + '/tags.jsonp?id=' + encodeURIComponent(ascotId),
-          function (json) {
-            profile.stop('CALLOUT');
-            // Now that we know that our jsonp call is done, we can wait for our
-            // image to load to make our overlay, and then go to the next image in
-            // our 'queue'
-            image.imagesLoaded(function() {
-              profile.start('MAKEOVERLAY');
-              makeOverlay(image, ascotId, url, json);
-              profile.stop('MAKEOVERLAY');
-              if (++numLoaded >= images.length) {
-                if (usePIE && window.PIE) {
-                  $('.ascot_overlay_tag_name').each(function() {
-                    window.PIE.attach(this);
-                  });
-                }
-              }
-            });
+      var finish = function(json) {
+        image.imagesLoaded(function() {
+          profile.start('MAKEOVERLAY');
+          makeOverlay(image, ascotId, url, json);
+          profile.stop('MAKEOVERLAY');
+          if (++numLoaded >= images.length) {
+            if (usePIE && window.PIE) {
+              $('.ascot_overlay_tag_name').each(function() {
+                window.PIE.attach(this);
+              });
+            }
+          }
+        });
 
-            ascotQueue.shift();
-            done.push(image);
-            ascotify();
-          });
+        ascotQueue.shift();
+        done.push(image);
+        ascotify();
+      };
+
+      profile.start('CALLOUT');
+      if (lookCache[ascotId]) {
+        finish(lookCache[ascotId]);
+      } else {
+        jsonp(
+            tagSourceUrl + '/tags.jsonp?id=' + encodeURIComponent(ascotId),
+            function (json) {
+              profile.stop('CALLOUT');
+              // Now that we know that our jsonp call is done, we can wait for our
+              // image to load to make our overlay, and then go to the next image in
+              // our 'queue'
+              finish(json);
+            });
+      }
     } else {
       ascotQueue.shift();
       ascotify();
@@ -657,4 +667,10 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   for (var i = 0; i < images.length; ++i) {
     window.ascotPluginEnqueue($(images[i]));
   }
+
+  return {
+    setDataForLook : function(id, data) {
+      lookCache[id] = data;
+    }
+  };
 };

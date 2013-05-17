@@ -56,6 +56,7 @@ function LooksListController($scope, $http, $window) {
           minHeightColumn = j;
         }
       }
+      $window.looksListAscotPlugin.setDataForLook(looks[i]._id, { hasUpvotedCookie : false, look : looks[i] });
       $scope.columns[minHeightColumn].push(looks[i]);
       $scope.columnHeights[minHeightColumn] += $scope.computeHeight(looks[i]);
       $scope.looks.push(looks[i]);
