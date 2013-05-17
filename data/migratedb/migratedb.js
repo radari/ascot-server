@@ -6,6 +6,9 @@ var httpGet = require('http-get')
   , Readify = require('../../routes/tools/readify.js').readify
   , Bitly = require('bitly')
   , knox = require('knox')
+  , Goldfinger = require('../../routes/tools/goldfinger.js').Goldfinger
+  //, Thumbnail = require('../../routes/tools/thumbnail.js').thumbnail
+  , Download = require('../../routes/tools/download.js').download
   , gm = require('gm');
 
 var Mongoose = require('mongoose');
@@ -54,7 +57,10 @@ var uploadHandler = function(uploadTarget, mode) {
   };
 }(uploadTarget, 'production');
 
+var goldfinger = new Goldfinger(fs, gm, temp, uploadHandler);
+var download = Download(httpGet, temp);
 var gmTagger = require('../../routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, httpGet, uploadHandler);
+goldfinger.setMaxWidth(226);
 
 Array.prototype.ascotRemove = function(from, to) {
   var rest = this.slice((to || from) + 1 || this.length);
@@ -64,38 +70,38 @@ Array.prototype.ascotRemove = function(from, to) {
 
 Look.find({}, function(error, looks) {
   console.log("--> " + looks.length);
-  for (var i = 0; i < looks.length; ++i) {
-    console.log(i + "/" + looks.length);
-    //console.log(JSON.stringify(looks[i]));
-    if (!looks[i].taggedUrl) {
-      console.log("Creating tags!");
-      (function(look) {
-        gmTagger(look, function(error, result) {
-          console.log(error + " " + result);
-          console.log(look._id);
-        });
-      })(looks[i]);
+  var f = function(i) {
+    console.log(i);
+    if (i >= looks.length) {
+      return;
     }
-
-    var fn = function(look, index) {
-      if (index == look.tags.length) {
-        look.save(function(error, look) {
-          console.log("Done readifying tags!");
-        });
-      } else {
-        //shortener.shorten(look.tags[index].product.buyLink, function(error, response) {
-        readify.readify(look.tags[index].product, look.tags[index].product.buyLink, function(error, response) {
-          console.log(JSON.stringify(response));
-          console.log("## readifying " + look.tags[index].product.buyLink + " into " + response);
-          //look.tags[index].product.buyLinkMinified = response;
-          look.tags[index].product.buyLinkReadable = response;
-          Sleep.sleep(0.4);
-          fn(look, index + 1);
-        });
-      }
-    };
-    fn(looks[i], 0);
-  }
+    if (looks[i].thumbnail) {
+      f(i + 1);
+    } else {
+      console.log("NO thumb " + i + " " + looks[i].url);
+      download(looks[i].url, function(error, path) {
+        console.log("downloaded");
+        if (error || !path) {
+          console.log("ERROR - " + error);
+          f(i + 1);
+        } else {
+          goldfinger.toS3(path, 'thumb_' + looks[i]._id + '.png', function(error, result, features) {
+            console.log("uploaded");
+            if (error || !result || !features) {
+              console.log('error - ' + error);
+              f(i + 1);
+            } else {
+              looks[i].thumbnail = result;
+              console.log("Thumbnail " + looks[i].thumbnail);
+              looks[i].save();
+              f(i + 1);
+            }
+          });
+        }
+      });
+    }
+  };
+  f(0);
 });
 
 
