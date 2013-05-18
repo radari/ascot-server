@@ -162,12 +162,12 @@ exports.handleUploadGeneric = function(user, permissionsList, path, mongoLookFac
   });
 };
 
-exports.handleUrl = function(mongoLookFactory, thumbnail, goldfinger, download, user, url, permissionsList, callback) {
+exports.handleUrl = function(download, url, callback) {
   download(url, function(error, tmpPath) {
     if (error) {
       callback("Image " + url + " could not be found", null);
     } else {
-      exports.handleUploadGeneric(user, permissionsList, tmpPath, mongoLookFactory, thumbnail, goldfinger, callback);
+      callback(null, tmpPath);
     }
   });
 };
@@ -179,27 +179,64 @@ exports.upload = function(mongoLookFactory, goldfinger, thumbnail, download, gmT
   return function(req, res) {
     var permissionsList = req.cookies.permissions || [];
   
-    var checkAndTaggerRedirect = function(error, look, permissions) {
-      if (error || !look || !permissions) {
-        res.render('error', { title : "Ascot :: Error", error : error });
-      } else {
-        gmTagger(look, function(error, result) {
-          if (permissions._id in permissionsList) {
-            // pass through
-          } else if (!req.user) {
-            permissionsList.push(permissions._id);
-            res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+    var finish = function(path) {
+      mongoLookFactory.newLook(req.user, permissionsList, function(error, look, permissions) {
+        if (error) {
+          console.log(error);
+        }
+        
+        thumbnail(path, function(error, thumb) {
+          if (error || !thumb) {
+            look.remove(function() {
+              res.render('error', { title : "Ascot :: Error", error : error });
+            });
+          } else {
+            goldfinger.toS3(path, look._id + '.png', function(error, result, features) {
+              if (error || !result || !features) {
+                // Invalid image
+                look.remove(function() {
+                  res.render('error', { title : "Ascot :: Error", error : error });
+                });
+              } else {
+                look.url = result;
+                look.size.height = features.height;
+                look.size.width = features.width;
+                goldfinger.toS3(thumb, 'thumb_' + look._id + '.png', function(error, result, features) {
+                  look.thumbnail = result;
+                  look.save(function(error, look) {
+                    if (error || !look || !permissions) {
+                      res.render('error', { title : "Ascot :: Error", error : error });
+                    } else {
+                      gmTagger(look, function(error, result) {
+                        if (permissions._id in permissionsList) {
+                          // pass through
+                        } else if (!req.user) {
+                          permissionsList.push(permissions._id);
+                          res.cookie('permissions', permissionsList, { maxAge : 900000, httpOnly : false });
+                        }
+                        res.redirect('/tagger/' + look._id);
+                      });
+                    }
+                  });
+                });
+              }
+            });
           }
-          res.redirect('/tagger/' + look._id);
         });
-      }
+      });
     };
 
     if (req.files && req.files.files && req.files.files.length > 0) {
       var ret = [];
-      exports.handleUploadGeneric(req.user, permissionsList, req.files.files.path, mongoLookFactory, thumbnail, goldfinger, checkAndTaggerRedirect);
+      finish(req.files.files.path);
     } else if (req.body.url) {
-      exports.handleUrl(mongoLookFactory, thumbnail, goldfinger, download, req.user, req.body.url, permissionsList, checkAndTaggerRedirect);
+      exports.handleUrl(download, req.body.url, function(error, path) {
+        if (error || !path) {
+          res.render('error', { title : "Ascot :: Error", error : error });
+        } else {
+          finish(path);
+        }
+      });
     } else {
       res.render('error',
           { title : "Ascot :: Error",
