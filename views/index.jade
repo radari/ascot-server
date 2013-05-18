@@ -1,6 +1,18 @@
 extends layout
 
+block afterbody
+  div#fb-root
+    script
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=169111373238111";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
 block content
+
  #homeWrapper
   .leading 
     h1 Tag here. Share everywhere.
@@ -35,3 +47,10 @@ block content
     div.startButton
       a(href='/upload')
         | Start Tagging
+
+    div.fb-like-box(data-href="http://www.facebook.com/ascotproject",
+                    data-width="292",
+                    data-show-faces="false",
+                    data-stream="false",
+                    data-show-border="true",
+                    data-header="true")
