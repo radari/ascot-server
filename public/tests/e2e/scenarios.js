@@ -99,7 +99,7 @@ describe('Ascot Project', function() {
     it('should be able to upload, tag, and view', function() {
       element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
       element('#submit').click();
-      sleep(4);
+      sleep(5);
 
       // Create a tag
       element('.uploadedImg').click();
