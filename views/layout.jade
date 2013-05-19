@@ -46,66 +46,83 @@ html(id="ng-app", ng-app='AscotModule')
       meta(property="og:url", content="http://ascotproject.com")
 
   body
-
     block afterbody
-
+    #headerBack
     #wrapper(ng-controller='MainSearchBarController')
       div#wrapperTop
-        a#logoWrapper(href="/")
-          img#logo(src='/images/ascotLogo_ai.png', id:'logo')
+        div#nav
+          ul#navLeft
+            li
+              a(href="/") Home
+            li
+              a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}") Start
+            li#howToNav
+              a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  How To
+            li.spacer |
+            li.social
+              a(href="http://ascotproject.tumblr.com/", target="_blank")
+                img#tumblr(src='/images/tumblrButton_v2.png', id:'tumblrButton')
+            li.social
+              a(href="https://twitter.com/AscotProject", target="_blank")
+                img#twitter(src='/images/twitterButton_v2.png', id:'twitterButton')
+            li.social
+              a(href="https://www.facebook.com/ascotproject", target="_blank")
+                img#facebook(src='/images/facebookButton_v2.png', id:'fbButton')
+            li.spacer |
+          ul#navRight 
+           li
+              a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}") Looks 
+            li 
+              a(href="#") Collections
+            li
+              - if (user)
+                a(href='/logout', id='nonCurrentPage') Me 
+                  span.traingle
+                    &#x25BC;
+              - else
+                a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}") Login
+            li.search
+              input(type='text',
+                    name='v',
+                    id='main_search',
+                    ng-model='mainSearch',
+                    ng-change='updateResults()'
+                    placeholder="search",
+                    ng-focus="autocomplete.show('MAIN')",
+                    ng-blur="autocomplete.hide('MAIN')",
+                    ng-directional="true",
+                    ng-key-up="autocomplete.prevSelection('MAIN');",
+                    ng-key-down="autocomplete.nextSelection('MAIN');",
+                    ng-key-return="onSelected(autocomplete.getSelected('MAIN'));")
+              span#glass 
+                i
+        div.autocomplete(ng-show="autocomplete.show['MAIN']")
+          div(ng-repeat='result in autocomplete.results["MAIN"]',
+              ng-class="autocomplete.checkSelection('MAIN', $index)",
+              ng-mouseover='autocomplete.setSelection("MAIN", $index)',
+              ng-click='onSelected(result)')
+            span(ng-bind-html-unsafe='filterToString(result) | boldInstances:mainSearch') 
 
-        ul#nav 
-          li
-            a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
-              h3 Start Tagging
-              p Paste an image link or upload an image to start tagging.
-          li#howToNav
-            a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  
-              h3 How To
-              p Learn how to use the ascot plugin.
-          li
-            a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}")
-              h3 Looks
-              p See images that have already been tagged.  
-          li
-            - if (user)
-              a(href='/home', id='nonCurrentPage')
-                h3 Account
-                p Manage your account. 
-            - else
-              a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}")
-                h3 Login
-                p Login to your ascot account to see your tagged images.
-          li
-            - if (user)
-              a(href='/logout', id='nonCurrentPage')
-                h3 Logout
-                p Log out from #{user.username}
-            - else
-            
-      img#bottomStripe(src='/images/bottomStripe_long.png', id:'stripe')
+        div.userMenu 
+          ul
+            li
+              span(class="#{url.indexOf('/home') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+                a(href='/home') My Looks
+            li
+              span(class="#{url.indexOf('/collections') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+                a(href='/home') My Collections
+            li
+              span(class="#{url.indexOf('/favorites') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+                a(href='/favorites') My Favorites
+            li
+              span(class="#{url.indexOf('/settings') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+                a(href='/settings') Settings
 
-      br 
-      input(type='text',
-            name='v',
-            id='main_search',
-            ng-model='mainSearch',
-            ng-change='updateResults()'
-            placeholder="brand or keywords",
-            ng-focus="autocomplete.show('MAIN')",
-            ng-blur="autocomplete.hide('MAIN')",
-            ng-directional="true",
-            ng-key-up="autocomplete.prevSelection('MAIN');",
-            ng-key-down="autocomplete.nextSelection('MAIN');",
-            ng-key-return="onSelected(autocomplete.getSelected('MAIN'));")
-      span#glass 
-        i
-      div.autocomplete(ng-show="autocomplete.show['MAIN']")
-        div(ng-repeat='result in autocomplete.results["MAIN"]',
-            ng-class="autocomplete.checkSelection('MAIN', $index)",
-            ng-mouseover='autocomplete.setSelection("MAIN", $index)',
-            ng-click='onSelected(result)')
-          span(ng-bind-html-unsafe='filterToString(result) | boldInstances:mainSearch')
+    
+       a#logoWrapper(href="/")
+          img(src='/images/ascotLogo_v2.png', id:'logo')    
+          h3.pageTitle
+      
 
       block content
     #footer  

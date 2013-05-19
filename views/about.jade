@@ -4,59 +4,60 @@ prepend head
  script(src="/javascripts/newAboutPage.js")
 
 block content
-  h1.aboutHead About Ascot
-  br
-  #aboutColumnLeft
-    p.leadingText 
-      | Ascot is a hyper-portable widget for tagging products in images. When an image get shared onto another site, the product information goes with it. 
-      | No matter where your audience encounters the image, they will know what products are in it, how to buy them, and where the image came from.   
-      h2.aboutHead Ascot Basics
-    h3 Meet the Ascot Overlay
-    
+  div#aboutPageWrapper
+    h1.list_header About Ascot
     br
-    .exampleIframe 
-      iframe#aboutExample(src='http://ascotproject.com/look/5123cbd51a59844303000024/iframe', width='410.4', height='508.8', frameborder= '0')
-    br
-  #aboutColumnRight
-    #ascotForAll
-      h2.aboutHead Ascot For All
-      h3 Why should you use Ascot? Click below to see how our tools can provide value for different types of people:
+    #aboutColumnLeft
+      p.leadingText 
+        | Ascot is a hyper-portable widget for tagging products in images. When an image get shared onto another site, the product information goes with it. 
+        | No matter where your audience encounters the image, they will know what products are in it, how to buy them, and where the image came from.   
+        h2.aboutHead Ascot Basics
+      h3 Meet the Ascot Overlay
+      
       br
-      #valueProps
-        .propsMenu
-          ul
-            li.selected  Brands 
-            li  Bloggers
-            li  Advertisers
+      .exampleIframe 
+        iframe#aboutExample(src='http://ascotproject.com/look/5123cbd51a59844303000024/iframe', width='410.4', height='508.8', frameborder= '0')
       br
-      div.brands 
-        img(src="/images/aboutPage_brands.png")
-        p Potential customers are already admiring your products in images across the internet, but most of the time there is no way for anyone to identify or buy them.
-          | By tagging images with Ascot, your product information will persist no matter where the image ends up.  Ascot also allows you to easily embed tagged images in emails to monetize your mailing list. 
-      div.bloggers 
-        img(src="/images/aboutPage_bloggers.png")
-        p The Ascot plugin is a great way to monetize your images and drive traffic to your blog. Ascot can automatically
-          | generate affiliate links for products you tag and will maintain that affiliate information when readers share your images. 
-          | This means you can monetize your original content even when it ends up on another site.
-      div.advertisers
-        img(src="/images/aboutPage_advertisers.png") 
-        p Take your campaign to the next level with Ascot. Increase click-through and engagement in social media and 
-          | email by making interactive content. Leverage images from print media by tagging the images and giving them
-          | online presence. Create promotional emails with rich content and individualized product links.
-    
-    #ascotTeam
-      h2.aboutHead Team 
-      ul 
-        li.teamMember  
-          img(src="/images/deckPic_Cesar.png", width='105', height='130')
-          i Cesar Devers
+    #aboutColumnRight
+      #ascotForAll
+        h2.aboutHead Ascot For All
+        h3 Why should you use Ascot? Click below to see how our tools can provide value for different types of people:
+        br
+        #valueProps
+          .propsMenu
+            ul
+              li.selected  Brands 
+              li  Bloggers
+              li  Advertisers
+        br
+        div.brands 
+          img(src="/images/aboutPage_brands.png")
+          p Potential customers are already admiring your products in images across the internet, but most of the time there is no way for anyone to identify or buy them.
+            | By tagging images with Ascot, your product information will persist no matter where the image ends up.  Ascot also allows you to easily embed tagged images in emails to monetize your mailing list. 
+        div.bloggers 
+          img(src="/images/aboutPage_bloggers.png")
+          p The Ascot plugin is a great way to monetize your images and drive traffic to your blog. Ascot can automatically
+            | generate affiliate links for products you tag and will maintain that affiliate information when readers share your images. 
+            | This means you can monetize your original content even when it ends up on another site.
+        div.advertisers
+          img(src="/images/aboutPage_advertisers.png") 
+          p Take your campaign to the next level with Ascot. Increase click-through and engagement in social media and 
+            | email by making interactive content. Leverage images from print media by tagging the images and giving them
+            | online presence. Create promotional emails with rich content and individualized product links.
+      
+      #ascotTeam
+        h2.aboutHead Team 
+        ul 
+          li.teamMember  
+            img(src="/images/deckPic_Cesar.png", width='105', height='130')
+            i Cesar Devers
 
-        li.teamMember  
-          img(src="/images/aboutPage_val.png", width='105', height='130')
-          i Val Karpov
-        li.teamMember  
-          img(src="/images/aboutPage_Will.png", width='105', height='130')
-          i William Kelly
-        li.teamMember  
-          img(src="/images/aboutPage_knutson.png", width='105', height='130')
-          i Justin Knutson
+          li.teamMember  
+            img(src="/images/aboutPage_val.png", width='105', height='130')
+            i Val Karpov
+          li.teamMember  
+            img(src="/images/aboutPage_Will.png", width='105', height='130')
+            i William Kelly
+          li.teamMember  
+            img(src="/images/aboutPage_knutson.png", width='105', height='130')
+            i Justin Knutson

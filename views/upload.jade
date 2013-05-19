@@ -4,34 +4,34 @@ prepend head
   script(src='/javascripts/controllers/UploadController.js')
 
 block content
-  div.progress
-    img(src='/images/progressStep1.png', id:'step1')
-  div#uploadToolsWrap(ng-controller="UploadController")
-    #tagline
-      h2 Upload Any Image
-    br
-      
-    form(method='post', enctype='multipart/form-data', action='/image-upload')
-      #uploadURL
-        input(type='text',
-              name='url',
-              ng-model='url',
-              placeholder="paste a link to an image",
-              id="submitLink")
-
+  #uploadWrapper
+    h2.list_header Upload Any Image
+    div.progress
+      img(src='/images/progressStep1.png', id:'step1')
+    div#uploadToolsWrap(ng-controller="UploadController")
       br
+        
+      form(method='post', enctype='multipart/form-data', action='/image-upload')
+        #uploadURL
+          input(type='text',
+                name='url',
+                ng-model='url',
+                placeholder="paste a link to an image",
+                id="submitLink")
 
-      h2 or
-    
-      input(type='file',
-            name='files',
-            id="uploadInput",
-            style="visibility: hidden",
-            onchange="UploadController.prototype.setPath($('#uploadInput').val());")
-      div.customUpload( onclick='$("#uploadInput").click();')
-        | Select a file
-      input(type='submit',
-            class='btn btn-primary start',
-            id="submit",
-            value="Next",
-            ng-show="shouldShow();")
+        br
+
+        h2 or
+      
+        input(type='file',
+              name='files',
+              id="uploadInput",
+              style="visibility: hidden",
+              onchange="UploadController.prototype.setPath($('#uploadInput').val());")
+        div.customUpload( onclick='$("#uploadInput").click();')
+          | Select a file
+        input(type='submit',
+              class='btn btn-primary start',
+              id="submit",
+              value="Next",
+              ng-show="shouldShow();")

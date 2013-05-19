@@ -1,6 +1,8 @@
 h2.list_header
   span(class="#{url.indexOf('/home') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
     a(href='/home') My Looks
+  span(class="#{url.indexOf('/Collections') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+    a(href='/home') My Collections
   span(class="#{url.indexOf('/favorites') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
     a(href='/favorites') My Favorites
   span(class="#{url.indexOf('/settings') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")

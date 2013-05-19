@@ -28,13 +28,13 @@ block content
     div.progress(style="#{query.showProgress ? 'display: block' : 'display: none'}")
       img(src='/images/progressStep3.png', id:'step3')
     div.look-container(ng-init="look = #{JSON.stringify(look)}")
+      h3.list_header #{look.title}
       div(style="text-align: center")
         include partials/_look.jade
       
       div.share_container
         div.tumblr_container
           div.header Display with Ascot Plugin
-          div
             div(style="text-align: left")
               | 1. Make sure the Ascot plugin is installed on your website, e.g. Tumblr 
               a(href='/howto/tumblr')[help]
