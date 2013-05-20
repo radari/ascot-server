@@ -356,7 +356,7 @@ a:visited {
 }
 
 #navRight {
-  width:34%;
+  width:36%;
   float:right;
   padding:0;
   margin-right:0;
@@ -372,7 +372,7 @@ a:visited {
 }
 
 #nav li.search {
-  width:100px;
+  width:130px;
   padding-top:2px;
 }
 
@@ -449,7 +449,7 @@ a:visited {
 
 #main_search {
   height:20px;
-  width:70px;
+  width:100px;
   background-color:#7b7979;
   color: #2d2d2d;
   padding-left:23px;
@@ -468,7 +468,7 @@ a:visited {
     height: 14px;
     width: 14px;
     top:0;
-   left:8px;
+   left:9px;
    color:#2d2d2d;
 }
 
@@ -968,7 +968,7 @@ div.autocomplete {
   margin-top: 5px;
   margin-left: 15px;
   position: absolute;
-  right:77px;
+  right:67px;
   top:36px;
   z-index: 9001;
 }
