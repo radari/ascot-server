@@ -84,6 +84,9 @@ var Password = db.model('passwords', PasswordSchema);
 var AdministratorSchema = require('./models/Administrator.js').AdministratorSchema;
 var Administrator = db.model('administrators', AdministratorSchema);
 
+var CatalogSchema = require('./models/Catalog.js').CatalogSchema;
+var Catalog = db.model('catalogs', CatalogSchema);
+
 var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFactory;
 var mongoUserFactory = new MongoUserFactory(User, Password, bcrypt);
 
