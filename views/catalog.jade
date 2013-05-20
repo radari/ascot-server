@@ -1,0 +1,22 @@
+-#
+-# catalog.jade
+-#
+-# Created on: May 20, 2013
+-#     Author: Valeri Karpov
+-#
+-# View for a catalog
+-#
+
+extends layout
+
+prepend head
+  script(src='/javascripts/controllers/CatalogController.js')
+  script(src='/javascripts/ascot_plugin.js')
+  link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
+  script(type='text/javascript')
+    var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
+
+block content
+  div(ng-controller="CatalogController", ng-init="init(#{JSON.stringify(catalog)});")
+    div(ng-repeat="look in catalog.looks")
+      img(ng-src="{{look.url}}")

@@ -22,7 +22,7 @@ exports.get = function(Catalog) {
           if (error || !catalog) {
             res.render('error', { title : 'Ascot :: Error', error : 'Error - ' + error });
           } else {
-            res.render('catalog', { catalog : catalog });
+            res.render('catalog', { title : 'Ascot :: ' + catalog.title, catalog : catalog });
           }
         });
   }
