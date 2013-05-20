@@ -26,6 +26,7 @@ var express = require('express')
   , routes = require('./routes')
   , admin = require('./routes/admin.js')
   , authenticate = require('./routes/authenticate.js')
+  , catalog = require('./routes/catalog.js')
   , facebook = require('./routes/facebook.js')
   , look = require('./routes/look.js')
   , product = require('./routes/product.js')
@@ -243,6 +244,8 @@ app.get('/brand', look.brand(Look));
 app.get('/keywords', look.keywords(Look));
 app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));
+
+app.get('/u/:user/catalog/:catalog', user.byUsername(mongoUserFactory), catalog.get(Catalog));
 
 // JSON queries
 app.get('/filters.json', look.filters(Look));
