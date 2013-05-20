@@ -1,4 +1,4 @@
-html {
+dhtml {
   padding:0;
   width:100%;
   font-family:"Arial", serif;
@@ -386,7 +386,7 @@ a:visited {
   background-color:#2d2d2d; 
   position:absolute;
   top:60px;
-  right:76px;
+  right:93px;
   font-family:arial, helvetica;
   z-index:10;
   display:none;
@@ -964,17 +964,17 @@ font-size:14px;
 }
 
 div.autocomplete {
-  width: 90px;
+  width: 95px;
   margin-top: 5px;
   margin-left: 15px;
   position: absolute;
-  right:27px;
-  top:36px;
+  right:19px;
+  top:34px;
   z-index: 9001;
 }
 
 div.autocomplete div {
-  width: 90px;
+  width: 95px;
   background-color: #FFFFFF;
   background-color: rgba(255,255,255,1);
   border-bottom: 1px solid rgba(0,0,0,0.3);
