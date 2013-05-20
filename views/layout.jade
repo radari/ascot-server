@@ -106,20 +106,23 @@ html(id="ng-app", ng-app='AscotModule')
         div.userMenu 
           ul
             li
-              span(class="#{url.indexOf('/home') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+              span
                 a(href='/home') My Looks
             li
-              span(class="#{url.indexOf('/collections') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+              span
                 a(href='/home') My Collections
             li
-              span(class="#{url.indexOf('/favorites') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+              span
                 a(href='/favorites') My Favorites
             li
-              span(class="#{url.indexOf('/settings') == -1 ? 'account_navigation_tab' : 'account_navigation_tab_selected' }")
+              span
                 a(href='/settings') Settings
+            li
+              span
+                a(href='/logout') Logout
 
     
-       a#logoWrapper(href="/")
+        a#logoWrapper(href="/")
           img(src='/images/ascotLogo_v2.png', id:'logo')    
           h3.pageTitle
       
