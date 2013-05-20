@@ -386,8 +386,9 @@ a:visited {
   background-color:#2d2d2d; 
   position:absolute;
   top:60px;
-  right:70px;
+  right:76px;
   font-family:arial, helvetica;
+  z-index:10;
 }
 
 .userMenu ul {
@@ -398,10 +399,13 @@ a:visited {
 
 .userMenu li {
   margin-bottom:4px;
+  background-color: transparent;
+  padding-left:6px;
+  padding-right:6px;
 }
 
-.userMenu li:hover {
-  color:white;
+.userMenu a:hover {
+  color:#b0b0b0;
 }
 
 
@@ -518,6 +522,8 @@ h1, h2 {
   width:100%;
   text-align:center;
   padding-top:10px;
+  z-index:1;
+  top:65px;
 }
 
 #logoWrapper img {
@@ -1124,13 +1130,13 @@ width:250px;
   padding-bottom: 0px;
   padding-top: 2px;
   background: transparent;
+  display:none;
 }
 
 .account_navigation_tab_selected {
   padding: 8px;
   padding-bottom: 0px;
   padding-top: 2px;
-  background-color: #F3F3F3;
 }
 
 .settings_text {
