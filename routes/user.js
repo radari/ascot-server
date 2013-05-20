@@ -8,6 +8,20 @@
  *
  */
 
+// Middleware for loading by user
+exports.byUsername = function(mongoUserFactory) {
+  return function(req, res, next) {
+    mongoUserFactory.findByUsername(req.params.user, function(error, user) {
+      if (error || !user) {
+        res.render('error', { title : 'Ascot :: Error', error : 'User ' + req.params.user + ' not found.' });
+      } else {
+        req.requestedUser = user;
+        next();
+      }
+    });
+  };
+};
+
 exports.home = function(req, res) {
   res.render('home', { title : 'Ascot :: ' + req.user.username });
 };

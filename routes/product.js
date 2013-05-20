@@ -1,7 +1,7 @@
 /**
  *  product.js
  *
- *  Created on: February 4, 2012
+ *  Created on: February 4, 2013
  *      Author: Valeri Karpov
  *
  *  Some product-specific routes
