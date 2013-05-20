@@ -1,13 +1,12 @@
 $(document).ready(function () {
-	$("#nav li").hover(
+	$("#userName").click(
 	function () {
-		$(this).find('h3').hide();
-		$(this).find('p').fadeIn(100);
-	}, 
-	function() {
-		$(this).find('p').hide();
-		$(this).find('h3').fadeIn(200);
+		$('.userMenu').fadeIn(100);
 	});
+	$('.userMenu').mouseleave(
+		function() {
+			$('.userMenu').fadeOut(100);
+		});
 });
 
 $(document).ready(function() {

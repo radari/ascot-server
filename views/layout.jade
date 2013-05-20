@@ -76,8 +76,8 @@ html(id="ng-app", ng-app='AscotModule')
               a(href="#") Collections
             li
               - if (user)
-                a(href='/logout', id='nonCurrentPage') Me 
-                  span.traingle
+                a(href='#', id='userName') Me 
+                  span.triangle
                     &#x25BC;
               - else
                 a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}") Login
