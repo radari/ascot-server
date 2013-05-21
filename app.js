@@ -246,6 +246,17 @@ app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));
 
 app.get('/u/:user/catalog/:catalog', user.byUsername(mongoUserFactory), catalog.get(Catalog));
+app.get('/t/t2', function(req, res) {
+  mongoUserFactory.findByUsername('ascot', function(error, user) {
+    var c = new Catalog({ title : 'Test', owner : user });
+    Look.findOne({ _id : '51950e81380004931d00005c' }, function(error, look) {
+      c.looks = [look];
+      c.save(function(error, c) {
+        res.json(c);
+      });
+    });
+  });
+});
 
 // JSON queries
 app.get('/filters.json', look.filters(Look));
