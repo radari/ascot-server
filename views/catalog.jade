@@ -1,23 +1,41 @@
--#
--# catalog.jade
--#
--# Created on: May 20, 2013
--#     Author: Valeri Karpov
--#
--# View for a catalog
--#
+doctype 5
+html(ng-app='AscotModule')
+  head
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.js')
+    script(src='/common/basic_tools.js')
+    script(src='/javascripts/AngularFilters.js')
+    script(src='/javascripts/services/ImageOffsetService.js')
+    script(src="/javascripts/services/Redirect.js")
+    script(src="/javascripts/services/Autocomplete.js")
+    script(src='/javascripts/CustomDirectives.js')
+    script(src='/javascripts/AscotModule.js')
+    script(src='/javascripts/controllers/MainSearchBarController.js')
+    script(src='/vendor/javascripts/jquery.imagesloaded.js')
+    script(src='/vendor/javascripts/jquery.hoverdelay.js')
 
-extends layout
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='icon', type='image/png', href='/images/favicon.ico')
+    link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/start/jquery-ui.css')
+    
+    script(src='/javascripts/controllers/CatalogController.js')
+    script(src='/javascripts/ascot_plugin.js')
+    
+    script(src='/vendor/angular/angular-mobile.js')
+    script(src='/vendor/angular/angular-carousel.js')
+    link(rel='stylesheet', href='/stylesheets/angular-carousel.css')
+    
+    link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
+    script(type='text/javascript')
+      var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
+      
+      $(document).ready(function() {
+        $('#catalogWrapper').css('width', ($(window).width()) + 'px');
+        $('#catalogWrapper').css('height', ($(window).height()) + 'px');
+      });
 
-prepend head
-  script(src='/javascripts/controllers/CatalogController.js')
-  script(src='/javascripts/ascot_plugin.js')
-  link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
-  script(type='text/javascript')
-    var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
-
-block content
-  div(ng-controller="CatalogController", ng-init="init(#{JSON.stringify(catalog)});")
-    h2.list_header {{catalog.title}}
-    div(ng-repeat="look in catalog.looks")
-      img(ng-src="{{look.url}}")
+  body
+    div#catalogWrapper(ng-controller="CatalogController", ng-init="init(#{JSON.stringify(catalog)});")
+      div(ng-repeat="look in catalog.looks")
+        img(ng-src="{{look.url}}")
