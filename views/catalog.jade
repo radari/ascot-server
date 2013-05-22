@@ -19,28 +19,17 @@ html(ng-app='AscotModule')
     script(src='http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.3.0.js')
     link(href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
     
+    script(src='/javascripts/ascot_plugin.js')
+    script(src='/vendor/javascripts/jquery.imagesloaded.js')
+    link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
+    link(rel='stylesheet', href='/stylesheets/ascot_look.css')
+    
     script
-      function CarouselDemoCtrl($scope) {
-        $scope.myInterval = 5000;
-        $scope.slides = [
-          {image: 'http://placekitten.com/200/200',text: 'Kitten.'},
-          {image: 'http://placekitten.com/225/200',text: 'Kitty!'},
-          {image: 'http://placekitten.com/250/200',text: 'Cat.'},
-          {image: 'http://placekitten.com/275/200',text: 'Feline!'}
-        ];
-        $scope.addSlide = function() {
-          $scope.slides.push({
-            image: 'http://placekitten.com/'+(200+25*Math.floor(Math.random()*4))+'/200',
-            text: ['More','Extra','Lots of','Surplus'][Math.floor(Math.random()*4)] + ' ' +
-              ['Cats', 'Kittys', 'Felines', 'Cutes'][Math.floor(Math.random()*4)]
-          });
-        };
-      }
+      var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
+      
   body
-    div(ng-controller='CatalogController', style="width: 400px", ng-init="init( #{JSON.stringify(catalog)} )")
-      div
-        | {{catalog.looks.length}}
+    div(ng-controller='CatalogController', style="width: 100%; background-color: black; height: 100%", ng-init="init( #{JSON.stringify(catalog)} )")
       carousel(interval='5000')
         slide(ng-repeat='look in catalog.looks', active='slide.active')
-          img(ng-src='{{look.url}}', style='margin: auto;')
+          img(ng-src='{{look.url}}#ascot={{look._id}}', style='margin: auto; height: 100%', onload="ascotPluginEnqueue($(this))")
 
