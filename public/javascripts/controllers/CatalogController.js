@@ -8,10 +8,15 @@
  *
  */
 
-function CatalogController($scope, $http) {
+function CatalogController($scope, $http, $window) {
   $scope.catalog = {};
+  $scope.currentPage = 0;
 
   $scope.init = function(catalog) {
     $scope.catalog = catalog;
+  };
+  
+  $scope.getWindowSize = function() {
+    return { height : $window.height(), width : $window.width() };
   };
 }

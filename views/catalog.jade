@@ -36,6 +36,9 @@ html(ng-app='AscotModule')
       });
 
   body
-    div#catalogWrapper(ng-controller="CatalogController", ng-init="init(#{JSON.stringify(catalog)});")
-      div(ng-repeat="look in catalog.looks")
-        img(ng-src="{{look.url}}")
+    div#catalogWrapper(ng-controller="CatalogController", ng-init="init(#{JSON.stringify(catalog)});", style="background-color: black")
+      div(ng-click="currentPage = currentPage + 1;") Next
+      div(ng-click="currentPage = currentPage - 1;") Prev
+      ul.image(rn-carousel, rn-carousel-indicator, rn-carousel-index="currentPage")
+        li(ng-repeat="look in catalog.looks", style="text-align: center")
+          img(ng-src="{{look.url}}")

@@ -250,7 +250,7 @@ app.get('/t/t2', function(req, res) {
   mongoUserFactory.findByUsername('ascot', function(error, user) {
     var c = new Catalog({ title : 'Test', owner : user });
     Look.findOne({ _id : '51950e81380004931d00005c' }, function(error, look) {
-      c.looks = [look];
+      c.looks = [look, '51950380380004931d000046'];
       c.save(function(error, c) {
         res.json(c);
       });
