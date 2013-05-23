@@ -482,9 +482,14 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
       angular.extend(next, {direction: '', active: true, leaving: false, entering: false});
       angular.extend(current||{}, {direction: '', active: false, leaving: false, entering: false});
       $scope.$currentTransition = null;
-      if (next && next.$element && $(next.$element).children('img').length > 0 && $($(next.$element).children('img').get(0)).attr('src')) {
-        alert('plugin!');
-        ascotPluginEnqueue($($(next.$element).children('img').get(0)));
+
+      // Custom hack for Ascot Plugin
+      if (next && next.$element && $(next.$element).children('img').length > 0) {
+        $timeout(function() {
+          if ($($(next.$element).children('img').get(0)).attr('src')) {
+            ascotPluginEnqueue($($(next.$element).children('img').get(0)));
+          }
+        });
       }
     }
   };
