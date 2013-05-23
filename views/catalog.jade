@@ -1,5 +1,5 @@
 !!! 5
-html(ng-app='AscotModule')
+html(ng-app='AscotModule', style="height: 100%")
   head
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js')
@@ -27,9 +27,9 @@ html(ng-app='AscotModule')
     script
       var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
       
-  body
-    div(ng-controller='CatalogController', style="width: 100%; background-color: black; height: 100%", ng-init="init( #{JSON.stringify(catalog)} )")
+  body(style="margin: 0px; padding: 0px; height: 100%")
+    div(ng-controller='CatalogController', style="width: 100%; height: 100%; background-color: black", ng-init="init( #{JSON.stringify(catalog)} )")
       carousel(interval='5000')
-        slide(ng-repeat='look in catalog.looks', active='slide.active')
-          img(ng-src='{{look.url}}#ascot={{look._id}}', style='margin: auto; height: 100%')
+        slide(ng-repeat='look in catalog.looks', active='slide.active', style="text-align: center")
+          img(ng-src='{{look.url}}#ascot={{look._id}}', style='height: 100%; display: inline-block')
 

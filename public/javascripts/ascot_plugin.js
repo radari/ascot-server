@@ -381,6 +381,11 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       };
       
       var wrapper = image.parent();
+      
+      // In case image has height 100%
+      image.css('height', height + 'px');
+      image.css('width', width + 'px');
+
       var marginLeft = parseIntSafe(image.css('marginLeft'));
       var marginRight = parseIntSafe(image.css('marginRight'));
       var marginTop = parseIntSafe(image.css('marginTop'));
