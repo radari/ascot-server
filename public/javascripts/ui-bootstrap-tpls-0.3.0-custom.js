@@ -2011,13 +2011,13 @@ angular.module("template/alert/alert.html", []).run(["$templateCache", function(
 
 angular.module("template/carousel/carousel.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/carousel/carousel.html",
-    "<div style='height: 100%' ng-swipe-left='next()' ng-swipe-right='prev()' ng-mouseenter=\"pause()\" ng-mouseleave=\"play()\" class=\"carousel\">\n" +
-    "    <ol class=\"carousel-indicators\" ng-show=\"slides().length > 1\">\n" +
+    "<div style='height: 100%' ng-swipe-left='next()' ng-swipe-right='prev()' ng-init='mouseover=false' ng-mouseenter=\"mouseover=true\" ng-mouseleave=\"mouseover=false\" class=\"carousel\">\n" +
+    "    <ol class=\"carousel-indicators\" ng-show=\"slides().length > 1 && mouseover\">\n" +
     "        <li ng-repeat=\"slide in slides()\" ng-class=\"{active: isActive(slide)}\" ng-click=\"select(slide)\"></li>\n" +
     "    </ol>\n" +
     "    <div class=\"carousel-inner\" style='height: 100%' ng-transclude></div>\n" +
-    "    <a ng-click=\"prev()\" class=\"carousel-control left\" ng-show=\"slides().length > 1\">&lsaquo;</a>\n" +
-    "    <a ng-click=\"next()\" class=\"carousel-control right\" ng-show=\"slides().length > 1\">&rsaquo;</a>\n" +
+    "    <a ng-click=\"prev()\" class=\"carousel-control left\" ng-show=\"slides().length > 1 && mouseover\">&lsaquo;</a>\n" +
+    "    <a ng-click=\"next()\" class=\"carousel-control right\" ng-show=\"slides().length > 1 && mouseover\">&rsaquo;</a>\n" +
     "</div>\n" +
     "");
 }]);
