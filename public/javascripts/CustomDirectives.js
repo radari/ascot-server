@@ -71,4 +71,18 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
       }
     });
   };
+}).directive('ngSwipeLeft', function() {
+  return function(scope, elm, attrs) {
+    Hammer(elm).on('swipeleft', function() {
+      scope.$eval(attrs.ngSwipeLeft);
+      scope.$apply();
+    });
+  }
+}).directive('ngSwipeRight', function() {
+  return function(scope, elm, attrs) {
+    Hammer(elm).on('swiperight', function() {
+      scope.$eval(attrs.ngSwipeRight);
+      scope.$apply();
+    });
+  }
 });
