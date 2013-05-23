@@ -26,7 +26,7 @@ var express = require('express')
   , routes = require('./routes')
   , admin = require('./routes/admin.js')
   , authenticate = require('./routes/authenticate.js')
-  , catalog = require('./routes/catalog.js')
+  , collection = require('./routes/collection.js')
   , facebook = require('./routes/facebook.js')
   , look = require('./routes/look.js')
   , product = require('./routes/product.js')
@@ -85,8 +85,8 @@ var Password = db.model('passwords', PasswordSchema);
 var AdministratorSchema = require('./models/Administrator.js').AdministratorSchema;
 var Administrator = db.model('administrators', AdministratorSchema);
 
-var CatalogSchema = require('./models/Catalog.js').CatalogSchema;
-var Catalog = db.model('catalogs', CatalogSchema);
+var CollectionSchema = require('./models/collection.js').CollectionSchema;
+var Collection = db.model('collections', CollectionSchema);
 
 var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFactory;
 var mongoUserFactory = new MongoUserFactory(User, Password, bcrypt);
@@ -245,10 +245,10 @@ app.get('/keywords', look.keywords(Look));
 app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));
 
-app.get('/u/:user/catalog/:catalog', user.byUsername(mongoUserFactory), catalog.get(Catalog));
+app.get('/u/:user/collection/:collection', user.byUsername(mongoUserFactory), collection.get(Collection));
 app.get('/t/t2', function(req, res) {
   mongoUserFactory.findByUsername('ascot', function(error, user) {
-    var c = new Catalog({ title : 'Test', owner : user });
+    var c = new Collection({ title : 'Test', owner : user });
     Look.findOne({ _id : '51950e81380004931d00005c' }, function(error, look) {
       c.looks = [look, '51950380380004931d000046'];
       c.save(function(error, c) {

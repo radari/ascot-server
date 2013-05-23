@@ -15,7 +15,7 @@ html(ng-app='AscotModule', style="height: 100%")
     script(src='/vendor/javascripts/jquery.hammer.js')
     script(src='/javascripts/AscotModule.js')
     
-    script(src='/javascripts/controllers/CatalogController.js')
+    script(src='/javascripts/controllers/CollectionController.js')
   
     script(src='/javascripts/ui-bootstrap-tpls-0.3.0-custom.js')
     link(href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
@@ -29,8 +29,8 @@ html(ng-app='AscotModule', style="height: 100%")
       var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
       
   body(style="margin: 0px; padding: 0px; height: 100%")
-    div(ng-controller='CatalogController', style="width: 100%; height: 100%; background-color: black", ng-init="init( #{JSON.stringify(catalog)} )")
+    div(ng-controller='CollectionController', style="width: 100%; height: 100%; background-color: black", ng-init="init( #{JSON.stringify(collection)} )")
       carousel(interval='NaN')
-        slide(ng-repeat='look in catalog.looks', active='slide.active', style="text-align: center")
+        slide(ng-repeat='look in collection.looks', active='slide.active', style="text-align: center")
           img(ng-src='{{look.url}}#ascot={{look._id}}', style='height: 100%; display: inline-block')
 
