@@ -16,7 +16,7 @@ html(ng-app='AscotModule')
     
     script(src='/javascripts/controllers/CatalogController.js')
   
-    script(src='http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.3.0.js')
+    script(src='/javascripts/ui-bootstrap-tpls-0.3.0-custom.js')
     link(href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
     
     script(src='/javascripts/ascot_plugin.js')
@@ -31,5 +31,5 @@ html(ng-app='AscotModule')
     div(ng-controller='CatalogController', style="width: 100%; background-color: black; height: 100%", ng-init="init( #{JSON.stringify(catalog)} )")
       carousel(interval='5000')
         slide(ng-repeat='look in catalog.looks', active='slide.active')
-          img(ng-src='{{look.url}}#ascot={{look._id}}', style='margin: auto; height: 100%', onload="ascotPluginEnqueue($(this))")
+          img(ng-src='{{look.url}}#ascot={{look._id}}', style='margin: auto; height: 100%')
 
