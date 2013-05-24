@@ -100,7 +100,7 @@ exports.testRun = function(test) {
 
   tagger(mockLook, function(error, look) {
     test.equal('http://test/1234', look.taggedUrl);
-    test.equal(13, commands.length);
+    test.equal(10, commands.length);
     test.expect(11);
     test.done();
   });
