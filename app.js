@@ -41,6 +41,7 @@ var express = require('express')
       require('./routes/tools/product_link_generator.js').ProductLinkGenerator
   , Readify = require('./routes/tools/readify.js').readify
   , Shortener = require('./routes/tools/shortener.js').shortener
+  , Temp = require('./routes/tools/custom_temp.js').Temp
   , Thumbnail = require('./routes/tools/thumbnail.js').thumbnail
   , UploadHandler = require('./routes/tools/upload_handler.js').UploadHandler;
 
@@ -125,14 +126,7 @@ var assets = assetManager({
 
 // configure custom tools
 var mode = process.env.MODE || 'production';
-var Temp = function() {
-  this.counter = 0;
-  this.baseDirectory = './public/images/uploads/';
 
-  this.open = function(prefix, callback) {
-    callback(null, { path : this.baseDirectory + prefix + (++this.counter) });
-  };
-};
 var temp = new Temp();
 
 var uploadTarget = knox.createClient({
