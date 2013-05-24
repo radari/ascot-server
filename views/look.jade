@@ -35,22 +35,22 @@ block content
       div.share_container
         div.tumblr_container
           div.header Display with Ascot Plugin
-            div(style="text-align: left")
-              | 1. Make sure the Ascot plugin is installed on your website, e.g. Tumblr 
-              a(href='/howto/tumblr')[help]
-              |, Wordpress 
-              a(href='/howto/wordpress')[help]
-            div(style="text-align: left")
-              | 2. For Tumblr, click below
-            div(style="padding-top:10px")
-              a(target='_blank',
-                title='Share on Tumblr',
-                style='display:inline-block; text-indent:-9999px; overflow:hidden; width:129px; height:20px; background:url("http://platform.tumblr.com/v1/share_3.png") top left no-repeat transparent;',
-                ng-href='http://www.tumblr.com/share/photo?source={{look.url | encodeURIComponent}}&clickthru={{("http://www.ascotproject.com/look/" + look._id) | encodeURIComponent}}&caption={{look | htmlifyTags | encodeURIComponent}}&tags=ascot') 
-                | Share on Tumblr
-            div(style="text-align: left")
-              | For other sites, append this to your image URL
-            input(type="text", value="#ascot={{look._id}}")
+          div(style="text-align: left")
+            | 1. Make sure the Ascot plugin is installed on your website, e.g. Tumblr 
+            a(href='/howto/tumblr')[help]
+            |, Wordpress 
+            a(href='/howto/wordpress')[help]
+          div(style="text-align: left")
+            | 2. For Tumblr, click below
+          div(style="padding-top:10px")
+            a(target='_blank',
+              title='Share on Tumblr',
+              style='display:inline-block; text-indent:-9999px; overflow:hidden; width:129px; height:20px; background:url("http://platform.tumblr.com/v1/share_3.png") top left no-repeat transparent;',
+              ng-href='http://www.tumblr.com/share/photo?source={{look.url | encodeURIComponent}}&clickthru={{("http://www.ascotproject.com/look/" + look._id) | encodeURIComponent}}&caption={{look | htmlifyTags | encodeURIComponent}}&tags=ascot') 
+              | Share on Tumblr
+          div(style="text-align: left")
+            | For other sites, append this to your image URL
+          input(type="text", value="#ascot={{look._id}}")
 
         div.iframe_code_container
           div.header Embed
