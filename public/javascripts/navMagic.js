@@ -8,13 +8,3 @@ $(document).ready(function () {
 			$('.userMenu').fadeOut(100);
 		});
 });
-
-$(document).ready(function() {
-  $('form.register').hide();
-	$("#signUp").click(
-		function(event) {
-		  event.preventDefault();
-			$('form.login').fadeOut(10);
-			$('form.register').fadeIn(500);
-		});
-});
