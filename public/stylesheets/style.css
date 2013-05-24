@@ -520,15 +520,12 @@ h1, h2 {
 
 
 #logoWrapper {
-  position:absolute;
-  margin:auto;
+  position:relative;
   border:1px transparent solid;
-  overflow:hidden;
   width:100%;
   text-align:center;
   padding-top:10px;
   z-index:1;
-  top:65px;
 }
 
 #logoWrapper img {
@@ -852,8 +849,8 @@ font-size:14px;
   position:relative;
   width:100%;
   height:80px;
-  top:90px;
-  margin-bottom:110px;
+  top:20px;
+  margin-bottom:40px;
 }
 .progress img{
   position:absolute;
@@ -866,7 +863,6 @@ font-size:14px;
 
 #uploadToolsWrap {
   text-align: center;
-  border:1px transparent solid;
   width:600px;
   position:relative;
   margin:auto;
@@ -1010,7 +1006,7 @@ div.autocomplete div.selection {
   text-align: center;
   font-weight: 400;
   margin: 0px;
-  margin-top: 100px;
+  margin-top: 0px;
 }
 
 div.sort_sub_header {

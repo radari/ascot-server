@@ -124,9 +124,10 @@ html(id="ng-app", ng-app='AscotModule')
                 a(href='/logout') Logout
 
     
-        a#logoWrapper(href="/")
+      div#logoWrapper
+        a(href="/")
           img(src='/images/ascotLogo_v2.png', id:'logo')    
-          h3.pageTitle
+        h3.pageTitle
       
 
       block content
