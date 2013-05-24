@@ -85,7 +85,7 @@ var Password = db.model('passwords', PasswordSchema);
 var AdministratorSchema = require('./models/Administrator.js').AdministratorSchema;
 var Administrator = db.model('administrators', AdministratorSchema);
 
-var CollectionSchema = require('./models/collection.js').CollectionSchema;
+var CollectionSchema = require('./models/Collection.js').CollectionSchema;
 var Collection = db.model('collections', CollectionSchema);
 
 var MongoUserFactory = require('./factories/MongoUserFactory.js').MongoUserFactory;
