@@ -26,6 +26,12 @@ html(ng-app='AscotModule', style="height: 100%")
     script(src='/vendor/javascripts/jquery.imagesloaded.js')
     link(rel='stylesheet', href='/stylesheets/ascot_plugin.css')
     link(rel='stylesheet', href='/stylesheets/ascot_look.css')
+
+    style
+      ol.carousel-indicators {
+        top: auto;
+        bottom: 15px;
+      }
     
     script
       var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
