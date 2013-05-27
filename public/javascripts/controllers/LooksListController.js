@@ -8,7 +8,7 @@
  *
  */
  
-function LooksListController($scope, $http, $window) {
+function LooksListController($scope, $http, $window, $timeout) {
   $scope.looks = [];
   $scope.columns = [];
   $scope.columnHeights = [];
@@ -74,6 +74,12 @@ function LooksListController($scope, $http, $window) {
               addLooks(data.looks);
             });
     }
+  };
+
+  $scope.setUpPlugin = function(id) {
+    $timeout(function() {
+      $window.ascotPluginEnqueue($('#ascot_' + id));
+    }, 250);
   };
   
 }

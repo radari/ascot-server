@@ -23,7 +23,8 @@ block list_element
       ng-class="isPublished",
       style="cursor: pointer")
     img#userImage(ng-src="{{look.thumbnail | checkEmpty:look.url}}#ascot={{look._id}}",
-        onload="ascotPluginEnqueue($(this))",
+        id="ascot_{{look._id}}",
+        ng-init="setUpPlugin(look._id);",
         ng-style="{ height : computeHeight(look), 'background-color' : '#A3A3A3' }")
     br
     div.publish(ng-click="togglePublished()", style="cursor: pointer")
