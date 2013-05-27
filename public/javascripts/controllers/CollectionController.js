@@ -19,4 +19,15 @@ function CollectionController($scope, $http, $window) {
   $scope.getWindowSize = function() {
     return { height : $(window).height(), width : $(window).width() };
   };
+
+  $scope.getImageHeight = function(look) {
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var fullscreenWidth = (windowHeight / look.size.height) * look.size.width;
+    if (fullscreenWidth < windowWidth) {
+      return windowHeight;
+    } else {
+      return Math.floor((windowWidth / look.size.width) * look.size.height);
+    }
+  };
 }
