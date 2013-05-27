@@ -742,6 +742,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   cursor: pointer;
   border-radius:5px;
   font-weight:400;
+  background: #822816;
   background: -moz-linear-gradient(
     top,
     #b54e37 0%,
@@ -814,6 +815,7 @@ font-size:14px;
   font-size: 14px;
   color: #ffffff;
   padding: 10px 10px;
+  background: #822816;
   background: -moz-linear-gradient(
     top,
     #b54e37 0%,
