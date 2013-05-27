@@ -17,6 +17,6 @@ function CollectionController($scope, $http, $window) {
   };
   
   $scope.getWindowSize = function() {
-    return { height : $window.height(), width : $window.width() };
+    return { height : $(window).height(), width : $(window).width() };
   };
 }
