@@ -29,9 +29,17 @@ html(ng-app='AscotModule', style="height: 100%")
     
     script
       var ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
+
+      // Hack for mobile webkit bug, see 
+      // https://github.com/EightMedia/hammer.js/issues/124
+      $(document).ready(function() {
+        $('.carousel').on("touchmove", function(event){
+          event.preventDefault();
+        });
+      });
       
   body(style="margin: 0px; padding: 0px; height: 100%")
-    div(ng-controller='CollectionController', style="width: 100%; height: 100%; background-color: black;", ng-init="init( #{JSON.stringify(collection)} )")
+    div#collection(ng-controller='CollectionController', style="width: 100%; height: 100%; background-color: black;", ng-init="init( #{JSON.stringify(collection)} )")
       carousel(interval='NaN')
         slide(ng-repeat='look in collection.looks', active='slide.active', style="text-align: center")
           img(ng-src='{{look.url}}#ascot={{look._id}}', style='display: inline-block', ng-style="{ height : getWindowSize().height + 'px' }")
