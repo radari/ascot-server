@@ -238,6 +238,7 @@ app.get('/brand', look.brand(Look));
 app.get('/keywords', look.keywords(Look));
 app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));
+app.get('/collections', collection.getCollections(Collection));
 
 app.get('/user/:user/collection/:collection', user.byUsername(mongoUserFactory), collection.get(Collection));
 

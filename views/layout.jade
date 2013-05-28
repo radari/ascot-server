@@ -72,10 +72,10 @@ html(id="ng-app", ng-app='AscotModule')
                 img#facebook(src='/images/facebookButton_v2.png', id:'fbButton')
             li.spacer |
           ul#navRight 
-           li
+            li
               a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}") Looks 
-            li 
-              a(href="#") Collections
+            li
+              a(href="/collections") Collections
             li
               - if (user)
                 a(href='#', id='userName') Me 
@@ -110,7 +110,7 @@ html(id="ng-app", ng-app='AscotModule')
             li
               span
                 a(href='/home') My Looks
-            li
+            li(style="display: none")
               span
                 a(href='/home') My Collections
             li

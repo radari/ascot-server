@@ -22,6 +22,21 @@ exports.collectionById = function(Collection) {
 };
 
 /*
+ * GET /collections
+ */
+exports.getCollections = function(Collection) {
+  return function(req, res) {
+    Collection.
+        find({}).
+        populate('looks').
+        populate('owner').
+        exec(function(error, collections) {
+          res.render('collections', { title : 'Ascot :: Collections', collections : collections });
+        });
+  };
+};
+
+/*
  * GET /user/:user/collection/:collection
  */
 exports.get = function(Collection) {

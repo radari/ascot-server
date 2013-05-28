@@ -1,0 +1,14 @@
+-#
+-# collections.jade
+-#
+-# Created on: May 28, 2013
+-#     Author: Valeri Karpov
+-#
+-# View for a list of collections visible to user
+-#  
+extends layout
+
+block content
+  - each collection in collections
+    div
+      a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}') View Collection : #{collection.title} from #{collection.owner.username}
