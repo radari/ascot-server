@@ -149,8 +149,96 @@ exports.deleteLook = function(mongoLookFactory, User, Permissions) {
 /**
   * GET /admin/collection/:collection
   */
-exports.editCollection = function() {
+exports.editCollection = function(Look) {
   return function(req, res) {
-    res.render('admin/collection', { title : 'Ascot :: ' + req.collection.title, collection : req.collection });
+    var MAX_PER_PAGE = 20;
+    var p = req.query["p"] || 0;
+
+    Look.find({}).count(function(error, count) {
+      Look.
+          find({}).
+          sort({ _id : -1 }).
+          limit(MAX_PER_PAGE).skip(p * MAX_PER_PAGE).
+          exec(function(error, looks) {
+            if (error || !looks) {
+              res.format({
+                  'html' :
+                    function() {
+                      res.render('error',
+                        { title : "Ascot :: Error", error : "Couldn't load looks'" });
+                    },
+                  'json' :
+                    function() {
+                      res.json({ error : error });
+                    }
+              });
+            } else {
+              res.format({
+                  'html' :
+                    function() {
+                      res.render('admin/collection.jade',
+                        { looks : looks,
+                          listTitle : 'All Looks',
+                          title : 'Ascot :: All Looks',
+                          page : p,
+                          collection : req.collection,
+                          numPages : Math.ceil((count + 0.0) / (MAX_PER_PAGE + 0.0))});
+                    },
+                  'json' :
+                    function() {
+                      res.json({ looks : looks });
+                    }
+              });
+            }
+          });
+    });
+  };
+};
+
+/**
+  * GET /admin/collections
+  */
+exports.getCollections = function(Collection) {
+  return function(req, res) {
+    Collection.find({ owner : req.user._id }, function(error, collections) {
+      if (error || !collections) {
+        res.render('error', { title : 'Ascot :: Error', error : 'error - ' + error });
+      } else {
+        res.render('admin/collections', { title : 'Ascot :: Collections', collections : collections });
+      }
+    });
+  };
+};
+
+/**
+  * PUT /admin/collection/:collection
+  */
+exports.saveCollection = function() {
+  return function(req, res) {
+    req.collection.title = req.body.title;
+    req.collection.looks = req.body.looks;
+    req.collection.save(function(error, collection) {
+      if (error || !collection) {
+        res.json({ error : error });
+      } else {
+        res.json({ collection : collection });
+      }
+    });
+  };
+};
+
+/**
+  * POST /admin/collection
+  */
+exports.newCollection = function(Collection) {
+  return function(req, res) {
+    var c = new Collection({ looks : [], owner : req.user._id });
+    c.save(function(error, c) {
+      if (error || !c) {
+        res.render('error', { title : 'Ascot :: Error', error : 'Error - ' + error });
+      } else {
+        res.redirect('/admin/collection/' + c._id);
+      }
+    });
   };
 };

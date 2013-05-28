@@ -1,0 +1,21 @@
+-#
+-# collections.jade
+-#
+-# Created on: May 28, 2013
+-#     Author: Valeri Karpov
+-#
+-# View for a list of collections
+-#  
+extends ../layout
+
+block list_header 
+  include ../partials/_admin_navigation.jade
+
+block content
+  div
+    form(method="POST", action="/admin/collection")
+      input(type="submit", value="New Collection")
+
+  - each collection in collections
+    div
+      a(href='/admin/collection/#{collection._id}') Edit Collection : #{collection.title}

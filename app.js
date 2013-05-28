@@ -340,7 +340,22 @@ app.get('/admin/collection/:collection',
   authenticate.ensureAuthenticated,
   administratorValidator,
   collection.collectionById(Collection),
-  admin.editCollection());
+  admin.editCollection(Look));
+app.get('/admin/collections',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  admin.getCollections(Collection));
+
+app.put('/admin/collection/:collection',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  collection.collectionById(Collection),
+  admin.saveCollection(Collection));
+
+app.post('/admin/collection',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  admin.newCollection(Collection));
 
 // Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {
