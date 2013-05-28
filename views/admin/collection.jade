@@ -8,15 +8,26 @@
 -#  
 extends ../looks_list_base
 
+prepend head
+  script(src="/javascripts/controllers/EditCollectionController.js")
+
 block list_header 
   include ../partials/_admin_navigation.jade
-  | Title :
-  input(type="text")
 
-block list_element
-  div(style="border-bottom: 1px solid #ACACAC; border-top: 1px solid #ACACAC; padding-top: 5px; padding-bottom: 5px")
-    img(ng-src="{{look.thumbnail | checkEmpty:look.url}}#ascot={{look._id}}",
-        id="ascot_{{look._id}}",
-        ng-init="setUpPlugin(look._id);",
-        ng-style="{ height : computeHeight(look), 'background-color' : '#A3A3A3' }")
-    div() Add to Collection
+block list_wrapper
+  div(ng-controller="EditCollectionController", ng-init="initCollection( #{JSON.stringify(collection)} )")
+    div
+      | Title :
+      input(type="text", placeholder="Title", ng-model="collection.title")
+    div
+      div(ng-click="save()", style="cursor: pointer") Save
+    div.all_looks_element(ng-repeat="column in columns")
+      div.look_element(ng-repeat="look in column")
+        div(style="border-bottom: 1px solid #ACACAC; border-top: 1px solid #ACACAC; padding-top: 5px; padding-bottom: 5px",
+            ng-style="{ 'background-color' : color(look) }")
+          img(ng-src="{{look.thumbnail | checkEmpty:look.url}}#ascot={{look._id}}",
+              id="ascot_{{look._id}}",
+              ng-init="setUpPlugin(look._id);",
+              ng-style="{ height : computeHeight(look), 'background-color' : '#A3A3A3' }")
+          div(ng-click="addToCollection(look)", style="cursor: pointer", ng-show="!lookInCollection(look)") Add to Collection
+          div(ng-click="removeFromCollection(look)", style="cursor: pointer", ng-show="lookInCollection(look)") Remove from Collection

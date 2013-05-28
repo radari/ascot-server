@@ -176,7 +176,8 @@ exports.editCollection = function(Look) {
               res.format({
                   'html' :
                     function() {
-                      res.render('admin/collection.jade',
+                      console.log("--> " + JSON.stringify(req.collection));
+                      res.render('admin/collection',
                         { looks : looks,
                           listTitle : 'All Looks',
                           title : 'Ascot :: All Looks',

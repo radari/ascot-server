@@ -40,9 +40,10 @@ block content
                         ng-controller="LooksListController",
                         ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page}, 4, 226)",
                         ng-when-scrolled="loadNextPage();")
-    div.all_looks_element(ng-repeat="column in columns")
-      div.look_element(ng-repeat="look in column")
-        block list_element
+    block list_wrapper
+      div.all_looks_element(ng-repeat="column in columns")
+        div.look_element(ng-repeat="look in column")
+          block list_element
     div.clear
     div.list_header(ng-show="looks.length == 0")
       | No looks found
