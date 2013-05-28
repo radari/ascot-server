@@ -8,10 +8,8 @@
 -#  
 extends ../layout
 
-block list_header 
-  include ../partials/_admin_navigation.jade
-
 block content
+  include ../partials/_admin_navigation.jade
   div
     form(method="POST", action="/admin/collection")
       input(type="submit", value="New Collection")
