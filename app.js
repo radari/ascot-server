@@ -239,18 +239,7 @@ app.get('/keywords', look.keywords(Look));
 app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));
 
-app.get('/u/:user/collection/:collection', user.byUsername(mongoUserFactory), collection.get(Collection));
-app.get('/t/t2', function(req, res) {
-  mongoUserFactory.findByUsername('ascot', function(error, user) {
-    var c = new Collection({ title : 'Test', owner : user });
-    Look.findOne({ _id : '51950e81380004931d00005c' }, function(error, look) {
-      c.looks = [look, '51950380380004931d000046'];
-      c.save(function(error, c) {
-        res.json(c);
-      });
-    });
-  });
-});
+app.get('/user/:user/collection/:collection', user.byUsername(mongoUserFactory), collection.get(Collection));
 
 // JSON queries
 app.get('/filters.json', look.filters(Look));
@@ -346,6 +335,12 @@ app.delete('/admin/look/:id',
   authenticate.ensureAuthenticated,
   administratorValidator,
   admin.deleteLook(mongoLookFactory, Look, User));
+
+app.get('/admin/collection/:collection',
+  authenticate.ensureAuthenticated,
+  administratorValidator,
+  collection.collectionById(Collection),
+  admin.editCollection());
 
 // Routes exposed for E2E testing purposes only
 if (app.get('mode') == 'test') {

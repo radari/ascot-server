@@ -8,8 +8,21 @@
  *
  */
 
+exports.collectionById = function(Collection) {
+  return function(req, res, next) {
+    Collection.findOne({ _id : req.params.collection }, function(error, collection) {
+      if (error || !collection) {
+        res.render('error', { title : 'Ascot :: Error', error : 'Collection not found' });
+      } else {
+        req.collection = collection;
+        next();
+      }
+    });
+  };
+};
+
 /*
- * GET /u/:user/collection/:collection
+ * GET /user/:user/collection/:collection
  */
 exports.get = function(Collection) {
   return function(req, res) {

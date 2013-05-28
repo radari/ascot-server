@@ -145,3 +145,12 @@ exports.deleteLook = function(mongoLookFactory, User, Permissions) {
     });
   }
 };
+
+/**
+  * GET /admin/collection/:collection
+  */
+exports.editCollection = function() {
+  return function(req, res) {
+    res.render('admin/collection', { title : 'Ascot :: ' + req.collection.title, collection : req.collection });
+  };
+};
