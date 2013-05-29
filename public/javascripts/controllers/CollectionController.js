@@ -8,7 +8,7 @@
  *
  */
 
-function CollectionController($scope, $http, $window) {
+function CollectionController($scope, $http, $window, $timeout) {
   $scope.collection = {};
   $scope.currentPage = 0;
 
