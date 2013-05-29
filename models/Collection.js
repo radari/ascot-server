@@ -12,6 +12,7 @@ var Mongoose = require('mongoose');
 
 exports.CollectionSchema = new Mongoose.Schema({
   title : { type : String, default : "" },
+  created : { type : Date, default : Date.now },
   // List of looks in this collection
   looks : [{ type : Mongoose.Schema.ObjectId, ref : 'looks' }],
   owner : { type : Mongoose.Schema.ObjectId, ref : 'users' },
