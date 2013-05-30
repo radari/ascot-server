@@ -30,4 +30,16 @@ function CollectionController($scope, $http, $window, $timeout) {
       return Math.floor((windowWidth / look.size.width) * look.size.height);
     }
   };
+
+  $scope.getImageMarginTop = function(look) {
+    var windowHeight = $(window).height();
+    var windowWidth = $(window).width();
+    var fullscreenWidth = (windowHeight / look.size.height) * look.size.width;
+    if (fullscreenWidth < windowWidth) {
+      return 0;
+    } else {
+      var h = Math.floor((windowWidth / look.size.width) * look.size.height);
+      return Math.floor((windowHeight - h) / 2);
+    }
+  };
 }

@@ -2016,8 +2016,8 @@ angular.module("template/carousel/carousel.html", []).run(["$templateCache", fun
     "        <li ng-repeat=\"slide in slides()\" ng-class=\"{active: isActive(slide)}\" ng-click=\"select(slide)\"></li>\n" +
     "    </ol>\n" +
     "    <div class=\"carousel-inner\" style='height: 100%' ng-transclude></div>\n" +
-    "    <a ng-click=\"prev()\" class=\"carousel-control left\" ng-show=\"slides().length > 1 && mouseover\">&lsaquo;</a>\n" +
-    "    <a ng-click=\"next()\" class=\"carousel-control right\" ng-show=\"slides().length > 1 && mouseover\">&rsaquo;</a>\n" +
+    "    <a ng-click=\"prev()\" class=\"carousel-control left\" style='z-index: 10000' ng-show=\"slides().length > 1 && mouseover\">&lsaquo;</a>\n" +
+    "    <a ng-click=\"next()\" class=\"carousel-control right\" style='z-index: 10000' ng-show=\"slides().length > 1 && mouseover\">&rsaquo;</a>\n" +
     "</div>\n" +
     "");
 }]);
