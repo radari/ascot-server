@@ -31,8 +31,8 @@ exports.Goldfinger = function(fs, gm, temp, uploadHandler) {
         if (error || !features) {
           callback("The provided file does not appear to be an image", null, null);
         } else if (features.width > self.maxWidth) {
-          gm(imagePath).resize(700, features.height * (700 / features.width)).write(imagePath, function(error) {
-            finish(imagePath, { height : features.height * (700 / features.width), width: 700 });
+          gm(imagePath).resize(self.maxWidth, features.height * (self.maxWidth / features.width)).write(imagePath, function(error) {
+            finish(imagePath, { height : features.height * (self.maxWidth / features.width), width: self.maxWidth });
           });
         } else {
           finish(imagePath, { height : features.height, width : features.width });
