@@ -75,8 +75,8 @@ Look.find({}, function(error, looks) {
     if (i >= looks.length) {
       return;
     }
-    gmTagger(looks[i], function() {});
-    if (looks[i].thumbnail) {
+    
+    if (false) {
       f(i + 1);
     } else {
       console.log("NO thumb " + i + " " + looks[i].url);
@@ -95,7 +95,9 @@ Look.find({}, function(error, looks) {
               looks[i].thumbnail = result;
               console.log("Thumbnail " + looks[i].thumbnail);
               looks[i].save();
-              f(i + 1);
+              gmTagger(looks[i], function() {
+                f(i + 1);
+              });
             }
           });
         }
