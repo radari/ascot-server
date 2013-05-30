@@ -10,7 +10,7 @@ extends layout
 
 block content
   - each collection in collections
-    div(style="margin-top: 10px; padding: 5px border-bottom: 1px solid #ACACAC")
+    div(style="margin-top: 10px; padding: 5px; width: 260px; border-bottom: 1px solid #ACACAC")
       - if (collection.looks.length > 0)
         a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}')
           img(src="#{collection.looks[0].thumbnail}", style="width: 226px")
