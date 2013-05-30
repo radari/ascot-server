@@ -72,6 +72,7 @@ Look.find({}, function(error, looks) {
   console.log("--> " + looks.length);
   var f = function(i) {
     console.log(i);
+    gmTagger(looks[i], function() {});
     if (i >= looks.length) {
       return;
     }
