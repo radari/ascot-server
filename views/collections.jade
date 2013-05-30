@@ -18,4 +18,6 @@ block content
       div(style="font-size: 2em")
         a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}') #{collection.title} 
       div(style="font-size: 0.8em")
+        | #{collection.looks.length} Looks
+        br
         | Uploaded on #{new Date(collection.created).toDateString()}
