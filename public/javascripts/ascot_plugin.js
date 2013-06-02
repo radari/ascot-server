@@ -572,6 +572,19 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
           tagContainer.css('z-index', 0);
           tagDescription.hide(100, function(){});
         }, 250);
+
+        if (Hammer) {
+          var s = false;
+          Hammer(tagContainer).on('tap', function(event) {
+            if (s) {
+              tagContainer.css('z-index', 5);
+              tagDescription.show(100, function(){});
+            } else {
+              tagContainer.css('z-index', 0);
+              tagDescription.hide(100, function(){});
+            }
+          });
+        }
       });  
     }
   };
