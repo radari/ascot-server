@@ -203,7 +203,10 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
 
     tagContainer.css("left", tagX);
     tagContainer.css("top", tagY);
-    tagContainer.appendTo(overlay);
+
+    if (tagContainer.parent().get(0) != overlay) {
+      tagContainer.appendTo(overlay);
+    }
 
     return { x : tagX, y : tagY };
   };
@@ -572,6 +575,10 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
           tagContainer.css('z-index', 0);
           tagDescription.hide(100, function(){});
         }, 250);
+
+        $(window).resize(function() {
+          tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : height, width : width }, tag, corners);
+        });
 
         if (Hammer) {
           var s = false;
