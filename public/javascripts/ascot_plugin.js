@@ -576,12 +576,14 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         if (Hammer) {
           var s = false;
           Hammer(tagContainer).on('tap', function(event) {
-            if (s) {
+            if (!s) {
               tagContainer.css('z-index', 5);
               tagDescription.show(100, function(){});
+              s = true;
             } else {
               tagContainer.css('z-index', 0);
               tagDescription.hide(100, function(){});
+              s = false;
             }
           });
         }
