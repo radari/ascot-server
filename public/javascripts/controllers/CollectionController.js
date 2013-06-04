@@ -11,6 +11,11 @@
 function CollectionController($scope, $http, $window, $timeout) {
   $scope.collection = {};
   $scope.currentPage = 0;
+  
+  // Small hack to make sure Angular is aware of page resizes
+  $(window).resize(function() {
+    $scope.$apply();
+  });
 
   $scope.init = function(collection) {
     $scope.collection = collection;
@@ -29,8 +34,8 @@ function CollectionController($scope, $http, $window, $timeout) {
     
     // Make sure that we notify of image resize
     if ($element && (windowHeight != oldHeight || windowWidth != oldWidth)) {
-      alert('t3');
       $timeout(function() {
+        alert('t3');
         $element.resize();
       }, 150);
     }

@@ -593,7 +593,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
 
         
         image.resize(function() {
-          alert('resize!');
+          alert('resize! ' + ascotId);
           tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : image.height(), width : image.width() }, tag, corners);
         });
 
