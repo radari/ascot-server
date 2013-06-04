@@ -402,6 +402,15 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       var overlayDeltaY = parseIntSafe(image.css('borderTopWidth'));
       wrapper.css('width', wrapperWidth + 'px');
       wrapper.css('height', wrapperHeight + 'px');
+      
+      image.resize(function() {
+        wrapperWidth = image.width() + parseIntSafe(image.css('borderLeftWidth')) + parseIntSafe(image.css('borderRightWidth'));
+        wrapperHeight = image.height() + parseIntSafe(image.css('borderTopWidth')) + parseIntSafe(image.css('borderBottomWidth'));
+        
+        wrapper.css('width', wrapperWidth + 'px');
+        wrapper.css('height', wrapperHeight + 'px');
+      });
+      
       wrapper.css('marginLeft', marginLeft + 'px');
       wrapper.css('marginRight', marginRight + 'px');
       wrapper.css('marginTop', marginTop + 'px');
@@ -424,6 +433,11 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       var overlay = wrapper.children().last();
       overlay.css('width', image.width() + 'px');
       overlay.css('height', image.height() + 'px');
+      image.resize(function() {
+        overlay.css('width', image.width() + 'px');
+        overlay.css('height', image.height() + 'px');
+      });
+      
       overlay.css('left', overlayDeltaX + 'px');
       overlay.css('top', overlayDeltaY + 'px');
       overlay.append('<div class="ascot_overlay_menu_wrapper"></div>');
