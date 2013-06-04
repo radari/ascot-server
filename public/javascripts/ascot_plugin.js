@@ -403,7 +403,15 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       wrapper.css('width', wrapperWidth + 'px');
       wrapper.css('height', wrapperHeight + 'px');
       
+      image.ascotPluginResizeActions = [];
+      
       image.resize(function() {
+        for (var i = 0; i < image.ascotPluginResizeActions.length; ++i) {
+          image.ascotPluginResizeActions[i]();
+        }
+      });
+      
+      image.ascotPluginResizeActions.push(function() {
         wrapperWidth = image.width() + parseIntSafe(image.css('borderLeftWidth')) + parseIntSafe(image.css('borderRightWidth'));
         wrapperHeight = image.height() + parseIntSafe(image.css('borderTopWidth')) + parseIntSafe(image.css('borderBottomWidth'));
         
@@ -433,7 +441,8 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       var overlay = wrapper.children().last();
       overlay.css('width', image.width() + 'px');
       overlay.css('height', image.height() + 'px');
-      image.resize(function() {
+
+      image.ascotPluginResizeActions.push(function() {
         overlay.css('width', image.width() + 'px');
         overlay.css('height', image.height() + 'px');
       });
@@ -525,7 +534,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         $(upvoteButton).css('cursor', 'pointer');
         $(upvoteButton).css('opacity', '1');
       }
-              
+             
       if (json.source && json.source.length > 0) {
         if (json.source.indexOf('http://') != -1) {
           overlay.append(
@@ -591,9 +600,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
           tagDescription.hide(100, function(){});
         }, 250);
 
-        
-        image.resize(function() {
-          alert('resize! ' + ascotId);
+        image.ascotPluginResizeActions.push(function() {
           tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : image.height(), width : image.width() }, tag, corners);
         });
 
@@ -714,6 +721,15 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
 
   ret.setDataForLook = function(id, data) {
     lookCache[id] = data;
+  };
+  ret.resizeAll = function() {
+    for (var i = 0; i < done.length; ++i) {
+      if (done[i].ascotPluginResizeActions) {
+        for (var j = 0; j < done[i].ascotPluginResizeActions.length; ++j) {
+          done[i].ascotPluginResizeActions[j]();
+        }
+      }
+    }
   };
   return ret;
 };

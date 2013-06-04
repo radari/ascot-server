@@ -35,8 +35,7 @@ function CollectionController($scope, $http, $window, $timeout) {
     // Make sure that we notify of image resize
     if ($element && (windowHeight != oldHeight || windowWidth != oldWidth)) {
       $timeout(function() {
-        alert('t3');
-        $element.resize();
+        $window.ascotPlugin.resizeAll();
       }, 150);
     }
     
