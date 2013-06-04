@@ -425,7 +425,7 @@ angular.module('ui.bootstrap.buttons', [])
 *      Template: <carousel interval="none"><slide active="someModel">{{anything}}</slide></carousel>
 */
 angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
-.controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', function ($scope, $timeout, $transition, $q) {
+.controller('CarouselController', ['$scope', '$timeout', '$transition', '$q', '$location', function ($scope, $timeout, $transition, $q, $location) {
   var self = this,
     slides = self.slides = [],
     currentIndex = -1,
@@ -465,6 +465,7 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
         $scope.$currentTransition = $transition(nextSlide.$element, {});
         //We have to create new pointers inside a closure since next & current will change
         (function(next,current) {
+          $location.hash(slides.indexOf(next) + '');
           $scope.$currentTransition.then(
             function(){ transitionDone(next, current); },
             function(){ transitionDone(next, current); }
@@ -563,6 +564,9 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
       }
     } else {
       slide.active = false;
+      if ($location.hash() && parseInt($location.hash()) == slides.length - 1) {
+        self.select(slides[slides.length - 1]);
+      }
     }
   };
 
