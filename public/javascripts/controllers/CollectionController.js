@@ -20,10 +20,23 @@ function CollectionController($scope, $http, $window, $timeout) {
     return { height : $(window).height(), width : $(window).width() };
   };
 
-  $scope.getImageHeight = function(look) {
+  var oldHeight = 0;
+  var oldWidth = 0;
+  $scope.getImageHeight = function(look, $element) {
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
     var fullscreenWidth = (windowHeight / look.size.height) * look.size.width;
+    
+    // Make sure that we notify of image resize
+    if ($element && (windowHeight != oldHeight || windowWidth != oldWidth)) {
+      alert('t3');
+      $timeout(function() {
+        $element.resize();
+      }, 150);
+    }
+    
+    oldHeight = windowHeight;
+    oldWidth = windowWidth;
     if (fullscreenWidth < windowWidth) {
       return windowHeight;
     } else {

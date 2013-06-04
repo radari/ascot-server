@@ -297,6 +297,7 @@ function AscotPluginViewConfig(config) {
 
 function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   var lookCache = {};
+  var ret = {};
 
   if (!window._gaq) {
     // Insert Google Analytics if it doesn't already exist
@@ -576,8 +577,10 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
           tagDescription.hide(100, function(){});
         }, 250);
 
-        $(window).resize(function() {
-          tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : height, width : width }, tag, corners);
+        
+        image.resize(function() {
+          alert('resize!');
+          tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : image.height(), width : image.width() }, tag, corners);
         });
 
         if (Hammer) {
@@ -695,9 +698,8 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
     window.ascotPluginEnqueue($(images[i]));
   }
 
-  return {
-    setDataForLook : function(id, data) {
-      lookCache[id] = data;
-    }
+  ret.setDataForLook = function(id, data) {
+    lookCache[id] = data;
   };
+  return ret;
 };
