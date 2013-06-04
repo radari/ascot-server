@@ -385,10 +385,6 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       };
       
       var wrapper = image.parent();
-      
-      // In case image has height 100%
-      image.css('height', height + 'px');
-      image.css('width', width + 'px');
 
       var marginLeft = parseIntSafe(image.css('marginLeft'));
       var marginRight = parseIntSafe(image.css('marginRight'));
@@ -445,6 +441,11 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       image.ascotPluginResizeActions.push(function() {
         overlay.css('width', image.width() + 'px');
         overlay.css('height', image.height() + 'px');
+        
+        var overlayDeltaX = parseIntSafe(image.css('borderLeftWidth'));
+        var overlayDeltaY = parseIntSafe(image.css('borderTopWidth'));
+        overlay.css('left', overlayDeltaX + 'px');
+        overlay.css('top', overlayDeltaY + 'px');
       });
       
       overlay.css('left', overlayDeltaX + 'px');

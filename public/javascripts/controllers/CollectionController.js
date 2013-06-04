@@ -27,13 +27,13 @@ function CollectionController($scope, $http, $window, $timeout) {
 
   var oldHeight = 0;
   var oldWidth = 0;
-  $scope.getImageHeight = function(look, $element) {
+  $scope.getImageStyle = function(look) {
     var windowHeight = $(window).height();
     var windowWidth = $(window).width();
     var fullscreenWidth = (windowHeight / look.size.height) * look.size.width;
     
     // Make sure that we notify of image resize
-    if ($element && (windowHeight != oldHeight || windowWidth != oldWidth)) {
+    if (windowHeight != oldHeight || windowWidth != oldWidth) {
       $timeout(function() {
         $window.ascotPlugin.resizeAll();
       }, 150);
@@ -42,9 +42,10 @@ function CollectionController($scope, $http, $window, $timeout) {
     oldHeight = windowHeight;
     oldWidth = windowWidth;
     if (fullscreenWidth < windowWidth) {
-      return windowHeight;
+      return { height : windowHeight + 'px', 'margin-top' : '0px', width : fullscreenWidth + 'px' };
     } else {
-      return Math.floor((windowWidth / look.size.width) * look.size.height);
+      var h = Math.floor((windowWidth / look.size.width) * look.size.height);
+      return { height : h + 'px', 'margin-top' : '0px', width : windowWidth + 'px' };
     }
   };
 
