@@ -17,7 +17,7 @@ function EditCollectionController($scope, $http) {
 
   $scope.lookInCollection = function(look) {
     for (var i = 0; i < $scope.collection.looks.length; ++i) {
-      if ($scope.collection.looks[i].toString() == look._id.toString()) {
+      if ($scope.collection.looks[i]._id.toString() == look._id.toString()) {
         return true;
       }
     }
@@ -33,13 +33,13 @@ function EditCollectionController($scope, $http) {
   }
 
   $scope.addToCollection = function(look) {
-    $scope.collection.looks.push(look._id);
+    $scope.collection.looks.push(look);
   };
 
   $scope.removeFromCollection = function(look) {
     var ret = [];
     for (var i = 0; i < $scope.collection.looks.length; ++i) {
-      if ($scope.collection.looks[i].toString() != look._id.toString()) {
+      if ($scope.collection.looks[i]._id.toString() != look._id.toString()) {
         ret.push($scope.collection.looks[i]);
       }
     }
