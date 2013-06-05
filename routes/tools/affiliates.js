@@ -53,7 +53,6 @@ exports.linkshare = function(httpGet, url, fs, file) {
 
   return function(token, link, callback) {
     var parsedUrl = url.parse(link);
-    //console.log('*** ' + parsedUrl.host);
     if (parsedUrl.host in hostToMerchantId) {
       var request = 'http://getdeeplink.linksynergy.com/createcustomlink.shtml?' +
           'token=' + encodeURIComponent(token) +
@@ -64,7 +63,11 @@ exports.linkshare = function(httpGet, url, fs, file) {
         if (error || !result) {
           callback({ error : 'Fail' }, null);
         } else {
-          callback(null, result.buffer);
+          if (result.buffer.toString().indexOf('http://') == -1) {
+            callback({ error : 'Fail' }, null);
+          } else {
+            callback(null, result.buffer);
+          }
         }
       });
     } else {
