@@ -605,9 +605,9 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
           tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : image.height(), width : image.width() }, tag, corners);
         });
 
-        if (Hammer) {
+        if (window.Hammer) {
           var s = false;
-          Hammer(tagContainer).on('tap', function(event) {
+          window.Hammer(tagContainer).on('tap', function(event) {
             if (!s) {
               tagContainer.css('z-index', 5);
               tagDescription.show(100, function(){});
