@@ -13,6 +13,7 @@ files = [
   'javascripts/controllers/MainSearchBarController.js',
   'javascripts/controllers/SettingsController.js',
   'javascripts/controllers/LooksListController.js',
+  'javascripts/controllers/CollectionController.js',
   'javascripts/services/Autocomplete.js',
   'tests/*.js'
 ];

@@ -8,12 +8,12 @@
  *
  */
 
-function CollectionController($scope, $http, $window, $timeout) {
+function CollectionController($scope, $http, $window, $timeout, $windowSize) {
   $scope.collection = {};
   $scope.currentPage = 0;
   
   // Small hack to make sure Angular is aware of page resizes
-  $(window).resize(function() {
+  $windowSize.resize(function() {
     $scope.$apply();
   });
 
@@ -22,7 +22,7 @@ function CollectionController($scope, $http, $window, $timeout) {
   };
   
   $scope.getWindowSize = function() {
-    return { height : $(window).height(), width : $(window).width() };
+    return $windowSize.getWindowSize();
   };
 
   var oldHeight = 0;
