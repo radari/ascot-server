@@ -155,6 +155,13 @@ describe('Ascot plugin', function() {
         this.appendTo = function(el) {
           this.container = el;
         };
+        this.parent = function() {
+          return {
+            get : function(i) {
+              return null;
+            }
+          };
+        };
       }();
 
       var defaultSize = { height : 100, width : 100 };
