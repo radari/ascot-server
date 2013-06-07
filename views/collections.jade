@@ -9,15 +9,32 @@
 extends layout
 
 block content
+  h1.list_header Collections
   - each collection in collections
-    div(style="margin-top: 10px; padding: 5px; width: 260px; border-bottom: 1px solid #ACACAC")
+    div.collectionPreview
       - if (collection.looks.length > 0)
+        div.collectionHeader
+          div.collectionNameDate
+            a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}') #{collection.title} 
+            br
+            | #{collection.looks.length} Looks
+            br
+            p Uploaded on #{new Date(collection.created).toDateString()}
+          div.collectionShare
+            div.shareCollection(src="#") 
+              img(src="/images/overlayOptions_share.png")
+              | Share Collection
+        br
         a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}')
-          img(src="#{collection.looks[0].thumbnail}", style="width: 226px")
-        br
-      div(style="font-size: 2em")
-        a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}') #{collection.title} 
-      div(style="font-size: 0.8em")
-        | #{collection.looks.length} Looks
-        br
-        | Uploaded on #{new Date(collection.created).toDateString()}
+          img.collectionCoverThumbnail(src="#{collection.looks[0].thumbnail}")
+          div.collectionSampler
+            img.collectionThumbnailSmall(src="#{collection.looks[1].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[2].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[4].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[5].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[6].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[7].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[8].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[9].thumbnail}")
+            img.collectionThumbnailSmall(src="#{collection.looks[10].thumbnail}")
+        
