@@ -17,7 +17,7 @@ exports.readify = function(Readable, myUrl) {
         return callback(null, url);
       }
 
-      var s = product.brand + ' ' + product.name;
+      var s = product.brand.trim() + ' ' + product.name.trim();
       var sp = s.split(/\s+/);
       var ret = "";
       for (var i = 0; i < sp.length; ++i) {

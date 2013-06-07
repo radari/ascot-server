@@ -166,7 +166,7 @@ function AscotPlugin(tagSourceUrl) {
   };
 };
 
-function AscotPluginUI(tagSourceUrl, myUrl) {
+function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
   this.constructTagContainer = function(overlay, tagContainer, defaultSize, actualSize, tag, corners) {
     var tagX;
     var tagY;
@@ -251,6 +251,32 @@ function AscotPluginUI(tagSourceUrl, myUrl) {
       }
     });
   };
+
+  this.createIframeDisplay = function(menuWrapper, iframeCode) {
+    menuWrapper.append(
+          '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 35px; height:150px">' +
+          '<div class="ascot_overlay_share_arrow" style="right: -20px;">' +
+          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
+          '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site</p>' +
+          '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'embedClick\', \'' + look._id +
+          '\', \'' + myUrl + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' +
+          iframeCode +
+          '</textarea></div>');
+    return menuWrapper.children().last();
+  };
+
+  this.createEmailDisplay = function(menuWrapper, htmlCode) {
+    menuWrapper.append(
+          '<div class="ascot_overlay_share_menu" style="right: 162px; width: 152px; top: 65px; height:170px">' +
+          '<div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
+          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
+          '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site or email</p>' +
+          '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'htmlClick\', \'' + look._id +
+          '\', \'' + myUrl + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' +
+          htmlCode +
+          '</textarea></div>');
+    return menuWrapper.children().last();
+  };
 }
 
 function AscotPluginViewConfig(config) {
@@ -327,7 +353,6 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   });
 
   var plugin = new AscotPlugin(tagSourceUrl);
-  var UI = new AscotPluginUI(tagSourceUrl, $(location).attr('href'));
   var hashParams = plugin.parseHashParams($(location).attr('href'));
   var jsonp = function(url, callback) {
     $.ajax({
@@ -351,6 +376,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
     if (json && json.look && json.look.tags) {
       var data = json;
       json = json.look;
+      var UI = new AscotPluginUI(tagSourceUrl, $(location).attr('href'), json, plugin);
 
       var myViewConfig = config ||
           json.viewConfig[0] ||
@@ -463,24 +489,14 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       }
 
       var menuWrapper = overlay.children().last();
-              
-      menuWrapper.append(
-          '<div class="ascot_overlay_share_menu" style="right: 172px; width: 152px; top: 35px; height:150px"><div class="ascot_overlay_share_arrow" style="right: -20px;">' +
-          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
-          '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site</p>'+
-          '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'embedClick\', \'' + json._id + '\', \'' + $(location).attr('href') + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' + iframeCode + '</textarea></div>');
-      var iframeDisplay = menuWrapper.children().last();
+
+      var iframeDisplay = UI.createIframeDisplay(menuWrapper, iframeCode);
       iframeDisplay.hide();
       iframeDisplay.click(function(event) {
         event.preventDefault();
       });
 
-      menuWrapper.append(
-          '<div class="ascot_overlay_share_menu" style="right: 162px; width: 152px; top: 65px; height:170px"><div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
-          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
-          '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site or email</p>'+
-          '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'htmlClick\', \'' + json._id + '\', \'' + $(location).attr('href') + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' + plugin.getImageMap(json) + '</textarea></div>');
-      var htmlCodeDisplay = menuWrapper.children().last();
+      var htmlCodeDisplay = UI.createEmailDisplay(menuWrapper, plugin.getImageMap(json));
       htmlCodeDisplay.hide();
       htmlCodeDisplay.click(function(event) {
         event.preventDefault();
