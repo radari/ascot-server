@@ -192,7 +192,10 @@ exports.getCollections = function(Collection) {
 exports.saveCollection = function() {
   return function(req, res) {
     req.collection.title = req.body.title;
-    req.collection.looks = req.body.looks;
+    req.collection.looks = [];
+    for (var i = 0; i < req.body.looks.length; ++i) {
+      req.collection.looks.push(req.body.looks[i]._id);
+    }
     req.collection.save(function(error, collection) {
       if (error || !collection) {
         res.json({ error : error });
