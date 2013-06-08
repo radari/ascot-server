@@ -29,4 +29,5 @@ block content
           img.collectionCoverThumbnail(src="#{collection.looks[0].thumbnail}")
           div.collectionSampler
             - for (var i = 1; i < collection.looks.length && i < 10; ++i)
-              img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
+              div.collectionThumbnailSmallWrapper
+                img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
