@@ -28,13 +28,5 @@ block content
         a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}')
           img.collectionCoverThumbnail(src="#{collection.looks[0].thumbnail}")
           div.collectionSampler
-            img.collectionThumbnailSmall(src="#{collection.looks[1].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[2].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[4].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[5].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[6].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[7].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[8].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[9].thumbnail}")
-            img.collectionThumbnailSmall(src="#{collection.looks[10].thumbnail}")
-        
+            - for (var i = 1; i < collection.looks.length && i < 10; ++i)
+              img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
