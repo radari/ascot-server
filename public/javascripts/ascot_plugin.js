@@ -332,6 +332,24 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
       '</div>');
     return menuWrapper.children().last();
   };
+
+  this.createSourceTag = function(overlay) {
+    if (look.source.indexOf('http://') != -1) {
+      overlay.append(
+          '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
+          '<a href="' +
+          look.source + '\">' +
+          look.source +
+          '</a>' +
+          '</div>');
+    } else {
+      overlay.append(
+          '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
+          look.source +
+          '</div>');
+    }
+    return overlay.children().last();
+  };
 }
 
 function AscotPluginViewConfig(config) {
@@ -593,21 +611,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       }
              
       if (json.source && json.source.length > 0) {
-        if (json.source.indexOf('http://') != -1) {
-          overlay.append(
-              '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
-              '<a href="' +
-              json.source + '\">' +
-              json.source +
-              '</a>' +
-              '</div>');
-        } else {
-          overlay.append(
-              '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
-              json.source +
-              '</div>');
-        }
-        var sourceTag = overlay.children().last();
+        var sourceTag = UI.createSourceTag(overlay);
         var sourceUrl = sourceTag.children().last();
 
         sourceTag.css('transform', 'scale(' + viewConfig.scaleFactor() + ',' + viewConfig.scaleFactor() + ')');
