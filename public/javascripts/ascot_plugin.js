@@ -321,6 +321,17 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
           '</ul></div>');
     return menuWrapper.children().last();
   };
+
+  this.createImageMenu = function(menuWrapper) {
+    menuWrapper.append(
+      '<div class="ascot_overlay_image_menu">' +
+      '<div><img style="cursor: pointer; height: 28px; width: 24px;" id="ascot_overlay_menu_item" src="' +
+      tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
+      '<div><img id="ascot_overlay_menu_item" style="cursor: pointer; height: 24px; width: 24px;" src="' +
+      tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
+      '</div>');
+    return menuWrapper.children().last();
+  };
 }
 
 function AscotPluginViewConfig(config) {
@@ -559,12 +570,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         htmlCodeDisplay.toggle();
       });
 
-      menuWrapper.append(
-          '<div class="ascot_overlay_image_menu">' +
-          '<div><img style="cursor: pointer; height: 28px; width: 24px;" id="ascot_overlay_menu_item" src="' + tagSourceUrl + '/images/overlayOptions_share.png"></a></div>' +
-          '<div><img id="ascot_overlay_menu_item" style="cursor: pointer; height: 24px; width: 24px;" src="' + tagSourceUrl + '/images/overlayOptions_heart_small.png"></a></div>' +
-          '</div>');
-      var imageMenu = menuWrapper.children().last();
+      var imageMenu = UI.createImageMenu(menuWrapper);
       var shareButton = imageMenu.children().first();
       shareButton.click(function(event) {
         event.preventDefault();
