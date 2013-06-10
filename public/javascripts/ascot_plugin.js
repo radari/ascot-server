@@ -449,7 +449,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
     });
   };
 
-  var ascotUpvoteLook = function(upvoteButton, ascotId) {
+  var ascotUpvoteLook = function(UI, upvoteButton, ascotId) {
     UI.handleUpvoteLook(jsonp, upvoteButton, ascotId);
   };
   
@@ -607,7 +607,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       var upvoteButton = imageMenu.children().last().children().first();
       upvoteButton.click(function(event) {
         event.preventDefault();
-        ascotUpvoteLook(upvoteButton, ascotId);
+        ascotUpvoteLook(UI, upvoteButton, ascotId);
       });
 
       imageMenu.css('transform', 'scale(' + viewConfig.scaleFactor() + ',' + viewConfig.scaleFactor() + ')');

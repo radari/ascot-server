@@ -131,6 +131,7 @@ describe('Ascot Project', function() {
       expect(browser().window().href()).toContain('/look/');
 
       // Plugin should have loaded exactly 1 tag
+      sleep(1);
       expect(repeater('.ascot_overlay_tag_container').count()).toBe(1);
       expect(element('.ascot_overlay_tag_name').html()).toBe('1');
       expect(element('.ascot_overlay_tag_description').html()).toContain('Bonobos');
