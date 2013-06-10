@@ -278,10 +278,21 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
     return menuWrapper.children().last();
   };
 
+  this.appendSocialTool = function(shareMenu, gaqTag, name, icon, url) {
+
+  };
+
+  this.createShareMenuGACommand = function(name) {
+    return "_gaq.push([\'ascot._trackEvent\', '" + name + "', '" + look._id + "', '" + myUrl + "'])";
+  }
+
   this.createShareMenu = function(menuWrapper, tumblrUrl, twitterUrl, facebookUrl, pinterestUrl) {
     menuWrapper.append(
-          '<div class="ascot_overlay_share_menu"><div class="ascot_overlay_share_arrow">' + 
-          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div><ul id="ascot_overlay_share_list">' + 
+          '<div class="ascot_overlay_share_menu">' +
+          '<div class="ascot_overlay_share_arrow">' + 
+          '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png">' +
+          '</div>' +
+          '<ul id="ascot_overlay_share_list">' + 
           '<li id="ascot_overlay_share">' +
           '<a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'tumblr\', \'' + look._id + '\', \'' + myUrl + '\'])"' +
           ' href="' + tumblrUrl + '">' +
@@ -293,21 +304,18 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
           '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed.png">' +
           '</div>' +
           '<div class="ascot_overlay_social_name">Embed</div></li>' + 
-          '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'twitter\', \'' + look._id + '\', \'' + myUrl + '\'])"' +
-          ' href="' + twitterUrl + '">' +
+          '<br><a target="_blank" onclick="' + this.createShareMenuGACommand('twitter') + '" href="' + twitterUrl + '">' +
           '<li id="ascot_overlay_share">' +
           '<div class="ascot_overlay_social_icon">' +
           '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTwitter.png">' +
           '</div>' +
           '<div class="ascot_overlay_social_name">Twitter</div></li></a>' +
-          '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'facebook\', \'' + look._id + '\', \'' + myUrl + '\'])"' +
-          ' href="' + facebookUrl + '">' +
+          '<br><a target="_blank" onclick="' + this.createShareMenuGACommand('facebook') + '" href="' + facebookUrl + '">' +
           '<li id="ascot_overlay_share">' +
           '<div class="ascot_overlay_social_icon">' +
           '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_facebook.png">' +
           '</div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
-          '<br><a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'pinterest\', \'' + look._id + '\', \'' + myUrl + '\']);"' +
-          ' href="' + pinterestUrl + '">' +
+          '<br><a target="_blank" onclick="' + this.createShareMenuGACommand('pinterest') + '" href="' + pinterestUrl + '">' +
           '<li id="ascot_overlay_share">' +
           '<div class="ascot_overlay_social_icon">' +
           '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_pinterest.png">' +
