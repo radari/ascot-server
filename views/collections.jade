@@ -30,4 +30,5 @@ block content
           div.collectionSampler
             - for (var i = 1; i < collection.looks.length && i < 10; ++i)
               div.collectionThumbnailSmallWrapper
-                img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
+                a(href="/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}###{i}")
+                  img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
