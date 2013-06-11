@@ -17,7 +17,12 @@ function LooksListController($scope, $http, $window, $timeout) {
   $scope.currentPage = 0;
   $scope.nextPage = 0;
   $scope.$window = $window;
-  
+  $scope.route = $window.location.pathname;
+
+  $scope.setRoute = function(route) {
+    $scope.route = route;
+  };
+
   $scope.$R = function(low, high) {
     var ret = [];
     for (var i = low; i < high; ++i) {
@@ -70,7 +75,7 @@ function LooksListController($scope, $http, $window, $timeout) {
   
   $scope.loadNextPage = function() {
     if ($scope.nextPage < $scope.numPages) {
-      $http.get('/all?p=' + $scope.nextPage++, { headers : { accept : 'application/json' } })
+      $http.get($scope.route + '?p=' + $scope.nextPage++, { headers : { accept : 'application/json' } })
           .success(
             function(data) {
               addLooks(data.looks);
