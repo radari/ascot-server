@@ -32,7 +32,7 @@ block content
             div.coverThumbnailWrapper
               img.collectionCoverThumbnail(src="#{collection.looks[0].thumbnail}")
             div.collectionSampler
-              - for (var i = 1; i < collection.looks.length && i < 10; ++i)
+              - for (var i = 1; i < collection.looks.length && i < 14; ++i)
                 div.collectionThumbnailSmallWrapper
                   a(href="/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}###{i}")
                     img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
