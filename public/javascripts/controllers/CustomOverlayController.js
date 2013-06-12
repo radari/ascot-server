@@ -1,10 +1,11 @@
 function CustomOverlayController($scope, $http, $window) {
   $scope.look = {};
+  //$scope.testColor = '#FFD700';
 
   $scope.init = function(look) {
     $scope.look = look;
 
-    $('input.minicolors').minicolors({ opacity : false, defaultValue : $scope.look.viewConfig[0].display.backgroundColor });
+    //$('input.minicolors').minicolors({ opacity : false, defaultValue : $scope.look.viewConfig[0].display.backgroundColor });
   };
 
   $scope.updatePlugin = function() {
@@ -13,7 +14,8 @@ function CustomOverlayController($scope, $http, $window) {
   };
 
   $scope.updateColor = function() {
-    $scope.look.viewConfig[0].display.backgroundColor = $('input.minicolors').val();
+    //alert("--> " + $scope.look.viewConfig[0].display.backgroundColor);
+    alert('hi');
     $scope.updatePlugin();
   };
 

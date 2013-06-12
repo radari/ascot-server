@@ -85,4 +85,25 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
       scope.$apply();
     });
   }
+}).directive('jqMinicolors', function($timeout) {
+  return {
+    restrict : 'A',
+    scope : { rgb : '=ngModel' },
+    link : function(scope, elm, attrs) {
+      // $timeout hack because 'link' happens before
+      // DOM is fully rendered, see
+      // https://github.com/angular-ui/ui-utils/tree/master/modules/jq
+      $timeout(function() {
+        var e = $(elm).minicolors({
+          opacity : false,
+          defaultValue : scope.rgb,
+          change : function(hex) {
+            scope.rgb = hex;
+            scope.$eval(attrs.ngChange);
+            scope.$apply();
+          }
+        });
+      }, 0);
+    }
+  };
 });
