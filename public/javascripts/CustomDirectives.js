@@ -88,7 +88,7 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
 }).directive('jqMinicolors', function($timeout) {
   return {
     restrict : 'A',
-    scope : { rgb : '=ngModel' },
+    scope : { rgb : '=ngColor' },
     link : function(scope, elm, attrs) {
       // $timeout hack because 'link' happens before
       // DOM is fully rendered, see
