@@ -99,8 +99,8 @@ angular.module('CustomDirectives', []).directive('ngDirectional', function() {
           defaultValue : scope.rgb,
           change : function(hex) {
             scope.rgb = hex;
-            scope.$eval(attrs.ngChange);
             scope.$apply();
+            scope.$parent.$eval(attrs.ngChange);
           }
         });
       }, 0);

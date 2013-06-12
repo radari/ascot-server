@@ -60,7 +60,9 @@ block content
           div.colorOptions
             div#backgroundColor
               p Background
-              input(type="text", jq-minicolors, ng-model="look.viewConfig[0].display.backgroundColor", ng-change="updateColor()")
+              input(type="text", jq-minicolors, ng-model="look.viewConfig[0].display.backgroundColor", ng-change="updateColor();")
+              br
+              | {{look.viewConfig[0].display.backgroundColor}}
         li#animationOptions
           h3 Animation
             span.karat &nbsp; &#9660;

@@ -14,8 +14,6 @@ function CustomOverlayController($scope, $http, $window) {
   };
 
   $scope.updateColor = function() {
-    //alert("--> " + $scope.look.viewConfig[0].display.backgroundColor);
-    alert('hi');
     $scope.updatePlugin();
   };
 
