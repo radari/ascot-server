@@ -697,22 +697,6 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
   var images = $('img').get();
   var numLoaded = 0;
 
-  window.ascotPluginKillOverlay = function(image) {
-    if ($(image.parent()).hasClass('ascot_overlay_look')) {
-      $(image.parent()).children('.ascot_overlay').remove();
-      $(image).css('position', 'relative');
-      $(image).css('marginTop', $(image.parent()).css('marginTop'));
-      $(image).css('marginBottom', $(image.parent()).css('marginBottom'));
-      $(image).css('marginLeft', $(image.parent()).css('marginLeft'));
-      $(image).css('marginRight', $(image.parent()).css('marginRight'));
-      $(image).unwrap();
-    }
-  };
-
-  window.ascotPluginMakeOverlay = function(image, ascotId, url, json) {
-    makeOverlay(image, ascotId, url, json);
-  };
-
   var ascotify = function() {
     // This function is recursively called when ajax/jsonp call out to
     // ascotproject.com is done - this lets us queue up requests and avoid
@@ -799,6 +783,20 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         }
       }
     }
+  };
+  ret.killOverlay = function(image) {
+    if ($(image.parent()).hasClass('ascot_overlay_look')) {
+      $(image.parent()).children('.ascot_overlay').remove();
+      $(image).css('position', 'relative');
+      $(image).css('marginTop', $(image.parent()).css('marginTop'));
+      $(image).css('marginBottom', $(image.parent()).css('marginBottom'));
+      $(image).css('marginLeft', $(image.parent()).css('marginLeft'));
+      $(image).css('marginRight', $(image.parent()).css('marginRight'));
+      $(image).unwrap();
+    }
+  };
+  ret.makeOverlay = function(image, ascotId, url, json) {
+    makeOverlay(image, ascotId, url, json);
   };
   return ret;
 };

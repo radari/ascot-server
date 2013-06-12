@@ -8,8 +8,8 @@ function CustomOverlayController($scope, $http, $window) {
   };
 
   $scope.updatePlugin = function() {
-    $window.ascotPluginKillOverlay($('#customizeSample'));
-    $window.ascotPluginMakeOverlay($('#customizeSample'), $scope.look._id, $scope.look.url, { hasUpvotedCookie : false, look : $scope.look });
+    $window.ascotPlugin.killOverlay($('#customizeSample'));
+    $window.ascotPlugin.makeOverlay($('#customizeSample'), $scope.look._id, $scope.look.url, { hasUpvotedCookie : false, look : $scope.look });
   };
 
   $scope.updateColor = function() {
