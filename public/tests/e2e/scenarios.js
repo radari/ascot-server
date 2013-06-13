@@ -213,6 +213,11 @@ describe('Ascot Project', function() {
     });
 
     it('should be able to customize appearance', function() {
+      element('#username').val('vkarpov12345');
+      element('#password').val('abc123');
+      element('#signIn').click();
+      sleep(2);
+
       browser().navigateTo('/home');
       sleep(3);
 
@@ -225,6 +230,7 @@ describe('Ascot Project', function() {
 
       input('look.viewConfig[0].display.borderWidth').enter(1);
       sleep(0.5);
+      expect(element('.ascot_overlay_tag_name').css('borderWidth')).toBe('1px');
     });
     
     it('should be able to change and save settings', function() {

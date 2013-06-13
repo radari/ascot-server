@@ -15,13 +15,17 @@ exports.thumbnail = function(gm, temp) {
         if (error || !features) {
           callback({ error : error }, null);
         } else {
-          gm(path).resize(226, features.height * (226 / features.width)).write(result.path, function(error) {
-            if (error) {
-              callback({ error : error }, null);
-            } else {
-              callback(null, result.path);
-            }
-          });
+          if (features.width < 226) {
+            callback(null, path);
+          } else {
+            gm(path).resize(226, features.height * (226 / features.width)).write(result.path, function(error) {
+              if (error) {
+                callback({ error : error }, null);
+              } else {
+                callback(null, result.path);
+              }
+            });
+          }
         }
       });
     });
