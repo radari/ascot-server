@@ -89,15 +89,15 @@ describe('Ascot Project', function() {
     });
     
     it('should be able to upload an image', function() {
-      element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
+      element('#submitLink').val('http://localhost:3000/images/x.gif');
       element('#submit').click();
-      sleep(4);
+      sleep(5);
       // Wait for 5 seconds for next page to load
       expect(browser().window().href()).toContain('/tagger/');
     });
 
     it('should be able to upload, tag, and view', function() {
-      element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
+      element('#submitLink').val('http://localhost:3000/images/x.gif');
       element('#submit').click();
       sleep(5);
 
@@ -127,7 +127,7 @@ describe('Ascot Project', function() {
 
       // Save look and wait for /look to load
       element('.save_button').click();
-      sleep(2);
+      sleep(3);
       expect(browser().window().href()).toContain('/look/');
 
       // Plugin should have loaded exactly 1 tag
@@ -179,16 +179,52 @@ describe('Ascot Project', function() {
       browser().navigateTo('/upload');
       sleep(2);
       
-      element('#submitLink').val('http://www.google.com/images/srpr/logo3w.png');
+      element('#submitLink').val('http://localhost:3000/images/x.gif');
       element('#submit').click();
-      sleep(4);
+      sleep(6);
       // Wait for 5 seconds for next page to load
       expect(browser().window().href()).toContain('/tagger/');
+
+      // Create a tag
+      element('.uploadedImg').click();
+      sleep(1);
+      expect(repeater('.item').count()).toBe(1);
+
+      // Type in info
+      input('idsToEditTag[look].product.brand').enter('Bonobos');
+      input('idsToEditTag[look].product.name').enter('Tiny Prancers');
+      input('idsToEditTag[look].product.buyLink').enter('www.google.com');
+
+      // Save tag
+      element('#saveTagButton').click();
+      sleep(1);
+      expect(repeater('.item').count()).toBe(1);
+      expect(element('#overlay').css('display')).toBe('none');
+
+      // Save look and wait for /look to load
+      element('.save_button').click();
+      sleep(4);
+      expect(browser().window().href()).toContain('/look/');      
       
       browser().navigateTo('/home');
       sleep(2);
-      
+      expect(browser().window().href()).toContain('/home');
       expect(repeater('.look_element').count()).toBe(1);
+    });
+
+    it('should be able to customize appearance', function() {
+      browser().navigateTo('/home');
+      sleep(3);
+
+      expect(browser().window().href()).toContain('/home');
+      expect(repeater('.look_element').count()).toBe(1);
+      element('.look_element div a.customizeLink').click();
+      sleep(2);
+
+      expect(browser().window().href()).toContain('/customize/');
+
+      input('look.viewConfig[0].display.borderWidth').enter(1);
+      sleep(0.5);
     });
     
     it('should be able to change and save settings', function() {
