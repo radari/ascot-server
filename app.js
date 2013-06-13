@@ -28,6 +28,7 @@ var express = require('express')
   , authenticate = require('./routes/authenticate.js')
   , collection = require('./routes/collection.js')
   , facebook = require('./routes/facebook.js')
+  , links = require('./routes/links.js')
   , look = require('./routes/look.js')
   , product = require('./routes/product.js')
   , tagger = require('./routes/tagger.js')
@@ -265,15 +266,7 @@ app.get('/tags.jsonp', tags.get(mongoLookFactory));
 app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory, goldfinger, download));
 app.get('/embed/tagger/:look', tagger.get('mini_tagger', mongoLookFactory));
-app.get('/l/:key', function(req, res) {
-  shortener.longify(req.params.key, function(error, url) {
-    if (error || !url) {
-      res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
-    } else {
-      res.render('l', { url : url });
-    }
-  })
-});
+app.get('/l/:key', links.shortened(shortener));
 app.get('/p/:readable/:number', function(req, res) {
   readify.longify(req.params.readable, req.params.number, function(error, url) {
     if (error || !url) {
