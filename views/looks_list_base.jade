@@ -38,7 +38,7 @@ block content
 
   div.all_looks_wrapper(style="text-align: center",
                         ng-controller="LooksListController",
-                        ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page}, 4, 226)",
+                        ng-init="init(#{JSON.stringify(looks)}, #{numPages}, #{page}, 4, 223)",
                         ng-when-scrolled="loadNextPage();")
     block list_wrapper
       div.all_looks_element(ng-repeat="column in columns")
