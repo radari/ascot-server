@@ -1,15 +1,17 @@
 extends layout
 
 block content
-  h2.list_header Ascot Basic How-To 
+  h3.list_header Ascot Basic How-To 
   br
   div#step1
-    .heading 1
+    .heading 
+      p 1
     .description Click "start tagging" to upload a picture to Ascot 
     .stepImg 
       img(src='/images/step1.png', id:'step1')
   div#step2
-    .heading 2
+    .heading 
+      p 2
     .description Click to add tags. Label clothes, brands, and the source site. 
     .stepImg 
       img(src='/images/step2.png', id:'step2')
@@ -20,7 +22,8 @@ block content
     .stepImg 
       img(src='/images/step3.png', id:'step3')
   br
-  h2.list_header Ascot Advanced Help Files 
+  h3.list_header Ascot Advanced Help Files 
+  br
   a.howToTitle(href="/howto/guidelines") Tagging Guidelines &nbsp;
   | Learn the conventions of Ascot tagging for various situations. 
   br

@@ -374,15 +374,19 @@ li.search {
   border-radius:20px;
   background-color:#b54e37;
   color:white;
-  font-size:30px;
-  width:35px;
-  height:35px;
+  font-size:2.5em;
+  width:1em;
+  height:1em;
   text-align:center;
   margin-left:5px;
-  margin-top:5px;
+  margin-top:9px;
   float:left;
+  font-family:"georgia", sans-serif;
 }
 
+.heading p {
+  margin-top:0.1em;
+}
 
 
 
@@ -466,15 +470,6 @@ h1, h2 {
   list-style:circle inside;
 }
 
-
-
-}
-
-#social ul {
-  border:1px orange solid;
-}
-
-
 #social li{
   float:right;
   margin-top: 5px;
@@ -516,12 +511,8 @@ h1, h2 {
   
 }
 
-
-
-
 #submit  {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
   color: #ffffff;
   padding: 10px 20px;
   background: #822816;
@@ -624,13 +615,13 @@ h1, h2 {
 }
 
 
-#uploadURL {
-  background-color: #b54e37;
+#uploadURL input {
+  border:4px solid #b54e37;
   width:415px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  padding:3px;
+  padding:6px;
   position:relative;
   margin:auto;
   left:0;
@@ -809,14 +800,14 @@ font-size:14px;
 -webkit-box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.6);
 }
 
-.progress {
+.progressStep {
   position:relative;
   width:100%;
   height:80px;
   top:20px;
   margin-bottom:40px;
 }
-.progress img{
+.progressStep img{
   position:absolute;
   right:0;
   left:0;
@@ -865,7 +856,7 @@ font-size:14px;
 
 #step1, #step2, #step3 {
   width:290px;
-  height:365px;
+  height:370px;
   border:1px #b1b3b3 solid;
   margin-left:10px;
   margin-top:0px;
@@ -1341,6 +1332,7 @@ box-shadow:0px 2px 3px #000000;
 
 .collectionNameDate a {
   font-size:2em;
+  font-family:"georgia", sans-serif;
 }
 
 .collectionNameDate p {
@@ -1384,25 +1376,13 @@ box-shadow:0px 2px 3px #000000;
 .shareCollection img {
   width:20px;
   position:relative;
-  top:8px;
   right:5px;
   margin-right:3px;
 }
-
-.collectionSampler {
-  width:746px;
-  float:left;
-}
-
+s
 .collectionCoverThumbnail {
   width: 200px;
   margin-right:5px;
-}
-
-.coverThumbnailWrapper {
-  height: 206px;
-  overflow: hidden;
-  float: left
 }
 
 .collectionThumbnailSmall {
@@ -1422,8 +1402,7 @@ box-shadow:0px 2px 3px #000000;
   text-align:center;
   background-color:#b54e37;
   color:white;
-  padding:10px;
-  padding-top:0px;
+  padding:8px;
   width:150px;
   float:right;
   -webkit-border-radius: 5px;
@@ -1434,5 +1413,4 @@ box-shadow:0px 2px 3px #000000;
 
 .collectionPreviewImages {
   z-index: -1;
-  margin-top: 10px;
 }

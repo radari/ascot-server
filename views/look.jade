@@ -25,7 +25,7 @@ prepend head
 
 block content
   div#lookViewWrapper
-    div.progress(style="#{query.showProgress ? 'display: block' : 'display: none'}")
+    div.progressStep(style="#{query.showProgress ? 'display: block' : 'display: none'}")
       img(src='/images/progressStep3.png', id:'step3')
     div.look-container(ng-init="look = #{JSON.stringify(look)}")
       h3.list_header #{look.title}

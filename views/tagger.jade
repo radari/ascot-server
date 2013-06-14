@@ -37,10 +37,10 @@ prepend head
   link(rel='stylesheet', href='/stylesheets/taggerPut.css')
 
 block content
-  .progress
+  .progressStep
     img(src='/images/progressStep2.png', id:'step2')
   div(ng-controller="TaggerViewController")
-    h2.info Add Image Info
+    h3.info Add Image Info
     p.title Title
     input(type="text", 
           placeholder="",
@@ -54,7 +54,7 @@ block content
           ng-model="idsToLooks['#{look._id}'].source")    
     br
     br 
-    h2#tagTutorial Click on the image to add tags. Double click to delete. 
+    h3#tagTutorial Click on the image to add tags. Double click to delete. 
 
     include partials/_tagger.jade
 
