@@ -31,10 +31,11 @@ html(id="ng-app", ng-app='AscotModule')
     // if lt IE 9
       script(src="https://raw.github.com/aFarkas/html5shiv/master/src/html5shiv.js")
 
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    
     link(rel='icon', type='image/png', href='/images/favicon.ico')
     link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/start/jquery-ui.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
     
     block head
 
@@ -57,18 +58,17 @@ html(id="ng-app", ng-app='AscotModule')
 
   body
     block afterbody
-    #headerBack
-    #wrapper(ng-controller='MainSearchBarController')
-      div#wrapperTop
-        div#nav
-          ul#navLeft
+    div#navbarBack
+    .container(ng-controller='MainSearchBarController')
+      div.navbar.navbar-inverse 
+        div.navbar-inner
+          ul.nav.pull-left
             li
               a(href="/") Home
             li
               a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}") Start
             li#howToNav
               a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  How To
-            li.spacer |
             li.social
               a(href="http://ascotproject.tumblr.com/", target="_blank")
                 img#tumblr(src='/images/tumblrButton_v2.png', id:'tumblrButton')
@@ -78,8 +78,7 @@ html(id="ng-app", ng-app='AscotModule')
             li.social
               a(href="https://www.facebook.com/ascotproject", target="_blank")
                 img#facebook(src='/images/facebookButton_v2.png', id:'fbButton')
-            li.spacer |
-          ul#navRight 
+          ul.nav.pull-right 
             li
               a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}") Looks 
             li
@@ -92,6 +91,8 @@ html(id="ng-app", ng-app='AscotModule')
               - else
                 a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}") Login
             li.search
+              span#glass 
+                  i
               input(type='text',
                     name='v',
                     id='main_search',
@@ -104,14 +105,12 @@ html(id="ng-app", ng-app='AscotModule')
                     ng-key-up="autocomplete.prevSelection('MAIN');",
                     ng-key-down="autocomplete.nextSelection('MAIN');",
                     ng-key-return="onSelected(autocomplete.getSelected('MAIN'));")
-              span#glass 
-                i
-        div.autocomplete(ng-show="autocomplete.show['MAIN']")
-          div(ng-repeat='result in autocomplete.results["MAIN"]',
-              ng-class="autocomplete.checkSelection('MAIN', $index)",
-              ng-mouseover='autocomplete.setSelection("MAIN", $index)',
-              ng-click='onSelected(result)')
-            span(ng-bind-html-unsafe='filterToString(result) | boldInstances:mainSearch') 
+              div.autocomplete(ng-show="autocomplete.show['MAIN']")
+                div(ng-repeat='result in autocomplete.results["MAIN"]',
+                    ng-class="autocomplete.checkSelection('MAIN', $index)",
+                    ng-mouseover='autocomplete.setSelection("MAIN", $index)',
+                    ng-click='onSelected(result)')
+                  span(ng-bind-html-unsafe='filterToString(result) | boldInstances:mainSearch') 
 
         div.userMenu 
           ul

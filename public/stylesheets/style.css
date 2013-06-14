@@ -31,6 +31,13 @@ input {
   clear: both;
 }
 
+#navbarBack {
+  z-index:2;
+  position: relative;
+  height:60px;
+  background-color:#2d2d2d;
+}
+
 .exampleIframe img {
   position:absolute;
   top:80px;
@@ -219,7 +226,33 @@ iframe {
   right:0;
   display: block;
 }
+/*----------------------------------------------bootstrap overrides-----------------------------------------*/
+.container {
+  z-index:10;
+  position: relative;
+  z-index:30;
+  top:-60px;
+}
 
+.navbar, .navbar-inner {
+  height:60px;
+}
+
+.navbar-inverse .navbar-inner{
+   background-color: #2d2d2d;
+}
+
+.navbar-inverse .nav > li > a {
+  color:#7b7979;
+}
+
+.navbar-inverse .nav > li > a:hover {
+  color:#b0b0b0
+}
+
+.navbar li {
+  line-height:30px;
+}
 #headerBack {
   height:60px;
   background-color:blue;
@@ -229,35 +262,6 @@ iframe {
   background-color:#2d2d2d;
 }
 
-#wrapper {
-  width: 960px;
-  padding-top:0;
-  font: 14px Georgia, Helvetica, Arial, sans-serif;
-  margin:0;
-  position:relative;
-  margin:auto;
-  left:0;
-  right:0;
-  top:0;
-  padding-bottom: 80px;
-  padding-left:5px;
-  padding-right:5px;
-  overflow:visible;
-  clear:both;
-  z-index:10;
-  margin-top:-60px;
-}
-
-#wrapperTop {
-  height: 64px;
-}
-
-#wrapper p {
-  line-height:18px;
-  margin-top:0;
-  margin-bottom:0;
-
-}
 
 .heading {
   border-radius:20px;
@@ -346,38 +350,15 @@ a:visited {
   color:#b0b0b0;
 }
 
-
-#nav li a {
-  text-align:center;
-  margin:0;
-}
-
-#navLeft {
-  overflow:hidden;
-  padding-left:5px;
-  width:48%;
-  float:left;
-}
-
-#navRight {
-  width:36%;
-  float:right;
-  padding:0;
-  margin-right:0;
-}
-
-#nav li.social {
+li.social {
   width:40px;
-  padding-top:0px;
+  text-align:center;
 }
 
-#nav li.spacer {
-  width:10px;
-}
-
-#nav li.search {
+li.search {
   width:130px;
   padding-top:2px;
+  margin-top:9px;
 }
 
 
@@ -460,7 +441,6 @@ a:visited {
   border-radius:5px;
   box-shadow:none;
   border:none;
-  font-size:12px;
 }
 
 #glass i {
@@ -472,8 +452,9 @@ a:visited {
     height: 14px;
     width: 14px;
     top:0;
-   left:9px;
+   left:4px;
    color:#2d2d2d;
+   color:blue;
 }
 
 #glass {
@@ -481,7 +462,7 @@ a:visited {
     display: block;
     padding: 7px 8px 5px;
     position: absolute;
-    top:21px;
+    top:18px;
 }
 
 h3{
@@ -970,7 +951,8 @@ div.autocomplete {
   margin-top: 5px;
   margin-left: 15px;
   position: absolute;
-  right:19px;
+  float:right;
+  margin-left:20px;
   top:34px;
   z-index: 9001;
 }
@@ -985,18 +967,17 @@ div.autocomplete div {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 90%;
   padding: 3px;
+  z-index: 9001;
 }
 
 div.autocomplete div:hover {
-  background-color: #000000;
+  background-color: #2d2d2d;
   color: #FFFFFF;
-  background-color:rgba(0,0,0,1);
 }
 
 div.autocomplete div.selection {
-  background-color: #000000;
+  background-color: #2d2d2d;
   color: #FFFFFF;
-  background-color:rgba(0,0,0,1);
 }
 
 #save_button {
@@ -1194,10 +1175,6 @@ width:250px;
 .facebookPostOptions {
   float:left;
   margin-left:10px;
-}
-
-.spacer {
-
 }
 
 .facebookPreviewWrapper {
