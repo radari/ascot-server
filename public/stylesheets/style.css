@@ -80,7 +80,7 @@ input {
 }
 
 .aboutHead {
-  color:#b54f37;
+  color:#b54e37;
   border:1px transparent solid;
   margin:0;
 }
@@ -184,7 +184,7 @@ h2.aboutHead {
 #valueProps li.selected {
   opacity:1;
   border-bottom:2px transparent solid;
-   color:#b54f37;
+   color:#b54e37;
 }
 
 .selected{
@@ -227,11 +227,20 @@ iframe {
   display: block;
 }
 /*----------------------------------------------bootstrap overrides-----------------------------------------*/
+h1, h2, h3, h4 {
+  font-family:"georgia";
+}
+
+h4 {
+  font-weight:400;
+}
+
 .container {
   z-index:10;
   position: relative;
   z-index:30;
   top:-60px;
+  color:#666;
 }
 
 .navbar, .navbar-inner {
@@ -253,6 +262,8 @@ iframe {
 .navbar li {
   line-height:30px;
 }
+
+/*-------------------------------------------------------- Navbar Styles -----------------------------------*/
 #headerBack {
   height:60px;
   background-color:blue;
@@ -262,10 +273,106 @@ iframe {
   background-color:#2d2d2d;
 }
 
+li.social {
+  width:40px;
+  text-align:center;
+}
+
+li.search {
+  width:130px;
+  padding-top:2px;
+  margin-top:9px;
+}
+
+.traingle {
+  font-size:.8em;
+}
+
+
+.userMenu {
+  background-color:#2d2d2d; 
+  position:absolute;
+  top:60px;
+  right:93px;
+  font-family:arial, helvetica;
+  z-index:10;
+  display:none;
+}
+
+.userMenu ul {
+ margin-top:0;
+ list-style:none;
+ padding:0;
+}
+
+.userMenu li {
+  margin-bottom:4px;
+  background-color: transparent;
+  padding-left:6px;
+  padding-right:6px;
+}
+
+.userMenu a:hover {
+  color:#b0b0b0;
+}
+
+
+#social {
+  padding:0;
+  top:0px;
+  width:945px;
+  position:relative;
+  margin:auto;
+  right:5px;
+  bottom:0;
+  top:0px;
+  border-top: 1px #ccc solid;
+      
+}
+
+#main_search {
+  height:20px;
+  width:100px;
+  background-color:#7b7979;
+  color: #2d2d2d;
+  padding-left:23px;
+  border-radius:5px;
+  box-shadow:none;
+  border:none;
+}
+
+#glass i {
+    position:absolute;
+    background-image: url(http://s.twimg.com/a/1290538325/phoenix/img/sprite-icons.png);
+    background-position: -224px -96px;
+    display: block;
+    font-size: 0px;
+    height: 14px;
+    width: 14px;
+    top:0;
+   left:4px;
+   color:#2d2d2d;
+   color:blue;
+}
+
+#glass {
+    cursor: pointer;
+    display: block;
+    padding: 7px 8px 5px;
+    position: absolute;
+    top:18px;
+}
+
+/*------------------------------------------- home page styles ----------------------------------------*/
+
+#getStarted {
+  text-align:center;
+  color:#b54e37;
+}
 
 .heading {
   border-radius:20px;
-  background-color:#b54f37;
+  background-color:#b54e37;
   color:white;
   font-size:30px;
   width:35px;
@@ -314,99 +421,15 @@ a:visited {
   text-decoration: none;
 }
 
-
-#nav {
-  padding:0;
-  width:100%;
-  position:absolute;
-  right:0;
-  overflow:auto;
-  font-size:14px;
-  height:60px;
-  background-color:#2d2d2d;
-  margin-top:0;
-  left:0;
-  font-family:"arial", helvetica;
-}
-
-#nav #currentPage {
+ #currentPage {
   color: white;
 }
 
-#nav li{
-  width:70px;
-  float:left;
-  margin:0;
-  display:inline;
-  text-align: center;
-  color:#7b7979;
-  height:26px;
-  padding-bottom:0;
-  padding-top:6px;
-}
-
-
-#nav a:hover {
-  color:#b0b0b0;
-}
-
-li.social {
-  width:40px;
+.benefitHead {
   text-align:center;
 }
 
-li.search {
-  width:130px;
-  padding-top:2px;
-  margin-top:9px;
-}
 
-
-.traingle {
-  font-size:.8em;
-}
-
-
-.userMenu {
-  background-color:#2d2d2d; 
-  position:absolute;
-  top:60px;
-  right:93px;
-  font-family:arial, helvetica;
-  z-index:10;
-  display:none;
-}
-
-.userMenu ul {
- margin-top:0;
- list-style:none;
- padding:0;
-}
-
-.userMenu li {
-  margin-bottom:4px;
-  background-color: transparent;
-  padding-left:6px;
-  padding-right:6px;
-}
-
-.userMenu a:hover {
-  color:#b0b0b0;
-}
-
-
-#social {
-  padding:0;
-  top:0px;
-  width:945px;
-  position:relative;
-  margin:auto;
-  right:5px;
-  bottom:0;
-  top:0px;
-  border-top: 1px #ccc solid;
-      
-}
 
 #companyInfo {
   padding:0;
@@ -427,43 +450,9 @@ li.search {
 }
 
 #footer {
-  position: relative;
-  padding-top: 0px;
   height:50px;
 }
 
-#main_search {
-  height:20px;
-  width:100px;
-  background-color:#7b7979;
-  color: #2d2d2d;
-  padding-left:23px;
-  border-radius:5px;
-  box-shadow:none;
-  border:none;
-}
-
-#glass i {
-    position:absolute;
-    background-image: url(http://s.twimg.com/a/1290538325/phoenix/img/sprite-icons.png);
-    background-position: -224px -96px;
-    display: block;
-    font-size: 0px;
-    height: 14px;
-    width: 14px;
-    top:0;
-   left:4px;
-   color:#2d2d2d;
-   color:blue;
-}
-
-#glass {
-    cursor: pointer;
-    display: block;
-    padding: 7px 8px 5px;
-    position: absolute;
-    top:18px;
-}
 
 h3{
   font-weight:400;
@@ -597,8 +586,7 @@ h1, h2 {
 }
 
 .startButton {
-  font-family: Georgia, Helvetica, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   color: #ffffff;
   padding: 10px 10px;
   background: #822816;
@@ -623,10 +611,6 @@ h1, h2 {
   box-shadow:
     0px 1px 3px rgba(000,000,000,0.5),
     inset 0px 0px 2px rgba(255,255,255,1);
-  text-shadow:
-    0px -1px 0px rgba(000,000,000,0),
-    0px 1px 0px rgba(255,255,255,0.3);
-  position:absolute;
   margin:auto;
   left:0;
   right:0;
@@ -640,11 +624,8 @@ h1, h2 {
 }
 
 
-
-
-
 #uploadURL {
-  background-color: #b54f37;
+  background-color: #b54e37;
   width:415px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -659,7 +640,7 @@ h1, h2 {
 
 
 .customUpload{
-  background-color: #b54f37;
+  background-color: #b54e37;
   padding: 5px;
   margin: auto;
   color: #323232;
@@ -714,7 +695,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 
 #signUp {
-  background-color: #b54f37;
+  background-color: #b54e37;
   font-family: Georgia,Verdana, Times, serif;
   padding: 10px 10px;
   margin: auto;
@@ -873,14 +854,8 @@ font-size:14px;
   margin-top:px;
 }
 
-.leading h1 {
-  font-weight:100;
-  margin-top:0;
-  margin-bottom:0;
-}
-
 .leading {
-  color: #b54f37;
+  color: #b54e37;
   margin-left:10px;
 }
 
@@ -985,11 +960,12 @@ div.autocomplete div.selection {
 }
 
 .list_header {
-  width: 960px;
+  width: 940px;
   text-align: center;
   font-weight: 400;
   margin: 0px;
   margin-top: 0px;
+  color:#666;
 }
 
 div.sort_sub_header {
@@ -1444,7 +1420,7 @@ box-shadow:0px 2px 3px #000000;
 
 .shareCollection {
   text-align:center;
-  background-color:#b54f37;
+  background-color:#b54e37;
   color:white;
   padding:10px;
   padding-top:0px;
