@@ -137,8 +137,11 @@ html(id="ng-app", ng-app='AscotModule')
         h3.pageTitle
       
 
-      block content
-    div#footer.navbar.navbar-fixed-bottom 
+      div#wrap
+        block content
+        div#push
+        
+    div#footer.navbar 
       ul#companyInfo
         li
           a(href="/about") about-
