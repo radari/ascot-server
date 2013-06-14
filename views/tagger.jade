@@ -51,8 +51,10 @@ block content
     input(type="text", 
           placeholder="",
           id="sourceField",
-          ng-model="idsToLooks['#{look._id}'].source")     
-    h2.info Click on the image to add tags. Double click to delete. 
+          ng-model="idsToLooks['#{look._id}'].source")    
+    br
+    br 
+    h2#tagTutorial Click on the image to add tags. Double click to delete. 
 
     include partials/_tagger.jade
 
