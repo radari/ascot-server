@@ -1427,4 +1427,6 @@ s
 
 .collectionPreviewImages {
   z-index: -1;
+  height: 206px;
+  overflow: hidden;
 }
