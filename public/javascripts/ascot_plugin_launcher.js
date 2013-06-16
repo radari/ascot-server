@@ -88,7 +88,7 @@
 
   var loadAscotStylesheets = function(url, callback) {
     loadStylesheet(
-        url + '/stylesheets/ascot_plugin.css',
+        url + '/stylesheets/ascot_plugin.css?1234',
         callback);
   };
   
