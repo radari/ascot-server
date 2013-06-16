@@ -24,8 +24,10 @@ block content
             div.shareCollection(src="#", onclick="$('#embed#{collection._id}').fadeToggle()") 
               img(src="/images/overlayOptions_share.png")
               | Embed Collection
-            textarea.collectionEmbedCode(id="embed#{collection._id}")
-              | <iframe src="#{rootUrl}/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}" style="height: 600px; width: 800px;"></iframe>
+            div.collectionEmbedCode(id="embed#{collection._id}")
+              img.arrow(src="/images/popupArrow_borderVertical.png")
+              textarea(onfocus="this.select()", onmouseup="return false")
+                | <iframe src="#{rootUrl}/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}" style="height: 600px; width: 800px;"></iframe>
           div(style="clear: both")
         div.row
           div.span3
