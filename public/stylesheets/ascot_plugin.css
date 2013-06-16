@@ -141,6 +141,16 @@
   z-index: 4;
 }
 
+.ascot_overlay_look .ascot_overlay_share_menu textarea {
+  width: 142px;
+  height: 110px;
+  margin: 0px;
+  margin-top: 6px;
+  margin-left: 3px;
+  padding: 0px;
+  background-color: #F3F3F3;
+}
+
 .ascot_overlay_look .ascot_overlay_html_display {
   right: 162px;
   width: 152px;

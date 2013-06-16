@@ -259,7 +259,7 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
           '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site</p>' +
           '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'embedClick\', \'' + look._id +
-          '\', \'' + myUrl + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' +
+          '\', \'' + myUrl + '\']);">' +
           iframeCode +
           '</textarea></div>');
     return menuWrapper.children().last();
@@ -272,7 +272,7 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
           '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site or email</p>' +
           '<textarea onclick="_gaq.push([\'ascot._trackEvent\', \'htmlClick\', \'' + look._id +
-          '\', \'' + myUrl + '\']);" style="width: 142px; height: 110px; margin-top: 3px;">' +
+          '\', \'' + myUrl + '\']);">' +
           htmlCode +
           '</textarea></div>');
     return menuWrapper.children().last();
