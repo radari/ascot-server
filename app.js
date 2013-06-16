@@ -108,7 +108,7 @@ passport.serializeUser(strategy.serializeUser);
 passport.deserializeUser(strategy.deserializeUser);
 
 // Configure asset manager
-var assets = assetManager({
+/*var assets = assetManager({
   css : {
     route : /\/stylesheets\/ascot_plugin.css/,
     path : './public/stylesheets/',
@@ -123,7 +123,7 @@ var assets = assetManager({
     },
     stale : false
   }
-});
+});*/
 
 // configure custom tools
 var mode = process.env.MODE || 'production';
@@ -165,7 +165,7 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   // connect-assetmanager
-  app.use(assets);
+  //app.use(assets);
 
   app.use(express.session({ secret: 'LS295K8NO2O2l8' }));
   app.use(passport.initialize());
