@@ -267,7 +267,7 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
 
   this.createEmailDisplay = function(menuWrapper, htmlCode) {
     menuWrapper.append(
-          '<div class="ascot_overlay_share_menu" style="right: 162px; width: 152px; top: 65px; height:170px">' +
+          '<div class="ascot_overlay_share_menu ascot_overlay_html_display">' +
           '<div class="ascot_overlay_share_arrow" style="right: -20px; top: 120px">' +
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png"></div>' + 
           '<p id="ascot_overlay_embed_instruct">Copy code & paste in body of your site or email</p>' +
