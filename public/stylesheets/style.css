@@ -85,10 +85,6 @@ input {
   left:30px;
 }
 
-#aboutPageWrapper {
-  overflow:hidden;
-}
-
 .aboutHead {
   color:#b54e37;
   border:1px transparent solid;
@@ -104,13 +100,6 @@ input {
   display:none;
 }
 
-#ascotForAll {
-  height:440px;
-}
-
-.brands img, .bloggers img, .advertisers img {
-
-}
 
 #ascotForAll img {
   width:400px;
@@ -127,11 +116,6 @@ input {
 
 .leadingText, #ascotForAll, #ascotTeam {
   border-bottom:1px rgba(123,121,121,0.2) solid;
-  padding-bottom:8px;
-}
-
-.leadingText {
-  padding-top:8px;
 }
 
 h1.aboutHead {
@@ -144,25 +128,9 @@ h2.aboutHead {
 }
 
 
-#aboutColumnLeft {
-  position:relative;
-  left:0px;
-  width:470px;
+#Left {
   border-right:1px rgba(123,121,121,0.2) solid;
-  float:left;
-  padding-left:8px;
-  padding-right:8px;
-  padding-bottom:14px;
-  margin-bottom:-80px;
-}
-
-#aboutColumnRight {
-  position:relative;
-  left:5px;
-  width:460px;
-  float:right;
-  margin-bottom:-80px;
-  margin-right:5px; 
+  margin-right:-1px;
 }
 
 
@@ -209,8 +177,10 @@ h2.aboutHead {
 
 #ascotTeam ul {
   padding:0; 
-  overflow:hidden;
-  padding-bottom:55px;
+  overflow:hidden;  
+  position:relative;
+  left:0;
+  margin:0;
 }
 
 #ascotTeam li {
@@ -220,7 +190,7 @@ float:left;
 }
 
 .teamMember {
-height:130px;
+height:160px;
 width:105px;
 display:inline;
 }
