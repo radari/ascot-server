@@ -311,5 +311,56 @@ describe('Ascot plugin', function() {
           'http://test/images/overlayOptions_heart_small.png"></a></div>' +
           '</div>');
     });
+
+    it('should add source tag properly when source is a link', function() {
+      var mockLook = { _id : 'ABCD', source : 'http://mytest' };
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com', mockLook);
+
+      var els = [];
+      var mockReturnValue = { _id : '1234' };
+      var mockMenuWrapper = {
+        append : function(html) {
+          els.push(html);
+        },
+        children : function() {
+          return { last : function() { return mockReturnValue; } };
+        }
+      };
+
+      var r = UI.createSourceTag(mockMenuWrapper);
+      expect(r).toBe(mockReturnValue);
+      expect(els.length).toBe(1);
+      expect(els[0]).toBe(
+          '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
+          '<a href="' +
+          'http://mytest\">' +
+          'http://mytest' +
+          '</a>' +
+          '</div>');
+    });
+
+    it('should add source tag properly when source is not a link', function() {
+      var mockLook = { _id : 'ABCD', source : 'mytest' };
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com', mockLook);
+
+      var els = [];
+      var mockReturnValue = { _id : '1234' };
+      var mockMenuWrapper = {
+        append : function(html) {
+          els.push(html);
+        },
+        children : function() {
+          return { last : function() { return mockReturnValue; } };
+        }
+      };
+
+      var r = UI.createSourceTag(mockMenuWrapper);
+      expect(r).toBe(mockReturnValue);
+      expect(els.length).toBe(1);
+      expect(els[0]).toBe(
+          '<div class="ascot_overlay_source_tag">i<div class="ascot_overlay_source_url">' +
+          'mytest' +
+          '</div>');
+    });
   });
 });
