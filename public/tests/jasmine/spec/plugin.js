@@ -264,5 +264,21 @@ describe('Ascot plugin', function() {
       expect(els.length).toBe(1);
       expect(els[0]).toContain('MYTESTCODE');
     });
+
+    it('should be able to create a social tool display properly', function() {
+      var mockLook = { _id : 'ABCD' };
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com', mockLook);
+
+      expect(UI.appendSocialTool('Twitter', 'http://www.google.com/test.png', 'http://www.twitter.com')).
+          toContain("_gaq.push([\'ascot._trackEvent\', 'twitter', 'ABCD', 'http://mywebsite.com'])");
+      expect(UI.appendSocialTool('Twitter', 'http://www.google.com/test.png', 'http://www.twitter.com')).
+          toContain('<img id="ascot_overlay_social" src="http://www.google.com/test.png">');
+      expect(UI.appendSocialTool('Twitter', 'http://www.google.com/test.png', 'http://www.twitter.com')).
+          toContain('<div class="ascot_overlay_social_name">Twitter</div>');
+    });
+
+    /*it('should be able to properly format Google analytics command', function() {
+
+    });*/
   });
 });
