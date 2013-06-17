@@ -284,5 +284,32 @@ describe('Ascot plugin', function() {
       expect(UI.createShareMenuGACommand('mylabel')).
           toBe("_gaq.push([\'ascot._trackEvent\', 'mylabel', 'ABCD', 'http://mywebsite.com'])");
     });
+
+    it('should be able to create image menu', function() {
+      var mockLook = { _id : 'ABCD' };
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com', mockLook);
+
+      var els = [];
+      var mockReturnValue = { _id : '1234' };
+      var mockMenuWrapper = {
+        append : function(html) {
+          els.push(html);
+        },
+        children : function() {
+          return { last : function() { return mockReturnValue; } };
+        }
+      };
+
+      var r = UI.createImageMenu(mockMenuWrapper, 'MYTESTCODE');
+      expect(r).toBe(mockReturnValue);
+      expect(els.length).toBe(1);
+      expect(els[0]).toBe(
+          '<div class="ascot_overlay_image_menu">' +
+          '<div><img style="cursor: pointer; height: 28px; width: 24px;" id="ascot_overlay_menu_item" src="' +
+          'http://test/images/overlayOptions_share.png"></a></div>' +
+          '<div><img id="ascot_overlay_menu_item" style="cursor: pointer; height: 24px; width: 24px;" src="' +
+          'http://test/images/overlayOptions_heart_small.png"></a></div>' +
+          '</div>');
+    });
   });
 });
