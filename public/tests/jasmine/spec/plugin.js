@@ -243,5 +243,26 @@ describe('Ascot plugin', function() {
       expect(els.length).toBe(1);
       expect(els[0]).toContain('MYTESTCODE');
     });
+
+    it('should be able to create email display', function() {
+      var mockLook = { _id : 'ABCD' };
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com', mockLook);
+
+      var els = [];
+      var mockReturnValue = { _id : '1234' };
+      var mockMenuWrapper = {
+        append : function(html) {
+          els.push(html);
+        },
+        children : function() {
+          return { last : function() { return mockReturnValue; } };
+        }
+      };
+
+      var r = UI.createEmailDisplay(mockMenuWrapper, 'MYTESTCODE');
+      expect(r).toBe(mockReturnValue);
+      expect(els.length).toBe(1);
+      expect(els[0]).toContain('MYTESTCODE');
+    });
   });
 });
