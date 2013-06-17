@@ -277,8 +277,12 @@ describe('Ascot plugin', function() {
           toContain('<div class="ascot_overlay_social_name">Twitter</div>');
     });
 
-    /*it('should be able to properly format Google analytics command', function() {
+    it('should be able to properly format Google analytics command', function() {
+      var mockLook = { _id : 'ABCD' };
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com', mockLook);
 
-    });*/
+      expect(UI.createShareMenuGACommand('mylabel')).
+          toBe("_gaq.push([\'ascot._trackEvent\', 'mylabel', 'ABCD', 'http://mywebsite.com'])");
+    });
   });
 });
