@@ -111,40 +111,6 @@ describe('Ascot plugin', function() {
   });
 
   describe("Ascot Plugin UI", function() {
-    it('should handle upvote look properly', function() {
-      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com');
-
-      var ascotId = '1234';
-      var mockJsonp = function(url, callback) {
-        expect(url).toBe('http://test/upvote/1234.jsonp');
-        callback({ add : true });
-      };
-
-      var props = {};
-      var mockUpvoteButton = {
-        attr : function(attr, value) {
-          props[attr] = value;
-        },
-        css : function(attr, value) {
-          props[attr] = value;
-        }
-      };
-
-      UI.handleUpvoteLook(mockJsonp, mockUpvoteButton, ascotId);
-      expect(props['cursor']).toBe('pointer');
-      expect(props['src']).toBe('http://test/images/overlayOptions_heart_small_opaque.png');
-      expect(props['opacity']).toBe('1');
-
-      UI.handleUpvoteLook(function(url, callback) {
-            callback({ remove : true });
-          },
-          mockUpvoteButton,
-          ascotId);
-      expect(props['cursor']).toBe('pointer');
-      expect(props['src']).toBe('http://test/images/overlayOptions_heart_small.png');
-      expect(props['opacity']).toBe('0.6');
-    });
-
     it("should set up tag container properly", function() {
       var mockOverlay = { me : true };
       var mockTagContainer = new function() {
@@ -223,5 +189,59 @@ describe('Ascot plugin', function() {
       expect(tagDescription.props['bottom']).toBe('8px');
     });
     
+    it('should handle upvote look properly', function() {
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com');
+
+      var ascotId = '1234';
+      var mockJsonp = function(url, callback) {
+        expect(url).toBe('http://test/upvote/1234.jsonp');
+        callback({ add : true });
+      };
+
+      var props = {};
+      var mockUpvoteButton = {
+        attr : function(attr, value) {
+          props[attr] = value;
+        },
+        css : function(attr, value) {
+          props[attr] = value;
+        }
+      };
+
+      UI.handleUpvoteLook(mockJsonp, mockUpvoteButton, ascotId);
+      expect(props['cursor']).toBe('pointer');
+      expect(props['src']).toBe('http://test/images/overlayOptions_heart_small_opaque.png');
+      expect(props['opacity']).toBe('1');
+
+      UI.handleUpvoteLook(function(url, callback) {
+            callback({ remove : true });
+          },
+          mockUpvoteButton,
+          ascotId);
+      expect(props['cursor']).toBe('pointer');
+      expect(props['src']).toBe('http://test/images/overlayOptions_heart_small.png');
+      expect(props['opacity']).toBe('0.6');
+    });
+
+    it('should be able to create iframe display', function() {
+      var mockLook = { _id : 'ABCD' };
+      var UI = new AscotPluginUI('http://test', 'http://mywebsite.com', mockLook);
+
+      var els = [];
+      var mockReturnValue = { _id : '1234' };
+      var mockMenuWrapper = {
+        append : function(html) {
+          els.push(html);
+        },
+        children : function() {
+          return { last : function() { return mockReturnValue; } };
+        }
+      };
+
+      var r = UI.createIframeDisplay(mockMenuWrapper, 'MYTESTCODE');
+      expect(r).toBe(mockReturnValue);
+      expect(els.length).toBe(1);
+      expect(els[0]).toContain('MYTESTCODE');
+    });
   });
 });
