@@ -278,8 +278,15 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
     return menuWrapper.children().last();
   };
 
-  this.appendSocialTool = function(shareMenu, gaqTag, name, icon, url) {
-
+  this.appendSocialTool = function(gaqTag, name, icon, url) {
+    return  '<li id="ascot_overlay_share">' +
+            '  <a target="_blank" onclick="' + this.createShareMenuGACommand(gaqTag) + '" href="' + url + '">' +
+            '    <div class="ascot_overlay_social_icon">' +
+            '      <img id="ascot_overlay_social" src="' + icon + '">' +
+            '    </div>' +
+            '    <div class="ascot_overlay_social_name">' + name + '</div>' +
+            '  </a>' +
+            '</li>';
   };
 
   this.createShareMenuGACommand = function(name) {
@@ -293,33 +300,19 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png">' +
           '</div>' +
           '<ul id="ascot_overlay_share_list">' + 
-          '<li id="ascot_overlay_share">' +
-          '<a target="_blank" onclick="_gaq.push([\'ascot._trackEvent\', \'tumblr\', \'' + look._id + '\', \'' + myUrl + '\'])"' +
-          ' href="' + tumblrUrl + '">' +
-          '<div class="ascot_overlay_social_icon">' +
-          '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTumblr.png">' +
-          '</div><div class="ascot_overlay_social_name">Tumblr</div></a></li>' + 
-          '<br><li id="ascot_overlay_share" class="embedLink" style="cursor: pointer">' +
+          this.appendSocialTool('tumblr', 'Tumblr', tagSourceUrl + '/images/socialTumblr.png', tumblrUrl) + 
+          '<br>' +
+          '<li id="ascot_overlay_share" class="embedLink" style="cursor: pointer">' +
           '<div class="ascot_overlay_social_icon">' +
           '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed.png">' +
           '</div>' +
           '<div class="ascot_overlay_social_name">Embed</div></li>' + 
-          '<br><a target="_blank" onclick="' + this.createShareMenuGACommand('twitter') + '" href="' + twitterUrl + '">' +
-          '<li id="ascot_overlay_share">' +
-          '<div class="ascot_overlay_social_icon">' +
-          '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialTwitter.png">' +
-          '</div>' +
-          '<div class="ascot_overlay_social_name">Twitter</div></li></a>' +
-          '<br><a target="_blank" onclick="' + this.createShareMenuGACommand('facebook') + '" href="' + facebookUrl + '">' +
-          '<li id="ascot_overlay_share">' +
-          '<div class="ascot_overlay_social_icon">' +
-          '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_facebook.png">' +
-          '</div><div class="ascot_overlay_social_name">Facebook</div></li></a>' +
-          '<br><a target="_blank" onclick="' + this.createShareMenuGACommand('pinterest') + '" href="' + pinterestUrl + '">' +
-          '<li id="ascot_overlay_share">' +
-          '<div class="ascot_overlay_social_icon">' +
-          '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmbed_pinterest.png">' +
-          '</div><div class="ascot_overlay_social_name">Pinterest</div></li></a>' +
+          '<br>' +
+          this.appendSocialTool('twitter', 'Twitter', tagSourceUrl + '/images/socialTwitter.png', twitterUrl) +
+          '<br>' +
+          this.appendSocialTool('facebook', 'Facebook', tagSourceUrl + '/images/socialEmbed_facebook.png', facebookUrl) +
+          '<br>' +
+          this.appendSocialTool('pinterest', 'Pinterest', tagSourceUrl + '/images/socialEmbed_pinterest.png', pinterestUrl) +
           '<br><li id="ascot_overlay_share" class="embedLink" style="cursor: pointer">' +
           '<div class="ascot_overlay_social_icon">' +
           '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmail.png">' +
