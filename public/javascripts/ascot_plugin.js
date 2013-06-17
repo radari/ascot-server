@@ -278,9 +278,9 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
     return menuWrapper.children().last();
   };
 
-  this.appendSocialTool = function(gaqTag, name, icon, url) {
+  this.appendSocialTool = function(name, icon, url) {
     return  '<li id="ascot_overlay_share">' +
-            '  <a target="_blank" onclick="' + this.createShareMenuGACommand(gaqTag) + '" href="' + url + '">' +
+            '  <a target="_blank" onclick="' + this.createShareMenuGACommand(name.toLowerCase()) + '" href="' + url + '">' +
             '    <div class="ascot_overlay_social_icon">' +
             '      <img id="ascot_overlay_social" src="' + icon + '">' +
             '    </div>' +
@@ -300,7 +300,7 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
           '<img id="ascot_overlay_share_arrow" src="' + tagSourceUrl + '/images/popupArrow_border.png">' +
           '</div>' +
           '<ul id="ascot_overlay_share_list">' + 
-          this.appendSocialTool('tumblr', 'Tumblr', tagSourceUrl + '/images/socialTumblr.png', tumblrUrl) + 
+          this.appendSocialTool('Tumblr', tagSourceUrl + '/images/socialTumblr.png', tumblrUrl) + 
           '<br>' +
           '<li id="ascot_overlay_share" class="embedLink" style="cursor: pointer">' +
           '<div class="ascot_overlay_social_icon">' +
@@ -308,11 +308,11 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
           '</div>' +
           '<div class="ascot_overlay_social_name">Embed</div></li>' + 
           '<br>' +
-          this.appendSocialTool('twitter', 'Twitter', tagSourceUrl + '/images/socialTwitter.png', twitterUrl) +
+          this.appendSocialTool('Twitter', tagSourceUrl + '/images/socialTwitter.png', twitterUrl) +
           '<br>' +
-          this.appendSocialTool('facebook', 'Facebook', tagSourceUrl + '/images/socialEmbed_facebook.png', facebookUrl) +
+          this.appendSocialTool('Facebook', tagSourceUrl + '/images/socialEmbed_facebook.png', facebookUrl) +
           '<br>' +
-          this.appendSocialTool('pinterest', 'Pinterest', tagSourceUrl + '/images/socialEmbed_pinterest.png', pinterestUrl) +
+          this.appendSocialTool('Pinterest', tagSourceUrl + '/images/socialEmbed_pinterest.png', pinterestUrl) +
           '<br><li id="ascot_overlay_share" class="embedLink" style="cursor: pointer">' +
           '<div class="ascot_overlay_social_icon">' +
           '<img id="ascot_overlay_social" src="' + tagSourceUrl + '/images/socialEmail.png">' +
