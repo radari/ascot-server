@@ -64,11 +64,11 @@ html(id="ng-app", ng-app='AscotModule')
         div.navbar-inner
           ul.nav.pull-left
             li
-              a(href="/") Home
+              a(href="/", id="#{url == '/' ? 'currentPage' : 'nonCurrentPage'}") Home
             li
               a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}") Start
             li#howToNav
-              a(href="/howto/", id="#{url.indexOf('/howto/tumblr') == 0 ? 'currentPage' : 'nonCurrentPage'}")  How To
+              a(href="/howto/", id="#{url.indexOf('/howto') == 0 ? 'currentPage' : 'nonCurrentPage'}")  How To
             li.social
               a(href="http://ascotproject.tumblr.com/", target="_blank")
                 img#tumblr(src='/images/tumblrButton_v2.png', id:'tumblrButton')
@@ -82,7 +82,7 @@ html(id="ng-app", ng-app='AscotModule')
             li
               a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}") Looks 
             li
-              a(href="/collections") Collections
+              a(href="/collections", id="#{url == '/collections' ? 'currentPage' : 'nonCurrentPage'}") Collections
             li
               - if (user)
                 a(href='#', id='userName') Me 
