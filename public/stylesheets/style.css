@@ -31,9 +31,6 @@ li{
 input {
   color:#7b7979;
 }
-.clear {
-  clear: both;
-}
 
 #navbarBack {
   z-index:2;
@@ -62,25 +59,12 @@ input {
   z-index:10;
 }
 
-#onboardAbout {
-  height:670px;
-}
-
-#benefits {
-  width:100%;
-  overflow:auto;
-  padding-bottom:15px;
-  background-color:#fbfbfb;
-}
-
 .benefitText {
   width:312px;  
-  float:left;
   padding-left:5px;
 }
 
 .benefitImg {
-  overflow:none;  
   position:relative;
   left:30px;
 }
@@ -116,15 +100,6 @@ input {
 
 .leadingText, #ascotForAll, #ascotTeam {
   border-bottom:1px rgba(123,121,121,0.2) solid;
-}
-
-h1.aboutHead {
-  border-bottom: 1px #7B7979 solid;
-}
-
-h2.aboutHead {
-  margin-bottom:0px;
-  margin-top:8px;
 }
 
 
@@ -163,10 +138,6 @@ h2.aboutHead {
   opacity:1;
   border-bottom:2px transparent solid;
    color:#b54e37;
-}
-
-.selected{
-  border-bottom:2px blue solid;
 }
 
 #ascotTeam {
@@ -352,12 +323,6 @@ li.search {
 }
 
 /*------------------------------------------- home page styles ----------------------------------------*/
-
-#getStarted {
-  text-align:center;
-  color:#b54e37;
-}
-
 .heading {
   border-radius:20px;
   background-color:#b54e37;
@@ -376,8 +341,6 @@ li.search {
   margin-top:0.1em;
 }
 
-
-
 .description {
   float:right;
   width:82%;
@@ -394,7 +357,6 @@ li.search {
 
 #chooseFile {
   margin-bottom:30px;
-
 }
 
 /*  Any changes to link styles must also be made in ascot_look.css*/
@@ -546,14 +508,6 @@ h1, h2 {
 
 }
 
-#getStarted {
-  width:960px;
-  height:100px;
-  position:relative;
-  left:0;
-  right:0;
-  margin:auto;
-}
 
 #getStarted h2 {
   position:relative;
@@ -571,6 +525,11 @@ h1, h2 {
 
 #shared {
   margin-bottom:5px;
+}
+
+#start {
+  text-align:center;
+  display:none;
 }
 
 .startButton {
@@ -839,8 +798,6 @@ font-size:14px;
   width:100%;
   overflow:hidden;
   padding:10px;
-  margin-bottom:-82px;
-  margin-top:px;
 }
 
 .leading {
@@ -1378,15 +1335,11 @@ box-shadow:0px 2px 3px #000000;
 }
 
 .collectionNameDate {
-  width:49%;
-  float:left;
   color:#aaa;
 }
 
 .collectionShare {
   text-align:right;
-  float:right;
-  width:49%;
   color:#aaa;
   font-family:arial;
   position: relative;

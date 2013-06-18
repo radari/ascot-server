@@ -11,33 +11,36 @@ extends layout
 block content
   h3.list_header Collections
   - each collection in collections
-    div.collectionPreview
       - if (collection.looks.length > 0)
-        div.collectionHeader
-          div.collectionNameDate
-            a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}') #{collection.title} 
-            br
-            | #{collection.looks.length} Looks
-            br
-            p Uploaded on #{new Date(collection.created).toDateString()}
-          div.collectionShare
-            div.shareCollection(src="#", onclick="$('#embed#{collection._id}').fadeToggle()") 
-              img(src="/images/overlayOptions_share.png")
-              | Embed Collection
-            div.collectionEmbedCode(id="embed#{collection._id}")
-              img.arrow(src="/images/popupArrow_borderVertical.png")
-              textarea(onfocus="this.select()", onmouseup="return false")
-                | <iframe src="#{rootUrl}/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}" style="height: 600px; width: 800px;"></iframe>
-          div(style="clear: both")
-        div.row
-          div.span3
-            div.collectionPreviewImages
-              a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}')
-                img.collectionCoverThumbnail(src="#{collection.looks[0].thumbnail}")
-          div.span9
-            div.collectionSampler
-              - for (var i = 1; i < collection.looks.length && i < 14; ++i)
-                div.collectionThumbnailSmallWrapper
-                  a(href="/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}###{i}")
-                    img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
+        div.collectionPreview
+          div.collectionHeader
+            div.row
+              div.span6
+                div.collectionNameDate
+                  a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}') #{collection.title} 
+                  br
+                  | #{collection.looks.length} Looks
+                  br
+                  p Uploaded on #{new Date(collection.created).toDateString()}
+              div.span6
+                div.collectionShare
+                  div.shareCollection(src="#", onclick="$('#embed#{collection._id}').fadeToggle()") 
+                    img(src="/images/overlayOptions_share.png")
+                    | Embed Collection
+                  div.collectionEmbedCode(id="embed#{collection._id}")
+                    img.arrow(src="/images/popupArrow_borderVertical.png")
+                    textarea(onfocus="this.select()", onmouseup="return false")
+                      | <iframe src="#{rootUrl}/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}" style="height: 600px; width: 800px;"></iframe>
+            div(style="clear: both")
+          div.row
+            div.span3
+              div.collectionPreviewImages
+                a(href='/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}')
+                  img.collectionCoverThumbnail(src="#{collection.looks[0].thumbnail}")
+            div.span9
+              div.collectionSampler
+                - for (var i = 1; i < collection.looks.length && i < 14; ++i)
+                  div.collectionThumbnailSmallWrapper
+                    a(href="/user/#{collection.owner.username}/collection/#{encodeURIComponent(collection.title)}###{i}")
+                      img.collectionThumbnailSmall(src="#{collection.looks[i].thumbnail}")
           div(style="clear: both")
