@@ -8,6 +8,6 @@
  *
  */
 
-angular.module('AscotModule', ['AngularFilters', 'AscotImageModule', 'RedirectModule', 'AutocompleteModule', 'CustomDirectives', 'WindowSizeService', 'ui.bootstrap']);
+angular.module('AscotModule', ['AngularFilters', 'AscotImageModule', 'RedirectModule', 'AutocompleteModule', 'CustomDirectives', 'WindowSizeService', 'AscotBrowserModule', 'ui.bootstrap']);
 
 
