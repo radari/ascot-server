@@ -10,10 +10,14 @@
 extends looks_list_base
 
 block list_header
+  h3.list_header
+      | #{listTitle}
   include partials/_account_navigation.jade
 
 block list_element
-  div(style="border-bottom: 1px solid #ACACAC; border-top: 1px solid #ACACAC; padding-top: 5px; padding-bottom: 5px")
+  
+
+  div(style="border-bottom: 1px solid #ACACAC; padding-top: 5px; padding-bottom: 5px")
     img(ng-src="{{look.thumbnail | checkEmpty:look.url}}#ascot={{look._id}}",
         id="ascot_{{look._id}}",
         ng-init="setUpPlugin(look._id);",
