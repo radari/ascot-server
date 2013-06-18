@@ -59,101 +59,101 @@ html(id="ng-app", ng-app='AscotModule')
   body
     block afterbody
     div#navbarBack
-    .container(ng-controller='MainSearchBarController')
-      div.navbar.navbar-inverse 
-        div.navbar-inner
-          ul.nav.pull-left
-            li
-              a(href="/", id="#{url == '/' ? 'currentPage' : 'nonCurrentPage'}") Home
-            li
-              a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}") Start
-            li#howToNav
-              a(href="/howto/", id="#{url.indexOf('/howto') == 0 ? 'currentPage' : 'nonCurrentPage'}")  How To
-            li.social
-              a(href="http://ascotproject.tumblr.com/", target="_blank")
-                img#tumblr(src='/images/tumblrButton_v2.png', id:'tumblrButton')
-            li.social
-              a(href="https://twitter.com/AscotProject", target="_blank")
-                img#twitter(src='/images/twitterButton_v2.png', id:'twitterButton')
-            li.social
-              a(href="https://www.facebook.com/ascotproject", target="_blank")
-                img#facebook(src='/images/facebookButton_v2.png', id:'fbButton')
-          ul.nav.pull-right 
-            li
-              a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}") Looks 
-            li
-              a(href="/collections", id="#{url == '/collections' ? 'currentPage' : 'nonCurrentPage'}") Collections
-            li
-              - if (user)
-                a(href='#', id='userName') Me 
-                  span.triangle
-                    &#x25BC;
-              - else
-                a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}") Login
-            li.search
-              span#glass 
-                  i
-              input(type='text',
-                    name='v',
-                    id='main_search',
-                    ng-model='mainSearch',
-                    ng-change='updateResults()'
-                    placeholder="Search",
-                    ng-focus="autocomplete.show('MAIN')",
-                    ng-blur="autocomplete.hide('MAIN')",
-                    ng-directional="true",
-                    ng-key-up="autocomplete.prevSelection('MAIN');",
-                    ng-key-down="autocomplete.nextSelection('MAIN');",
-                    ng-key-return="onSelected(autocomplete.getSelected('MAIN'));")
-              div.autocomplete(ng-show="autocomplete.show['MAIN']")
-                div(ng-repeat='result in autocomplete.results["MAIN"]',
-                    ng-class="autocomplete.checkSelection('MAIN', $index)",
-                    ng-mouseover='autocomplete.setSelection("MAIN", $index)',
-                    ng-click='onSelected(result)')
-                  span(ng-bind-html-unsafe='filterToString(result) | boldInstances:mainSearch') 
+    #wrap 
+      .container(ng-controller='MainSearchBarController')
+        div.navbar.navbar-inverse 
+          div.navbar-inner
+            ul.nav.pull-left
+              li
+                a(href="/", id="#{url == '/' ? 'currentPage' : 'nonCurrentPage'}") Home
+              li
+                a(href="/upload", id="#{url.indexOf('/upload') == 0 ? 'currentPage' : 'nonCurrentPage'}") Start
+              li#howToNav
+                a(href="/howto/", id="#{url.indexOf('/howto') == 0 ? 'currentPage' : 'nonCurrentPage'}")  How To
+              li.social
+                a(href="http://ascotproject.tumblr.com/", target="_blank")
+                  img#tumblr(src='/images/tumblrButton_v2.png', id:'tumblrButton')
+              li.social
+                a(href="https://twitter.com/AscotProject", target="_blank")
+                  img#twitter(src='/images/twitterButton_v2.png', id:'twitterButton')
+              li.social
+                a(href="https://www.facebook.com/ascotproject", target="_blank")
+                  img#facebook(src='/images/facebookButton_v2.png', id:'fbButton')
+            ul.nav.pull-right 
+              li
+                a(href="/all", id="#{url.indexOf('/all') == 0 ? 'currentPage' : 'nonCurrentPage'}") Looks 
+              li
+                a(href="/collections", id="#{url == '/collections' ? 'currentPage' : 'nonCurrentPage'}") Collections
+              li
+                - if (user)
+                  a(href='#', id='userName') Me 
+                    span.triangle
+                      &#x25BC;
+                - else
+                  a(href="/login", id="#{url.indexOf('/login') == 0 ? 'currentPage' : 'nonCurrentPage'}") Login
+              li.search
+                span#glass 
+                    i
+                input(type='text',
+                      name='v',
+                      id='main_search',
+                      ng-model='mainSearch',
+                      ng-change='updateResults()'
+                      placeholder="Search",
+                      ng-focus="autocomplete.show('MAIN')",
+                      ng-blur="autocomplete.hide('MAIN')",
+                      ng-directional="true",
+                      ng-key-up="autocomplete.prevSelection('MAIN');",
+                      ng-key-down="autocomplete.nextSelection('MAIN');",
+                      ng-key-return="onSelected(autocomplete.getSelected('MAIN'));")
+                div.autocomplete(ng-show="autocomplete.show['MAIN']")
+                  div(ng-repeat='result in autocomplete.results["MAIN"]',
+                      ng-class="autocomplete.checkSelection('MAIN', $index)",
+                      ng-mouseover='autocomplete.setSelection("MAIN", $index)',
+                      ng-click='onSelected(result)')
+                    span(ng-bind-html-unsafe='filterToString(result) | boldInstances:mainSearch') 
 
-        div.userMenu 
-          ul
-            li
-              span
-                a(href='/home') My Looks
-            li(style="display: none")
-              span
-                a(href='/home') My Collections
-            li
-              span
-                a(href='/favorites') My Favorites
-            li
-              span
-                a(href='/settings') Settings
-            li
-              span
-                a(href='/logout') Logout
+          div.userMenu 
+            ul
+              li
+                span
+                  a(href='/home') My Looks
+              li(style="display: none")
+                span
+                  a(href='/home') My Collections
+              li
+                span
+                  a(href='/favorites') My Favorites
+              li
+                span
+                  a(href='/settings') Settings
+              li
+                span
+                  a(href='/logout') Logout
 
-    
-      div#logoWrapper
-        a(href="/")
-          img(src='/images/ascotLogo_v2.png', id:'logo')    
-        h3.pageTitle
       
-
-      div#wrap
-        block content
-        div#push
+        div#logoWrapper
+          a(href="/")
+            img(src='/images/ascotLogo_v2.png', id:'logo')    
+          h3.pageTitle
         
-    div#footer.navbar 
+     
+        block content
+        
+          
+    footer#footer
       ul#companyInfo
         li
-          a(href="/about") about-
+          a(href="/about") about
+        li -
         li
-          a(href="/privacy") privacy-
+          a(href="/privacy") privacy
+        li -
         li
-          a(href="/contact") contact-
+          a(href="/contact") contact
+        li -
         li
           a(href="/disclosures") disclosures
-
-
-
       ul#social
         li
           a(href="http://ascotproject.tumblr.com/", target="_blank")
