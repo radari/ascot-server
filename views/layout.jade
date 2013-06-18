@@ -142,27 +142,20 @@ html(id="ng-app", ng-app='AscotModule')
         
           
     footer#footer
-      ul#companyInfo
-        li
-          a(href="/about") about
-        li -
-        li
-          a(href="/privacy") privacy
-        li -
-        li
-          a(href="/contact") contact
-        li -
-        li
-          a(href="/disclosures") disclosures
-      ul#social
-        li
-          a(href="http://ascotproject.tumblr.com/", target="_blank")
-            img#tumblr(src='/images/tumblrButton.png', id:'tumblrButton')
-        li
-          a(href="https://twitter.com/AscotProject", target="_blank")
-            img#twitter(src='/images/twitterButton.png', id:'twitterButton')
-        li
-          a(href="https://www.facebook.com/ascotproject", target="_blank")
-            img#facebook(src='/images/facebookButton.png', id:'fbButton')
+      div.container#bottomContainer
+        ul#companyInfo
+          li
+            a(href="/about") about
+          li -
+          li
+            a(href="/privacy") privacy
+          li -
+          li
+            a(href="/contact") contact
+          li -
+          li
+            a(href="/disclosures") disclosures
+        div#social
+          p &copy; 2013 Made in NYC
   
   script(src="/vendor/javascripts/retina.js")  
