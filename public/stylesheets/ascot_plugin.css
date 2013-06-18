@@ -27,8 +27,7 @@
   z-index:2;
   float: none;
   line-height: 1;
-  font-family:"Georgia", Helvetica, Arial, serif;
-  font-size: 14px;
+  font-size: 14px;;
 }
 
 .ascot_overlay {
@@ -293,8 +292,8 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
   float: none;
   line-height: 16px;
   position: absolute;
-  border:1px #323232 solid;
-  color:#171717;
+  border:1px transparent solid;
+  color:#222;
   background-color: rgb(244, 244, 244);
   background-color: rgba(244,244,244,.8);
   width:200px;
@@ -309,8 +308,8 @@ div.ascot_overlay_look div.ascot_overlay_share_menu .ascot_overlay_social_icon i
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_description a#ascot_overlay_link {
-  color: black;
-  text-decoration: underline;
+  color: #222;
+  text-decoration: none;
 }
 
 .ascot_overlay_look .ascot_overlay_tag_container .ascot_overlay_tag_description a#ascot_overlay_buy_button {
