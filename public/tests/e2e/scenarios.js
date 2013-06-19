@@ -229,7 +229,7 @@ describe('Ascot Project', function() {
       expect(browser().window().href()).toContain('/customize/');
 
       input('look.viewConfig[0].display.borderWidth').enter(1);
-      sleep(0.5);
+      sleep(1);
       expect(element('.ascot_overlay_tag_name').css('borderWidth')).toBe('1px');
     });
     
