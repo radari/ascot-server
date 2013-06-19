@@ -387,15 +387,16 @@ a:visited {
 #companyInfo {
   padding:0;
   top:0px;
-  width:920px;
+  width:600px;
   position:relative;
-  margin:auto;
   right:10px;
   bottom:0;
   top:20px;
+  left: 0px;
   list-style:none;
   font-size:1em;
   height:13px;
+  text-align: left;
 }
 
 #companyInfo li{
@@ -431,6 +432,7 @@ h1, h2 {
   display:inline;
   text-align: right;
   margin-right:10px;
+  width: 300px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
