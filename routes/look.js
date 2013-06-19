@@ -185,6 +185,8 @@ exports.upload = function(mongoLookFactory, goldfinger, thumbnail, download, gmT
       mongoLookFactory.newLook(req.user, permissionsList, function(error, look, permissions) {
         if (error) {
           console.log(error);
+          res.render('error', { title : 'Ascot :: Error', error : error });
+          return;
         }
         
         thumbnail(path, function(error, thumb) {
