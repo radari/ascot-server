@@ -1,6 +1,7 @@
 extends layout
 
 prepend head
+  link(rel='stylesheet', href='/stylesheets/login.css')
   script
     $(document).ready(function() {
       $('form.register').hide();
@@ -13,8 +14,7 @@ prepend head
     });
 
 block content
-  h2.list_header Sign in to Ascot
-  h2.signupHead Create an Ascot Account
+  h3.list_header Sign in to Ascot
   br
   include partials/_login.jade
   br

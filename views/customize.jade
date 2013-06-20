@@ -15,6 +15,7 @@ prepend head
   script(src="/vendor/javascripts/jquery.minicolors.js")
   script(src='/javascripts/ascot_plugin.js')
   link(rel='stylesheet', href='/stylesheets/ascot_plugin.css?1234')
+  link(rel='stylesheet', href='/stylesheets/customize.css')
   script(type='text/javascript')
     $(document).ready(function() {
       window.ascotPlugin = initAscotPlugin(jQuery, '#{rootUrl}');
@@ -41,6 +42,7 @@ prepend head
 
 
 block content
+  h3.list_header Customize Look
   div.customizeWrapper(ng-controller="CustomOverlayController", ng-init="init(#{JSON.stringify(look)});")
     img#customizeSample(ng-src="{{look.url}}#ascot={{look._id}}")
     .customizeToolbar 

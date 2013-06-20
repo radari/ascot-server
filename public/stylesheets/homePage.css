@@ -35,22 +35,6 @@
   margin-bottom:30px;
 }
 
-/*  Any changes to link styles must also be made in ascot_look.css*/
-a {
-  color: #7b7979;
-  text-decoration: none;
-}
-
-a:active{
-  color:#7b7979;
-  text-decoration: none;
-}
-
-a:visited {
-  color:#7b7979;
-  text-decoration: none;
-}
-
  #currentPage {
   color: white;
 }
