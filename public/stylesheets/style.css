@@ -48,11 +48,11 @@ input {
 
 .exampleIframe img {
   position:absolute;
-  top:80px;
+  top:120px;
   max-width:960px;
   width:817px;
   height:293px;
-  left:95px;
+  left:85px;
   z-index:0;
 }
 
