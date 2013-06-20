@@ -215,7 +215,10 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
     tagDescription.html(
         "<b>" +
         "<a id='ascot_overlay_link' target='_blank' href='" + tagSourceUrl + "/brand?v=" + encodeURIComponent(tag.product.brand).replace('\'', '&#39') + "'>" +
-        tag.product.brand + "</b></a> " + tag.product.name +
+        tag.product.brand + "</b></a> " +
+        "<a target='_blank' href='" + tagSourceUrl + "/product?brand=" + encodeURIComponent(tag.product.brand).replace('\'', '&#39') + "&name=" + encodeURIComponent(tag.product.name).replace('\'', '&#39') +"'>" +
+        tag.product.name +
+        "</a>" +
         "<br/>" +
         (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href='" + tag.product.buyLink + "'>"+"Buy"+"</a><br/>" : ""));
 
