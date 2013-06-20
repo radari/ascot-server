@@ -355,6 +355,27 @@ exports.brand = function(Look) {
 };
 
 /*
+ * GET /product?brand=<brand>&name=<name>
+ */
+exports.product = function(Look) {
+  return function(req, res) {
+    var p = req.query["p"] || 0;
+    var sortBy = req.query["sortBy"] || "";
+
+    looksList(
+        Look,
+        'looks_list',
+        { 'tags.product.brand' : req.query["brand"] || "", 'tags.product.name' : req.query["name"] || "", showOnCrossList : 1 },
+        'Looks for ' + req.query["brand"] + ' ' + req.query["name"] + ' (Product)',
+        p,
+        sortBy,
+        '/look',
+        res);
+  };
+};
+
+
+/*
  * GET /keywords?v=<keywords>
  */
 exports.keywords = function(Look) {
