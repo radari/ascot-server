@@ -31,5 +31,30 @@ exports.testShortened = function(test) {
         test.expect(3);
         test.done();
       }
-    })
+    });
+};
+
+exports.testReadable = function(test) {
+  var mockReadable = {
+    readable : 'abcd-1234',
+    number : 1,
+    url : 'http://test'
+  };
+  var mockReadify = {
+    longify : function(readable, number, callback) {
+      test.equal(readable, mockReadable.readable);
+      test.equal(number, mockReadable.number);
+      callback(null, mockReadable.url);
+    }
+  };
+
+  var f = LinksRoutes.readable(mockReadify);
+
+  f({ params : { readable : mockReadable.readable, number : mockReadable.number } },
+    { redirect : function(url) {
+        test.equal(url, mockReadable.url);
+        test.expect(3);
+        test.done();
+      }
+    });
 };
