@@ -267,15 +267,7 @@ app.get('/upvote/:id.jsonp', look.upvote(mongoLookFactory));
 app.get('/new/look/:user', look.newLookForUser(mongoLookFactory, mongoUserFactory, goldfinger, download));
 app.get('/embed/tagger/:look', tagger.get('mini_tagger', mongoLookFactory));
 app.get('/l/:key', links.shortened(shortener));
-app.get('/p/:readable/:number', function(req, res) {
-  readify.longify(req.params.readable, req.params.number, function(error, url) {
-    if (error || !url) {
-      res.render('error', { title : 'Ascot :: Error', error : "Invalid link" });
-    } else {
-      res.redirect(url);
-    }
-  });
-});
+app.get('/p/:readable/:number', links.readable(readify));
 
 // login
 app.get('/login',
