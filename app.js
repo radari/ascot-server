@@ -236,6 +236,7 @@ app.get('/tagger/:look',
 app.get('/upload', upload.get);
 app.get('/random', look.random(mongoLookFactory));
 app.get('/brand', look.brand(Look));
+app.get('/product', look.product(Look));
 app.get('/keywords', look.keywords(Look));
 app.get('/all', look.all(Look));
 app.get('/favorites', look.favorites(Look));

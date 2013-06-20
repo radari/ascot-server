@@ -301,7 +301,35 @@ exports.filters = function(Look) {
               }
             }
           }
-          res.json(ret);
+
+          //var sp = req.query["query"].trim().split(/\s+/i);
+          Look.find({ 'tags.product.name' : { $regex : new RegExp(req.query["query"], "i") } }, function(error, looks) {
+                for (var i = 0; i < looks.length; ++i) {
+                  for (var j = 0; j < looks[i].tags.length; ++j) {
+                    if (looks[i].tags[j].product.name.toLowerCase().indexOf(req.query["query"].toLowerCase()) != -1) {
+                      var found = false;
+                      for (var k = 0; k < ret.length; ++k) {
+                        if (ret[k].type == 'Name' && ret[k].brand == looks[i].tags[j].product.brand && ret[k].name == looks[i].tags[j].product.name) {
+                          found = true;
+                          break;
+                        }
+                      }
+
+                      if (!found) {
+                        ret.push({ brand : looks[i].tags[j].product.brand, name : looks[i].tags[j].product.name, type : 'Name' });
+                      }
+
+                      if (++numAdded >= 8) {
+                        break;
+                      }
+                    }
+                  }
+                  if (numAdded >= 8) {
+                    break;
+                  }
+                }
+                res.json(ret);
+              });
         });
   };
 };
@@ -325,6 +353,27 @@ exports.brand = function(Look) {
         res);
   };
 };
+
+/*
+ * GET /product?brand=<brand>&name=<name>
+ */
+exports.product = function(Look) {
+  return function(req, res) {
+    var p = req.query["p"] || 0;
+    var sortBy = req.query["sortBy"] || "";
+
+    looksList(
+        Look,
+        'looks_list',
+        { 'tags.product.brand' : req.query["brand"] || "", 'tags.product.name' : req.query["name"] || "", showOnCrossList : 1 },
+        'Looks for ' + req.query["brand"] + ' ' + req.query["name"] + ' (Product)',
+        p,
+        sortBy,
+        '/look',
+        res);
+  };
+};
+
 
 /*
  * GET /keywords?v=<keywords>

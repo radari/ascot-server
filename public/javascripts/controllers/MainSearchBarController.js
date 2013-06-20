@@ -22,6 +22,8 @@ function MainSearchBarController($scope, $autocomplete, $redirect) {
       return filter.v + ' (Brand)';
     } else if (filter.type == 'Keyword') {
       return 'Search for ' + filter.v;
+    } else if (filter.type == 'Name') {
+      return filter.brand + ' ' + filter.name + ' (Product)';
     } else {
       alert('Invalid filter');
     }
@@ -32,6 +34,8 @@ function MainSearchBarController($scope, $autocomplete, $redirect) {
       $redirect('/brand?v=' + encodeURIComponent(filter.v));
     } else if (filter.type == 'Keyword') {
       $redirect('/keywords?v=' + encodeURIComponent(filter.v));
+    } else if (filter.type == 'Name') {
+      $redirect('/product?brand=' + encodeURIComponent(filter.brand) + '&name=' + encodeURIComponent(filter.name));
     } else {
       alert('Invalid filter');
     }
