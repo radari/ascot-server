@@ -8,6 +8,9 @@
 -#	
 extends looks_list_base
 
+prepend head 
+  link(rel='stylesheet', href='/stylesheets/looks_list.css')
+
 block list_header
   h3.list_header
     | #{listTitle}

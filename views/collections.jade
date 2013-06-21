@@ -8,6 +8,9 @@
 -#  
 extends layout
 
+prepend head 
+  link(rel='stylesheet', href='/stylesheets/collections.css')
+
 block content
   h3.list_header Collections
   - each collection in collections

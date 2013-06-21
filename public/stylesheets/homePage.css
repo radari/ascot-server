@@ -13,6 +13,15 @@
   font-family:"georgia", sans-serif;
 }
 
+.leading {
+color: #b54e37;
+margin-left: 10px;
+}
+
+.leading p {
+  color: rgb(102, 102, 102);
+}
+
 .heading p {
   margin-top:0.1em;
 }
