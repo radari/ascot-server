@@ -1,0 +1,109 @@
+/*-------------- collections styles -------------------------------------------------*/
+
+.collectionPreview {
+  margin-top: 10px; 
+  padding: 5px; 
+  width: 100%; 
+  border-bottom:1px solid #ccc;
+}
+
+.collectionNameDate a {
+  font-size:2em;
+  font-family:"georgia", sans-serif;
+}
+
+.collectionNameDate p {
+  color:#aaa;
+}
+
+.collectionHeader {
+  width:100%;
+  overflow:visible;
+  z-index: 1;
+}
+
+.collectionEmbedCode {
+  position: absolute;
+  right: 0px;
+  top: 40px;
+  width: 166px;
+  padding: 0px;
+  display: none;
+  text-align: center;
+}
+
+.collectionEmbedCode img.arrow {
+  margin-top: -10px;
+  height: 15px;
+  width: 10px;
+}
+
+.collectionEmbedCode textarea {
+  border-radius: 5px;
+  border: 1px solid #232323;
+  height: 100px;
+  background-color: #DDDDDD;
+  padding: 2px;
+  margin: 0px;
+  padding: 2px;
+  margin-top: -6px;
+  width: 156px;
+  height: 140px;
+}
+
+.collectionNameDate {
+  color:#aaa;
+}
+
+.collectionShare {
+  text-align:right;
+  color:#aaa;
+  font-family:arial;
+  position: relative;
+}
+
+.shareCollection img {
+  width:20px;
+  position:relative;
+  right:5px;
+  margin-right:3px;
+}
+s
+.collectionCoverThumbnail {
+  width: 200px;
+  margin-right:5px;
+}
+
+.collectionThumbnailSmall {
+  width:100px;
+  margin-right:5px;
+}
+
+.collectionThumbnailSmallWrapper {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  float: left;
+  margin: 2px;
+}
+
+.shareCollection {
+  text-align:center;
+  background-color:#b54e37;
+  color:white;
+  padding:8px;
+  width:150px;
+  float:right;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.collectionPreviewImages {
+  z-index: -1;
+  height: 206px;
+  overflow: hidden;
+}
+
+

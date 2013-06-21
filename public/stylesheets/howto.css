@@ -1,0 +1,41 @@
+.heading {
+  border-radius:20px;
+  background-color:#b54e37;
+  color:white;
+  font-size:2.5em;
+  width:1em;
+  height:1em;
+  text-align:center;
+  margin-left:5px;
+  margin-top:9px;
+  float:left;
+  font-family:"georgia", sans-serif;
+}
+
+.heading p {
+  margin-top:0.1em;
+}
+
+#step1, #step2, #step3 {
+  width:290px;
+  height:370px;
+  border:1px #b1b3b3 solid;
+  margin-left:10px;
+  margin-top:0px;
+  margin-bottom:20px;
+  float:left;
+  margin-right:5px;
+  -webkit-box-shadow: 1px 1px 5px rgba(50, 50, 50, 0.55);
+  -moz-box-shadow:    1px 1px 5px rgba(50, 50, 50, 0.55);
+  box-shadow:         1px 1px 5px rgba(50, 50, 50,0.55);
+}
+
+.howToTitle {
+  color:#b54e37;
+  font-weight:700;
+}
+
+.howToTitle:visited {
+  color:#b54e37;
+  font-weight:700;
+}

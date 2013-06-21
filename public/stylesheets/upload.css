@@ -1,0 +1,115 @@
+/*---------------------------------------- upload styles ---------------------------------------------------*/
+#uploadURL input {
+  border:4px solid #b54e37;
+  width:415px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding:6px;
+  position:relative;
+  margin:auto;
+  left:0;
+  right:0;
+}
+
+
+
+.customUpload{
+  background-color: #b54e37;
+  padding: 5px;
+  margin: auto;
+  color: #323232;
+  width: 200px;
+  cursor: pointer;
+  border-radius:5px;
+
+  background: -moz-linear-gradient(
+    top,
+    #b54e37 0%,
+    #822816);
+  background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#b54e37),
+    to(#822816));
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid #ababab;
+  -moz-box-shadow:
+    0px 1px 3px rgba(000,000,000,0.5),
+    inset 0px 0px 2px rgba(0,0,255,1);
+  -webkit-box-shadow:
+    0px 1px 3px rgba(000,000,000,0.5),
+    inset 0px 0px 2px rgba(0,0,0,1);
+  box-shadow:
+    0px 1px 3px rgba(000,000,000,0.5),
+    inset 0px 0px 2px rgba(255,255,255,1);
+  text-shadow:
+    0px -1px 0px rgba(000,000,000,0),
+    0px 1px 0px rgba(255,255,255,0.3);
+
+
+background: #ffffff; /* Old vowsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* IE10+ */
+background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+-webkit-transition: border-color 0.2s linear, background-color 0.2s linear, color 0.1s linear, -webkit-box-shadow 0.3s linear, opacity 0.3s linear;
+
+}
+
+
+.customUpload:hover {
+-webkit-box-shadow: 0px 0px 8px rgba(50, 50, 50, 0.6);
+}
+
+
+
+.progressStep {
+  position:relative;
+  width:100%;
+  height:80px;
+  top:20px;
+  margin-bottom:40px;
+}
+.progressStep img{
+  position:absolute;
+  right:0;
+  left:0;
+  width:391px;
+  margin:auto;
+}
+
+
+#uploadToolsWrap {
+  text-align: center;
+  width:600px;
+  position:relative;
+  margin:auto;
+  left:0;
+  right:0;
+  color:#666;
+  height:280px;
+}
+
+#uploadWrapper {
+  position:relative;
+  top:00px;
+  height:auto;
+}
+
+.uploadedImg{
+  border-radius:6px;
+}
+
+.leading {
+  color: #b54e37;
+  margin-left:10px;
+}
+
+#line1 {
+  color:#666;
+}
