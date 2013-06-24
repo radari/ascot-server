@@ -35,6 +35,7 @@ exports.LookSchema = new Mongoose.Schema({
     {
       position : { x : Number, y : Number },
       index : Number,
+      buyLinkText : { type : String, default : "Buy" },
       product : {
         name : String,
         brand : String,

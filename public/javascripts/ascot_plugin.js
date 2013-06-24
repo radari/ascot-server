@@ -220,7 +220,9 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
         tag.product.name +
         "</a>" +
         "<br/>" +
-        (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href='" + tag.product.buyLink + "'>"+"Buy"+"</a><br/>" : ""));
+        (tag.product.buyLink.length > 0 ? "<a id='ascot_overlay_buy_button' target='_blank' onclick='_gaq.push([\"ascot._trackEvent\", \"buyLinkClicked\", \"" + myUrl + "\", \"" + tag.product.buyLink + "\"])' href='" + tag.product.buyLink + "'>"+
+        (tag.buyLinkText || "Buy") +
+        "</a><br/>" : ""));
 
     var offset = 8;
     if (tagPosition.x > width / 2.0) {

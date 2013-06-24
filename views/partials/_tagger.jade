@@ -76,6 +76,10 @@ div.look-container
                 ng-mouseover="autocomplete.selection['BUYLINK'] = $index;",
                 ng-click="idsToEditTag[look].product.buyLink = suggestion; autocomplete.hide('BUYLINK')")
               span(ng-bind-html-unsafe="suggestion | boldInstances:idsToEditTag[look].product.buyLink")
+        input.tagger_input( type="text",
+                            placeholder="Buy Link Text (e.g. 'Buy')",
+                            ng-show="idsToEditTag[look].product.buyLink",
+                            ng-model="idsToEditTag[look].buyLinkText")
         br
         input.save_button(type="submit",
                           id="deleteTagButton",
