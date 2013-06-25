@@ -166,6 +166,59 @@ function AscotPlugin(tagSourceUrl) {
   };
 };
 
+function AscotPluginTag(defaultSize, position, product) {
+  this.position = position;
+  this.product = product;
+
+  this.computeDisplayPosition = function(actualSize) {
+    var x = (position.x / defaultSize.width) * actualSize.width;
+    var y = (position.y / defaultSize.height) * actualSize.height;
+
+    if (x + 20 >= actualSize.width) {
+      x = actualSize.width - 20;
+    }
+    if (y + 20 >= actualSize.height) {
+      y = actualSize.height - 20;
+    }
+
+    var corners = {};
+    if (corners) {
+      if (x <= 40 && y <= 40) {
+        corners.upperLeft = true;
+      }
+      if (x + 40 >= actualSize.width && y <= 40) {
+        corners.upperRight = true;
+      }
+      if (x + 40 >= actualSize.width && y + 40 >= actualSize.height) {
+        corners.bottomRight = true;
+      }
+      if (x <= 40 && y + 40 >= actualSize.height) {
+        corners.bottomLeft = true;
+      }
+    }
+
+    return { position : { x : x, y : y }, corners : corners };
+  };
+
+  this.computeDescriptionOffset = function(actualSize) {
+    var offset = 8;
+    var ret = {};
+    if (tagPosition.x > width / 2.0) {
+      ret['right'] = offset + 'px';
+    } else {
+      ret['left'] = offset + 'px';
+    }
+
+    if (tagPosition.y > height / 2.0) {
+      ret['bottom'] = offset + 'px';
+    } else {
+      ret['top'] = offset + 'px';
+    }
+
+    return ret;
+  };
+}
+
 function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
   this.constructTagContainer = function(overlay, tagContainer, defaultSize, actualSize, tag, corners) {
     var tagX;
