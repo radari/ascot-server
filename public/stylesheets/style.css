@@ -463,6 +463,13 @@ text-align:center;
   float:left;
 }
 
-
-
+#taggerHelp {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: white;
+  opacity: 0.6;
+  height: 100%;
+  filter: alpha(opacity = 60);
+}
 
