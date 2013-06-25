@@ -220,39 +220,11 @@ function AscotPluginTag(defaultSize, position, product) {
 }
 
 function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
-  this.constructTagContainer = function(overlay, tagContainer, defaultSize, actualSize, tag, corners) {
-    var tagX;
-    var tagY;
-    if (actualSize.height == defaultSize.height && actualSize.width == defaultSize.width) {
-      // Image is default size - no need to scale tags
-      tagX = tag.position.x;
-      tagY = tag.position.y;
-    } else {
-      // Image resized by client. Scale tag positions
-      tagX = (tag.position.x / defaultSize.width) * actualSize.width;
-      tagY = (tag.position.y / defaultSize.height) * actualSize.height;
-    }
-    if (tagY + 20 >= actualSize.height) {
-      tagY = actualSize.height - 20;
-    }
-    if (tagX + 20 >= actualSize.width) {
-      tagX = actualSize.width - 20;
-    }
+  this.constructTagContainer = function(overlay, tagContainer, actualSize, pluginTag) {
+    var pos = pluginTag.computeDisplayPosition(actualSize);
 
-    if (corners) {
-      if (tagX <= 40 && tagY <= 40) {
-        corners.upperLeft = true;
-      }
-      if (tagX + 40 >= actualSize.width && tagY <= 40) {
-        corners.upperRight = true;
-      }
-      if (tagX + 40 >= actualSize.width && tagY + 40 >= actualSize.height) {
-        corners.bottomRight = true;
-      }
-      if (tagX <= 40 && tagY + 40 >= actualSize.height) {
-        corners.bottomLeft = true;
-      }
-    }
+    var tagX = pos.position.x;
+    var tagY = pos.position.y;
 
     tagContainer.css("left", tagX);
     tagContainer.css("top", tagY);
@@ -261,7 +233,7 @@ function AscotPluginUI(tagSourceUrl, myUrl, look, plugin) {
       tagContainer.appendTo(overlay);
     }
 
-    return { x : tagX, y : tagY };
+    return pos;
   };
 
   this.constructTagDescription = function(height, width, tagContainer, tagDescription, tag, tagPosition) {
@@ -687,9 +659,11 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
       var corners = { upperLeft : false, upperRight : false, bottomRight : false, bottomLeft : false };
       $.each(json.tags, function(i, tag) {
         var tagContainer = $("<div class='ascot_overlay_tag_container'></div>");
-        var tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : height, width : width }, tag, corners);
+        var pluginTag = new AscotPluginTag(json.size, tag.position, tag.product);
+        var tagPositionData = UI.constructTagContainer(overlay, tagContainer, { height : height, width : width }, pluginTag);
+        var tagPosition = tagPositionData.position;
 
-        if (corners.bottomLeft) {
+        if (tagPositionData.corners.bottomLeft) {
           sourceTag.css('top', '0px');
           sourceTag.css('bottom', '');
         }
@@ -721,7 +695,7 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         }, 250);
 
         image.ascotPluginResizeActions.push(function() {
-          tagPosition = UI.constructTagContainer(overlay, tagContainer, json.size, { height : image.height(), width : image.width() }, tag, corners);
+          tagPosition = UI.constructTagContainer(overlay, tagContainer, { height : image.height(), width : image.width() }, pluginTag);
         });
 
         if (window.Hammer) {
