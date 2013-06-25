@@ -8,9 +8,10 @@
  *
  */
 
-function CollectionController($scope, $http, $window, $timeout, $windowSize) {
+function CollectionController($scope, $http, $window, $timeout, $windowSize, $isMobile) {
   $scope.collection = {};
   $scope.currentPage = 0;
+  $scope.hideDirectional = $isMobile;
   
   // Small hack to make sure Angular is aware of page resizes
   $windowSize.resize(function() {
