@@ -204,7 +204,7 @@ exports.testUploadAuthed = function(test) {
   });
 };
 
-exports.testFilters = function(test) {
+/*exports.testFilters = function(test) {
   var query = 'tes';
 
   var mockLook = {
@@ -233,7 +233,7 @@ exports.testFilters = function(test) {
           test.done();
         }
       });
-};
+};*/
 
 exports.testUpvote = function(test) {
   var saved = false;
