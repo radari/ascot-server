@@ -49,3 +49,5 @@ exports.LookSchema = new Mongoose.Schema({
 });
 
 exports.LookSchema.index({ random : '2d' });
+
+exports.LookSchema.index({ 'tags.product.brand' : 1 });
