@@ -50,4 +50,10 @@ exports.LookSchema = new Mongoose.Schema({
 
 exports.LookSchema.index({ random : '2d' });
 
+exports.LookSchema.index({ showOnCrossList : 1 });
+
+exports.LookSchema.index({ search : 1 });
+
 exports.LookSchema.index({ 'tags.product.brand' : 1 });
+
+exports.LookSchema.index({ 'tags.product.brand' : 1, 'tags.product.name' : 1 });
