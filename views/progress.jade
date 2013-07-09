@@ -1,0 +1,131 @@
+extends layout 
+
+block content
+
+  
+  canvas#myCanvas(height='60', width='390')
+
+  script 
+    var canvas=document.getElementById('myCanvas');
+    var context= canvas.getContext('2d');
+    var fill = '#b54e37'
+    var empty = '#c2c2c2'
+    var centerX= canvas.width/2;
+    var centerY= canvas.height/2;
+    var startPoint=64;
+    var endPoint=canvas.width-64;
+
+    function stepNumbers(number, baseline, x) {
+      context.font = '2.5em georgia';
+      context.textBaseline = baseline;
+      context.fillStyle = 'white';
+      context.fillText(number, x, centerY-3);
+    }
+    
+    function bigCircle(color, location) {
+      var centerY= canvas.height/2;
+      var radius=18;
+      context.beginPath();
+      context.arc(location, centerY, radius, 0, 2 * Math.PI, false);
+      context.fillStyle= color;
+      context.fill();
+      }
+
+    function smallCircle(color, location) {
+      var centerX= canvas.width/3;
+      var centerY= canvas.height/2;
+      var radius=3;
+      context.beginPath();
+      context.arc(location, centerY, radius, 0, 2 * Math.PI, false);
+      context.fillStyle= color;
+      context.fill();
+      }
+
+    function step1() {
+      bigCircle(fill, 44);
+      smallCircle(empty, startPoint+10);
+      smallCircle(empty, startPoint+20);
+      smallCircle(empty, startPoint+30);
+      smallCircle(empty, startPoint+40);
+      smallCircle(empty, startPoint+50);
+      smallCircle(empty, startPoint+60);
+      smallCircle(empty, startPoint+70);
+      smallCircle(empty, startPoint+80);
+      smallCircle(empty, startPoint+90);
+      smallCircle(empty, startPoint+100);
+      smallCircle(empty, endPoint-10);
+      smallCircle(empty, endPoint-20);
+      smallCircle(empty, endPoint-30);
+      smallCircle(empty, endPoint-40);
+      smallCircle(empty, endPoint-50);
+      smallCircle(empty, endPoint-50);
+      smallCircle(empty, endPoint-60);
+      smallCircle(empty, endPoint-70);
+      smallCircle(empty, endPoint-80);
+      smallCircle(empty, endPoint-90);
+      smallCircle(empty, endPoint-100);
+      bigCircle(empty, centerX);
+      bigCircle(empty, canvas.width-44);
+    }
+
+    function step2() {
+      bigCircle(fill, 44);
+      smallCircle(fill, startPoint+10);
+      smallCircle(fill, startPoint+20);
+      smallCircle(fill, startPoint+30);
+      smallCircle(fill, startPoint+40);
+      smallCircle(fill, startPoint+50);
+      smallCircle(fill, startPoint+60);
+      smallCircle(fill, startPoint+70);
+      smallCircle(fill, startPoint+80);
+      smallCircle(fill, startPoint+90);
+      smallCircle(fill, startPoint+100);
+      smallCircle(empty, endPoint-10);
+      smallCircle(empty, endPoint-20);
+      smallCircle(empty, endPoint-30);
+      smallCircle(empty, endPoint-40);
+      smallCircle(empty, endPoint-50);
+      smallCircle(empty, endPoint-50);
+      smallCircle(empty, endPoint-60);
+      smallCircle(empty, endPoint-70);
+      smallCircle(empty, endPoint-80);
+      smallCircle(empty, endPoint-90);
+      smallCircle(empty, endPoint-100);
+      bigCircle(fill, centerX);
+      bigCircle(empty, canvas.width-44);
+    }
+
+    function step3() {
+      bigCircle(fill, 44);
+      smallCircle(fill, startPoint+10);
+      smallCircle(fill, startPoint+20);
+      smallCircle(fill, startPoint+30);
+      smallCircle(fill, startPoint+40);
+      smallCircle(fill, startPoint+50);
+      smallCircle(fill, startPoint+60);
+      smallCircle(fill, startPoint+70);
+      smallCircle(fill, startPoint+80);
+      smallCircle(fill, startPoint+90);
+      smallCircle(fill, startPoint+100);
+      smallCircle(fill, endPoint-10);
+      smallCircle(fill, endPoint-20);
+      smallCircle(fill, endPoint-30);
+      smallCircle(fill, endPoint-40);
+      smallCircle(fill, endPoint-50);
+      smallCircle(fill, endPoint-50);
+      smallCircle(fill, endPoint-60);
+      smallCircle(fill, endPoint-70);
+      smallCircle(fill, endPoint-80);
+      smallCircle(fill, endPoint-90);
+      smallCircle(fill, endPoint-100);
+      bigCircle(fill, centerX);
+      bigCircle(fill, canvas.width-44);
+    }
+
+    
+    
+
+
+
+
+  

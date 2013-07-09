@@ -37,8 +37,11 @@ prepend head
   link(rel='stylesheet', href='/stylesheets/taggerPut.css')
 
 block content
-  .progressStep
-    img(src='/images/progressStep2.png', id:'step2')
+  canvas#myCanvas(height='60', width='390')
+  script(src="/javascripts/progressSteps.js") 
+  script 
+    step2();
+    drawNumbers();
   div(ng-controller="TaggerViewController")
     h3.info Add Image Info
     p.title Title

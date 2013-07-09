@@ -7,8 +7,12 @@ prepend head
 block content
   #uploadWrapper
     h3.list_header Upload Any Image
-    div.progressStep
-      img(src='/images/progressStep1.png', id:'step1')
+    br
+    canvas#myCanvas(height='60', width='390')
+    script(src="/javascripts/progressSteps.js") 
+    script 
+      step1();
+      drawNumbers();
     div#uploadToolsWrap(ng-controller="UploadController")
       br
         

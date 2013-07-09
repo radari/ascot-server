@@ -26,8 +26,12 @@ prepend head
 block content
   div#lookViewWrapper
     h3.list_header #{look.title}
-    div.progressStep(style="#{query.showProgress ? 'display: block' : 'display: none'}")
-      img(src='/images/progressStep3.png', id:'step3')
+    br
+    canvas#myCanvas(height='60', width='390', style="#{query.showProgress ? 'display: block' : 'display: none'}")
+    script(src="/javascripts/progressSteps.js") 
+    script 
+      step3();
+      drawNumbers();
     div.look-container(ng-init="look = #{JSON.stringify(look)}")
       div(style="text-align: center")
         include partials/_look.jade

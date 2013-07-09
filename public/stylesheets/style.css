@@ -474,9 +474,8 @@ text-align:center;
 }
 
 canvas {
-  border:1px blue solid;
-  margin:auto;
-  position:absolute;
-  left:0;
-  right:0
+  top:-10px;
+  left:275px;
+  right:0;
+  position:relative;
 }
