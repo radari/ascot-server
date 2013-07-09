@@ -35,6 +35,7 @@ var express = require('express')
   , tags = require('./routes/tags.js')
   , upload = require('./routes/upload.js')
   , user = require('./routes/user.js')
+
   
   // Our tools
   , affiliates = require('./routes/tools/affiliates.js')
@@ -211,6 +212,7 @@ app.get('/howto/planB', routes.planB);
 app.get('/howto/guidelines', routes.guidelines);
 app.get('/disclosures', routes.disclosures);
 app.get('/howto/taggerPlugin', routes.taggerPlugin);
+app.get('/progress', routes.progress);
 
 var mongoLookFactory = new MongoLookFactory(app.get('url'), Look, Permissions);
 var shortener = Shortener(Shortened, 'http://ascotproject.com', function() { return Math.random(); });

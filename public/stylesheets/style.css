@@ -473,3 +473,10 @@ text-align:center;
   filter: alpha(opacity = 60);
 }
 
+canvas {
+  border:1px blue solid;
+  margin:auto;
+  position:absolute;
+  left:0;
+  right:0
+}

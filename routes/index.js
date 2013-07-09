@@ -61,3 +61,7 @@ exports.disclosures = function(req, res) {
 exports.taggerPlugin = function(req, res) {
   res.render('help/embed_tagger', { title : 'Ascot :: About Tagger Plugin' });
 };
+
+exports.progress = function(req, res) {
+  res.render('progress', { title : 'Ascot :: About Tagger Plugin' });
+};
