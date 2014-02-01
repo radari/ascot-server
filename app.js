@@ -162,6 +162,11 @@ app.configure(function(){
     res.locals.originalUrl = req.originalUrl;
     // Expose the current url
     res.locals.rootUrl = app.get('url');
+
+    if (res.locals.originalUrl.indexOf('/images/') == 0) {
+      res.setHeader('Cache-Control', 'public, max-age=' + (60 * 60 * 24 * 30)); // 30 days
+    }
+
     next();
   });
   
