@@ -1,13 +1,13 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "ascot-server",
+  "version": "1.7.0",
   "private": true,
   "scripts": {
     "start": "node app"
   },
   "dependencies": {
     "express": "3.0.3",
-    "jade": "*",
+    "jade": "0.28.2",
     "stylus": "*",
     "mongodb": ">= 0.9.6-7",
     "mongoose" : "*",
