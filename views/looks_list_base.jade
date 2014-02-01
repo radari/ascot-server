@@ -45,7 +45,7 @@ block content
       div.all_looks_element(ng-repeat="column in columns")
         div.look_element(ng-repeat="look in column")
           block list_element
-    div.clear
+    div(style="clear: both")
     div.list_header(ng-show="looks.length == 0")
       | No looks found
 
