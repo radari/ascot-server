@@ -102,24 +102,6 @@ passport.use(new LocalStrategy(strategy.localStrategy));
 passport.serializeUser(strategy.serializeUser);
 passport.deserializeUser(strategy.deserializeUser);
 
-// Configure asset manager
-/*var assets = assetManager({
-  css : {
-    route : /\/stylesheets\/ascot_plugin.css/,
-    path : './public/stylesheets/',
-    dataType : 'css',
-    files : [
-      'ascot_plugin.css'
-    ],
-    postManipulate : {
-      '^' : [
-        assetHandler.yuiCssOptimize
-      ]
-    },
-    stale : false
-  }
-});*/
-
 // configure custom tools
 var mode = process.env.MODE || 'production';
 
@@ -137,7 +119,7 @@ var gmTagger = require('./routes/tools/gm_tagger.js').gmTagger(gm, temp, fs, htt
 
 var Goldfinger = require('./routes/tools/goldfinger.js').Goldfinger;
 var goldfinger = new Goldfinger(fs, gm, temp, uploadHandler);
-goldfinger.setMaxWidth(700);
+goldfinger.setMaxWidth(5000);
 
 var download = require('./routes/tools/download.js').download(httpGet, temp);
 
