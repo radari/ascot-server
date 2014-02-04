@@ -18,6 +18,7 @@ exports.gmTagger = function(gm, temp, fs, httpGet, uploadHandler) {
           var tag = look.tags[i];
           var color = (look.viewConfig && look.viewConfig.length > 0) ? look.viewConfig[0].display.backgroundColor : '#171717';
           var borderWidth = (look.viewConfig && look.viewConfig.length > 0) ? look.viewConfig[0].display.borderWidth : 3;
+          borderWidth = borderWidth || 1; // minimum of 1, since strokeWidth(0) blows up GM
           image = image.
               fill(color + '66').
               stroke('#FFFFFF34').
