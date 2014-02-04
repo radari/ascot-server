@@ -422,7 +422,14 @@ function AscotPluginViewConfig(config) {
       return "#171717";
     }
     return config.display.backgroundColor;
-  }
+  };
+
+  this.shouldShowSourceTag = function() {
+    if (!config || !config.behavior) {
+      return false;
+    }
+    return this.config.behavior.displayTagsOnInit !== "SHOW_ON_MOUSEOVER";
+  };
 }
 
 function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
@@ -640,8 +647,10 @@ function initAscotPlugin($, tagSourceUrl, config, stopwatch, usePIE) {
         $(upvoteButton).css('cursor', 'pointer');
         $(upvoteButton).css('opacity', '1');
       }
-             
-      if (json.source && json.source.length > 0) {
+
+      if (json.source &&
+          json.source.length > 0 &&
+          viewConfig.shouldShowSourceTag()) {
         var sourceTag = UI.createSourceTag(overlay);
         var sourceUrl = sourceTag.children().last();
 
